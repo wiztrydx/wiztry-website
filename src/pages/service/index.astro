@@ -100,6 +100,17 @@ const subsidies = [
     desc: '計画的な人材育成に取り組む企業向けの国の助成制度。一定規模の研修で活用実績があります。',
   },
 ];
+
+// SEO: FAQのリッチリザルト用構造化データ
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: trainingFaq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
 ---
 
 <Base
@@ -107,6 +118,7 @@ const subsidies = [
   description="熊本の企業向け生成AI研修とAIエージェント導入支援。対面ハンズオン研修で基礎から実務活用まで、Claude Code・Codexで業務自動化まで一貫支援します。"
   onDark={true}
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(faqLd)} />
   <PageHero
     en="SERVICE"
     jp="事業内容"
