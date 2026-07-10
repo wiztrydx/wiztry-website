@@ -362,9 +362,20 @@ const NUMBERS = [
   }
   .hero-video-slot :global(video.is-playing) { opacity: 1; }
   /* スマホ: 縦長画面のcoverで左右が切れるため、動きのある右側の粒子が見えるよう右寄りを表示
-     （＝映像を左に寄せる） */
+     （＝映像を左に寄せる）。さらに少し寄った画角から、同じ位置を基点にゆっくり呼吸ズーム */
   @media (max-width: 768px) {
-    .hero-video-slot :global(video) { object-position: 68% 50%; }
+    .hero-video-slot :global(video) {
+      object-position: 68% 50%;
+      transform-origin: 68% 50%;
+      animation: spVideoZoom 16s ease-in-out infinite alternate;
+    }
+  }
+  @keyframes spVideoZoom {
+    from { transform: scale(1.08); }
+    to { transform: scale(1.22); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video-slot :global(video) { animation: none; transform: none; }
   }
 
   /* 回転する光のビーム（コニックグラデーション2枚が逆回転） */
