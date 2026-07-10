@@ -1,0 +1,409 @@
+---
+import Base from '../../layouts/Base.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import PageHero from '../../components/PageHero.astro';
+import { SITE, MEDIA } from '../../data/site';
+---
+
+<Base
+  title="会社案内"
+  description="WizTry株式会社は熊本のAIカンパニー。『挑戦で溢れる世界を創る』をミッションに、生成AI研修とAIエージェント開発で企業の挑戦を後押しします。会社概要・代表メッセージ・代表プロフィール・メディア掲載。"
+  onDark={true}
+>
+  <PageHero
+    en="ABOUT"
+    jp="会社案内"
+    desc="WizTryは、AIの時代に挑戦する企業と人を後押しする、熊本のAIカンパニーです。"
+    bg="/gen/ph-about.webp"
+  />
+
+  <!-- 4-2 理念 -->
+  <section class="section">
+    <div class="container">
+      <SectionHead en="MISSION" title="挑戦で溢れる世界を創る" />
+      <div class="grid grid--2 about-split">
+        <div class="about-figure tilt reveal">
+          <div class="zoom-media">
+            <img
+              src="/gen/philosophy-summit.webp"
+              alt="夜明けの光に向かって立つ人物——挑戦を象徴するビジュアル"
+              loading="lazy"
+              width="1200"
+              height="896"
+            />
+          </div>
+        </div>
+        <div class="about-copy reveal reveal-d1">
+          <p>
+            AIの進化で、仕事のやり方は数年単位で塗り替わる時代になりました。この時代に企業へ求められるのは、新しい技術へ踏み出す「挑戦」です。
+          </p>
+          <p>
+            しかし、挑戦には不安がつきものです。何から始めればいいのか。社員はついてこられるのか。投資に見合う成果は出るのか。
+          </p>
+          <p>
+            WizTryは、その一歩に伴走するために生まれました。講師が隣で手を動かす研修も、実務を自動化するAIエージェントも、すべては挑戦する企業と人の背中を押すためのもの。挑戦する人が増え、挑戦が挑戦を呼ぶ——そんな世界を、熊本から創っていきます。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4-3 代表メッセージ -->
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHead en="MESSAGE" title="代表メッセージ" />
+      <div class="grid grid--2 about-split about-split--reverse">
+        <div class="about-copy reveal">
+          <h3>一歩踏み出す人の、いちばん近くにいたい。</h3>
+          <p>
+            私自身、順風満帆なキャリアを歩んできたわけではありません。研究職として働いた6年間は思うように成果を出せず、悩み抜いた末に30歳で独立。映像制作からSNS支援へと事業を変えながら、失敗も遠回りもたくさん経験してきました。
+          </p>
+          <p>
+            そんな私の仕事を根本から変えたのが、生成AIでした。「これは一部の大企業のためのものではなく、地方の中小企業こそ使うべき技術だ」——そう確信した瞬間を、今でも覚えています。
+          </p>
+          <p>
+            AIは、人を置き換える道具ではありません。人の時間を取り戻し、本来やるべき仕事——お客様と向き合うこと、新しい価値を生むこと——に集中させてくれる道具です。熊本の企業の皆様が「うちもできた」と言える瞬間を、一社でも多く。それがWizTryの仕事です。
+          </p>
+        </div>
+        <div class="about-figure ceo-figure tilt reveal reveal-d1">
+          <div class="zoom-media">
+            <img
+              src="/photos/ceo.webp"
+              alt="WizTry株式会社 代表取締役 末松光太郎"
+              loading="lazy"
+              width="1080"
+              height="1080"
+            />
+          </div>
+          <p class="about-sign">
+            <span class="about-sign-role">WizTry株式会社 代表取締役</span>
+            <span class="about-sign-name">末松 光太郎</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4-3.5 代表プロフィール -->
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        en="PROFILE"
+        title="代表プロフィール"
+        lead="研究者からキャリアを始め、独立・事業転換を経てAIカンパニーを創業。自らの挑戦の経験が、WizTryの原点です。"
+      />
+      <div class="profile-wrap">
+        <ol class="profile-timeline reveal">
+          <li>
+            <span class="pt-year">1991</span>
+            <div class="pt-body">
+              <h3>福岡県生まれ</h3>
+            </div>
+          </li>
+          <li>
+            <span class="pt-year"></span>
+            <div class="pt-body">
+              <h3>九州大学大学院 修了</h3>
+              <p>遺伝子工学を専攻。大学院時代には国際学会での発表も経験。</p>
+            </div>
+          </li>
+          <li>
+            <span class="pt-year"></span>
+            <div class="pt-body">
+              <h3>KMバイオロジクス株式会社 入社</h3>
+              <p>研究職として約6年間、ワクチン開発をはじめとする研究開発業務に従事。</p>
+            </div>
+          </li>
+          <li>
+            <span class="pt-year">2021</span>
+            <div class="pt-body">
+              <h3>30歳で独立</h3>
+              <p>映像制作・SNS運用支援の事業を立ち上げ、企画から制作・運用までを一人で担う。</p>
+            </div>
+          </li>
+          <li>
+            <span class="pt-year">2023</span>
+            <div class="pt-body">
+              <h3>WizTry株式会社 設立</h3>
+              <p>生成AIとの出会いを機に事業を転換。企業向けAI研修・AI導入支援事業を開始。</p>
+            </div>
+          </li>
+          <li>
+            <span class="pt-year">現在</span>
+            <div class="pt-body">
+              <h3>熊本から、企業のAI活用を支援</h3>
+              <p>累計90社以上の企業を支援。研修・セミナー・商談の登壇は年間300回以上。</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4-4 メディア掲載・登壇 -->
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHead en="MEDIA" title="メディア掲載・登壇" />
+      <ul class="grid grid--2">
+        {
+          MEDIA.map((m, i) => (
+            <li class:list={['reveal', `reveal-d${(i % 4) + 1}`]}>
+              <a class="card card--pad media-card tilt" href={m.url} target="_blank" rel="noopener">
+                <span class="media-tag">{m.outlet}</span>
+                <h3>{m.title}</h3>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4-5 会社概要 -->
+  <section class="section">
+    <div class="container">
+      <SectionHead en="COMPANY" title="会社概要" />
+      <table class="def-table reveal">
+        <tbody>
+          <tr>
+            <th>会社名</th>
+            <td>{SITE.name}</td>
+          </tr>
+          <tr>
+            <th>代表者</th>
+            <td>代表取締役 {SITE.ceo}</td>
+          </tr>
+          <tr>
+            <th>設立</th>
+            <td>{SITE.founded}</td>
+          </tr>
+          <tr>
+            <th>所在地</th>
+            <td>{SITE.address}</td>
+          </tr>
+          <tr>
+            <th>事業内容</th>
+            <td>企業向け生成AI研修、AIエージェント導入支援・開発、AI活用コンサルティング</td>
+          </tr>
+          <tr>
+            <th>お問い合わせ</th>
+            <td><a href="/contact/">{SITE.email}</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="grid grid--2 company-photos">
+        <div class="about-figure tilt reveal reveal-d1">
+          <div class="zoom-media">
+            <img
+              src="/photos/seminar-hall.webp"
+              alt="満席の会場で講演するWizTry代表・末松"
+              loading="lazy"
+              width="1800"
+              height="1350"
+            />
+          </div>
+        </div>
+        <div class="about-figure tilt reveal reveal-d2">
+          <div class="zoom-media">
+            <img
+              src="/photos/seminar-wide.webp"
+              alt="多数の企業担当者が参加する生成AIセミナーの会場風景"
+              loading="lazy"
+              width="1800"
+              height="1350"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4-6 アクセス -->
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHead en="ACCESS" title="アクセス" />
+      <div class="access-block reveal">
+        <p>
+          JR熊本駅 白川口から徒歩約4分。くまもと森都心プラザ2階「XOSS POINT.」内にオフィスを構えています。
+        </p>
+        <a
+          class="btn btn--ghost"
+          href="https://maps.google.com/?q=くまもと森都心プラザ"
+          target="_blank"
+          rel="noopener"
+        >
+          Googleマップで見る <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .about-split {
+    align-items: center;
+  }
+  .about-split--reverse .about-figure {
+    order: 2;
+  }
+  .about-split--reverse .about-copy {
+    order: 1;
+  }
+  @media (max-width: 600px) {
+    .about-split--reverse .about-figure,
+    .about-split--reverse .about-copy {
+      order: initial;
+    }
+  }
+  .about-figure {
+    position: relative;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+  .about-figure .zoom-media {
+    border-radius: inherit;
+    overflow: hidden;
+  }
+  .about-figure img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+  .about-copy p {
+    color: var(--ink-soft);
+  }
+  .about-copy h3 {
+    font-size: 22px;
+    margin-bottom: 18px;
+    color: var(--ink);
+  }
+  /* 代表メッセージ: 正方形プロフィール写真＋写真下キャプション */
+  .ceo-figure {
+    max-width: 320px;
+    margin-inline: auto;
+    border-radius: 40px;
+  }
+  .ceo-figure img {
+    aspect-ratio: 1 / 1;
+  }
+  .about-sign {
+    margin-top: 18px;
+    text-align: center;
+  }
+  .about-sign-role {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .about-sign-name {
+    display: block;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  /* 会社概要: 活動風景の写真（講演中） */
+  .company-photos {
+    margin-top: clamp(32px, 4vw, 48px);
+  }
+  /* 代表プロフィール: 年表 */
+  .profile-wrap {
+    max-width: 760px;
+    margin-inline: auto;
+  }
+  .profile-timeline {
+    position: relative;
+    padding-left: 0;
+  }
+  .profile-timeline li {
+    display: grid;
+    grid-template-columns: 86px 1fr;
+    gap: 22px;
+    position: relative;
+    padding-bottom: 30px;
+  }
+  .profile-timeline li::before {
+    content: '';
+    position: absolute;
+    left: 96px;
+    top: 26px;
+    bottom: -4px;
+    width: 2px;
+    background: var(--line);
+  }
+  .profile-timeline li:last-child::before {
+    display: none;
+  }
+  .profile-timeline li::after {
+    content: '';
+    position: absolute;
+    left: 91px;
+    top: 8px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent-grad);
+    box-shadow: 0 0 0 4px rgba(47, 107, 255, 0.15);
+  }
+  .pt-year {
+    font-family: var(--font-en);
+    font-weight: 800;
+    font-size: 17px;
+    color: var(--blue-500);
+    text-align: right;
+    padding-right: 26px;
+    line-height: 1.6;
+  }
+  .pt-body {
+    padding-left: 18px;
+  }
+  .pt-body h3 {
+    font-size: 17.5px;
+    line-height: 1.6;
+  }
+  .pt-body p {
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    margin: 6px 0 0;
+  }
+  @media (max-width: 560px) {
+    .profile-timeline li {
+      grid-template-columns: 62px 1fr;
+    }
+    .profile-timeline li::before { left: 72px; }
+    .profile-timeline li::after { left: 67px; }
+    .pt-year { padding-right: 18px; font-size: 15px; }
+  }
+  .media-card {
+    display: block;
+    height: 100%;
+  }
+  .media-tag {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--blue-500);
+    background: rgba(47, 107, 255, 0.09);
+    border-radius: 6px;
+    padding: 2px 10px;
+    width: fit-content;
+    margin-bottom: 14px;
+  }
+  .media-card h3 {
+    font-size: 16.5px;
+    line-height: 1.6;
+    font-weight: 700;
+  }
+  .access-block p {
+    color: var(--ink-soft);
+    max-width: 46em;
+  }
+  .access-block .btn {
+    margin-top: 8px;
+  }
+</style>

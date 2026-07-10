@@ -1,0 +1,534 @@
+---
+import Base from '../../layouts/Base.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import PageHero from '../../components/PageHero.astro';
+
+const trainingThemes = [
+  'ChatGPT',
+  'Gemini for Google Workspace',
+  'Claude・Claude Code',
+  'Codex',
+  'Google Workspace活用',
+  'GASによる業務自動化',
+  'Difyでの社内ボット構築',
+  'AI画像・動画生成',
+];
+
+const trainingPoints = [
+  '基本のAIリテラシー・プロンプトの書き方から、発展的な実務活用（資料作成・文書処理・データ集計・業務自動化）までを段階設計',
+  '業種別カスタマイズ: 受講企業の実際の業務・実際の書類を教材に使う',
+  '形式: 全4〜10回・1回2時間程度が中心。対面を基本にオンライン併用も可',
+  '研修後: 定着支援・成果発表会・AI顧問（継続伴走）まで用意',
+];
+
+const trainingFlow = [
+  { step: '01', title: 'ヒアリング', desc: '業務内容・課題・レベル感を確認' },
+  { step: '02', title: 'カリキュラム設計', desc: '業種・業務に合わせて個別設計' },
+  { step: '03', title: '研修実施', desc: '講師が伴走するハンズオン' },
+  { step: '04', title: '定着支援', desc: '実務での定着を支援・成果発表会' },
+  { step: '05', title: '継続支援', desc: 'AI顧問・次年度プログラム' },
+];
+
+const trainingFaq = [
+  {
+    q: 'パソコンが苦手な社員が多くても大丈夫?',
+    a: '大丈夫です。講師がすぐ隣でサポートするハンズオン形式なので、ITに不慣れな方でも置いていかれることがありません。実際に幅広い年代・職種の方に受講いただいています。',
+  },
+  {
+    q: 'どんな業種でも対応できますか?',
+    a: '不動産・建設・製造・物流・メディア・医療・介護・士業など、幅広い業種で実績があります。貴社の実際の業務を教材にカリキュラムを組み立てます。',
+  },
+  {
+    q: 'オンラインでの受講は可能ですか?',
+    a: '可能です。ただし確実な定着のため、対面を基本とし、オンラインは併用という形をおすすめしています。',
+  },
+  {
+    q: '研修の費用はどのくらいですか?',
+    a: '人数・回数・内容により異なります。補助金・助成金を活用できるケースも多いため、まずはお問い合わせください。貴社の条件に合わせてお見積りします。',
+  },
+];
+
+const agentTasks = [
+  {
+    title: '問い合わせ対応',
+    desc: 'メール・チャットの一次対応や社内FAQボット',
+    img: '/gen/uc-inquiry.webp',
+    alt: '問い合わせ対応を自動化するAIチャットのイメージ',
+  },
+  {
+    title: '資料・文書作成',
+    desc: '提案書・報告書・議事録のドラフト自動生成',
+    img: '/gen/uc-docs.webp',
+    alt: '提案書や報告書のドラフトをAIが自動生成するイメージ',
+  },
+  {
+    title: 'データ集計・レポート',
+    desc: '売上や勤怠などの定型集計を自動化',
+    img: '/gen/uc-data.webp',
+    alt: '売上や勤怠データの集計・レポートを自動化するイメージ',
+  },
+  {
+    title: '日報・進捗管理',
+    desc: '記録の自動整理とチームへの自動共有',
+    img: '/gen/uc-report.webp',
+    alt: '日報や進捗記録を自動整理してチームに共有するイメージ',
+  },
+  {
+    title: '業務管理基盤',
+    desc: 'スプレッドシート・既存システムとAIの連携',
+    img: '/gen/uc-integration.webp',
+    alt: 'スプレッドシートや既存システムとAIを連携させる業務管理基盤のイメージ',
+  },
+  {
+    title: '社内ナレッジ活用',
+    desc: '社内文書を学習した専用AIアシスタント',
+    img: '/gen/uc-knowledge.webp',
+    alt: '社内文書を学習した専用AIアシスタントが回答するイメージ',
+  },
+];
+
+const agentStack = ['Claude Code', 'Codex', 'Dify', 'Google Apps Script', 'Google Workspace', 'Gemini APIなど'];
+
+const agentFlow = [
+  { step: '01', title: '課題ヒアリング', desc: '自動化する業務の洗い出しと優先順位付け' },
+  { step: '02', title: 'PoC・試作', desc: '小さく作って効果を確認' },
+  { step: '03', title: '本番構築', desc: '業務フローへの組み込みと社内展開' },
+  { step: '04', title: '運用伴走', desc: '改善・拡張・AI顧問としての継続支援' },
+];
+
+const subsidies = [
+  {
+    title: '熊本県リスキリング応援補助金',
+    desc: '県内企業の学び直しを支援する制度。要件を満たす研修で活用できる場合、受講負担を大きく抑えられます。',
+  },
+  {
+    title: '人材開発支援助成金（厚生労働省）',
+    desc: '計画的な人材育成に取り組む企業向けの国の助成制度。一定規模の研修で活用実績があります。',
+  },
+];
+---
+
+<Base
+  title="サービス"
+  description="熊本の企業向け生成AI研修とAIエージェント導入支援。対面ハンズオン研修で基礎から実務活用まで、Claude Code・Codexで業務自動化まで一貫支援します。"
+  onDark={true}
+>
+  <PageHero
+    en="SERVICE"
+    jp="事業内容"
+    desc="WizTryの支援は「研修で人を育てる」と「エージェントで業務を自動化する」の2本柱。どちらも、成果が出るまで伴走します。"
+    bg="/gen/ph-service.webp"
+  />
+
+  <!-- 2-2 2本柱の概要 -->
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--2">
+        <a href="#training" class="card num-card tilt reveal anchor-card">
+          <span class="num">01</span>
+          <h3>生成AI導入研修</h3>
+          <p>
+            ChatGPT・Gemini・Claude・Codexなどの生成AIを、業種と業務に合わせたカリキュラムで。基礎の使い方から、GAS・Difyを使った業務自動化まで、対面ハンズオンで確実に定着させます。
+          </p>
+          <span class="card-link">くわしく見る <span class="arrow">→</span></span>
+        </a>
+        <a href="#agent" class="card num-card tilt reveal reveal-d1 anchor-card">
+          <span class="num">02</span>
+          <h3>AIエージェント導入支援</h3>
+          <p>
+            Claude Code・Codexを核に、貴社の実務を自動化する高度なAIエージェントを構築。要件整理からPoC、本番運用、運用後の伴走まで一貫して支援します。
+          </p>
+          <span class="card-link">くわしく見る <span class="arrow">→</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2-3 生成AI導入研修 -->
+  <section class="section section--alt" id="training">
+    <div class="container">
+      <SectionHead
+        en="AI TRAINING"
+        title="生成AI導入研修"
+        lead="オンライン教材では身につかない。だから、講師が隣で一緒に手を動かす。"
+      />
+
+      <div class="grid grid--2 training-split">
+        <ul class="training-list reveal">
+          {trainingPoints.map((point) => <li>{point}</li>)}
+        </ul>
+        <div class="training-figure tilt reveal reveal-d1">
+          <div class="zoom-media">
+            <img
+              src="/gen/scene-training.webp"
+              alt="講師が隣で伴走する対面ハンズオン形式の生成AI研修"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+
+      <h3 class="block-title reveal mt-64">対応テーマ例</h3>
+      <div class="tag-row reveal">
+        {trainingThemes.map((theme) => <span class="tag">{theme}</span>)}
+      </div>
+
+      <h3 class="block-title reveal mt-64">進め方</h3>
+      <div class="flow">
+        {
+          trainingFlow.map((f, i) => (
+            <div class:list={['flow-step', 'reveal', `reveal-d${Math.min(i + 1, 4)}`]}>
+              <div class="badge">
+                <small>STEP</small>
+                <span>{f.step}</span>
+              </div>
+              <div>
+                <h3>{f.title}</h3>
+                <p>{f.desc}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <h3 class="block-title reveal mt-64">よくある質問</h3>
+      <div class="grid grid--2 faq-split">
+        <div class="faq reveal">
+          {
+            trainingFaq.map((item) => (
+              <details>
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
+              </details>
+            ))
+          }
+        </div>
+        <div class="faq-figure tilt reveal reveal-d1">
+          <div class="zoom-media">
+            <img
+              src="/gen/scene-training-close.webp"
+              alt="研修中に講師と受講者が資料を確認しているクローズアップ"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2-4 AIエージェント導入支援 -->
+  <section class="section section--navy" id="agent">
+    <div class="container">
+      <SectionHead
+        en="AI AGENT"
+        title="AIエージェント導入支援"
+        lead="「AIを使える人を増やす」の先へ。業務そのものをAIに任せる仕組みをつくる。"
+      />
+      <div class="agent-intro">
+        <p class="section-body reveal">
+          Claude Code・Codexといった最先端のAIエージェント技術を使い、貴社の実務を自動化する仕組みを構築します。ツールを導入して終わりではなく、貴社の業務フローに組み込み、成果が出る運用に乗るまで伴走します。
+        </p>
+        <div class="agent-core-visual tilt reveal reveal-d1">
+          <div class="zoom-media">
+            <img
+              src="/gen/ai-core.webp"
+              alt="AIエージェントが業務を処理する中核をイメージしたビジュアル"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+
+      <h3 class="block-title reveal mt-64">自動化できる業務の例</h3>
+      <div class="grid grid--3">
+        {
+          agentTasks.map((t, i) => (
+            <div class:list={['card', 'glass', 'mini-card', 'tilt', 'reveal', `reveal-d${(i % 4) + 1}`]}>
+              <div class="zoom-media mini-card-media">
+                <img src={t.img} alt={t.alt} loading="lazy" />
+              </div>
+              <div class="mini-card-body">
+                <h3>{t.title}</h3>
+                <p>{t.desc}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <h3 class="block-title reveal mt-64">技術スタック</h3>
+      <div class="tag-row reveal">
+        {agentStack.map((tech) => <span class="tag">{tech}</span>)}
+      </div>
+
+      <h3 class="block-title reveal mt-64">進め方</h3>
+      <div class="flow">
+        {
+          agentFlow.map((f, i) => (
+            <div class:list={['flow-step', 'reveal', `reveal-d${i + 1}`]}>
+              <div class="badge">
+                <small>STEP</small>
+                <span>{f.step}</span>
+              </div>
+              <div>
+                <h3>{f.title}</h3>
+                <p>{f.desc}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 2-5 補助金・助成金の活用 -->
+  <section class="section section--alt" id="subsidy">
+    <div class="container">
+      <SectionHead
+        en="SUBSIDY"
+        title="補助金・助成金の活用"
+        lead="研修の中身で選んでいただいた上で、負担はかしこく抑える。"
+      />
+      <p class="section-body reveal">
+        WizTryの研修・導入支援は、公的な補助金・助成金の対象となるケースがあります。制度の選定から申請書類の準備まで、実績にもとづいてサポートします（申請可否は各制度の要件・審査によります）。
+      </p>
+
+      <div class="subsidy-layout mt-40">
+        <div class="subsidy-visual tilt reveal">
+          <div class="zoom-media">
+            <img
+              src="/gen/subsidy-support.webp"
+              alt="補助金・助成金の活用をサポートするイメージ"
+              loading="lazy"
+            />
+          </div>
+        </div>
+        <div class="grid grid--2 subsidy-cards">
+          {
+            subsidies.map((s, i) => (
+              <div class:list={['card', 'card--pad', 'tilt', 'reveal', `reveal-d${i + 1}`]}>
+                <h3>{s.title}</h3>
+                <p>{s.desc}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <p class="note mt-24 reveal">
+        ※各制度の内容・要件は年度により変わります。最新の要件確認を含めてご案内しますので、まずはご相談ください。
+      </p>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  #training,
+  #agent,
+  #subsidy {
+    scroll-margin-top: 90px;
+  }
+
+  /* 2-2 anchor cards */
+  .anchor-card {
+    display: block;
+  }
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 22px;
+    color: var(--blue-500);
+    font-weight: 700;
+    font-size: 14.5px;
+  }
+  .card-link .arrow {
+    display: inline-block;
+    transition: transform 0.25s ease;
+  }
+  .anchor-card:hover .card-link .arrow {
+    transform: translateX(4px);
+  }
+
+  /* Sub-block heading used inside a section (below SectionHead) */
+  .block-title {
+    font-size: 19px;
+    font-weight: 800;
+    margin: 0 0 20px;
+  }
+
+  /* 2-3 training intro: list + photo */
+  .training-split {
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .training-list {
+    display: grid;
+    gap: 18px;
+  }
+  .training-list li {
+    position: relative;
+    padding-left: 28px;
+    color: var(--ink-soft);
+    font-size: 15.5px;
+    line-height: 1.8;
+  }
+  .training-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 13px;
+    height: 13px;
+    border-radius: 4px;
+    background: var(--accent-grad);
+  }
+  .training-figure {
+    position: relative;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+  .training-figure img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* 2-3 FAQ + close-up photo */
+  .faq-split {
+    align-items: stretch;
+  }
+  .faq-figure {
+    position: relative;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+  .faq-figure img {
+    width: 100%;
+    height: 100%;
+    min-height: 220px;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    display: block;
+  }
+  @media (max-width: 900px) {
+    .faq-figure img {
+      aspect-ratio: 16 / 9;
+    }
+  }
+
+  /* Tag rows (対応テーマ例 / 技術スタック) */
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tag-row .tag {
+    font-size: 13px;
+    padding: 7px 16px;
+  }
+  .section--navy .tag-row .tag {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+  }
+
+  /* 2-4 body copy + core visual */
+  .agent-intro {
+    display: flex;
+    align-items: center;
+    gap: clamp(24px, 4vw, 56px);
+    flex-wrap: wrap;
+  }
+  .section-body {
+    flex: 1 1 420px;
+    max-width: 52em;
+    font-size: 15.5px;
+    opacity: 0.86;
+  }
+  .agent-core-visual {
+    position: relative;
+    flex: 0 0 auto;
+    width: clamp(120px, 14vw, 180px);
+    border-radius: 50%;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+  .agent-core-visual .zoom-media {
+    border-radius: 50%;
+  }
+  .agent-core-visual img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+  }
+
+  /* 2-4 mini cards (自動化できる業務の例) */
+  .mini-card {
+    overflow: hidden;
+    padding: 0;
+  }
+  .mini-card-media img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    display: block;
+  }
+  .mini-card-body {
+    padding: clamp(20px, 2.4vw, 28px);
+  }
+  .mini-card-body h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #fff;
+  }
+  .mini-card-body p {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 14.5px;
+    margin: 0;
+  }
+
+  /* 2-5 subsidy visual + cards */
+  .subsidy-layout {
+    display: grid;
+    grid-template-columns: minmax(160px, 240px) 1fr;
+    gap: clamp(24px, 4vw, 48px);
+    align-items: center;
+  }
+  .subsidy-visual {
+    position: relative;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+  .subsidy-visual img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    display: block;
+  }
+  .subsidy-cards {
+    margin: 0;
+  }
+  @media (max-width: 760px) {
+    .subsidy-layout {
+      grid-template-columns: 1fr;
+    }
+    .subsidy-visual {
+      max-width: 260px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .training-split {
+      margin-bottom: 0;
+    }
+  }
+</style>

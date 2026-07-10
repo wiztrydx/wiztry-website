@@ -1,0 +1,82 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { SITE } from '../../data/site';
+---
+
+<Base
+  title="プライバシーポリシー"
+  description="WizTry株式会社のプライバシーポリシーです。お預かりする個人情報の取得・利用目的・第三者提供・開示請求への対応について掲載しています。"
+  onDark={true}
+>
+  <PageHero
+    en="PRIVACY POLICY"
+    jp="プライバシーポリシー"
+    desc="個人情報の取り扱いについて、当社の方針を掲載しています。"
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="prose reveal">
+        <p>
+          {SITE.name}（以下「当社」）は、お客様からお預かりする個人情報を適切に取り扱うため、以下のとおりプライバシーポリシーを定めます。
+        </p>
+
+        <h2>1. 事業者情報</h2>
+        <p>
+          事業者名：{SITE.name}<br />
+          お問い合わせ窓口：{SITE.email}
+        </p>
+
+        <h2>2. 取得する情報</h2>
+        <p>当社は、お問い合わせフォーム等を通じて、以下の情報を取得します。</p>
+        <ul>
+          <li>氏名</li>
+          <li>会社名</li>
+          <li>メールアドレス・電話番号等の連絡先</li>
+          <li>お問い合わせ内容</li>
+        </ul>
+
+        <h2>3. 利用目的</h2>
+        <p>取得した個人情報は、以下の目的の範囲内で利用します。</p>
+        <ul>
+          <li>お問い合わせへの対応</li>
+          <li>当社サービスに関するご案内</li>
+        </ul>
+
+        <h2>4. 第三者提供について</h2>
+        <p>
+          当社は、法令に基づく場合を除き、ご本人の同意なく取得した個人情報を第三者に提供することはありません。
+        </p>
+
+        <h2>5. 安全管理措置</h2>
+        <p>
+          当社は、取得した個人情報の漏えい・滅失・毀損の防止その他の安全管理のため、必要かつ適切な措置を講じます。
+        </p>
+
+        <h2>6. 開示・訂正・利用停止等のご請求</h2>
+        <p>
+          ご本人からの個人情報の開示・訂正・利用停止等のご請求については、下記の窓口までご連絡ください。内容を確認のうえ、法令に従い対応いたします。
+        </p>
+        <p>窓口：{SITE.email}</p>
+
+        <h2>7. プライバシーポリシーの改定</h2>
+        <p>
+          本ポリシーの内容は、必要に応じて予告なく変更することがあります。変更後の内容は、本ページに掲載した時点から効力を生じるものとします。
+        </p>
+
+        <p class="enacted">制定日：2026年7月10日<br />{SITE.name}</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .enacted {
+    margin-top: 3em;
+    padding-top: 1.6em;
+    border-top: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 14.5px;
+  }
+</style>

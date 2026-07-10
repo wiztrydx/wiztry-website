@@ -1,0 +1,240 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import { SITE, NAV, YOUTUBE } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** ヘッダー背景が濃色ヒーローに重なるページは true（トップ・下層ヒーロー） */
+  onDark?: boolean;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = SITE.description,
+  onDark = true,
+  ogImage = '/og.png',
+} = Astro.props;
+
+const pageTitle = title
+  ? `${title} | WizTry株式会社（熊本の生成AI研修・AIエージェント導入支援）`
+  : 'WizTry株式会社｜熊本の生成AI研修・AIエージェント導入支援';
+const canonical = new URL(Astro.url.pathname, SITE.domain).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE.name,
+  url: SITE.domain,
+  email: SITE.email,
+  logo: `${SITE.domain}/logos/mark-512.png`,
+  foundingDate: '2023-07',
+  founder: { '@type': 'Person', name: SITE.ceo },
+  address: {
+    '@type': 'PostalAddress',
+    addressRegion: '熊本県',
+    addressLocality: '熊本市西区',
+    streetAddress: '春日1丁目14番1号 くまもと森都心プラザ2階 XOSS POINT. Room4',
+    postalCode: '860-0047',
+    addressCountry: 'JP',
+  },
+  description: SITE.description,
+};
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/logos/mark-32.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/logos/mark-192.png" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(ogImage, SITE.domain).href} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@500;700;800&display=swap"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <ClientRouter />
+    <slot name="head" />
+  </head>
+  <body>
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <header class:list={['site-header', { 'on-dark': onDark }]} id="siteHeader">
+      <div class="container inner">
+        <a href="/" class="brand" aria-label="WizTry株式会社 トップページ">
+          <img class="logo-dark" src="/logos/wiztry-logo.png" alt="WizTry" width="126" height="30" />
+          <img class="logo-white" src="/logos/wiztry-logo-white.png" alt="WizTry" width="126" height="30" />
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="メニュー" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="gnav" id="gnav">
+          {NAV.map((item) => <a href={item.href}>{item.label}</a>)}
+          <a href="/contact/" class="btn btn--primary">お問い合わせ <span class="arrow">→</span></a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="top">
+          <div class="brand">
+            <img src="/logos/wiztry-logo-white.png" alt="WizTry株式会社" width="126" height="30" />
+            <p class="addr">
+              {SITE.name}<br />
+              {SITE.address}<br />
+              {SITE.email}
+            </p>
+          </div>
+          <div>
+            <h4>SERVICE</h4>
+            <ul>
+              <li><a href="/service/#training">生成AI導入研修</a></li>
+              <li><a href="/service/#agent">AIエージェント導入支援</a></li>
+              <li><a href="/service/#subsidy">補助金・助成金の活用</a></li>
+              <li><a href="/works/">導入実績</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>COMPANY</h4>
+            <ul>
+              <li><a href="/about/">会社案内・理念</a></li>
+              <li><a href="/blog/">ブログ</a></li>
+              <li><a href="/contact/">お問い合わせ</a></li>
+              <li><a href="/privacy/">プライバシーポリシー</a></li>
+              <li>
+                <a href={YOUTUBE.url} target="_blank" rel="noopener" aria-label="YouTubeチャンネル KOTARO AI & VIDEO">
+                  ▶ YouTube（{YOUTUBE.name}）
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="copy">
+          <span>© {new Date().getFullYear()} WizTry Inc. All rights reserved.</span>
+          <span>KUMAMOTO, JAPAN</span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      function initPage() {
+        // ヘッダー: スクロールで白背景に
+        const header = document.getElementById('siteHeader');
+        const onScroll = () => header?.classList.toggle('is-solid', window.scrollY > 40);
+        onScroll();
+
+        // スクロールプログレスバー
+        const bar = document.querySelector<HTMLElement>('.scroll-progress');
+        const onProgress = () => {
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          if (bar) bar.style.width = `${max > 0 ? (window.scrollY / max) * 100 : 0}%`;
+        };
+        onProgress();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('scroll', onProgress, { passive: true });
+
+        // モバイルナビ
+        const toggle = document.getElementById('navToggle');
+        const gnav = document.getElementById('gnav');
+        toggle?.addEventListener('click', () => {
+          const open = gnav?.classList.toggle('open');
+          toggle.classList.toggle('open', !!open);
+          toggle.setAttribute('aria-expanded', String(!!open));
+          document.body.style.overflow = open ? 'hidden' : '';
+        });
+        gnav?.querySelectorAll('a').forEach((a) =>
+          a.addEventListener('click', () => {
+            gnav.classList.remove('open');
+            toggle?.classList.remove('open');
+            document.body.style.overflow = '';
+          })
+        );
+
+        // Reveal on scroll
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-in');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+        );
+        document.querySelectorAll('.reveal:not(.is-in)').forEach((el) => io.observe(el));
+
+        // 数字カウントアップ（.count[data-to][data-decimals]）
+        const cio = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (!e.isIntersecting) return;
+              cio.unobserve(e.target);
+              const el = e.target as HTMLElement;
+              const to = parseFloat(el.dataset.to || '0');
+              const dec = parseInt(el.dataset.decimals || '0');
+              const dur = 1400;
+              const t0 = performance.now();
+              const tick = (t: number) => {
+                const p = Math.min((t - t0) / dur, 1);
+                const eased = 1 - Math.pow(1 - p, 3);
+                el.textContent = (to * eased).toFixed(dec);
+                if (p < 1) requestAnimationFrame(tick);
+              };
+              requestAnimationFrame(tick);
+            });
+          },
+          { threshold: 0.5 }
+        );
+        document.querySelectorAll('.count').forEach((el) => cio.observe(el));
+
+        // 3Dチルト（.tilt）
+        const fine = window.matchMedia('(pointer: fine)').matches;
+        const noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (fine && !noMotion) {
+          document.querySelectorAll<HTMLElement>('.tilt').forEach((el) => {
+            if (el.dataset.tiltReady) return;
+            el.dataset.tiltReady = '1';
+            if (!el.querySelector('.tilt-shine')) {
+              const shine = document.createElement('span');
+              shine.className = 'tilt-shine';
+              el.appendChild(shine);
+            }
+            el.addEventListener('pointermove', (e) => {
+              const r = el.getBoundingClientRect();
+              const px = (e.clientX - r.left) / r.width;
+              const py = (e.clientY - r.top) / r.height;
+              el.style.transform = `perspective(900px) rotateX(${(0.5 - py) * 6}deg) rotateY(${(px - 0.5) * 8}deg) translateY(-4px)`;
+              el.style.setProperty('--mx', `${px * 100}%`);
+              el.style.setProperty('--my', `${py * 100}%`);
+            });
+            el.addEventListener('pointerleave', () => {
+              el.style.transform = '';
+            });
+          });
+        }
+      }
+
+      document.addEventListener('astro:page-load', initPage);
+    </script>
+  </body>
+</html>

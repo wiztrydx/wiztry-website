@@ -1,0 +1,25 @@
+---
+import ParticleField from './ParticleField.astro';
+
+interface Props {
+  en: string;
+  jp: string;
+  desc?: string;
+  /** /gen/ph-*.webp などの背景画像パス */
+  bg?: string;
+}
+const { en, jp, desc, bg } = Astro.props;
+const bgStyle = bg
+  ? `background: linear-gradient(100deg, rgba(5,13,30,0.92) 0%, rgba(10,22,48,0.72) 50%, rgba(10,22,48,0.25) 100%), url('${bg}') center / cover no-repeat, var(--bg-navy-grad);`
+  : '';
+---
+
+<section class="page-hero" style={bgStyle}>
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <ParticleField density={6} opacity={0.4} />
+  <div class="container" style="position:relative">
+    <h1 class="en reveal is-in">{en}</h1>
+    <p class="jp reveal is-in">{jp}</p>
+    {desc && <p class="desc reveal is-in">{desc}</p>}
+  </div>
+</section>

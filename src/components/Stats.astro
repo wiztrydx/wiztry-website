@@ -1,0 +1,18 @@
+---
+import { STATS } from '../data/site';
+---
+
+<div class="stats">
+  {
+    STATS.map((s, i) => (
+      <div class:list={['stat', 'reveal', `reveal-d${i + 1}`]}>
+        <div class="value">
+          <span class="count" data-to={s.value} data-decimals={s.decimals ?? 0}>0</span>
+          <span class="unit">{s.unit}</span>
+        </div>
+        <div class="label">{s.label}</div>
+        <span class="note">{s.note}</span>
+      </div>
+    ))
+  }
+</div>

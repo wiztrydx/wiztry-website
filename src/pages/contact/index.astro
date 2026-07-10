@@ -1,0 +1,131 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { SITE } from '../../data/site';
+---
+
+<Base
+  title="お問い合わせ"
+  description="WizTry株式会社へのお問い合わせはこちら。生成AI研修・AIエージェント導入支援・補助金活用など、ご相談は無料です。2営業日以内にご返信します。"
+  onDark={true}
+>
+  <PageHero
+    en="CONTACT"
+    jp="お問い合わせ"
+    desc="ご相談・お見積りは無料です。2営業日以内にご返信します。"
+    bg="/gen/ph-contact.webp"
+  />
+
+  <section class="section">
+    <div class="container">
+      <p class="intro reveal">
+        「AIで何ができるか知りたい」という段階のご相談も歓迎です。まずはお気軽にご連絡ください。
+      </p>
+
+      <div class="contact-layout">
+        <form
+          class="card card--pad form-grid reveal reveal-d1"
+          action="https://formsubmit.co/info@wiztrydx.com"
+          method="POST"
+        >
+          <input type="hidden" name="_next" value={`${SITE.domain}/contact/thanks/`} />
+          <input type="hidden" name="_subject" value="【HP】お問い合わせ" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+
+          <div class="field">
+            <label for="company">会社名<span class="req">必須</span></label>
+            <input type="text" id="company" name="company" required autocomplete="organization" />
+          </div>
+
+          <div class="field">
+            <label for="name">お名前<span class="req">必須</span></label>
+            <input type="text" id="name" name="name" required autocomplete="name" />
+          </div>
+
+          <div class="field">
+            <label for="email">メールアドレス<span class="req">必須</span></label>
+            <input type="email" id="email" name="email" required autocomplete="email" />
+          </div>
+
+          <div class="field">
+            <label for="phone">電話番号<span class="req opt">任意</span></label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" />
+          </div>
+
+          <div class="field">
+            <label for="category">ご相談内容の種類<span class="req opt">任意</span></label>
+            <select id="category" name="category">
+              <option value="" selected>選択してください</option>
+              <option value="生成AI研修について">生成AI研修について</option>
+              <option value="AIエージェント導入について">AIエージェント導入について</option>
+              <option value="補助金・助成金について">補助金・助成金について</option>
+              <option value="取材・登壇のご依頼">取材・登壇のご依頼</option>
+              <option value="その他">その他</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="message">ご相談内容<span class="req">必須</span></label>
+            <textarea id="message" name="message" rows="7" required></textarea>
+          </div>
+
+          <div class="field consent-field">
+            <label class="consent-label">
+              <input type="checkbox" name="privacy_agree" required />
+              <span><a href="/privacy/">プライバシーポリシー</a>に同意する<span class="req">必須</span></span>
+            </label>
+          </div>
+
+          <div class="field">
+            <button type="submit" class="btn btn--primary btn--lg">送信する <span class="arrow">→</span></button>
+          </div>
+        </form>
+
+        <aside class="contact-aside reveal reveal-d2">
+          <div class="card card--pad tilt">
+            <h3>メールでも受け付けています</h3>
+            <p>フォームのご利用が難しい場合は、下記メールアドレスへ直接ご連絡ください。</p>
+            <a href={`mailto:${SITE.email}`} class="btn btn--ghost">{SITE.email}</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro {
+    color: var(--ink-soft);
+    max-width: 44em;
+    margin-bottom: clamp(32px, 4vw, 48px);
+  }
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    gap: clamp(24px, 3vw, 40px);
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .contact-layout { grid-template-columns: 1fr; }
+  }
+  .contact-aside .card { position: sticky; top: calc(var(--header-h) + 24px); }
+  .contact-aside h3 { font-size: 18px; margin-bottom: 12px; }
+  .contact-aside p { color: var(--ink-soft); font-size: 14.5px; margin-bottom: 20px; }
+  .consent-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-weight: 500;
+    font-size: 14.5px;
+    cursor: pointer;
+  }
+  .consent-label input[type='checkbox'] {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    margin-top: 2px;
+    accent-color: var(--blue-500);
+  }
+  .consent-label a { color: var(--blue-500); text-decoration: underline; text-underline-offset: 3px; }
+</style>

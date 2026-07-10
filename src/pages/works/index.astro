@@ -1,0 +1,237 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import LogoWall from '../../components/LogoWall.astro';
+import Stats from '../../components/Stats.astro';
+import { INDUSTRIES } from '../../data/site';
+
+const caseStudies = [
+  {
+    title: '不動産（従業員数十名規模）/ 全社員研修',
+    body: 'Gemini for Google Workspaceの全社研修を約40名規模で実施。1年目の成果を受けて2期目の研修を継続受注。日常業務の文書作成・情報共有のスピードが大きく向上。',
+    tags: ['生成AI研修', '2期目継続'],
+    img: '/gen/case-realestate.webp',
+    imgAlt: '不動産会社の全社員向け生成AI研修のイメージ',
+  },
+  {
+    title: '電気設備工事（12名受講）/ 集中育成',
+    body: 'Gemini for Google Workspaceのマスターハンズオン講座を全6回・12時間で実施。助成金を活用しながら、現場部門の中核メンバーを集中的に育成。研修後も継続的な定着支援へ。',
+    tags: ['生成AI研修', '助成金活用'],
+    img: '/gen/case-electric.webp',
+    imgAlt: '電気設備工事会社の現場メンバー向け生成AIハンズオン研修のイメージ',
+  },
+  {
+    title: '運輸・物流 / AIエージェント導入',
+    body: '倉庫業務のDX基盤構築をAIエージェント技術で支援。補助金を活用した導入計画から構築・運用まで一貫サポート。',
+    tags: ['AIエージェント', 'DX基盤'],
+    img: '/gen/case-logistics.webp',
+    imgAlt: '運輸・物流企業の倉庫DX基盤構築を支援するAIエージェント導入のイメージ',
+  },
+  {
+    title: '医療・歯科 / 少人数ハンズオン',
+    body: 'Gemini研修を全6回で実施。診療業務と両立できる回数設計で、書類作成や患者対応文書の効率化を実現。院内の複数スタッフがAIを日常的に使える状態に。',
+    tags: ['生成AI研修', '業種特化'],
+    img: '/gen/case-dental.webp',
+    imgAlt: '医療・歯科医院のスタッフ向け少人数制生成AIハンズオン研修のイメージ',
+  },
+];
+---
+
+<Base
+  title="導入実績"
+  description="熊本を中心に累計90社以上。不動産・建設・製造・物流・メディア・医療など幅広い業種の生成AI研修・AIエージェント導入実績をご紹介します。"
+  onDark={true}
+>
+  <PageHero
+    en="WORKS"
+    jp="導入実績"
+    desc="業種・業界を問わず、熊本を中心に累計90社以上の企業様のAI活用を支援してきました。"
+    bg="/gen/ph-works.webp"
+  />
+
+  <!-- 3-2 数字 -->
+  <section class="section section--tight">
+    <div class="container">
+      <Stats />
+    </div>
+  </section>
+
+  <!-- 3-3 導入企業ロゴ -->
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHead en="CLIENTS" title="導入企業様（一部・敬称略）" />
+      <LogoWall mode="grid" />
+      <p class="note text-center mt-24">※ロゴ掲載は許諾をいただいた企業様の一部です。</p>
+    </div>
+  </section>
+
+  <!-- 3-4 支援業種 -->
+  <section class="section">
+    <div class="container">
+      <SectionHead en="INDUSTRIES" title="幅広い業種での支援実績" />
+      <ul class="industry-cloud reveal">
+        {INDUSTRIES.map((industry) => <li class="industry-pill">{industry}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3-5 事例 -->
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHead en="CASE STUDY" title="支援事例" />
+      <div class="grid grid--2">
+        {
+          caseStudies.map((c, i) => (
+            <div class:list={['card', 'tilt', 'case-card', 'reveal', `reveal-d${(i % 4) + 1}`]}>
+              <div class="zoom-media">
+                <img src={c.img} alt={c.imgAlt} loading="lazy" />
+              </div>
+              <div class="case-card-body">
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+                <div class="case-card__tags">
+                  {c.tags.map((tag) => <span class="case-tag">{tag}</span>)}
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <p class="note text-center mt-40">※事例の詳細は、お問い合わせいただいた際に業種の近い事例をご紹介できます。</p>
+    </div>
+  </section>
+
+  <!-- 3-6 声・満足度 -->
+  <section class="section section--navy">
+    <div class="container sec-ghost" data-ghost="VOICE">
+      <SectionHead en="VOICE" title="満足度4.8の理由" />
+      <div class="voice-grid">
+        <div class="voice-copy reveal reveal-d1">
+          <p>
+            研修後アンケートでいただく満足度は、平均4.8（5点満点）。数字そのものだけでなく、その先の現場での行動につながっているかどうかを大切にしています。
+          </p>
+          <p>
+            2期目の研修へのご継続や、継続研修のお申し込みなど、リピートでご発注をいただく企業様が多いことも、大きな特徴です。研修を「受けて終わり」にせず、現場で使えるようになるまで伴走する姿勢が、継続のご依頼という結果につながっていると考えています。
+          </p>
+          <p>
+            満足度の背景にあるのは、講師がすぐ隣で一緒に手を動かす対面ハンズオンです。オンライン教材を見るだけでは変わらない現場も、その場でつまずきを解消しながら進めることで、着実に「使える」状態まで引き上げられます。
+          </p>
+        </div>
+        <div class="voice-photo glass tilt reveal reveal-d2">
+          <div class="zoom-media">
+            <img
+              src="/photos/hero-seminar.webp"
+              alt="対面ハンズオン形式の生成AI研修会場で、受講者と講師が机を囲んで学ぶ様子"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .industry-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .industry-pill {
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 999px;
+    padding: 12px 26px;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--ink);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  }
+  .industry-pill:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-sm);
+    border-color: var(--blue-500);
+    color: var(--blue-500);
+  }
+
+  .case-card {
+    overflow: hidden;
+  }
+  .case-card .zoom-media img {
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    width: 100%;
+  }
+  .case-card-body {
+    padding: clamp(24px, 3vw, 40px);
+  }
+  .case-card h3 {
+    font-size: 18.5px;
+    margin-bottom: 12px;
+  }
+  .case-card p {
+    color: var(--ink-soft);
+    font-size: 15px;
+    margin-bottom: 18px;
+  }
+  .case-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .case-tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--blue-500);
+    background: rgba(47, 107, 255, 0.09);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+
+  .voice-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(28px, 4vw, 56px);
+    align-items: center;
+  }
+  .voice-copy {
+    max-width: 680px;
+  }
+  .voice-copy p {
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 16px;
+  }
+  .voice-copy p:last-child {
+    margin-bottom: 0;
+  }
+  .voice-photo {
+    padding: 12px;
+    overflow: hidden;
+  }
+  .voice-photo .zoom-media {
+    border-radius: calc(var(--radius) - 6px);
+    overflow: hidden;
+  }
+  .voice-photo .zoom-media img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+  @media (max-width: 800px) {
+    .voice-grid {
+      grid-template-columns: 1fr;
+    }
+    .voice-photo {
+      order: -1;
+    }
+    .voice-photo .zoom-media img {
+      aspect-ratio: 16 / 10;
+    }
+  }
+</style>

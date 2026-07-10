@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import PageHero from '../../components/PageHero.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const fmt = (d: Date) =>
+  `${d.getUTCFullYear()}.${String(d.getUTCMonth() + 1).padStart(2, '0')}.${String(d.getUTCDate()).padStart(2, '0')}`;
+---
+
+<Base
+  title="ブログ"
+  description="生成AIの実務活用、補助金・助成金、AIエージェント開発の現場から、役立つ情報をお届けするWizTryのブログです。"
+  onDark={true}
+>
+  <PageHero
+    en="BLOG"
+    jp="AI活用ブログ"
+    desc="生成AIの実務活用、補助金・助成金、AIエージェント開発の現場から、役立つ情報をお届けします。"
+    bg="/gen/ph-blog.webp"
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--3">
+        {
+          posts.map((post, i) => (
+            <a
+              href={`/blog/${post.id}/`}
+              class:list={['card', 'post-card', 'tilt', 'reveal', `reveal-d${(i % 4) + 1}`]}
+            >
+              <div class="zoom-media">
+                <img class="thumb" src={post.data.thumb} alt={post.data.title} loading="lazy" />
+              </div>
+              <div class="body">
+                <span class="tag">{post.data.tag}</span>
+                <h3>{post.data.title}</h3>
+                <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

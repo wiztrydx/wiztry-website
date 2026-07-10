@@ -1,0 +1,102 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import ParticleField from '../../components/ParticleField.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const fmt = (d: Date) =>
+  `${d.getUTCFullYear()}.${String(d.getUTCMonth() + 1).padStart(2, '0')}.${String(d.getUTCDate()).padStart(2, '0')}`;
+
+const heroStyle =
+  "background: linear-gradient(100deg, rgba(5,13,30,0.92) 0%, rgba(10,22,48,0.72) 50%, rgba(10,22,48,0.25) 100%), url('/gen/ph-blog.webp') center / cover no-repeat, var(--bg-navy-grad);";
+---
+
+<Base title={post.data.title} description={post.data.description} onDark={true}>
+  <section class="page-hero post-hero" style={heroStyle}>
+    <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+    <ParticleField density={6} opacity={0.4} />
+    <div class="container" style="position:relative">
+      <span class="en post-kicker reveal">BLOG</span>
+      <p class="jp reveal reveal-d1">
+        {post.data.tag}
+        <span class="post-date">{fmt(post.data.pubDate)}</span>
+      </p>
+      <h1 class="post-title reveal reveal-d2">{post.data.title}</h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <article class="prose reveal">
+        <Content />
+      </article>
+
+      <div class="post-cta reveal">
+        <p>関連するご相談はお気軽に</p>
+        <a href="/contact/" class="btn btn--primary">お問い合わせする <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .post-kicker {
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--cyan-400);
+    margin-bottom: 4px;
+  }
+  .post-hero .post-date {
+    font-family: var(--font-en);
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+  }
+  .post-hero .post-date::before {
+    content: '/';
+    margin-right: 14px;
+    color: rgba(255, 255, 255, 0.3);
+  }
+  .post-title {
+    font-family: var(--font-jp);
+    font-weight: 800;
+    font-size: clamp(24px, 3.6vw, 38px);
+    letter-spacing: 0.02em;
+    line-height: 1.55;
+    margin-top: 18px;
+    max-width: 22em;
+  }
+  .post-cta {
+    max-width: 720px;
+    margin: 64px auto 0;
+    text-align: center;
+    padding: 40px clamp(20px, 4vw, 40px);
+    background: var(--bg-alt);
+    border-radius: var(--radius);
+  }
+  .post-cta p {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+  }
+</style>

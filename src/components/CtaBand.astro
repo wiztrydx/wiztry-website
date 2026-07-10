@@ -1,0 +1,25 @@
+---
+interface Props {
+  title?: string;
+  text?: string;
+}
+const {
+  title = 'まずは、貴社の課題をお聞かせください。',
+  text = '「何から始めればいいか分からない」という段階のご相談も歓迎です。貴社の業務内容に合わせて、研修・AIエージェント導入・補助金活用まで含めた最適なプランをご提案します。',
+} = Astro.props;
+---
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="cta-band reveal">
+      <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+      <span class="en" style="font-family: var(--font-en); font-weight:700; font-size:12px; letter-spacing:0.3em; color: var(--cyan-400);">CONTACT</span>
+      <h2 class="mt-16">{title}</h2>
+      <p>{text}</p>
+      <div class="actions">
+        <a href="/contact/" class="btn btn--primary btn--lg">無料で相談する <span class="arrow">→</span></a>
+        <a href="/service/" class="btn btn--ghost-white">サービスを見る</a>
+      </div>
+    </div>
+  </div>
+</section>

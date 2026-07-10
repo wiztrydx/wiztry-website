@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import ParticleField from '../components/ParticleField.astro';
+---
+
+<Base title="ページが見つかりません" onDark={true}>
+  <section class="section section--navy error-hero">
+    <ParticleField density={5} opacity={0.35} />
+    <div class="container text-center">
+      <p class="error-code reveal">404</p>
+      <h1 class="mt-24 reveal reveal-d1">お探しのページが見つかりませんでした</h1>
+      <p class="error-desc mt-16 reveal reveal-d2">
+        URLが変更されたか、削除された可能性があります。恐れ入りますが、下記よりトップページへお進みください。
+      </p>
+      <div class="mt-40 reveal reveal-d3">
+        <a href="/" class="btn btn--primary btn--lg">トップへ戻る <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .error-hero {
+    position: relative;
+    overflow: hidden;
+    min-height: calc(100vh - var(--header-h));
+    display: flex;
+    align-items: center;
+    padding-top: var(--header-h);
+    background:
+      linear-gradient(180deg, rgba(9, 20, 44, 0.86) 0%, rgba(9, 20, 44, 0.94) 100%),
+      url('/gen/neural-grid.webp') center / cover no-repeat,
+      var(--bg-navy-grad);
+  }
+  .error-hero .container { position: relative; }
+  .error-code {
+    font-family: var(--font-en);
+    font-weight: 800;
+    font-size: clamp(96px, 18vw, 220px);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .error-desc {
+    color: rgba(255, 255, 255, 0.78);
+    max-width: 40em;
+    margin-inline: auto;
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  title="送信完了"
+  description="お問い合わせいただきありがとうございました。2営業日以内にご返信いたします。"
+  onDark={true}
+>
+  <section class="page-hero thanks-hero">
+    <div class="container">
+      <h1 class="en reveal">THANK YOU</h1>
+      <p class="jp reveal reveal-d1">お問い合わせ完了</p>
+      <p class="desc reveal reveal-d2">
+        送信ありがとうございました。内容を確認のうえ、2営業日以内にご返信します。
+      </p>
+      <div class="mt-40 reveal reveal-d3">
+        <a href="/" class="btn btn--ghost-white btn--lg">トップへ戻る <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .thanks-hero {
+    min-height: calc(100vh - var(--header-h));
+    display: flex;
+    align-items: center;
+    padding-top: var(--header-h);
+    padding-bottom: 0;
+    position: relative;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, rgba(8, 18, 40, 0.9) 0%, rgba(8, 18, 40, 0.96) 100%),
+      url('/gen/aurora-flow.webp') center / cover no-repeat,
+      var(--bg-navy-grad);
+  }
+</style>

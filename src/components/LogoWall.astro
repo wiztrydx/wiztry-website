@@ -1,0 +1,39 @@
+---
+import { CLIENTS } from '../data/site';
+
+interface Props {
+  /** marquee: トップ用の流れる2段表示 / grid: 一覧グリッド */
+  mode?: 'grid' | 'marquee';
+}
+const { mode = 'grid' } = Astro.props;
+
+const half = Math.ceil(CLIENTS.length / 2);
+const rowA = CLIENTS.slice(0, half);
+const rowB = CLIENTS.slice(half);
+---
+
+{
+  mode === 'grid' ? (
+    <ul class="logo-grid">
+      {CLIENTS.map((c) => (
+        <li class:list={['logo-cell', `logo--${c.shape}`, 'reveal']} title={c.name}>
+          <img src={`/clients/${c.slug}.webp`} alt={c.name} loading="lazy" />
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <div>
+      {[rowA, rowB].map((row, i) => (
+        <div class="marquee" style={i === 1 ? 'margin-top:16px' : ''}>
+          <div class:list={['marquee-track', { 'marquee-track--rev': i === 1 }]}>
+            {[...row, ...row].map((c) => (
+              <div class:list={['logo-cell', `logo--${c.shape}`]} title={c.name}>
+                <img src={`/clients/${c.slug}.webp`} alt={c.name} loading="lazy" />
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
