@@ -799,8 +799,14 @@ const NUMBERS = [
   .yt-body h2 { font-size: clamp(22px, 2.6vw, 30px); font-family: var(--font-en); }
   .yt-body p { color: var(--ink-soft); font-size: 15px; margin: 0; }
   @media (max-width: 800px) {
-    .yt-band { grid-template-columns: 1fr; }
-    .yt-media img { aspect-ratio: 16 / 9; }
+    .yt-band { grid-template-columns: minmax(0, 1fr); }
+    /* height:100%が残るとaspect-ratioが無効化されズーム切り抜きになるため明示的に解除 */
+    .yt-media img {
+      height: auto;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
   }
 
   /* ---------- Media list ---------- */
