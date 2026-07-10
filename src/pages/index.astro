@@ -379,20 +379,17 @@ const NUMBERS = [
     from { transform: scale(1.08); }
     to { transform: scale(1.22); }
   }
-  /* スマホ: 動画の上にビジネス質感（ガラス建築の映り込み）をスクリーン合成。
-     明部だけが乗るブレンドなので、粒子の動きは殺さない */
+  /* スマホ: 合成専用に生成した高級テクスチャ（夜景オフィス×ホログラフィックライン×金のボケ）を
+     スクリーン合成。明部だけが乗るので粒子の動きは殺さない。9:16設計なので継ぎ目なし */
   @media (max-width: 768px) {
     .hero-video-slot::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: url('/gen/hero-ai-wave.webp') 20% 28% / 190% no-repeat;
+      background: url('/gen/hero-overlay-sp.webp') left top / cover no-repeat;
       mix-blend-mode: screen;
-      opacity: 0.42;
+      opacity: 0.65;
       pointer-events: none;
-      /* 画像の切れ目が見えないように左右をフェード */
-      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 34%, #000 92%, rgba(0,0,0,0.6) 100%);
-      mask-image: linear-gradient(90deg, transparent 0%, #000 34%, #000 92%, rgba(0,0,0,0.6) 100%);
     }
   }
   @media (prefers-reduced-motion: reduce) {
