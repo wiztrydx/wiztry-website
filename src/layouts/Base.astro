@@ -72,6 +72,12 @@ const jsonLd = {
     <slot name="head" />
   </head>
   <body>
+    <div class="site-loader" id="siteLoader" aria-hidden="true">
+      <div class="site-loader-inner">
+        <img src="/logos/wiztry-logo-white.png" alt="" width="168" height="40" />
+        <span class="site-loader-bar"><i></i></span>
+      </div>
+    </div>
     <div class="scroll-progress" aria-hidden="true"></div>
     <header class:list={['site-header', { 'on-dark': onDark }]} id="siteHeader">
       <div class="container inner">
@@ -235,6 +241,46 @@ const jsonLd = {
       }
 
       document.addEventListener('astro:page-load', initPage);
+
+      // 初回ロードのブランドイントロ（セッション内1回だけ）
+      (() => {
+        const loader = document.getElementById('siteLoader');
+        if (!loader) return;
+        if (sessionStorage.getItem('wt-intro') || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          loader.remove();
+          return;
+        }
+        sessionStorage.setItem('wt-intro', '1');
+        document.documentElement.classList.add('is-loading');
+        const done = () => {
+          loader.classList.add('is-done');
+          document.documentElement.classList.remove('is-loading');
+          setTimeout(() => loader.remove(), 900);
+        };
+        if (document.readyState === 'complete') setTimeout(done, 500);
+        else window.addEventListener('load', () => setTimeout(done, 350), { once: true });
+        setTimeout(done, 2600); // 保険
+      })();
+
+      // マグネティックボタン（primary系のみ・ポインタ精細時）
+      if (window.matchMedia('(pointer: fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const magnetize = () => {
+          document.querySelectorAll<HTMLElement>('.btn--primary:not([data-mag])').forEach((btn) => {
+            btn.dataset.mag = '1';
+            btn.addEventListener('pointermove', (e) => {
+              const r = btn.getBoundingClientRect();
+              const dx = e.clientX - (r.left + r.width / 2);
+              const dy = e.clientY - (r.top + r.height / 2);
+              btn.style.transform = `translate(${dx * 0.18}px, ${dy * 0.3}px)`;
+            });
+            btn.addEventListener('pointerleave', () => {
+              btn.style.transform = '';
+            });
+          });
+        };
+        magnetize();
+        document.addEventListener('astro:page-load', magnetize);
+      }
     </script>
   </body>
 </html>

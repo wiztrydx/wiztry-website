@@ -23,6 +23,7 @@ const NUMBERS = [
 <Base onDark={true}>
   <!-- 1-1 Hero -->
   <section class="hero">
+    <div class="hero-lights" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <ParticleField density={9} opacity={0.5} />
     <div class="container hero-inner">
       <div class="hero-copy reveal">
@@ -80,7 +81,7 @@ const NUMBERS = [
   </section>
 
   <!-- 1-3 サービス2本柱 -->
-  <section class="section" style="padding-top: clamp(40px, 5vw, 64px);">
+  <section class="section section--deco" style="padding-top: clamp(40px, 5vw, 64px);">
     <div class="ticker" aria-hidden="true" style="margin-bottom: clamp(40px, 6vw, 72px);">
       <span>AI TRAINING&nbsp;/&nbsp;AI AGENT&nbsp;/&nbsp;DX&nbsp;/&nbsp;KUMAMOTO&nbsp;/&nbsp;AI TRAINING&nbsp;/&nbsp;AI AGENT&nbsp;/&nbsp;DX&nbsp;/&nbsp;KUMAMOTO&nbsp;/&nbsp;</span>
     </div>
@@ -172,7 +173,7 @@ const NUMBERS = [
   </section>
 
   <!-- 1-6 メディア掲載 -->
-  <section class="section">
+  <section class="section section--deco">
     <div class="container">
       <SectionHead en="MEDIA" title="メディア掲載・登壇" center />
       <ul class="media-list">
@@ -256,9 +257,61 @@ const NUMBERS = [
   }
   @keyframes heroZoom {
     from { transform: scale(1) translateY(0); }
-    to { transform: scale(1.08) translateY(-1.5%); }
+    to { transform: scale(1.1) translateY(-2%); }
   }
   .hero :global(.particle-canvas) { z-index: 2; }
+
+  /* 漂う光（screen合成でヒーローの光源が呼吸するように動く） */
+  .hero-lights {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+  .hero-lights i {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(56px);
+  }
+  .hero-lights i:nth-child(1) {
+    width: 560px; height: 560px; top: 2%; right: 2%;
+    background: radial-gradient(circle, rgba(55, 200, 240, 0.5), transparent 66%);
+    animation: lightA 10s ease-in-out infinite alternate;
+  }
+  .hero-lights i:nth-child(2) {
+    width: 420px; height: 420px; bottom: 6%; right: 26%;
+    background: radial-gradient(circle, rgba(47, 107, 255, 0.55), transparent 66%);
+    animation: lightB 13s ease-in-out infinite alternate;
+  }
+  .hero-lights i:nth-child(3) {
+    width: 320px; height: 320px; top: 34%; left: 34%;
+    background: radial-gradient(circle, rgba(130, 170, 255, 0.4), transparent 66%);
+    animation: lightC 16s ease-in-out infinite alternate;
+  }
+  .hero-lights i:nth-child(4) {
+    width: 240px; height: 240px; top: 12%; left: 6%;
+    background: radial-gradient(circle, rgba(55, 200, 240, 0.3), transparent 66%);
+    animation: lightB 19s ease-in-out infinite alternate-reverse;
+  }
+  @keyframes lightA {
+    from { transform: translate(0, 0) scale(1); opacity: 0.55; }
+    50% { opacity: 0.95; }
+    to { transform: translate(-90px, 70px) scale(1.22); opacity: 0.65; }
+  }
+  @keyframes lightB {
+    from { transform: translate(0, 0) scale(1); opacity: 0.5; }
+    50% { opacity: 0.9; }
+    to { transform: translate(70px, -60px) scale(1.18); opacity: 0.6; }
+  }
+  @keyframes lightC {
+    from { transform: translate(0, 0) scale(0.9); opacity: 0.35; }
+    50% { opacity: 0.8; }
+    to { transform: translate(-60px, -50px) scale(1.25); opacity: 0.45; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero::before, .hero-lights i { animation: none; }
+  }
   .hero-inner {
     flex: 1;
     display: flex;

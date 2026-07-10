@@ -22,13 +22,6 @@ const trainingPoints = [
   '研修後: 定着支援・成果発表会・AI顧問（継続伴走）まで用意',
 ];
 
-const trainingFlow = [
-  { step: '01', title: 'ヒアリング', desc: '業務内容・課題・レベル感を確認' },
-  { step: '02', title: 'カリキュラム設計', desc: '業種・業務に合わせて個別設計' },
-  { step: '03', title: '研修実施', desc: '講師が伴走するハンズオン' },
-  { step: '04', title: '定着支援', desc: '実務での定着を支援・成果発表会' },
-  { step: '05', title: '継続支援', desc: 'AI顧問・次年度プログラム' },
-];
 
 const trainingFaq = [
   {
@@ -174,22 +167,56 @@ const subsidies = [
         {trainingThemes.map((theme) => <span class="tag">{theme}</span>)}
       </div>
 
-      <h3 class="block-title reveal mt-64">進め方</h3>
-      <div class="flow">
-        {
-          trainingFlow.map((f, i) => (
-            <div class:list={['flow-step', 'reveal', `reveal-d${Math.min(i + 1, 4)}`]}>
-              <div class="badge">
-                <small>STEP</small>
-                <span>{f.step}</span>
-              </div>
-              <div>
-                <h3>{f.title}</h3>
-                <p>{f.desc}</p>
-              </div>
-            </div>
-          ))
-        }
+      <h3 class="block-title reveal mt-64">代表的なコース</h3>
+      <p class="curriculum-note reveal">
+        実際にご提供している研修コースの一例をご紹介します。回数・受講人数などの詳細は、お気軽にお問い合わせください。
+      </p>
+      <div class="grid grid--3 curriculum-grid">
+        <div class="card course-card tilt reveal reveal-d1">
+          <div class="zoom-media">
+            <img src="/thumbs/course-gemini-workspace.webp" alt="Gemini for Google Workspace研修" loading="lazy" />
+          </div>
+          <div class="course-body">
+            <span class="curriculum-label">COURSE 01</span>
+            <h4>Gemini for Google Workspace研修</h4>
+            <p class="course-lead">Gmail・ドキュメント・スプレッドシートなど、毎日使うGoogle Workspaceの中でAIを使いこなす研修。</p>
+            <ul class="curriculum-list">
+              <li>普段の業務ツールがそのまま教材。翌日から使える</li>
+              <li>メール・資料作成・データ整理の時短を全員で実感</li>
+              <li>Google Workspace導入企業の全社展開に最適</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card course-card tilt reveal reveal-d2">
+          <div class="zoom-media">
+            <img src="/thumbs/course-master-2026.webp" alt="生成AI実践マスター講座【2026年版】" loading="lazy" />
+          </div>
+          <div class="course-body">
+            <span class="curriculum-label">COURSE 02</span>
+            <h4>生成AI実践マスター講座【2026年版】</h4>
+            <p class="course-lead">ChatGPT・Gemini・Claudeなど主要な生成AIを、基礎から実務活用まで体系的に身につける定番講座の最新版。</p>
+            <ul class="curriculum-list">
+              <li>AIがはじめての方でも安心の段階式カリキュラム</li>
+              <li>最新モデル・最新機能を反映した2026年版</li>
+              <li>実際の業務を題材にしたハンズオン中心</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card course-card tilt reveal reveal-d3">
+          <div class="zoom-media">
+            <img src="/thumbs/course-expert-program.webp" alt="生成AIエキスパート育成プログラム" loading="lazy" />
+          </div>
+          <div class="course-body">
+            <span class="curriculum-label">COURSE 03</span>
+            <h4>生成AIエキスパート育成プログラム</h4>
+            <p class="course-lead">社内のAI活用を牽引する「推進役」を育てる発展プログラム。2年目・3年目の継続導入にも選ばれています。</p>
+            <ul class="curriculum-list">
+              <li>業務フローの棚卸しからAI活用ポイントを特定</li>
+              <li>GAS・AIエージェントなど業務自動化まで踏み込む</li>
+              <li>成果発表会で、学びを会社の成果に変える</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <h3 class="block-title reveal mt-64">よくある質問</h3>
@@ -397,6 +424,97 @@ const subsidies = [
     aspect-ratio: 4 / 3;
     object-fit: cover;
     display: block;
+  }
+
+  /* 2-3 カリキュラム例 */
+  .curriculum-note {
+    color: var(--ink-soft);
+    max-width: 52em;
+    margin-bottom: 26px;
+  }
+  .curriculum-note strong {
+    color: var(--ink);
+  }
+  .curriculum-grid h4 {
+    font-size: 17.5px;
+    line-height: 1.5;
+    margin: 10px 0 10px;
+  }
+  .course-card {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .course-card .zoom-media img {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    width: 100%;
+  }
+  .course-body {
+    padding: 22px 24px 26px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .course-lead {
+    color: var(--ink-soft);
+    font-size: 13.5px;
+    line-height: 1.75;
+    margin-bottom: 14px;
+  }
+  .course-card .curriculum-list li {
+    font-size: 13.5px;
+    padding-left: 26px;
+  }
+  .course-card .curriculum-list li::before {
+    content: '✓';
+    width: 18px;
+    height: 18px;
+    font-size: 11px;
+    background: var(--accent-grad);
+  }
+  .curriculum-label {
+    display: inline-block;
+    font-family: var(--font-en);
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    color: var(--blue-500);
+    background: rgba(47, 107, 255, 0.09);
+    border-radius: 6px;
+    padding: 3px 12px;
+  }
+  .curriculum-list {
+    display: grid;
+    gap: 10px;
+  }
+  .curriculum-list li {
+    position: relative;
+    padding-left: 30px;
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.7;
+    counter-increment: cur;
+  }
+  .curriculum-list li::before {
+    content: counter(cur);
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background: var(--navy-900);
+    color: #fff;
+    font-family: var(--font-en);
+    font-weight: 700;
+    font-size: 11.5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .curriculum-grid .card {
+    counter-reset: cur;
   }
 
   /* 2-3 FAQ + close-up photo */

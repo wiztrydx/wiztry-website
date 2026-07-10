@@ -23,7 +23,7 @@ export const STATS = [
 // shape: ロゴの縦横比クラス（wide=横長ワードマーク / square=正方形 / mid=中間）表示サイズの最適化に使う
 export const CLIENTS = [
   { slug: 'kumamoto-toyota', name: '熊本トヨタ自動車株式会社', shape: 'wide' },
-  { slug: 'kumanichi', name: '株式会社熊本日日新聞社', shape: 'wide' },
+  { slug: 'shirasagi-denki', name: '白鷺電気工業株式会社', shape: 'wide' },
   { slug: 'kumanichi-kokokusha', name: '株式会社熊日広告社', shape: 'wide' },
   { slug: 'libwork', name: '株式会社Lib Work', shape: 'wide' },
   { slug: 'shinsan-jutaku', name: '新産住拓株式会社', shape: 'mid' },
@@ -34,8 +34,10 @@ export const CLIENTS = [
   { slug: 'hisano', name: '株式会社ヒサノ', shape: 'wide' },
   { slug: 'yonezawa', name: '株式会社ヨネザワ', shape: 'mid' },
   { slug: 'kaneryo', name: 'カネリョウ海藻株式会社', shape: 'square' },
+  { slug: 'nihon-shiki', name: '日本紙器株式会社', shape: 'square' },
+  { slug: 'nanei-kaihatsu', name: '株式会社南栄開発', shape: 'wide' },
   { slug: 'aoyagi', name: '有限会社青柳', shape: 'square' },
-  { slug: 'carepark', name: '株式会社ケアパーク', shape: 'wide' },
+  { slug: 'carepark', name: 'ケアパーク株式会社', shape: 'wide' },
   { slug: 'medicare-iyashi', name: 'メディケア癒しグループ', shape: 'wide' },
   { slug: 'hiko-dental', name: 'ヒコデンタルクリニック', shape: 'square' },
   { slug: 'do-project', name: '株式会社ドゥプロジェクト', shape: 'mid' },
