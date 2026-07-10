@@ -236,7 +236,10 @@ const NUMBERS = [
 </Base>
 
 <script>
-  // ヒーロー動画: ファイルが存在し、回線が十分で、省データ/省モーションでない場合だけ読み込む
+  // ヒーロー動画: 回線が十分で、省データ/省モーションでない場合だけ読み込む。
+  // ※事前のHEAD存在チェックは廃止 — GitHub PagesがHEADに時々503を返し、
+  //   その瞬間に来た訪問者は動画ヒーローが永久に出なくなっていた。
+  //   ファイルはサイトと一緒にデプロイされるので存在確認は不要。失敗時はerrorイベントで静かに撤去する。
   function initHeroVideo() {
     const slot = document.querySelector('.hero-video-slot');
     if (!slot || slot.querySelector('video')) return;
@@ -245,27 +248,23 @@ const NUMBERS = [
     if (conn && (conn.saveData || /2g/.test(conn.effectiveType || ''))) return;
     const sp = window.matchMedia('(max-width: 768px)').matches;
     const src = sp ? '/videos/hero-sp.mp4' : '/videos/hero-pc.mp4';
-    fetch(src, { method: 'HEAD' })
-      .then((r) => {
-        if (!r.ok) return;
-        const v = document.createElement('video');
-        // 自動再生の条件はプロパティではなく「属性」で判定するブラウザがあるため両方設定
-        v.setAttribute('muted', '');
-        v.setAttribute('autoplay', '');
-        v.setAttribute('playsinline', '');
-        v.setAttribute('loop', '');
-        v.muted = true;
-        v.loop = true;
-        v.preload = 'auto';
-        v.src = src;
-        v.addEventListener('playing', () => v.classList.add('is-playing'), { once: true });
-        slot.appendChild(v);
-        const tryPlay = () => v.play().catch(() => {});
-        tryPlay();
-        v.addEventListener('canplaythrough', tryPlay, { once: true });
-        setTimeout(() => { if (v.paused) tryPlay(); }, 1200);
-      })
-      .catch(() => {});
+    const v = document.createElement('video');
+    // 自動再生の条件はプロパティではなく「属性」で判定するブラウザがあるため両方設定
+    v.setAttribute('muted', '');
+    v.setAttribute('autoplay', '');
+    v.setAttribute('playsinline', '');
+    v.setAttribute('loop', '');
+    v.muted = true;
+    v.loop = true;
+    v.preload = 'auto';
+    v.src = src;
+    v.addEventListener('playing', () => v.classList.add('is-playing'), { once: true });
+    v.addEventListener('error', () => v.remove(), { once: true });
+    slot.appendChild(v);
+    const tryPlay = () => v.play().catch(() => {});
+    tryPlay();
+    v.addEventListener('canplaythrough', tryPlay, { once: true });
+    setTimeout(() => { if (v.paused) tryPlay(); }, 1200);
   }
   initHeroVideo();
   document.addEventListener('astro:page-load', initHeroVideo);

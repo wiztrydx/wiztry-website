@@ -31,12 +31,15 @@ const rowB = CLIENTS.slice(half);
   document.addEventListener('astro:page-load', initMarqueeTouchPause);
 </script>
 
+{/* ロゴ画像はlazyにしない: グリッドはセルごとの遅延ポップインで壊れて見え、
+    マーキーは横流れで次々ビューポートに入るため流れの途中でポップインする。
+    計250KB弱と軽量なので先読みが正解。revealもセル個別ではなくグリッド全体に1回。 */}
 {
   mode === 'grid' ? (
-    <ul class="logo-grid">
+    <ul class="logo-grid reveal">
       {CLIENTS.map((c) => (
-        <li class:list={['logo-cell', `logo--${c.shape}`, 'reveal']} title={c.name}>
-          <img src={`/clients/${c.slug}.webp`} alt={c.name} loading="lazy" decoding="async" />
+        <li class:list={['logo-cell', `logo--${c.shape}`]} title={c.name}>
+          <img src={`/clients/${c.slug}.webp`} alt={c.name} decoding="async" />
         </li>
       ))}
     </ul>
@@ -47,7 +50,7 @@ const rowB = CLIENTS.slice(half);
           <div class:list={['marquee-track', { 'marquee-track--rev': i === 1 }]}>
             {[...row, ...row].map((c) => (
               <div class:list={['logo-cell', `logo--${c.shape}`]} title={c.name}>
-                <img src={`/clients/${c.slug}.webp`} alt={c.name} loading="lazy" decoding="async" />
+                <img src={`/clients/${c.slug}.webp`} alt={c.name} decoding="async" />
               </div>
             ))}
           </div>
