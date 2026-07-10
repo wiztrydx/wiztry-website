@@ -42,7 +42,7 @@ const articleLd = {
 };
 ---
 
-<Base title={post.data.title} description={post.data.description} onDark={true} ogImage={post.data.thumb}>
+<Base title={post.data.title} description={post.data.description} onDark={true} ogImage={post.data.thumb} ogType="article">
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(articleLd)} />
   <section class="page-hero post-hero" style={heroStyle}>
     <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>

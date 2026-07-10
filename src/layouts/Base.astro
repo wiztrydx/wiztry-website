@@ -9,6 +9,10 @@ interface Props {
   /** ヘッダー背景が濃色ヒーローに重なるページは true（トップ・下層ヒーロー） */
   onDark?: boolean;
   ogImage?: string;
+  /** 記事ページは 'article' */
+  ogType?: string;
+  /** サンクスページ等、検索結果に出したくないページは true */
+  noindex?: boolean;
 }
 
 const {
@@ -16,6 +20,8 @@ const {
   description = SITE.description,
   onDark = true,
   ogImage = '/og.png',
+  ogType = 'website',
+  noindex = false,
 } = Astro.props;
 
 const pageTitle = title
@@ -54,12 +60,16 @@ const jsonLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/logos/mark-32.png" type="image/png" />
     <link rel="apple-touch-icon" href="/logos/mark-192.png" />
+    <meta name="theme-color" content="#0a1630" />
+    <meta name="format-detection" content="telephone=no" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content="ja_JP" />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(ogImage, SITE.domain).href} />
     <meta property="og:site_name" content={SITE.name} />

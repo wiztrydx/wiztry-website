@@ -21,6 +21,8 @@ const NUMBERS = [
 ---
 
 <Base onDark={true}>
+  <!-- LCP改善: CSS背景のヒーロー画像はブラウザの発見が遅いため先読みする -->
+  <link slot="head" rel="preload" as="image" href="/gen/hero-ai-wave.webp" fetchpriority="high" />
   <!-- 1-1 Hero -->
   <section class="hero">
     <div class="hero-video-slot" aria-hidden="true"></div>
