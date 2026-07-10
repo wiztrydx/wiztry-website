@@ -25,9 +25,24 @@ const fmt = (d: Date) =>
 
 const heroStyle =
   "background: linear-gradient(100deg, rgba(5,13,30,0.92) 0%, rgba(10,22,48,0.72) 50%, rgba(10,22,48,0.25) 100%), url('/gen/ph-blog.webp') center / cover no-repeat, var(--bg-navy-grad);";
+
+// SEO: 記事ごとの構造化データ（BlogPosting）
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  image: new URL(post.data.thumb, 'https://wiztrydx.com').href,
+  datePublished: post.data.pubDate.toISOString(),
+  inLanguage: 'ja',
+  author: { '@type': 'Organization', name: 'WizTry株式会社', url: 'https://wiztrydx.com' },
+  publisher: { '@type': 'Organization', name: 'WizTry株式会社', logo: { '@type': 'ImageObject', url: 'https://wiztrydx.com/logos/mark-512.png' } },
+  mainEntityOfPage: new URL(`/blog/${post.id}/`, 'https://wiztrydx.com').href,
+};
 ---
 
-<Base title={post.data.title} description={post.data.description} onDark={true}>
+<Base title={post.data.title} description={post.data.description} onDark={true} ogImage={post.data.thumb}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(articleLd)} />
   <section class="page-hero post-hero" style={heroStyle}>
     <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
     <ParticleField density={6} opacity={0.4} />

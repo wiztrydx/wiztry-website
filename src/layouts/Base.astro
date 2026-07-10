@@ -32,6 +32,9 @@ const jsonLd = {
   logo: `${SITE.domain}/logos/mark-512.png`,
   foundingDate: '2023-07',
   founder: { '@type': 'Person', name: SITE.ceo },
+  sameAs: [YOUTUBE.url],
+  areaServed: { '@type': 'AdministrativeArea', name: '熊本県' },
+  knowsAbout: ['生成AI研修', 'AIエージェント導入支援', 'DX支援', 'リスキリング'],
   address: {
     '@type': 'PostalAddress',
     addressRegion: '熊本県',
