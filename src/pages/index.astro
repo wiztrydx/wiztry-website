@@ -297,28 +297,6 @@ const NUMBERS = [
   armHeroIntro();
   document.addEventListener('astro:page-load', armHeroIntro);
 
-  // モバイル: NUMBERSが画面に入ったら数字カードを順にカスケード点灯（1回きり）
-  function initNumbersCascade() {
-    if (!window.matchMedia('(max-width: 768px)').matches) return;
-    const sec = document.querySelector<HTMLElement>('.numbers-sec');
-    if (!sec || sec.dataset.cascade) return;
-    sec.dataset.cascade = '1';
-    const stats = [...sec.querySelectorAll('.stat')];
-    let fired = false;
-    const check = () => {
-      if (fired) return;
-      const top = sec.getBoundingClientRect().top;
-      if (top < window.innerHeight * 0.72) {
-        fired = true;
-        window.removeEventListener('scroll', check);
-        stats.forEach((s, i) => setTimeout(() => s.classList.add('lit'), i * 240));
-      }
-    };
-    check();
-    window.addEventListener('scroll', check, { passive: true });
-  }
-  initNumbersCascade();
-  document.addEventListener('astro:page-load', initNumbersCascade);
 </script>
 
 <style>
@@ -766,17 +744,22 @@ const NUMBERS = [
       url('/gen/neural-grid.webp') center / cover no-repeat, var(--bg-navy-grad);
     overflow: hidden;
   }
-  /* モバイル: 画面に入ると数字カードが順にカスケード点灯 */
+  /* モバイル: 画面に入ると数字カードが順にカスケード点灯。
+     独自JSではなく全ページ実績のあるリビール機構(.is-in)に遅延を足すだけの方式 */
   @media (max-width: 768px) {
-    .numbers-sec .stat {
+    .numbers-sec .stat.reveal {
       opacity: 0.12;
       transform: translateY(18px) scale(0.97);
       transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .numbers-sec .stat.lit {
+    .numbers-sec .stat.reveal.is-in {
       opacity: 1;
       transform: none;
+      transition-delay: 0s;
     }
+    .numbers-sec .stat.reveal.is-in:nth-child(2) { transition-delay: 0.22s; }
+    .numbers-sec .stat.reveal.is-in:nth-child(3) { transition-delay: 0.44s; }
+    .numbers-sec .stat.reveal.is-in:nth-child(4) { transition-delay: 0.66s; }
   }
   .numbers-sec .stat {
     background: rgba(255, 255, 255, 0.05);

@@ -181,20 +181,23 @@ button { font: inherit; cursor: pointer; }
 .num-card p { color: var(--ink-soft); font-size: 15px; margin: 0; }
 
 /* ---------- Grid helpers ---------- */
+/* 注意: 1frではなくminmax(0,1fr)を使うこと。1frの最小値はautoのため、
+   中身（巨大画像等）の最小幅で列が爆発しはみ出す（特にiOS Safariで顕在化） */
 .grid { display: grid; gap: clamp(18px, 2.4vw, 30px); }
-.grid--2 { grid-template-columns: repeat(2, 1fr); }
-.grid--3 { grid-template-columns: repeat(3, 1fr); }
-.grid--4 { grid-template-columns: repeat(4, 1fr); }
+.grid > * { min-width: 0; }
+.grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 @media (max-width: 900px) {
-  .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); }
+  .grid--3, .grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 600px) {
-  .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; }
+  .grid--2, .grid--3, .grid--4 { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* ---------- Stats band ---------- */
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-@media (max-width: 900px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+@media (max-width: 900px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .stat { text-align: center; padding: 8px 12px; }
 .stat .value {
   font-family: var(--font-en);
@@ -208,10 +211,11 @@ button { font: inherit; cursor: pointer; }
 .stat .note { font-size: 11px; opacity: 0.5; display: block; margin-top: 2px; }
 
 /* ---------- Client logo wall ---------- */
-.logo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
-@media (max-width: 1000px) { .logo-grid { grid-template-columns: repeat(4, 1fr); } }
-@media (max-width: 760px) { .logo-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 520px) { .logo-grid { grid-template-columns: repeat(2, 1fr); } }
+.logo-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.logo-grid > * { min-width: 0; }
+@media (max-width: 1000px) { .logo-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .logo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .logo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .logo-cell {
   background: #fff;
   border: 1px solid var(--line);
@@ -224,9 +228,11 @@ button { font: inherit; cursor: pointer; }
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 .logo-cell:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-/* 形状別の最適サイズ: 横長=幅基準 / 正方形=高さ基準 / 中間 */
-.logo-cell img { object-fit: contain; }
-.logo--wide img { width: 84%; max-height: 58px; }
+/* 形状別の最適サイズ: 横長=幅基準 / 正方形=高さ基準 / 中間
+   （width指定はグリッド最小幅計算を暴走させるためmax-width系のみ使う） */
+.logo-cell { min-width: 0; }
+.logo-cell img { object-fit: contain; width: auto; height: auto; }
+.logo--wide img { max-width: 84%; max-height: 58px; }
 .logo--mid img { max-height: 74px; max-width: 74%; }
 .logo--square img { max-height: 96px; max-width: 62%; }
 
@@ -241,15 +247,8 @@ button { font: inherit; cursor: pointer; }
 .marquee-track--rev { animation-direction: reverse; animation-duration: 56s; }
 .marquee-track .logo-cell { width: 216px; flex: none; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee { touch-action: pan-y; } /* マーキー上でも縦スクロールは通す */
 @keyframes marquee { to { transform: translateX(-50%); } }
-/* タッチ端末: CSSアニメを止めてネイティブスクロール（指スワイプ＋JSでゆっくり自走） */
-.marquee--touch {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.marquee--touch::-webkit-scrollbar { display: none; }
-.marquee--touch .marquee-track { animation: none; }
 
 /* ---------- Flow / timeline ---------- */
 .flow { display: grid; gap: 0; }

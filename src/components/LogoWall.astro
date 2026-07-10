@@ -13,36 +13,22 @@ const rowB = CLIENTS.slice(half);
 ---
 
 <script>
-  // タッチ端末: マーキーを指でスワイプできるネイティブスクロールに切替え、
-  // 触っていない間はゆっくり自動で流す
-  function initTouchMarquee() {
-    if (!window.matchMedia('(pointer: coarse)').matches) return;
-    document.querySelectorAll<HTMLElement>('.marquee:not([data-touch])').forEach((mq) => {
-      mq.dataset.touch = '1';
-      mq.classList.add('marquee--touch');
+  // マーキーはCSSアニメ駆動（全環境で確実）。タッチ中だけ一時停止する最小限の制御のみ行う。
+  // ※過去の教訓: JSでscrollLeftを書く自走方式は、iOSの挙動差やscrollイベント自己発火で壊れる
+  function initMarqueeTouchPause() {
+    document.querySelectorAll<HTMLElement>('.marquee:not([data-mq])').forEach((mq) => {
+      mq.dataset.mq = '1';
       const track = mq.querySelector<HTMLElement>('.marquee-track');
       if (!track) return;
-      // 注意: 'scroll'イベントで一時停止すると、自前のscrollLeft書き込みが発火する
-      // scrollイベントを自分で拾って永久停止する（過去に自動スクロールが壊れた原因）。
-      // 停止条件は「指が触れている間＋離してから1.5秒」だけにする
-      let touching = false;
-      let cooldown = 0;
-      mq.addEventListener('touchstart', () => { touching = true; }, { passive: true });
-      mq.addEventListener('touchend', () => { touching = false; cooldown = Date.now() + 1500; }, { passive: true });
-      mq.addEventListener('touchcancel', () => { touching = false; cooldown = Date.now() + 1500; }, { passive: true });
-      const drift = () => {
-        if (!touching && Date.now() > cooldown) {
-          mq.scrollLeft += 0.5;
-          const half = track.scrollWidth / 2;
-          if (mq.scrollLeft >= half) mq.scrollLeft -= half;
-        }
-        requestAnimationFrame(drift);
-      };
-      requestAnimationFrame(drift);
+      const pause = () => { track.style.animationPlayState = 'paused'; };
+      const resume = () => { track.style.animationPlayState = 'running'; };
+      mq.addEventListener('touchstart', pause, { passive: true });
+      mq.addEventListener('touchend', resume, { passive: true });
+      mq.addEventListener('touchcancel', resume, { passive: true });
     });
   }
-  initTouchMarquee();
-  document.addEventListener('astro:page-load', initTouchMarquee);
+  initMarqueeTouchPause();
+  document.addEventListener('astro:page-load', initMarqueeTouchPause);
 </script>
 
 {
