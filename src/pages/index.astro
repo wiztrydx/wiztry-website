@@ -271,7 +271,15 @@ const NUMBERS = [
   function armHeroIntro() {
     const hero = document.querySelector('.hero');
     if (!hero || hero.classList.contains('hero-in')) return;
-    const fire = () => requestAnimationFrame(() => setTimeout(() => hero.classList.add('hero-in'), 60));
+    const fire = () =>
+      setTimeout(() => {
+        hero.classList.add('hero-in');
+        // 保険: 何らかの理由でCSSアニメが走らない環境でも文字を必ず表示する
+        setTimeout(() => {
+          const title = hero.querySelector('.hero-title');
+          if (title && getComputedStyle(title).opacity === '0') hero.classList.add('hero-static');
+        }, 2600);
+      }, 80);
     const loader = document.getElementById('siteLoader');
     if (!loader) {
       fire();
@@ -373,6 +381,22 @@ const NUMBERS = [
   @keyframes spVideoZoom {
     from { transform: scale(1.08); }
     to { transform: scale(1.22); }
+  }
+  /* スマホ: 動画の上にビジネス質感（ガラス建築の映り込み）をスクリーン合成。
+     明部だけが乗るブレンドなので、粒子の動きは殺さない */
+  @media (max-width: 768px) {
+    .hero-video-slot::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('/gen/hero-ai-wave.webp') 20% 28% / 190% no-repeat;
+      mix-blend-mode: screen;
+      opacity: 0.42;
+      pointer-events: none;
+      /* 画像の切れ目が見えないように左右をフェード */
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 34%, #000 92%, rgba(0,0,0,0.6) 100%);
+      mask-image: linear-gradient(90deg, transparent 0%, #000 34%, #000 92%, rgba(0,0,0,0.6) 100%);
+    }
   }
   @media (prefers-reduced-motion: reduce) {
     .hero-video-slot :global(video) { animation: none; transform: none; }
@@ -537,6 +561,15 @@ const NUMBERS = [
   }
   @media (prefers-reduced-motion: reduce) {
     .hero-label, .hero-title, .hero-sub, .hero-actions { opacity: 1; transform: none; }
+  }
+  /* アニメ非動作環境の保険 */
+  .hero.hero-static .hero-label,
+  .hero.hero-static .hero-title,
+  .hero.hero-static .hero-sub,
+  .hero.hero-static .hero-actions {
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
   .hero-label {
     display: inline-flex;
