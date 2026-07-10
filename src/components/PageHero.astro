@@ -18,8 +18,9 @@ const bgStyle = bg
   <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
   <ParticleField density={6} opacity={0.4} />
   <div class="container" style="position:relative">
-    <h1 class="en reveal is-in">{en}</h1>
-    <p class="jp reveal is-in">{jp}</p>
+    {/* SEO: h1は日本語タイトル（.jp）に割り当てる。英語の大見出しは装飾なのでpのまま（見た目はCSSクラス依存で不変） */}
+    <p class="en reveal is-in">{en}</p>
+    <h1 class="jp reveal is-in">{jp}</h1>
     {desc && <p class="desc reveal is-in">{desc}</p>}
   </div>
 </section>

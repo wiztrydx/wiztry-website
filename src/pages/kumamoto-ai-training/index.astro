@@ -1,0 +1,491 @@
+---
+import Base from '../../layouts/Base.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import PageHero from '../../components/PageHero.astro';
+import Stats from '../../components/Stats.astro';
+import LogoWall from '../../components/LogoWall.astro';
+
+// 「熊本 生成AI研修」「熊本 AI研修」の検索意図に1ページで応える専用ページ。
+// /service/ はサービス全体の一覧、このページは研修単体の深掘りという役割分担。
+
+const reasons = [
+  {
+    num: '01',
+    title: '熊本で、講師が隣につく対面研修',
+    body: '会場は貴社。講師が受講者の隣で一緒に手を動かすハンズオン形式だから、パソコンが苦手な方も置いていかれません。熊本市を拠点に、県内全域へお伺いします。',
+  },
+  {
+    num: '02',
+    title: '貴社の実際の業務が、そのまま教材',
+    body: '汎用のサンプルではなく、貴社で毎日発生している書類・メール・データを教材にします。研修の翌日から「昨日習ったことを仕事で使う」が起こります。',
+  },
+  {
+    num: '03',
+    title: '累計90社以上・リピート多数の実績',
+    body: '不動産・建設・製造・物流・メディア・医療・介護・士業まで、熊本の幅広い業種で実績があります。1年目の成果を受けた2年目・3年目の継続依頼が多いのが自慢です。',
+  },
+  {
+    num: '04',
+    title: '助成金・補助金の活用まで伴走',
+    body: '熊本県リスキリング応援補助金や人材開発支援助成金など、要件に合う制度の活用をサポート。受講負担を抑えながら、全社的な人材育成に取り組めます。',
+  },
+];
+
+const industries = [
+  '不動産・住宅',
+  '建設・設備',
+  '製造',
+  '運輸・物流',
+  'メディア',
+  '医療・介護',
+  '士業・コンサルティング',
+  '小売・サービス',
+];
+
+const cases = [
+  {
+    title: '不動産会社さま（約40名の全社研修）',
+    body: 'Gemini for Google Workspaceの全社研修を約40名規模で実施。文書作成や情報共有のスピードが大きく向上し、1年目の成果を受けて2期目の研修を継続してご依頼いただきました。',
+  },
+  {
+    title: '電気設備工事会社さま（12名の集中育成）',
+    body: '全6回・12時間のマスターハンズオン講座を実施。助成金を活用しながら現場部門の中核メンバーを集中的に育成し、研修後には継続のご依頼をいただきました。',
+  },
+  {
+    title: '歯科医院さま（診療と両立する少人数研修）',
+    body: 'Gemini研修を全6回で実施。診療業務と両立できる回数設計で、書類作成や患者対応文書の効率化を実現。院内の複数スタッフがAIを日常的に使える状態になりました。',
+  },
+];
+
+const faq = [
+  {
+    q: '熊本市外でも研修をお願いできますか?',
+    a: '可能です。熊本市を拠点に熊本県内全域へお伺いしています。近県での開催もご相談ください。',
+  },
+  {
+    q: 'パソコンが苦手な社員が多くても大丈夫ですか?',
+    a: '大丈夫です。講師がすぐ隣でサポートする対面ハンズオン形式なので、ITに不慣れな方でも置いていかれることがありません。幅広い年代・職種の方に受講いただいています。',
+  },
+  {
+    q: '何名から・何回から実施できますか?',
+    a: '少人数の集中育成から約40名規模の全社研修まで対応しています。全4〜10回・1回2時間程度の構成が中心で、業務と両立できるペースに調整します。',
+  },
+  {
+    q: '費用と助成金について教えてください。',
+    a: '人数・回数・内容によりお見積りします。熊本県リスキリング応援補助金や人材開発支援助成金など、要件に合えば受講負担を大きく抑えられる制度もあるため、あわせてご案内します。',
+  },
+  {
+    q: 'どのAIツールに対応していますか?',
+    a: 'ChatGPT・Gemini・Claudeなど主要な生成AIに対応しています。Google Workspaceを導入済みの企業にはGemini研修、さらに進んだ自動化にはGASやAIエージェントまでご提案できます。',
+  },
+];
+
+// SEO: 構造化データ（研修サービス・FAQ・パンくず）
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: '熊本の企業向け生成AI研修',
+  serviceType: '生成AI研修・ChatGPT研修・Gemini研修',
+  provider: {
+    '@type': 'Organization',
+    name: 'WizTry株式会社',
+    url: 'https://wiztrydx.com',
+  },
+  areaServed: { '@type': 'AdministrativeArea', name: '熊本県' },
+  description:
+    '熊本の企業向けに、講師が隣につく対面ハンズオン形式の生成AI研修を提供。累計90社以上・満足度4.8（5点満点）。助成金・補助金の活用もサポートします。',
+  url: 'https://wiztrydx.com/kumamoto-ai-training/',
+};
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'ホーム', item: 'https://wiztrydx.com/' },
+    { '@type': 'ListItem', position: 2, name: 'サービス', item: 'https://wiztrydx.com/service/' },
+    { '@type': 'ListItem', position: 3, name: '熊本の企業向け生成AI研修' },
+  ],
+};
+---
+
+<Base
+  title="熊本の企業向け生成AI研修"
+  description="熊本の企業向け生成AI研修（ChatGPT・Gemini・Claude対応）。講師が隣につく対面ハンズオン形式で、累計90社以上・満足度4.8。助成金・補助金の活用もサポート。熊本県内全域に対応します。"
+  onDark={true}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(serviceLd)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(faqLd)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbLd)} />
+
+  <PageHero
+    en="AI TRAINING"
+    jp="熊本の企業向け生成AI研修"
+    desc="ChatGPT・Gemini・Claudeを「現場で使える」レベルまで。講師が隣につく対面ハンズオンで、熊本の会社の生産性を変えます。"
+    bg="/photos/hero-seminar.webp"
+  />
+
+  <!-- 導入: 課題への共感と答え -->
+  <section class="section">
+    <div class="container narrow-copy">
+      <p class="lead-copy reveal">
+        「ChatGPTを入れたけど、結局ほとんどの社員が使っていない」——生成AIの導入がうまくいかない原因の多くは、ツールではなく<em>定着のさせ方</em>にあります。動画教材を配って終わりでは、現場は変わりません。
+      </p>
+      <p class="lead-copy reveal">
+        WizTryの研修は、熊本の企業に出向き、講師が受講者の隣で一緒に手を動かす対面ハンズオン。貴社の実際の書類とデータを教材に、<em>翌日から業務で使える状態</em>をつくります。累計90社以上を支援して磨いてきた、熊本の現場のための研修です。
+      </p>
+    </div>
+  </section>
+
+  <!-- 数字 -->
+  <section class="section section--navy">
+    <div class="container">
+      <SectionHead en="NUMBERS" title="数字で見る、WizTryの研修" center />
+      <Stats />
+    </div>
+  </section>
+
+  <!-- 選ばれる理由 -->
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        en="REASON"
+        title="熊本の企業に選ばれる4つの理由"
+        lead="研修会社はたくさんあります。それでもWizTryが選ばれ、翌年もご依頼をいただける理由です。"
+      />
+      <div class="grid grid--2">
+        {
+          reasons.map((r, i) => (
+            <div class:list={['card', 'num-card', 'tilt', 'reveal', `reveal-d${(i % 2) + 1}`]}>
+              <span class="num">{r.num}</span>
+              <h3>{r.title}</h3>
+              <p>{r.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- コース -->
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHead
+        en="COURSE"
+        title="代表的な研修コース"
+        lead="実際にご提供しているコースの一例です。回数・受講人数などの詳細は、お気軽にお問い合わせください。"
+      />
+      <div class="grid grid--3">
+        <div class="card course-card tilt reveal reveal-d1">
+          <div class="zoom-media">
+            <img src="/thumbs/course-gemini-workspace.webp" alt="Gemini for Google Workspace研修" loading="lazy" decoding="async" />
+          </div>
+          <div class="course-body">
+            <span class="course-label">COURSE 01</span>
+            <h3>Gemini for Google Workspace研修</h3>
+            <p>
+              Gmail・ドキュメント・スプレッドシートなど、毎日使うGoogle Workspaceの中でAIを使いこなす研修。普段の業務ツールがそのまま教材になるため、定着が速いのが特長です。
+            </p>
+          </div>
+        </div>
+        <div class="card course-card tilt reveal reveal-d2">
+          <div class="zoom-media">
+            <img src="/thumbs/course-master-2026.webp" alt="生成AI実践マスター講座【2026年版】" loading="lazy" decoding="async" />
+          </div>
+          <div class="course-body">
+            <span class="course-label">COURSE 02</span>
+            <h3>生成AI実践マスター講座【2026年版】</h3>
+            <p>
+              ChatGPT・Gemini・Claudeなど主要な生成AIを、基礎から実務活用まで体系的に習得。AIがはじめての方でも安心の段階式カリキュラムです。
+            </p>
+          </div>
+        </div>
+        <div class="card course-card tilt reveal reveal-d3">
+          <div class="zoom-media">
+            <img src="/thumbs/course-expert-program.webp" alt="生成AIエキスパート育成プログラム" loading="lazy" decoding="async" />
+          </div>
+          <div class="course-body">
+            <span class="course-label">COURSE 03</span>
+            <h3>生成AIエキスパート育成プログラム</h3>
+            <p>
+              社内のAI活用を牽引する「推進役」を育てる発展プログラム。GAS・AIエージェントによる業務自動化まで踏み込み、2年目・3年目の継続導入にも選ばれています。
+            </p>
+          </div>
+        </div>
+      </div>
+      <p class="to-service reveal">
+        <a href="/service/#training">研修サービスの全体像はこちら <span class="arrow">→</span></a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 対応業種 -->
+  <section class="section">
+    <div class="container">
+      <SectionHead en="INDUSTRY" title="熊本の幅広い業種に対応" center />
+      <div class="tag-row center reveal">
+        {industries.map((ind) => <span class="tag">{ind}</span>)}
+      </div>
+      <div class="logo-wrap reveal">
+        <LogoWall mode="grid" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 事例 -->
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHead
+        en="CASE"
+        title="熊本での研修事例"
+        lead="業種も規模も異なる3社の事例をご紹介します。共通しているのは「研修が終わっても、AI活用が続いている」ことです。"
+      />
+      <div class="grid grid--3">
+        {
+          cases.map((c, i) => (
+            <div class:list={['card', 'case-mini', 'tilt', 'reveal', `reveal-d${i + 1}`]}>
+              <h3>{c.title}</h3>
+              <p>{c.body}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="to-service reveal">
+        <a href="/works/">導入実績をもっと見る <span class="arrow">→</span></a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 助成金 -->
+  <section class="section section--navy">
+    <div class="container">
+      <SectionHead
+        en="SUBSIDY"
+        title="助成金・補助金の活用もサポート"
+        lead="要件に合う制度があれば、受講負担を抑えて研修を実施できます。制度選びから申請の流れまで、あわせてご案内します。"
+      />
+      <div class="grid grid--2">
+        <div class="card subsidy-card reveal">
+          <h3>熊本県リスキリング応援補助金</h3>
+          <p>熊本県内企業の学び直しを支援する制度。要件を満たす研修で活用できる場合、受講負担を大きく抑えられます。</p>
+        </div>
+        <div class="card subsidy-card reveal reveal-d1">
+          <h3>人材開発支援助成金（厚生労働省）</h3>
+          <p>計画的な人材育成に取り組む企業向けの国の助成制度。一定規模の研修で活用実績があります。</p>
+        </div>
+      </div>
+      <p class="subsidy-note reveal">※制度の要件・補助率は年度により変わります。最新の適用可否は個別にご確認ください。</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section">
+    <div class="container">
+      <SectionHead en="FAQ" title="よくある質問" center />
+      <div class="faq faq-single reveal">
+        {
+          faq.map((item) => (
+            <details>
+              <summary>{item.q}</summary>
+              <p>{item.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .narrow-copy {
+    max-width: 780px;
+  }
+  .lead-copy {
+    font-size: clamp(15px, 1.6vw, 17px);
+    line-height: 2.2;
+    color: var(--ink-soft);
+  }
+  .lead-copy + .lead-copy {
+    margin-top: 1.6em;
+  }
+  .lead-copy em {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--ink);
+    background: linear-gradient(transparent 68%, rgba(47, 107, 255, 0.18) 68%);
+  }
+
+  .num-card .num {
+    font-family: var(--font-en);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    color: var(--blue-500);
+  }
+  .num-card h3 {
+    font-size: 18px;
+    margin: 10px 0 12px;
+    letter-spacing: 0.03em;
+  }
+  .num-card p {
+    font-size: 14px;
+    line-height: 2;
+    color: var(--ink-soft);
+  }
+  .num-card {
+    padding: 30px clamp(22px, 3vw, 32px);
+  }
+
+  .course-card .zoom-media img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+  .course-body {
+    padding: 22px 24px 26px;
+  }
+  .course-label {
+    font-family: var(--font-en);
+    font-weight: 800;
+    font-size: 11.5px;
+    letter-spacing: 0.18em;
+    color: var(--blue-500);
+  }
+  .course-body h3 {
+    font-size: 16.5px;
+    margin: 8px 0 10px;
+    line-height: 1.6;
+  }
+  .course-body p {
+    font-size: 13.5px;
+    line-height: 2;
+    color: var(--ink-soft);
+  }
+
+  .to-service {
+    margin-top: 36px;
+    text-align: center;
+  }
+  .to-service a {
+    font-weight: 700;
+    color: var(--blue-500);
+  }
+  .to-service a:hover {
+    text-decoration: underline;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tag-row.center {
+    justify-content: center;
+  }
+  .tag-row .tag {
+    background: rgba(47, 107, 255, 0.07);
+    border: 1px solid rgba(47, 107, 255, 0.28);
+    color: var(--blue-600, #2456c8);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+  .logo-wrap {
+    margin-top: 44px;
+  }
+
+  .case-mini {
+    padding: 28px clamp(20px, 3vw, 30px);
+  }
+  .case-mini h3 {
+    font-size: 15.5px;
+    line-height: 1.7;
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+  .case-mini p {
+    font-size: 13.5px;
+    line-height: 2;
+    color: var(--ink-soft);
+  }
+
+  .section--navy .subsidy-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    padding: 28px clamp(20px, 3vw, 32px);
+  }
+  .section--navy .subsidy-card h3 {
+    color: #fff;
+    font-size: 16.5px;
+    margin-bottom: 10px;
+  }
+  .section--navy .subsidy-card p {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 14px;
+    line-height: 2;
+  }
+  .subsidy-note {
+    margin-top: 22px;
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .faq-single {
+    max-width: 780px;
+    margin-inline: auto;
+  }
+  .faq details {
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 4px 22px;
+  }
+  .faq details + details {
+    margin-top: 12px;
+  }
+  .faq summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14.5px;
+    padding: 16px 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq summary::before {
+    content: 'Q';
+    font-family: var(--font-en);
+    font-weight: 800;
+    color: var(--blue-500);
+    flex-shrink: 0;
+  }
+  .faq details p {
+    padding: 0 0 18px 26px;
+    font-size: 14px;
+    line-height: 2;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 640px) {
+    .lead-copy {
+      line-height: 2.05;
+    }
+  }
+</style>

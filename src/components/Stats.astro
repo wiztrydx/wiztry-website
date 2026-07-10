@@ -7,7 +7,10 @@ import { STATS } from '../data/site';
     STATS.map((s, i) => (
       <div class:list={['stat', 'reveal', `reveal-d${i + 1}`]}>
         <div class="value">
-          <span class="count" data-to={s.value} data-decimals={s.decimals ?? 0}>0</span>
+          {/* SEO: 初期HTMLに実数値を入れる（クローラーが「0」を拾わないように）。JSは表示時に0→実数値の演出だけ行う */}
+          <span class="count" data-to={s.value} data-decimals={s.decimals ?? 0}>
+            {s.decimals ? s.value.toFixed(s.decimals) : s.value}
+          </span>
           <span class="unit">{s.unit}</span>
         </div>
         <div class="label">{s.label}</div>

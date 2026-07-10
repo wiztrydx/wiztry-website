@@ -147,8 +147,9 @@ const NUMBERS = [
           NUMBERS.map((n, i) => (
             <div class:list={['stat', 'reveal', `reveal-d${i + 1}`]}>
               <div class="value">
+                {/* SEO: 初期HTMLに実数値（クローラー対策）。JSが表示時にカウントアップ演出に差し替える */}
                 <span class="count" data-to={n.value} data-decimals={n.decimals}>
-                  0
+                  {n.decimals ? n.value.toFixed(n.decimals) : n.value}
                 </span>
                 <span class="unit">{n.unit}</span>
               </div>

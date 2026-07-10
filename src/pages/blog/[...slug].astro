@@ -45,7 +45,13 @@ const articleLd = {
   image: new URL(post.data.thumb, 'https://wiztrydx.com').href,
   datePublished: post.data.pubDate.toISOString(),
   inLanguage: 'ja',
-  author: { '@type': 'Organization', name: 'WizTry株式会社', url: 'https://wiztrydx.com' },
+  author: {
+    '@type': 'Person',
+    name: '末松 光太郎',
+    jobTitle: '代表取締役',
+    worksFor: { '@type': 'Organization', name: 'WizTry株式会社' },
+    url: 'https://wiztrydx.com/about/',
+  },
   publisher: { '@type': 'Organization', name: 'WizTry株式会社', logo: { '@type': 'ImageObject', url: 'https://wiztrydx.com/logos/mark-512.png' } },
   mainEntityOfPage: new URL(`/blog/${post.id}/`, 'https://wiztrydx.com').href,
 };
@@ -97,6 +103,19 @@ const breadcrumbLd = {
       <article class="prose">
         <Content />
       </article>
+
+      <!-- 執筆者（E-E-A-T: 誰が書いたかを明示） -->
+      <aside class="post-author reveal">
+        <img src="/photos/ceo.webp" alt="末松光太郎の写真" width="72" height="72" loading="lazy" decoding="async" />
+        <div>
+          <span class="role">執筆者</span>
+          <strong>末松 光太郎</strong>
+          <p>
+            WizTry株式会社 代表取締役。熊本を拠点に生成AI研修とAIエージェント導入支援を手がけ、累計90社以上を支援。2025年度の研修・セミナーの登壇は年間300回以上。
+          </p>
+          <a href="/about/">プロフィールを見る →</a>
+        </div>
+      </aside>
 
       <div class="post-cta reveal">
         <p>関連するご相談はお気軽に</p>
@@ -166,6 +185,55 @@ const breadcrumbLd = {
     margin-top: 18px;
     max-width: 22em;
   }
+  /* 執筆者ブロック */
+  .post-author {
+    max-width: 720px;
+    margin: 56px auto 0;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding: 24px clamp(20px, 3vw, 28px);
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .post-author img {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+    flex-shrink: 0;
+  }
+  .post-author .role {
+    display: block;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--blue-500);
+    margin-bottom: 2px;
+  }
+  .post-author strong {
+    font-size: 16px;
+    letter-spacing: 0.04em;
+  }
+  .post-author p {
+    margin-top: 6px;
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--ink-soft);
+  }
+  .post-author a {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue-500);
+  }
+  .post-author a:hover {
+    text-decoration: underline;
+  }
+
   .post-cta {
     max-width: 720px;
     margin: 64px auto 0;

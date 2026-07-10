@@ -157,6 +157,7 @@ const jsonLd = {
             <h4>SERVICE</h4>
             <ul>
               <li><a href="/service/#training">生成AI導入研修</a></li>
+              <li><a href="/kumamoto-ai-training/">熊本の企業向け生成AI研修</a></li>
               <li><a href="/service/#agent">AIエージェント導入支援</a></li>
               <li><a href="/service/#subsidy">補助金・助成金の活用</a></li>
               <li><a href="/works/">導入実績</a></li>
@@ -241,11 +242,14 @@ const jsonLd = {
         document.querySelectorAll('.reveal:not(.is-in)').forEach((el) => io.observe(el));
 
         // 数字カウントアップ（.count[data-to][data-decimals]）
+        // HTMLには最初から実数値が入っている（SEO対策）。ここでは演出として0→実数値に数え上げるだけ。
+        // モーション低減設定時は実数値のまま何もしない。
         const cio = new IntersectionObserver(
           (entries) => {
             entries.forEach((e) => {
               if (!e.isIntersecting) return;
               cio.unobserve(e.target);
+              if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
               const el = e.target as HTMLElement;
               const to = parseFloat(el.dataset.to || '0');
               const dec = parseInt(el.dataset.decimals || '0');
@@ -260,7 +264,9 @@ const jsonLd = {
               requestAnimationFrame(tick);
             });
           },
-          { threshold: 0.5 }
+          // revealのフェードインと同時にカウントが始まるように閾値を合わせる
+          // （静的な実数値が一瞬見えてから0に戻る「ちらつき」を目立たなくする）
+          { threshold: 0.01, rootMargin: '0px 0px -60px 0px' }
         );
         document.querySelectorAll('.count').forEach((el) => cio.observe(el));
 
