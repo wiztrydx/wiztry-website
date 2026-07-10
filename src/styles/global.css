@@ -242,6 +242,14 @@ button { font: inherit; cursor: pointer; }
 .marquee-track .logo-cell { width: 216px; flex: none; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 @keyframes marquee { to { transform: translateX(-50%); } }
+/* タッチ端末: CSSアニメを止めてネイティブスクロール（指スワイプ＋JSでゆっくり自走） */
+.marquee--touch {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.marquee--touch::-webkit-scrollbar { display: none; }
+.marquee--touch .marquee-track { animation: none; }
 
 /* ---------- Flow / timeline ---------- */
 .flow { display: grid; gap: 0; }
@@ -549,6 +557,25 @@ html.is-loading { overflow: hidden; }
 
 /* マグネティックボタンの追従を滑らかに */
 .btn--primary { transition: transform 0.18s ease-out, box-shadow 0.25s ease, background 0.25s ease; will-change: transform; }
+
+/* タップ・マイクロインタラクション（タッチ端末） */
+@media (pointer: coarse) {
+  .btn:active { transform: scale(0.955); }
+  .card:active { transform: scale(0.985); }
+  .logo-cell:active { transform: scale(0.96); }
+}
+/* タップの波紋 */
+.btn .tap-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  animation: tapRipple 0.55s ease-out forwards;
+}
+@keyframes tapRipple {
+  to { transform: translate(-50%, -50%) scale(2.6); opacity: 0; }
+}
 
 /* Scroll progress bar */
 .scroll-progress {

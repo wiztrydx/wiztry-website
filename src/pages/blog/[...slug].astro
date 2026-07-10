@@ -18,7 +18,8 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+const toc = headings.filter((h) => h.depth === 2);
 
 const fmt = (d: Date) =>
   `${d.getUTCFullYear()}.${String(d.getUTCMonth() + 1).padStart(2, '0')}.${String(d.getUTCDate()).padStart(2, '0')}`;
@@ -58,6 +59,20 @@ const articleLd = {
 
   <section class="section">
     <div class="container">
+      {
+        toc.length > 1 && (
+          <details class="post-toc" id="postToc">
+            <summary>目次</summary>
+            <ol>
+              {toc.map((h) => (
+                <li>
+                  <a href={`#${h.slug}`}>{h.text}</a>
+                </li>
+              ))}
+            </ol>
+          </details>
+        )
+      }
       <article class="prose">
         <Content />
       </article>
@@ -114,4 +129,75 @@ const articleLd = {
     color: var(--ink-soft);
     margin-bottom: 18px;
   }
+
+  /* 目次 */
+  .post-toc {
+    max-width: 720px;
+    margin: 0 auto 40px;
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 6px 24px;
+  }
+  .post-toc summary {
+    cursor: pointer;
+    font-weight: 700;
+    padding: 14px 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+  }
+  .post-toc summary::-webkit-details-marker {
+    display: none;
+  }
+  .post-toc summary::before {
+    content: '☰';
+    color: var(--blue-500);
+    font-size: 14px;
+  }
+  .post-toc summary::after {
+    content: '＋';
+    margin-left: auto;
+    color: var(--muted);
+    transition: transform 0.25s ease;
+  }
+  .post-toc[open] summary::after {
+    transform: rotate(45deg);
+  }
+  .post-toc ol {
+    padding: 2px 0 16px 10px;
+    display: grid;
+    gap: 8px;
+    counter-reset: toc;
+  }
+  .post-toc li {
+    counter-increment: toc;
+    font-size: 14.5px;
+  }
+  .post-toc li::before {
+    content: counter(toc, decimal-leading-zero);
+    font-family: var(--font-en);
+    font-weight: 700;
+    color: var(--blue-500);
+    margin-right: 10px;
+    font-size: 12px;
+  }
+  .post-toc a:hover {
+    color: var(--blue-500);
+  }
+  .prose :global(h2) {
+    scroll-margin-top: 90px;
+  }
 </style>
+
+<script>
+  // PCでは目次を開いた状態に
+  function openTocOnDesktop() {
+    const toc = document.getElementById('postToc') as HTMLDetailsElement | null;
+    if (toc && window.matchMedia('(min-width: 769px)').matches) toc.open = true;
+  }
+  openTocOnDesktop();
+  document.addEventListener('astro:page-load', openTocOnDesktop);
+</script>

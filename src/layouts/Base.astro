@@ -311,6 +311,27 @@ const jsonLd = {
       })();
 
 
+      // タップ波紋（タッチ端末の全ボタン共通）
+      if (window.matchMedia('(pointer: coarse)').matches) {
+        document.addEventListener(
+          'pointerdown',
+          (e) => {
+            const btn = (e.target as HTMLElement).closest('.btn');
+            if (!btn) return;
+            const r = btn.getBoundingClientRect();
+            const rip = document.createElement('span');
+            rip.className = 'tap-ripple';
+            const size = Math.max(r.width, r.height);
+            rip.style.width = rip.style.height = `${size}px`;
+            rip.style.left = `${e.clientX - r.left}px`;
+            rip.style.top = `${e.clientY - r.top}px`;
+            btn.appendChild(rip);
+            setTimeout(() => rip.remove(), 600);
+          },
+          { passive: true }
+        );
+      }
+
       // マグネティックボタン（primary系のみ・ポインタ精細時）
       if (window.matchMedia('(pointer: fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         const magnetize = () => {

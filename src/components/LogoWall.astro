@@ -12,6 +12,40 @@ const rowA = CLIENTS.slice(0, half);
 const rowB = CLIENTS.slice(half);
 ---
 
+<script>
+  // タッチ端末: マーキーを指でスワイプできるネイティブスクロールに切替え、
+  // 触っていない間はゆっくり自動で流す
+  function initTouchMarquee() {
+    if (!window.matchMedia('(pointer: coarse)').matches) return;
+    document.querySelectorAll<HTMLElement>('.marquee:not([data-touch])').forEach((mq) => {
+      mq.dataset.touch = '1';
+      mq.classList.add('marquee--touch');
+      const track = mq.querySelector<HTMLElement>('.marquee-track');
+      if (!track) return;
+      let paused = false;
+      let resumeTimer: ReturnType<typeof setTimeout>;
+      const pause = () => {
+        paused = true;
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(() => (paused = false), 2000);
+      };
+      mq.addEventListener('touchstart', pause, { passive: true });
+      mq.addEventListener('scroll', pause, { passive: true });
+      const drift = () => {
+        if (!paused) {
+          mq.scrollLeft += 0.5;
+          const half = track.scrollWidth / 2;
+          if (mq.scrollLeft >= half) mq.scrollLeft -= half;
+        }
+        requestAnimationFrame(drift);
+      };
+      requestAnimationFrame(drift);
+    });
+  }
+  initTouchMarquee();
+  document.addEventListener('astro:page-load', initTouchMarquee);
+</script>
+
 {
   mode === 'grid' ? (
     <ul class="logo-grid">
