@@ -62,7 +62,7 @@ const breadcrumbLd = {
 };
 ---
 
-<Base title={post.data.title} description={post.data.description} onDark={true} ogImage={post.data.thumb} ogType="article">
+<Base title={post.data.title} description={post.data.description} onDark={true} ogImage={post.data.thumb} ogImageHeight={675} ogType="article">
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(articleLd)} />
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbLd)} />
   <section class="page-hero post-hero" style={heroStyle}>

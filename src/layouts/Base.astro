@@ -9,6 +9,8 @@ interface Props {
   /** ヘッダー背景が濃色ヒーローに重なるページは true（トップ・下層ヒーロー） */
   onDark?: boolean;
   ogImage?: string;
+  /** og:image の実寸の高さ（幅は1200固定。記事サムネは675） */
+  ogImageHeight?: number;
   /** 記事ページは 'article' */
   ogType?: string;
   /** サンクスページ等、検索結果に出したくないページは true */
@@ -20,6 +22,7 @@ const {
   description = SITE.description,
   onDark = true,
   ogImage = '/og-cover.jpg',
+  ogImageHeight = 630,
   ogType = 'website',
   noindex = false,
 } = Astro.props;
@@ -73,7 +76,7 @@ const jsonLd = {
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(ogImage, SITE.domain).href} />
     <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:height" content={String(ogImageHeight)} />
     <meta property="og:image:alt" content={pageTitle} />
     <meta property="og:site_name" content={SITE.name} />
     <meta name="twitter:card" content="summary_large_image" />
