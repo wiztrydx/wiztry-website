@@ -239,22 +239,28 @@ const NUMBERS = [
     if (!slot || slot.querySelector('video')) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const conn = (navigator as any).connection;
-    if (conn && (conn.saveData || /2g|3g/.test(conn.effectiveType || ''))) return;
+    if (conn && (conn.saveData || /2g/.test(conn.effectiveType || ''))) return;
     const sp = window.matchMedia('(max-width: 768px)').matches;
     const src = sp ? '/videos/hero-sp.mp4' : '/videos/hero-pc.mp4';
     fetch(src, { method: 'HEAD' })
       .then((r) => {
         if (!r.ok) return;
         const v = document.createElement('video');
+        // 自動再生の条件はプロパティではなく「属性」で判定するブラウザがあるため両方設定
+        v.setAttribute('muted', '');
+        v.setAttribute('autoplay', '');
+        v.setAttribute('playsinline', '');
+        v.setAttribute('loop', '');
         v.muted = true;
         v.loop = true;
-        v.playsInline = true;
-        v.autoplay = true;
         v.preload = 'auto';
         v.src = src;
         v.addEventListener('playing', () => v.classList.add('is-playing'), { once: true });
         slot.appendChild(v);
-        v.play().catch(() => {});
+        const tryPlay = () => v.play().catch(() => {});
+        tryPlay();
+        v.addEventListener('canplaythrough', tryPlay, { once: true });
+        setTimeout(() => { if (v.paused) tryPlay(); }, 1200);
       })
       .catch(() => {});
   }
