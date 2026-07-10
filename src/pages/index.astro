@@ -297,31 +297,28 @@ const NUMBERS = [
   armHeroIntro();
   document.addEventListener('astro:page-load', armHeroIntro);
 
-  // モバイルのスクロール・ストーリー: NUMBERSの4枚を進行度に応じて順に点灯
-  function initNumbersStory() {
+  // モバイル: NUMBERSが画面に入ったら数字カードを順にカスケード点灯（1回きり）
+  function initNumbersCascade() {
     if (!window.matchMedia('(max-width: 768px)').matches) return;
     const sec = document.querySelector<HTMLElement>('.numbers-sec');
-    if (!sec || sec.dataset.story) return;
-    sec.dataset.story = '1';
+    if (!sec || sec.dataset.cascade) return;
+    sec.dataset.cascade = '1';
     const stats = [...sec.querySelectorAll('.stat')];
-    const update = () => {
-      const rect = sec.getBoundingClientRect();
-      const total = sec.offsetHeight - window.innerHeight;
-      const progress = Math.min(Math.max(-rect.top / Math.max(total, 1), 0), 1);
-      const litCount = Math.min(Math.floor(progress * (stats.length + 0.6)) + 1, stats.length);
-      stats.forEach((s, i) => s.classList.toggle('lit', i < litCount));
+    let fired = false;
+    const check = () => {
+      if (fired) return;
+      const top = sec.getBoundingClientRect().top;
+      if (top < window.innerHeight * 0.72) {
+        fired = true;
+        window.removeEventListener('scroll', check);
+        stats.forEach((s, i) => setTimeout(() => s.classList.add('lit'), i * 240));
+      }
     };
-    // 三重駆動（即時＋scrollイベント＋rAF）: どの実行環境でも確実に更新する
-    update();
-    window.addEventListener('scroll', update, { passive: true });
-    const loop = () => {
-      update();
-      requestAnimationFrame(loop);
-    };
-    requestAnimationFrame(loop);
+    check();
+    window.addEventListener('scroll', check, { passive: true });
   }
-  initNumbersStory();
-  document.addEventListener('astro:page-load', initNumbersStory);
+  initNumbersCascade();
+  document.addEventListener('astro:page-load', initNumbersCascade);
 </script>
 
 <style>
@@ -772,20 +769,12 @@ const NUMBERS = [
       url('/gen/neural-grid.webp') center / cover no-repeat, var(--bg-navy-grad);
     overflow: hidden;
   }
-  /* モバイル: スクロール・ストーリー（画面に固定され、数字が順に点灯） */
+  /* モバイル: 画面に入ると数字カードが順にカスケード点灯 */
   @media (max-width: 768px) {
-    .numbers-sec {
-      min-height: 240vh;
-    }
-    .numbers-sec .container {
-      position: sticky;
-      top: calc(var(--header-h) + 8px);
-      padding-bottom: 40px;
-    }
     .numbers-sec .stat {
-      opacity: 0.15;
-      transform: translateY(16px) scale(0.97);
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      opacity: 0.12;
+      transform: translateY(18px) scale(0.97);
+      transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .numbers-sec .stat.lit {
       opacity: 1;

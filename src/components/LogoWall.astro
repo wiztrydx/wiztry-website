@@ -22,17 +22,16 @@ const rowB = CLIENTS.slice(half);
       mq.classList.add('marquee--touch');
       const track = mq.querySelector<HTMLElement>('.marquee-track');
       if (!track) return;
-      let paused = false;
-      let resumeTimer: ReturnType<typeof setTimeout>;
-      const pause = () => {
-        paused = true;
-        clearTimeout(resumeTimer);
-        resumeTimer = setTimeout(() => (paused = false), 2000);
-      };
-      mq.addEventListener('touchstart', pause, { passive: true });
-      mq.addEventListener('scroll', pause, { passive: true });
+      // 注意: 'scroll'イベントで一時停止すると、自前のscrollLeft書き込みが発火する
+      // scrollイベントを自分で拾って永久停止する（過去に自動スクロールが壊れた原因）。
+      // 停止条件は「指が触れている間＋離してから1.5秒」だけにする
+      let touching = false;
+      let cooldown = 0;
+      mq.addEventListener('touchstart', () => { touching = true; }, { passive: true });
+      mq.addEventListener('touchend', () => { touching = false; cooldown = Date.now() + 1500; }, { passive: true });
+      mq.addEventListener('touchcancel', () => { touching = false; cooldown = Date.now() + 1500; }, { passive: true });
       const drift = () => {
-        if (!paused) {
+        if (!touching && Date.now() > cooldown) {
           mq.scrollLeft += 0.5;
           const half = track.scrollWidth / 2;
           if (mq.scrollLeft >= half) mq.scrollLeft -= half;
