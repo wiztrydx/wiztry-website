@@ -23,8 +23,10 @@ const NUMBERS = [
 <Base onDark={true}>
   <!-- 1-1 Hero -->
   <section class="hero">
+    <div class="hero-beams" aria-hidden="true"><i></i><i></i></div>
     <div class="hero-lights" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-    <ParticleField density={9} opacity={0.5} />
+    <div class="hero-streaks" aria-hidden="true"><i></i><i></i><i></i></div>
+    <ParticleField density={13} opacity={0.6} />
     <div class="container hero-inner">
       <div class="hero-copy reveal">
         <span class="hero-label">KUMAMOTO × GENERATIVE AI</span>
@@ -256,10 +258,87 @@ const NUMBERS = [
     background: linear-gradient(105deg, rgba(5, 13, 30, 0.9) 0%, rgba(10, 22, 48, 0.55) 45%, rgba(10, 22, 48, 0.12) 100%);
   }
   @keyframes heroZoom {
-    from { transform: scale(1) translateY(0); }
-    to { transform: scale(1.1) translateY(-2%); }
+    from { transform: scale(1) translate(0, 0); }
+    to { transform: scale(1.14) translate(-1.2%, -2.2%); }
   }
   .hero :global(.particle-canvas) { z-index: 2; }
+
+  /* 回転する光のビーム（コニックグラデーション2枚が逆回転） */
+  .hero-beams {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .hero-beams i {
+    position: absolute;
+    width: 160vmax;
+    height: 160vmax;
+    top: 50%;
+    left: 68%;
+    margin: -80vmax 0 0 -80vmax;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.5;
+  }
+  .hero-beams i:nth-child(1) {
+    background: conic-gradient(
+      transparent 0deg, transparent 40deg,
+      rgba(47, 107, 255, 0.28) 60deg, transparent 85deg,
+      transparent 180deg, rgba(55, 200, 240, 0.2) 205deg, transparent 230deg, transparent 360deg
+    );
+    animation: beamSpin 34s linear infinite;
+  }
+  .hero-beams i:nth-child(2) {
+    background: conic-gradient(
+      transparent 0deg, rgba(55, 200, 240, 0.16) 25deg, transparent 55deg,
+      transparent 200deg, rgba(90, 140, 255, 0.18) 230deg, transparent 260deg, transparent 360deg
+    );
+    animation: beamSpin 46s linear infinite reverse;
+  }
+  @keyframes beamSpin { to { transform: rotate(360deg); } }
+
+  /* 流れる光のストリーク（データ彗星） */
+  .hero-streaks {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .hero-streaks i {
+    position: absolute;
+    width: 220px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, rgba(150, 210, 255, 0.9), #fff);
+    filter: drop-shadow(0 0 6px rgba(55, 200, 240, 0.9));
+    transform: rotate(-24deg);
+    opacity: 0;
+    animation: streak 7s ease-in infinite;
+  }
+  .hero-streaks i:nth-child(1) { top: 18%; left: 58%; animation-delay: 1.2s; }
+  .hero-streaks i:nth-child(2) { top: 42%; left: 74%; animation-delay: 3.8s; animation-duration: 8.5s; width: 160px; }
+  .hero-streaks i:nth-child(3) { top: 8%; left: 80%; animation-delay: 6.2s; animation-duration: 9.5s; width: 130px; }
+  @keyframes streak {
+    0%, 88% { opacity: 0; transform: rotate(-24deg) translateX(0); }
+    90% { opacity: 1; }
+    100% { opacity: 0; transform: rotate(-24deg) translateX(-46vw); }
+  }
+
+  /* スクロールでヒーローの文字がゆっくり退場（対応ブラウザのみ） */
+  @supports (animation-timeline: view()) {
+    .hero-copy {
+      animation: heroExit linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 70%;
+    }
+  }
+  @keyframes heroExit {
+    to { opacity: 0; transform: translateY(-46px); }
+  }
 
   /* 漂う光（screen合成でヒーローの光源が呼吸するように動く） */
   .hero-lights {
@@ -310,7 +389,7 @@ const NUMBERS = [
     to { transform: translate(-60px, -50px) scale(1.25); opacity: 0.45; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .hero::before, .hero-lights i { animation: none; }
+    .hero::before, .hero-lights i, .hero-beams i, .hero-streaks i, .hero-copy { animation: none; }
   }
   .hero-inner {
     flex: 1;

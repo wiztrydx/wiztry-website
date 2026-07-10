@@ -73,11 +73,19 @@ const jsonLd = {
   </head>
   <body>
     <div class="site-loader" id="siteLoader" aria-hidden="true">
+      <span class="curtain curtain--top"></span>
+      <span class="curtain curtain--bottom"></span>
       <div class="site-loader-inner">
-        <img src="/logos/wiztry-logo-white.png" alt="" width="168" height="40" />
+        <div class="site-loader-logo">
+          <img src="/logos/wiztry-logo-white.png" alt="" width="168" height="40" />
+          <i class="logo-shine"></i>
+        </div>
         <span class="site-loader-bar"><i></i></span>
+        <span class="site-loader-count" id="loaderCount">0</span>
       </div>
+      <div class="site-loader-stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
     </div>
+    <div class="page-veil" id="pageVeil" aria-hidden="true"></div>
     <div class="scroll-progress" aria-hidden="true"></div>
     <header class:list={['site-header', { 'on-dark': onDark }]} id="siteHeader">
       <div class="container inner">
@@ -242,7 +250,7 @@ const jsonLd = {
 
       document.addEventListener('astro:page-load', initPage);
 
-      // 初回ロードのブランドイントロ（セッション内1回だけ）
+      // 初回ロードのブランドイントロ（セッション内1回だけ）: %カウント→分割カーテン
       (() => {
         const loader = document.getElementById('siteLoader');
         if (!loader) return;
@@ -252,14 +260,43 @@ const jsonLd = {
         }
         sessionStorage.setItem('wt-intro', '1');
         document.documentElement.classList.add('is-loading');
+        const count = document.getElementById('loaderCount');
+        const DUR = 1350;
+        const t0 = performance.now();
+        let finished = false;
+        const tick = (t: number) => {
+          const p = Math.min((t - t0) / DUR, 1);
+          if (count) count.textContent = String(Math.round((1 - Math.pow(1 - p, 2.2)) * 100));
+          if (p < 1 && !finished) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
         const done = () => {
+          if (finished) return;
+          finished = true;
+          if (count) count.textContent = '100';
           loader.classList.add('is-done');
           document.documentElement.classList.remove('is-loading');
-          setTimeout(() => loader.remove(), 900);
+          setTimeout(() => loader.remove(), 1100);
         };
-        if (document.readyState === 'complete') setTimeout(done, 500);
-        else window.addEventListener('load', () => setTimeout(done, 350), { once: true });
-        setTimeout(done, 2600); // 保険
+        window.addEventListener('load', () => setTimeout(done, Math.max(0, DUR - (performance.now() - t0)) + 150), { once: true });
+        if (document.readyState === 'complete') setTimeout(done, DUR + 150);
+        setTimeout(done, 3000); // 保険
+      })();
+
+      // ページ遷移カーテン（ClientRouter連動）
+      (() => {
+        const veil = document.getElementById('pageVeil');
+        if (!veil || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        document.addEventListener('astro:before-preparation', () => {
+          veil.classList.remove('veil-out');
+          veil.classList.add('veil-in');
+        });
+        document.addEventListener('astro:page-load', () => {
+          if (!veil.classList.contains('veil-in')) return;
+          veil.classList.remove('veil-in');
+          veil.classList.add('veil-out');
+          setTimeout(() => veil.classList.remove('veil-out'), 700);
+        });
       })();
 
       // マグネティックボタン（primary系のみ・ポインタ精細時）

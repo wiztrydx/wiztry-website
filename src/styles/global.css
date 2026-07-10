@@ -465,39 +465,91 @@ button { font: inherit; cursor: pointer; }
 @keyframes pageIn { from { opacity: 0; } to { opacity: 1; } }
 main { animation: pageIn 0.5s ease both; }
 
-/* 初回ロードのブランドイントロ */
+/* 初回ロードのブランドイントロ（%カウント→分割カーテン） */
 html.is-loading { overflow: hidden; }
 .site-loader {
   position: fixed; inset: 0; z-index: 999;
-  background: var(--bg-navy-grad);
   display: flex; align-items: center; justify-content: center;
-  transition: opacity 0.55s ease 0.25s, visibility 0.55s ease 0.25s, transform 0.7s cubic-bezier(0.7, 0, 0.3, 1) 0.25s;
 }
-.site-loader-inner { display: flex; flex-direction: column; align-items: center; gap: 26px; }
-.site-loader img {
-  width: 168px; height: auto;
+.site-loader .curtain {
+  position: absolute; left: 0; right: 0; height: 50.5%;
+  background: var(--bg-navy-grad);
+  transition: transform 0.85s cubic-bezier(0.83, 0, 0.17, 1) 0.2s;
+}
+.site-loader .curtain--top { top: 0; }
+.site-loader .curtain--bottom { bottom: 0; }
+.site-loader-inner {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 24px;
+  transition: opacity 0.35s ease, transform 0.4s ease;
+}
+.site-loader-logo { position: relative; overflow: hidden; border-radius: 6px; }
+.site-loader-logo img {
+  width: 168px; height: auto; display: block;
   animation: loaderLogo 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+.site-loader-logo .logo-shine {
+  position: absolute; top: 0; bottom: 0; left: -80%; width: 55%;
+  transform: skewX(-22deg);
+  background: linear-gradient(90deg, transparent, rgba(55, 200, 240, 0.5), transparent);
+  animation: loaderShine 1.5s ease 0.5s infinite;
+}
 .site-loader-bar {
-  width: 168px; height: 2px; border-radius: 2px;
-  background: rgba(255, 255, 255, 0.16);
+  width: 200px; height: 2px; border-radius: 2px;
+  background: rgba(255, 255, 255, 0.14);
   overflow: hidden; display: block;
 }
 .site-loader-bar i {
   display: block; height: 100%; width: 100%;
   background: var(--accent-grad);
   transform-origin: left;
-  animation: loaderBar 1.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation: loaderBar 1.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+  box-shadow: 0 0 14px rgba(55, 200, 240, 0.8);
 }
-.site-loader.is-done { opacity: 0; visibility: hidden; transform: translateY(-3%); }
+.site-loader-count {
+  font-family: var(--font-en); font-weight: 800; font-size: 13px;
+  letter-spacing: 0.22em; color: rgba(255, 255, 255, 0.55);
+}
+.site-loader-count::after { content: "%"; margin-left: 1px; opacity: 0.7; }
+/* 星のきらめき */
+.site-loader-stars i {
+  position: absolute; width: 3px; height: 3px; border-radius: 50%;
+  background: rgba(140, 200, 255, 0.9); z-index: 1;
+  animation: starTwinkle 2.2s ease-in-out infinite;
+}
+.site-loader-stars i:nth-child(1) { top: 22%; left: 18%; animation-delay: 0s; }
+.site-loader-stars i:nth-child(2) { top: 30%; right: 22%; animation-delay: 0.4s; }
+.site-loader-stars i:nth-child(3) { bottom: 26%; left: 30%; animation-delay: 0.8s; }
+.site-loader-stars i:nth-child(4) { bottom: 34%; right: 16%; animation-delay: 1.2s; }
+.site-loader-stars i:nth-child(5) { top: 14%; left: 55%; animation-delay: 1.6s; }
+.site-loader-stars i:nth-child(6) { bottom: 15%; right: 44%; animation-delay: 2s; }
+/* 退場: 中身が消え、カーテンが上下へ開く */
+.site-loader.is-done { pointer-events: none; }
+.site-loader.is-done .site-loader-inner { opacity: 0; transform: scale(0.96); }
+.site-loader.is-done .site-loader-stars { display: none; }
+.site-loader.is-done .curtain--top { transform: translateY(-101%); }
+.site-loader.is-done .curtain--bottom { transform: translateY(101%); }
 @keyframes loaderLogo {
   from { opacity: 0; transform: translateY(18px) scale(0.96); filter: blur(6px); }
   to { opacity: 1; transform: none; filter: blur(0); }
 }
-@keyframes loaderBar {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+@keyframes loaderBar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes loaderShine { 0% { left: -80%; } 60%, 100% { left: 130%; } }
+@keyframes starTwinkle { 0%, 100% { opacity: 0.1; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.4); } }
+
+/* ページ遷移カーテン */
+.page-veil {
+  position: fixed; inset: 0; z-index: 900; pointer-events: none;
+  background: linear-gradient(120deg, var(--navy-900), var(--navy-700));
+  transform: translateX(-102%);
 }
+.page-veil.veil-in {
+  animation: veilIn 0.4s cubic-bezier(0.83, 0, 0.17, 1) forwards;
+  pointer-events: auto;
+}
+.page-veil.veil-out { animation: veilOut 0.55s cubic-bezier(0.83, 0, 0.17, 1) forwards; }
+@keyframes veilIn { from { transform: translateX(-102%); } to { transform: translateX(0); } }
+@keyframes veilOut { from { transform: translateX(0); } to { transform: translateX(102%); } }
 
 /* カスタムスクロールバー（webkit） */
 ::-webkit-scrollbar { width: 11px; }
@@ -614,6 +666,30 @@ html.is-loading { overflow: hidden; }
 .zoom-media { overflow: hidden; }
 .zoom-media img { transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
 .zoom-media:hover img { transform: scale(1.06); }
+
+/* スクロール時の画像ワイプ・リビール（reveal配下のzoom-mediaが左→右に現れる） */
+.reveal .zoom-media {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1s cubic-bezier(0.77, 0, 0.18, 1) 0.12s;
+}
+.reveal.is-in .zoom-media { clip-path: inset(0 0 0 0); }
+.reveal .zoom-media img {
+  transform: scale(1.18);
+  transition: transform 1.3s cubic-bezier(0.22, 1, 0.36, 1) 0.12s;
+}
+.reveal.is-in .zoom-media img { transform: scale(1); }
+.reveal.is-in .zoom-media:hover img {
+  transform: scale(1.06);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 見出しのアクセントバーが伸びて描画される */
+.sec-head.reveal .en::before {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s;
+}
+.sec-head.reveal.is-in .en::before { transform: scaleX(1); }
 
 /* Ticker line (英字が流れる装飾) */
 .ticker { overflow: hidden; white-space: nowrap; }

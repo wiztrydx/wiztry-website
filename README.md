@@ -21,6 +21,14 @@ npm run build    # 本番ビルド → dist/
 npm run preview  # ビルド結果の確認
 ```
 
+## 画像生成のルール（2026-07-10 代表指示）
+
+生成モデルの優先順位は **①GPT-Image-2 → ②Nano Banana 2（gemini-3.1-flash-image）→ ③Nano Banana Pro（gemini-3-pro-image）**。上位が失敗したときのみ下位へフォールバックする。実装は `tools/imagegen.py`（全生成スクリプトはこれを経由すること）。
+
+- APIキー: `~/.config/wiztry/image-gen.env`（OPENAI_API_KEY / GEMINI_API_KEY）
+- サムネ生成: `tools/gen_thumbs.py` ＋ `tools/thumbs_config.json`（mainの `|` は改行位置指定）
+- 文字入り生成は**必ず目視で誤字チェック**し、NGならそのslugだけ再生成する
+
 ## 素材
 
 - `public/logos/` — WizTryロゴ（黒/白抜き）、ファビコン用マーク
