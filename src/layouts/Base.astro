@@ -92,14 +92,14 @@ const jsonLd = {
         <>
           {/* Google Analytics 4 (本番ドメインのみ計測。SPA遷移のPVは拡張計測の履歴イベントで自動送信) */}
           <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-7WT2FFMNZQ" />
-          <script is:inline>{`
-            if (/(^|\\.)wiztrydx\\.com$/.test(location.hostname)) {
+          <script is:inline>
+            if (/(^|\.)wiztrydx\.com$/.test(location.hostname)) {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', 'G-7WT2FFMNZQ');
             }
-          `}</script>
+          </script>
         </>
       )
     }
