@@ -267,6 +267,28 @@ const NUMBERS = [
   initHeroVideo();
   document.addEventListener('astro:page-load', initHeroVideo);
 
+  // ヒーロー文字アニメの点火: ローダー表示中はその退場を待ってから開始
+  function armHeroIntro() {
+    const hero = document.querySelector('.hero');
+    if (!hero || hero.classList.contains('hero-in')) return;
+    const fire = () => requestAnimationFrame(() => setTimeout(() => hero.classList.add('hero-in'), 60));
+    const loader = document.getElementById('siteLoader');
+    if (!loader) {
+      fire();
+      return;
+    }
+    const mo = new MutationObserver(() => {
+      if (!document.getElementById('siteLoader')) {
+        mo.disconnect();
+        fire();
+      }
+    });
+    mo.observe(document.body, { childList: true });
+    setTimeout(() => { mo.disconnect(); fire(); }, 3500); // 保険
+  }
+  armHeroIntro();
+  document.addEventListener('astro:page-load', armHeroIntro);
+
   // モバイルのスクロール・ストーリー: NUMBERSの4枚を進行度に応じて順に点灯
   function initNumbersStory() {
     if (!window.matchMedia('(max-width: 768px)').matches) return;
@@ -339,6 +361,11 @@ const NUMBERS = [
     transition: opacity 1.2s ease;
   }
   .hero-video-slot :global(video.is-playing) { opacity: 1; }
+  /* スマホ: 縦長画面のcoverで左右が切れるため、動きのある右側の粒子が見えるよう右寄りを表示
+     （＝映像を左に寄せる） */
+  @media (max-width: 768px) {
+    .hero-video-slot :global(video) { object-position: 68% 50%; }
+  }
 
   /* 回転する光のビーム（コニックグラデーション2枚が逆回転） */
   .hero-beams {
@@ -479,17 +506,26 @@ const NUMBERS = [
     max-width: 720px;
     padding-block: clamp(44px, 8vw, 72px);
   }
-  /* 初回ロードの段階フェードイン */
+  /* 段階フェードイン: ページが実際に見えてから（.hero-in付与後に）開始する。
+     読み込み中にアニメが終わってしまう問題への対策 */
   .hero-label, .hero-title, .hero-sub, .hero-actions {
     opacity: 0;
     transform: translateY(26px);
+  }
+  .hero.hero-in .hero-label,
+  .hero.hero-in .hero-title,
+  .hero.hero-in .hero-sub,
+  .hero.hero-in .hero-actions {
     animation: heroRise 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  .hero-title { animation-delay: 0.15s; }
-  .hero-sub { animation-delay: 0.32s; }
-  .hero-actions { animation-delay: 0.5s; }
+  .hero.hero-in .hero-title { animation-delay: 0.15s; }
+  .hero.hero-in .hero-sub { animation-delay: 0.32s; }
+  .hero.hero-in .hero-actions { animation-delay: 0.5s; }
   @keyframes heroRise {
     to { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-label, .hero-title, .hero-sub, .hero-actions { opacity: 1; transform: none; }
   }
   .hero-label {
     display: inline-flex;

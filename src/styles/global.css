@@ -409,9 +409,25 @@ button { font: inherit; cursor: pointer; }
   position: fixed; inset: 0 0 auto 0; z-index: 100;
   height: var(--header-h);
   display: flex; align-items: center;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease;
 }
-.site-header.is-solid { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(14px); box-shadow: 0 1px 0 rgba(10, 22, 48, 0.07); }
+/* 注意: backdrop-filterを.site-header自身に付けると、iOS Safariでは
+   内部のposition:fixed(モバイルメニュー)がヘッダー枠に閉じ込められて崩れる。
+   ぼかしは疑似要素に分離すること */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+.site-header.is-solid::before { opacity: 1; }
+.site-header.is-solid { box-shadow: 0 1px 0 rgba(10, 22, 48, 0.07); }
 .site-header .inner { display: flex; align-items: center; justify-content: space-between; width: 100%; }
 .site-header .brand img { height: 30px; width: auto; }
 .site-header .brand .logo-white { display: none; }
@@ -430,12 +446,33 @@ button { font: inherit; cursor: pointer; }
 
 @media (max-width: 900px) {
   .gnav {
-    position: fixed; inset: 0; background: var(--bg-navy-grad);
-    flex-direction: column; justify-content: center; gap: 30px;
-    opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    position: fixed;
+    inset: 0;
+    height: 100dvh;
+    background: var(--bg-navy-grad);
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+    z-index: 105;
   }
-  .gnav.open { opacity: 1; pointer-events: auto; }
+  .gnav.open { opacity: 1; visibility: visible; pointer-events: auto; }
   .gnav a:not(.btn) { color: #fff !important; font-size: 19px; }
+  /* メニュー項目が下からふわっと順に出る */
+  .gnav > a {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .gnav.open > a { opacity: 1; transform: none; }
+  .gnav.open > a:nth-child(1) { transition-delay: 0.08s; }
+  .gnav.open > a:nth-child(2) { transition-delay: 0.14s; }
+  .gnav.open > a:nth-child(3) { transition-delay: 0.2s; }
+  .gnav.open > a:nth-child(4) { transition-delay: 0.26s; }
+  .gnav.open > a:nth-child(5) { transition-delay: 0.32s; }
   .nav-toggle {
     display: block; z-index: 110; background: none; border: none; width: 44px; height: 44px; position: relative;
   }
