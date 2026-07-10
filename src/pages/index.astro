@@ -41,8 +41,9 @@ const NUMBERS = [
         </div>
       </div>
       <div class="scroll-indicator" aria-hidden="true">
-        <span>SCROLL</span>
-        <i></i>
+        <span class="si-text">SCROLL</span>
+        <span class="si-track"><i class="si-comet"></i></span>
+        <span class="si-ring"></span>
       </div>
     </div>
     <div class="hero-stats reveal reveal-d2">
@@ -467,26 +468,82 @@ const NUMBERS = [
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    color: rgba(255, 255, 255, 0.6);
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.65);
   }
-  .scroll-indicator span {
+  .si-text {
     writing-mode: vertical-rl;
     font-family: var(--font-en);
     font-weight: 600;
     font-size: 11px;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.34em;
+    animation: siGlow 2.6s ease-in-out infinite;
   }
-  .scroll-indicator i {
+  /* 光の彗星が線路を流れ落ちる */
+  .si-track {
+    position: relative;
     display: block;
-    width: 1px;
-    height: 44px;
-    background: rgba(255, 255, 255, 0.4);
+    width: 2px;
+    height: 64px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.14);
+    overflow: hidden;
+  }
+  .si-comet {
+    position: absolute;
+    left: 0;
+    top: -40%;
+    width: 100%;
+    height: 40%;
+    border-radius: 2px;
+    background: linear-gradient(180deg, transparent, var(--cyan-400) 60%, #fff);
+    box-shadow: 0 0 10px rgba(55, 200, 240, 0.9);
+    animation: siComet 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  /* 着地点で波紋が広がる */
+  .si-ring {
+    position: relative;
+    display: block;
+    width: 7px;
+    height: 7px;
+  }
+  .si-ring::before,
+  .si-ring::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+  }
+  .si-ring::before {
+    background: var(--cyan-400);
+    box-shadow: 0 0 8px rgba(55, 200, 240, 0.9);
+    animation: siGlow 2.6s ease-in-out infinite;
+  }
+  .si-ring::after {
+    border: 1.5px solid rgba(55, 200, 240, 0.8);
+    animation: siRipple 2.6s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+  }
+  @keyframes siComet {
+    0% { top: -45%; opacity: 0; }
+    12% { opacity: 1; }
+    78% { top: 105%; opacity: 1; }
+    100% { top: 105%; opacity: 0; }
+  }
+  @keyframes siRipple {
+    0%, 55% { transform: scale(1); opacity: 0.9; }
+    100% { transform: scale(3.4); opacity: 0; }
+  }
+  @keyframes siGlow {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 1; }
   }
   @media (max-width: 760px) {
     .scroll-indicator {
       display: none;
     }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .si-comet, .si-ring::after, .si-ring::before, .si-text { animation: none; }
   }
 
   /* ---------- Service pillar cards ---------- */
