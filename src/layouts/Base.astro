@@ -254,36 +254,53 @@ const jsonLd = {
       document.addEventListener('astro:page-load', initPage);
 
       // 初回ロードのブランドイントロ（セッション内1回だけ）: %カウント→分割カーテン
+      // 重要: ClientRouterのページ遷移でbodyが差し替わるとローダーDOMが復活するため、
+      // 遷移後は必ず除去する（過去に「0%のまま固まる」バグの原因になった）
+      document.addEventListener('astro:after-swap', () => {
+        document.getElementById('siteLoader')?.remove();
+        document.documentElement.classList.remove('is-loading');
+      });
       (() => {
         const loader = document.getElementById('siteLoader');
         if (!loader) return;
-        if (sessionStorage.getItem('wt-intro') || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        let seen = true;
+        try {
+          seen = !!sessionStorage.getItem('wt-intro');
+          if (!seen) sessionStorage.setItem('wt-intro', '1');
+        } catch (e) {
+          seen = true; // プライベートモード等では演出スキップ
+        }
+        if (seen || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
           loader.remove();
           return;
         }
-        sessionStorage.setItem('wt-intro', '1');
-        document.documentElement.classList.add('is-loading');
-        const count = document.getElementById('loaderCount');
-        const DUR = 1350;
-        const t0 = performance.now();
-        let finished = false;
-        const tick = (t: number) => {
-          const p = Math.min((t - t0) / DUR, 1);
-          if (count) count.textContent = String(Math.round((1 - Math.pow(1 - p, 2.2)) * 100));
-          if (p < 1 && !finished) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-        const done = () => {
-          if (finished) return;
-          finished = true;
-          if (count) count.textContent = '100';
-          loader.classList.add('is-done');
+        try {
+          document.documentElement.classList.add('is-loading');
+          const count = document.getElementById('loaderCount');
+          const DUR = 1200;
+          const t0 = performance.now();
+          let finished = false;
+          const tick = (t: number) => {
+            const p = Math.min((t - t0) / DUR, 1);
+            if (count) count.textContent = String(Math.round((1 - Math.pow(1 - p, 2.2)) * 100));
+            if (p < 1 && !finished) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+          const done = () => {
+            if (finished) return;
+            finished = true;
+            if (count) count.textContent = '100';
+            loader.classList.add('is-done');
+            document.documentElement.classList.remove('is-loading');
+            setTimeout(() => loader.remove(), 1100);
+          };
+          window.addEventListener('load', () => setTimeout(done, Math.max(0, DUR - (performance.now() - t0)) + 100), { once: true });
+          if (document.readyState === 'complete') setTimeout(done, DUR + 100);
+          setTimeout(done, 2500); // 保険: 何があっても2.5秒で開く
+        } catch (e) {
+          loader.remove();
           document.documentElement.classList.remove('is-loading');
-          setTimeout(() => loader.remove(), 1100);
-        };
-        window.addEventListener('load', () => setTimeout(done, Math.max(0, DUR - (performance.now() - t0)) + 150), { once: true });
-        if (document.readyState === 'complete') setTimeout(done, DUR + 150);
-        setTimeout(done, 3000); // 保険
+        }
       })();
 
       // ページ遷移カーテン（ClientRouter連動）

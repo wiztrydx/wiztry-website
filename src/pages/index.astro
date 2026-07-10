@@ -542,6 +542,18 @@ const NUMBERS = [
       display: none;
     }
   }
+  /* モバイル: ブラー多用の光レイヤーは負荷が高いため停止（背景画像＋グラデのみに） */
+  @media (max-width: 768px) {
+    .hero-lights,
+    .hero-beams,
+    .hero-streaks {
+      display: none;
+    }
+    .hero::before {
+      animation: none;
+      inset: 0;
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
     .si-comet, .si-ring::after, .si-ring::before, .si-text { animation: none; }
   }
