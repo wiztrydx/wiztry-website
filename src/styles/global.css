@@ -537,19 +537,6 @@ html.is-loading { overflow: hidden; }
 @keyframes loaderShine { 0% { left: -80%; } 60%, 100% { left: 130%; } }
 @keyframes starTwinkle { 0%, 100% { opacity: 0.1; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.4); } }
 
-/* ページ遷移カーテン */
-.page-veil {
-  position: fixed; inset: 0; z-index: 900; pointer-events: none;
-  background: linear-gradient(120deg, var(--navy-900), var(--navy-700));
-  transform: translateX(-102%);
-}
-.page-veil.veil-in {
-  animation: veilIn 0.4s cubic-bezier(0.83, 0, 0.17, 1) forwards;
-  pointer-events: auto;
-}
-.page-veil.veil-out { animation: veilOut 0.55s cubic-bezier(0.83, 0, 0.17, 1) forwards; }
-@keyframes veilIn { from { transform: translateX(-102%); } to { transform: translateX(0); } }
-@keyframes veilOut { from { transform: translateX(0); } to { transform: translateX(102%); } }
 
 /* カスタムスクロールバー（webkit） */
 ::-webkit-scrollbar { width: 11px; }

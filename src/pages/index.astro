@@ -542,16 +542,24 @@ const NUMBERS = [
       display: none;
     }
   }
-  /* モバイル: ブラー多用の光レイヤーは負荷が高いため停止（背景画像＋グラデのみに） */
+  /* モバイル軽量モード: blurフィルタ（GPU高負荷）だけを外し、
+     radial-gradient自体の柔らかさで発光を表現。動き（transform/opacity）は全部残す */
   @media (max-width: 768px) {
-    .hero-lights,
-    .hero-beams,
-    .hero-streaks {
+    .hero-lights i {
+      filter: none;
+      width: 300px;
+      height: 300px;
+    }
+    .hero-lights i:nth-child(3),
+    .hero-lights i:nth-child(4) {
       display: none;
     }
-    .hero::before {
-      animation: none;
-      inset: 0;
+    .hero-beams i {
+      filter: none;
+      opacity: 0.3;
+    }
+    .hero-beams i:nth-child(2) {
+      display: none;
     }
   }
   @media (prefers-reduced-motion: reduce) {

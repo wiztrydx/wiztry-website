@@ -88,7 +88,6 @@ const jsonLd = {
       </div>
       <div class="site-loader-stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
     </div>
-    <div class="page-veil" id="pageVeil" aria-hidden="true"></div>
     <div class="scroll-progress" aria-hidden="true"></div>
     <header class:list={['site-header', { 'on-dark': onDark }]} id="siteHeader">
       <div class="container inner">
@@ -153,21 +152,27 @@ const jsonLd = {
     </footer>
 
     <script>
-      function initPage() {
-        // ヘッダー: スクロールで白背景に
-        const header = document.getElementById('siteHeader');
-        const onScroll = () => header?.classList.toggle('is-solid', window.scrollY > 40);
-        onScroll();
-
-        // スクロールプログレスバー
-        const bar = document.querySelector<HTMLElement>('.scroll-progress');
-        const onProgress = () => {
+      // ページ遷移でbodyが差し替わるため、window直付けのリスナーは1回だけ登録し、
+      // 参照する要素はナビゲーションごとに更新する（多重登録によるカクつき防止）
+      let headerEl: HTMLElement | null = null;
+      let barEl: HTMLElement | null = null;
+      const onScrollGlobal = () => {
+        headerEl?.classList.toggle('is-solid', window.scrollY > 40);
+        if (barEl) {
           const max = document.documentElement.scrollHeight - window.innerHeight;
-          if (bar) bar.style.width = `${max > 0 ? (window.scrollY / max) * 100 : 0}%`;
-        };
-        onProgress();
-        window.addEventListener('scroll', onScroll, { passive: true });
-        window.addEventListener('scroll', onProgress, { passive: true });
+          barEl.style.width = `${max > 0 ? (window.scrollY / max) * 100 : 0}%`;
+        }
+      };
+      let windowBound = false;
+
+      function initPage() {
+        headerEl = document.getElementById('siteHeader');
+        barEl = document.querySelector<HTMLElement>('.scroll-progress');
+        onScrollGlobal();
+        if (!windowBound) {
+          windowBound = true;
+          window.addEventListener('scroll', onScrollGlobal, { passive: true });
+        }
 
         // モバイルナビ
         const toggle = document.getElementById('navToggle');
@@ -187,6 +192,8 @@ const jsonLd = {
         );
 
         // Reveal on scroll
+        // 注意: thresholdに比率を使うと「画面より縦に長い要素」が永遠に発火しない
+        // （比率の最大値=viewport/要素高がthreshold未満になるため）。0.01+rootMarginで判定する
         const io = new IntersectionObserver(
           (entries) => {
             entries.forEach((e) => {
@@ -196,7 +203,7 @@ const jsonLd = {
               }
             });
           },
-          { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+          { threshold: 0.01, rootMargin: '0px 0px -60px 0px' }
         );
         document.querySelectorAll('.reveal:not(.is-in)').forEach((el) => io.observe(el));
 
@@ -303,21 +310,6 @@ const jsonLd = {
         }
       })();
 
-      // ページ遷移カーテン（ClientRouter連動）
-      (() => {
-        const veil = document.getElementById('pageVeil');
-        if (!veil || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        document.addEventListener('astro:before-preparation', () => {
-          veil.classList.remove('veil-out');
-          veil.classList.add('veil-in');
-        });
-        document.addEventListener('astro:page-load', () => {
-          if (!veil.classList.contains('veil-in')) return;
-          veil.classList.remove('veil-in');
-          veil.classList.add('veil-out');
-          setTimeout(() => veil.classList.remove('veil-out'), 700);
-        });
-      })();
 
       // マグネティックボタン（primary系のみ・ポインタ精細時）
       if (window.matchMedia('(pointer: fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

@@ -19,10 +19,10 @@ const { density = 10, opacity = 0.55 } = Astro.props;
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      // モバイルではCPU/バッテリー負荷を避けて描画しない
-      if (window.matchMedia('(max-width: 768px)').matches) return;
+      // モバイルは軽量モード: 粒子を減らし、O(n²)の線描画を省略、解像度も抑える
+      const lite = window.matchMedia('(max-width: 768px)').matches;
 
-      let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, lite ? 1.5 : 2);
       type P = { x: number; y: number; vx: number; vy: number; r: number };
       let pts: P[] = [];
       const mouse = { x: -9999, y: -9999 };
@@ -32,7 +32,7 @@ const { density = 10, opacity = 0.55 } = Astro.props;
         w = rect.width; h = rect.height;
         canvas.width = w * dpr; canvas.height = h * dpr;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        const target = Math.round((w / 1000) * parseFloat(canvas.dataset.density || '10') * 10);
+        const target = Math.round((w / 1000) * parseFloat(canvas.dataset.density || '10') * (lite ? 5 : 10));
         pts = Array.from({ length: target }, () => ({
           x: Math.random() * w, y: Math.random() * h,
           vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
@@ -64,15 +64,17 @@ const { density = 10, opacity = 0.55 } = Astro.props;
             p.y += (dy / Math.sqrt(d2)) * 0.25;
           }
         }
-        for (let i = 0; i < pts.length; i++) {
-          for (let j = i + 1; j < pts.length; j++) {
-            const a = pts[i], b = pts[j];
-            const dx = a.x - b.x, dy = a.y - b.y;
-            const d = Math.hypot(dx, dy);
-            if (d < LINK) {
-              ctx.strokeStyle = `rgba(90, 160, 255, ${(1 - d / LINK) * 0.35})`;
-              ctx.lineWidth = 1;
-              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        if (!lite) {
+          for (let i = 0; i < pts.length; i++) {
+            for (let j = i + 1; j < pts.length; j++) {
+              const a = pts[i], b = pts[j];
+              const dx = a.x - b.x, dy = a.y - b.y;
+              const d = Math.hypot(dx, dy);
+              if (d < LINK) {
+                ctx.strokeStyle = `rgba(90, 160, 255, ${(1 - d / LINK) * 0.35})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+              }
             }
           }
         }
