@@ -168,7 +168,7 @@ const faqLd = {
             <img
               src="/gen/scene-training.webp"
               alt="講師が隣で伴走する対面ハンズオン形式の生成AI研修"
-              loading="lazy"
+              loading="lazy" decoding="async"
             />
           </div>
         </div>
@@ -186,7 +186,7 @@ const faqLd = {
       <div class="grid grid--3 curriculum-grid">
         <div class="card course-card tilt reveal reveal-d1">
           <div class="zoom-media">
-            <img src="/thumbs/course-gemini-workspace.webp" alt="Gemini for Google Workspace研修" loading="lazy" />
+            <img src="/thumbs/course-gemini-workspace.webp" alt="Gemini for Google Workspace研修" loading="lazy" decoding="async" />
           </div>
           <div class="course-body">
             <span class="curriculum-label">COURSE 01</span>
@@ -201,7 +201,7 @@ const faqLd = {
         </div>
         <div class="card course-card tilt reveal reveal-d2">
           <div class="zoom-media">
-            <img src="/thumbs/course-master-2026.webp" alt="生成AI実践マスター講座【2026年版】" loading="lazy" />
+            <img src="/thumbs/course-master-2026.webp" alt="生成AI実践マスター講座【2026年版】" loading="lazy" decoding="async" />
           </div>
           <div class="course-body">
             <span class="curriculum-label">COURSE 02</span>
@@ -216,7 +216,7 @@ const faqLd = {
         </div>
         <div class="card course-card tilt reveal reveal-d3">
           <div class="zoom-media">
-            <img src="/thumbs/course-expert-program.webp" alt="生成AIエキスパート育成プログラム" loading="lazy" />
+            <img src="/thumbs/course-expert-program.webp" alt="生成AIエキスパート育成プログラム" loading="lazy" decoding="async" />
           </div>
           <div class="course-body">
             <span class="curriculum-label">COURSE 03</span>
@@ -247,7 +247,7 @@ const faqLd = {
             <img
               src="/gen/scene-training-close.webp"
               alt="研修中に講師と受講者が資料を確認しているクローズアップ"
-              loading="lazy"
+              loading="lazy" decoding="async"
             />
           </div>
         </div>
@@ -275,7 +275,7 @@ const faqLd = {
           agentTasks.map((t, i) => (
             <div class:list={['card', 'glass', 'mini-card', 'tilt', 'reveal', `reveal-d${(i % 4) + 1}`]}>
               <div class="zoom-media mini-card-media">
-                <img src={t.img} alt={t.alt} loading="lazy" />
+                <img src={t.img} alt={t.alt} loading="lazy" decoding="async" />
               </div>
               <div class="mini-card-body">
                 <h3>{t.title}</h3>
@@ -329,7 +329,7 @@ const faqLd = {
             <img
               src="/gen/subsidy-support.webp"
               alt="補助金・助成金の活用をサポートするイメージ"
-              loading="lazy"
+              loading="lazy" decoding="async"
             />
           </div>
         </div>

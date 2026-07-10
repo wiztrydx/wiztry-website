@@ -36,7 +36,7 @@ const rowB = CLIENTS.slice(half);
     <ul class="logo-grid">
       {CLIENTS.map((c) => (
         <li class:list={['logo-cell', `logo--${c.shape}`, 'reveal']} title={c.name}>
-          <img src={`/clients/${c.slug}.webp`} alt={c.name} loading="lazy" />
+          <img src={`/clients/${c.slug}.webp`} alt={c.name} loading="lazy" decoding="async" />
         </li>
       ))}
     </ul>
@@ -47,7 +47,7 @@ const rowB = CLIENTS.slice(half);
           <div class:list={['marquee-track', { 'marquee-track--rev': i === 1 }]}>
             {[...row, ...row].map((c) => (
               <div class:list={['logo-cell', `logo--${c.shape}`]} title={c.name}>
-                <img src={`/clients/${c.slug}.webp`} alt={c.name} loading="lazy" />
+                <img src={`/clients/${c.slug}.webp`} alt={c.name} loading="lazy" decoding="async" />
               </div>
             ))}
           </div>

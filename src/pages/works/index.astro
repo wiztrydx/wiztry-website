@@ -93,7 +93,7 @@ const caseStudies = [
           caseStudies.map((c, i) => (
             <div class:list={['card', 'tilt', 'case-card', 'reveal', `reveal-d${(i % 4) + 1}`]}>
               <div class="zoom-media">
-                <img src={c.img} alt={c.imgAlt} loading="lazy" />
+                <img src={c.img} alt={c.imgAlt} loading="lazy" decoding="async" />
               </div>
               <div class="case-card-body">
                 <h3>{c.title}</h3>
@@ -131,7 +131,7 @@ const caseStudies = [
             <img
               src="/photos/hero-seminar.webp"
               alt="対面ハンズオン形式の生成AI研修会場で、受講者と講師が机を囲んで学ぶ様子"
-              loading="lazy"
+              loading="lazy" decoding="async"
             />
           </div>
         </div>

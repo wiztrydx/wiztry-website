@@ -88,6 +88,7 @@ const jsonLd = {
     <slot name="head" />
   </head>
   <body>
+    <a class="skip-link" href="#main">本文へスキップ</a>
     <div class="site-loader" id="siteLoader" aria-hidden="true">
       <span class="curtain curtain--top"></span>
       <span class="curtain curtain--bottom"></span>
@@ -118,7 +119,7 @@ const jsonLd = {
       </div>
     </header>
 
-    <main>
+    <main id="main">
       <slot />
     </main>
 

@@ -8,6 +8,8 @@ const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
+const tags = ['すべて', ...new Set(posts.map((p) => p.data.tag))];
+
 const fmt = (d: Date) =>
   `${d.getUTCFullYear()}.${String(d.getUTCMonth() + 1).padStart(2, '0')}.${String(d.getUTCDate()).padStart(2, '0')}`;
 ---
@@ -26,15 +28,33 @@ const fmt = (d: Date) =>
 
   <section class="section">
     <div class="container">
-      <div class="grid grid--3">
+      <!-- カテゴリ絞り込み -->
+      <div class="blog-filter reveal" role="tablist" aria-label="カテゴリで絞り込み">
+        {
+          tags.map((t, i) => (
+            <button class:list={['filter-chip', { active: i === 0 }]} data-tag={t} type="button">
+              {t}
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="grid grid--3" id="postGrid">
         {
           posts.map((post, i) => (
             <a
               href={`/blog/${post.id}/`}
+              data-tag={post.data.tag}
               class:list={['card', 'post-card', 'tilt', 'reveal', `reveal-d${(i % 4) + 1}`]}
             >
               <div class="zoom-media">
-                <img class="thumb" src={post.data.thumb} alt={post.data.title} loading="lazy" />
+                <img
+                  class="thumb"
+                  src={post.data.thumb}
+                  alt={post.data.title}
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
               <div class="body">
                 <span class="tag">{post.data.tag}</span>
@@ -50,3 +70,58 @@ const fmt = (d: Date) =>
 
   <CtaBand />
 </Base>
+
+<style>
+  .blog-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: clamp(28px, 4vw, 44px);
+  }
+  .filter-chip {
+    border: 1.5px solid var(--line);
+    background: #fff;
+    color: var(--ink-soft);
+    font-weight: 600;
+    font-size: 13.5px;
+    padding: 9px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .filter-chip:hover {
+    border-color: var(--blue-500);
+    color: var(--blue-500);
+  }
+  .filter-chip.active {
+    background: var(--navy-900);
+    border-color: var(--navy-900);
+    color: #fff;
+  }
+  .post-card.is-hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  function initBlogFilter() {
+    const wrap = document.querySelector('.blog-filter');
+    if (!wrap || (wrap as HTMLElement).dataset.ready) return;
+    (wrap as HTMLElement).dataset.ready = '1';
+    const chips = [...wrap.querySelectorAll<HTMLButtonElement>('.filter-chip')];
+    const cards = [...document.querySelectorAll<HTMLElement>('#postGrid .post-card')];
+    chips.forEach((chip) =>
+      chip.addEventListener('click', () => {
+        chips.forEach((c) => c.classList.toggle('active', c === chip));
+        const tag = chip.dataset.tag;
+        cards.forEach((card) => {
+          const show = tag === 'すべて' || card.dataset.tag === tag;
+          card.classList.toggle('is-hidden', !show);
+          if (show) card.classList.add('is-in'); // 再表示時にreveal待ちで消えないように
+        });
+      })
+    );
+  }
+  initBlogFilter();
+  document.addEventListener('astro:page-load', initBlogFilter);
+</script>

@@ -95,7 +95,7 @@ const NUMBERS = [
       <SectionHead en="SERVICE" title="事業内容" />
       <div class="grid grid--2">
         <a href="/service/#training" class="card service-card tilt reveal reveal-d1">
-          <div class="zoom-media"><img src="/gen/scene-training.webp" alt="講師が隣で伴走する対面ハンズオン形式の生成AI研修" loading="lazy" /></div>
+          <div class="zoom-media"><img src="/gen/scene-training.webp" alt="講師が隣で伴走する対面ハンズオン形式の生成AI研修" loading="lazy" decoding="async" /></div>
           <div class="service-card-body">
             <h3>生成AI導入研修</h3>
             <p>
@@ -105,7 +105,7 @@ const NUMBERS = [
           </div>
         </a>
         <a href="/service/#agent" class="card service-card tilt reveal reveal-d2">
-          <div class="zoom-media"><img src="/gen/scene-agent-dev.webp" alt="実務を自動化するAIエージェントの開発イメージ" loading="lazy" /></div>
+          <div class="zoom-media"><img src="/gen/scene-agent-dev.webp" alt="実務を自動化するAIエージェントの開発イメージ" loading="lazy" decoding="async" /></div>
           <div class="service-card-body">
             <h3>AIエージェント導入支援</h3>
             <p>
@@ -166,7 +166,7 @@ const NUMBERS = [
     <div class="container">
       <div class="yt-band card tilt reveal reveal--zoom">
         <div class="zoom-media yt-media">
-          <img src="/photos/youtube-thumb.webp" alt="YouTubeチャンネル KOTARO AI & VIDEO の動画「Veo3.1×FLOW完全攻略」サムネイル" loading="lazy" />
+          <img src="/photos/youtube-thumb.webp" alt="YouTubeチャンネル KOTARO AI & VIDEO の動画「Veo3.1×FLOW完全攻略」サムネイル" loading="lazy" decoding="async" />
         </div>
         <div class="yt-body">
           <span class="yt-en">YOUTUBE</span>
@@ -207,7 +207,7 @@ const NUMBERS = [
           <div class="grid grid--3">
             {posts.map((post, i) => (
               <a href={`/blog/${post.id}/`} class:list={['card', 'post-card', 'tilt', 'reveal', `reveal-d${i + 1}`]}>
-                <div class="zoom-media"><img class="thumb" src={post.data.thumb} alt={post.data.title} loading="lazy" /></div>
+                <div class="zoom-media"><img class="thumb" src={post.data.thumb} alt={post.data.title} loading="lazy" decoding="async" /></div>
                 <div class="body">
                   <span class="tag">{post.data.tag}</span>
                   <h3>{post.data.title}</h3>
