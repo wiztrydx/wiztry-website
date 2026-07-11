@@ -365,6 +365,8 @@ const NUMBERS = [
       object-position: 80% 68%;
       transform-origin: 80% 68%;
       animation: spVideoZoom 16s ease-in-out infinite alternate;
+      /* 白飛び抑えの軽い減光（テキストの可読性も少し上がる） */
+      filter: brightness(0.93);
     }
   }
   @keyframes spVideoZoom {
