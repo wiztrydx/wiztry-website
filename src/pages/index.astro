@@ -258,13 +258,25 @@ const NUMBERS = [
     v.loop = true;
     v.preload = 'auto';
     v.src = src;
+    // 表示の点火は「再生開始」だけでなく「最初のフレーム取得」でも行う。
+    // iOS低電力モード等で自動再生がブロックされても、静止した1フレーム目が
+    // ヒーロー画像として見える（＝動画が丸ごと消えたように見えない）
     v.addEventListener('playing', () => v.classList.add('is-playing'), { once: true });
-    v.addEventListener('error', () => v.remove(), { once: true });
+    v.addEventListener('loadeddata', () => v.classList.add('is-playing'), { once: true });
+    // 読み込み失敗（配信側の一時的な503など）は1回だけリトライしてから諦める
+    let retried = false;
+    v.addEventListener('error', () => {
+      if (retried) { v.remove(); return; }
+      retried = true;
+      setTimeout(() => { v.src = `${src}?r=1`; v.load(); tryPlay(); }, 1500);
+    });
     slot.appendChild(v);
     const tryPlay = () => v.play().catch(() => {});
     tryPlay();
     v.addEventListener('canplaythrough', tryPlay, { once: true });
     setTimeout(() => { if (v.paused) tryPlay(); }, 1200);
+    // 自動再生ブロック環境では、最初のタップで再生を試みる（1回だけ・静かに）
+    window.addEventListener('touchend', tryPlay, { once: true, passive: true });
   }
   initHeroVideo();
   document.addEventListener('astro:page-load', initHeroVideo);
