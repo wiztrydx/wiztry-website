@@ -8,6 +8,7 @@ const LEGACY_REDIRECTS = {
   '/service/digital-markting': '/service/',
   '/service/consulting': '/service/',
   '/case': '/works/',
+  '/privacy-policy': '/privacy/',
 };
 
 export default defineConfig({
