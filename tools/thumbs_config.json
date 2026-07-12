@@ -1,98 +1,104 @@
 [
-  {
-    "slug": "kumamoto-reskilling-hojokin",
-    "theme": "a glowing translucent sprout growing from stacked coins held by a gentle glass hand on the right side",
-    "main": "熊本県リスキリング補助金",
-    "sub": "生成AI研修での活用ポイント"
-  },
-  {
-    "slug": "ai-training-erabikata",
-    "theme": "five glowing checkmark panels floating in a row on the right side",
-    "main": "失敗しないAI研修の選び方",
-    "sub": "5つのチェックポイント"
-  },
-  {
-    "slug": "ai-agent-jitsumu",
-    "theme": "a sleek dark dashboard interface with glowing node graphs on the right side",
-    "main": "AIエージェント導入の実際",
-    "sub": "実務はここまで自動化できる"
-  },
-  {
-    "slug": "milestone-90-companies",
-    "theme": "a rising bar chart made of glowing translucent panels with celebratory light particles on the right side",
-    "main": "累計支援企業数 90社突破",
-    "sub": "熊本の企業AI研修・AI導入支援"
-  },
-  {
-    "slug": "youtube-1600-subscribers",
-    "theme": "a glowing video play button surrounded by light particles and a subtle upward growth curve on the right side",
-    "main": "チャンネル登録者 1,600人突破",
-    "sub": "KOTARO AI & VIDEO"
-  },
-  {
-    "slug": "office-xosspoint",
-    "theme": "a modern glass office building at dusk with warm interior lights and blue data particles rising into the sky on the right side",
-    "main": "オフィス移転のお知らせ",
-    "sub": "くまもと森都心プラザ XOSS POINT."
-  },
-  {
-    "slug": "ai-agent-knowledge",
-    "theme": "a glowing translucent brain made of light lattice connected to floating documents and folders on the right side",
-    "main": "AI×社内ナレッジ活用術",
-    "sub": "会社の記憶をAIの戦力に変える"
-  },
-  {
-    "slug": "gpt-5-6-kaisetsu",
-    "theme": "three glowing celestial orbs of different sizes like a sun, an earth and a moon, aligned diagonally on the right side",
-    "main": "GPT-5.6 徹底解説",
-    "sub": "Sol・Terra・Luna の選び方"
-  },
-  {
-    "slug": "claude-fable-5-kaisetsu",
-    "theme": "a majestic glowing geometric monolith ascending above smaller pillars, symbolizing a new top tier, on the right side",
-    "main": "Claude Fable 5とは？",
-    "sub": "Opusの上をいく新クラス Mythos"
-  },
-  {
-    "slug": "claude-cowork-kaisetsu",
-    "theme": "a modern desk setup with dual monitors and a friendly glowing AI orb hovering beside an office chair on the right side",
-    "main": "Claude Coworkとは？",
-    "sub": "AIが同僚になる新しい働き方"
-  },
-  {
-    "slug": "openai-codex-kaisetsu",
-    "theme": "a sleek dark terminal window with streams of glowing code light flowing outward on the right side",
-    "main": "OpenAI Codexとは？",
-    "sub": "開発を任せるAIエージェント"
-  },
-  {
-    "slug": "agent-skills-kaisetsu",
-    "theme": "a glowing translucent folder with organized documents and a small graduation cap made of light on the right side",
-    "main": "Agent Skillsとは？",
-    "sub": "AIに仕事を教える新標準"
-  },
-  {
-    "slug": "course-gemini-workspace",
-    "theme": "floating glassmorphic app windows of email, documents and spreadsheets connected by glowing light threads with a sparkling four-pointed star, on the right side",
-    "main": "Gemini for|Google Workspace",
-    "sub": "毎日の業務ツールを、AIで速く"
-  },
-  {
-    "slug": "course-master-2026",
-    "theme": "an ascending glowing staircase of translucent panels with light particles, symbolizing step-by-step mastery, on the right side",
-    "main": "生成AI実践|マスター講座",
-    "sub": "2026年版・基礎から実務まで"
-  },
-  {
-    "slug": "course-expert-program",
-    "theme": "a glowing humanoid silhouette standing at the center of an orbiting network of light nodes, symbolizing an in-house AI leader, on the right side",
-    "main": "生成AIエキスパート|育成プログラム",
-    "sub": "社内のAI推進役をつくる"
-  },
-  {
-    "slug": "kensyu-teichaku-shikumi",
-    "theme": "a glowing translucent gear circulating light streams between small human silhouettes standing in a ring, symbolizing knowledge flowing back into the workplace, on the right side",
-    "main": "受けて終わり|にしない設計",
-    "sub": "学びを現場に還元する仕組み"
-  }
+ {
+  "slug": "kumamoto-reskilling-hojokin",
+  "theme": "a glowing translucent sprout growing from stacked coins held by a gentle glass hand on the right side",
+  "main": "熊本県リスキリング補助金",
+  "sub": "生成AI研修での活用ポイント"
+ },
+ {
+  "slug": "ai-training-erabikata",
+  "theme": "five glowing checkmark panels floating in a row on the right side",
+  "main": "失敗しないAI研修の選び方",
+  "sub": "5つのチェックポイント"
+ },
+ {
+  "slug": "ai-agent-jitsumu",
+  "theme": "a sleek dark dashboard interface with glowing node graphs on the right side",
+  "main": "AIエージェント導入の実際",
+  "sub": "実務はここまで自動化できる"
+ },
+ {
+  "slug": "milestone-90-companies",
+  "theme": "a rising bar chart made of glowing translucent panels with celebratory light particles on the right side",
+  "main": "累計支援企業数 90社突破",
+  "sub": "熊本の企業AI研修・AI導入支援"
+ },
+ {
+  "slug": "youtube-1600-subscribers",
+  "theme": "a glowing video play button surrounded by light particles and a subtle upward growth curve on the right side",
+  "main": "チャンネル登録者 1,600人突破",
+  "sub": "KOTARO AI & VIDEO"
+ },
+ {
+  "slug": "office-xosspoint",
+  "theme": "a modern glass office building at dusk with warm interior lights and blue data particles rising into the sky on the right side",
+  "main": "オフィス移転のお知らせ",
+  "sub": "くまもと森都心プラザ XOSS POINT."
+ },
+ {
+  "slug": "ai-agent-knowledge",
+  "theme": "a glowing translucent brain made of light lattice connected to floating documents and folders on the right side",
+  "main": "AI×社内ナレッジ活用術",
+  "sub": "会社の記憶をAIの戦力に変える"
+ },
+ {
+  "slug": "gpt-5-6-kaisetsu",
+  "theme": "three glowing celestial orbs of different sizes like a sun, an earth and a moon, aligned diagonally on the right side",
+  "main": "GPT-5.6 徹底解説",
+  "sub": "Sol・Terra・Luna の選び方"
+ },
+ {
+  "slug": "claude-fable-5-kaisetsu",
+  "theme": "a majestic glowing geometric monolith ascending above smaller pillars, symbolizing a new top tier, on the right side",
+  "main": "Claude Fable 5とは？",
+  "sub": "Opusの上をいく新クラス Mythos"
+ },
+ {
+  "slug": "claude-cowork-kaisetsu",
+  "theme": "a modern desk setup with dual monitors and a friendly glowing AI orb hovering beside an office chair on the right side",
+  "main": "Claude Coworkとは？",
+  "sub": "AIが同僚になる新しい働き方"
+ },
+ {
+  "slug": "openai-codex-kaisetsu",
+  "theme": "a sleek dark terminal window with streams of glowing code light flowing outward on the right side",
+  "main": "OpenAI Codexとは？",
+  "sub": "開発を任せるAIエージェント"
+ },
+ {
+  "slug": "agent-skills-kaisetsu",
+  "theme": "a glowing translucent folder with organized documents and a small graduation cap made of light on the right side",
+  "main": "Agent Skillsとは？",
+  "sub": "AIに仕事を教える新標準"
+ },
+ {
+  "slug": "course-gemini-workspace",
+  "theme": "floating glassmorphic app windows of email, documents and spreadsheets connected by glowing light threads with a sparkling four-pointed star, on the right side",
+  "main": "Gemini for|Google Workspace",
+  "sub": "毎日の業務ツールを、AIで速く"
+ },
+ {
+  "slug": "course-master-2026",
+  "theme": "an ascending glowing staircase of translucent panels with light particles, symbolizing step-by-step mastery, on the right side",
+  "main": "生成AI実践|マスター講座",
+  "sub": "2026年版・基礎から実務まで"
+ },
+ {
+  "slug": "course-expert-program",
+  "theme": "a glowing humanoid silhouette standing at the center of an orbiting network of light nodes, symbolizing an in-house AI leader, on the right side",
+  "main": "生成AIエキスパート|育成プログラム",
+  "sub": "社内のAI推進役をつくる"
+ },
+ {
+  "slug": "kensyu-teichaku-shikumi",
+  "theme": "a glowing translucent gear circulating light streams between small human silhouettes standing in a ring, symbolizing knowledge flowing back into the workplace, on the right side",
+  "main": "受けて終わり|にしない設計",
+  "sub": "学びを現場に還元する仕組み"
+ },
+ {
+  "slug": "chatgpt-claude-saishin-hikaku",
+  "theme": "two abstract glowing AI orbs facing each other symmetrically, one warm white-blue and one cyan, subtle versus composition, dark navy tech background with fine light streams",
+  "main": "ChatGPT × Claude|最新AI どっちを選ぶ？",
+  "sub": "中小企業向けにやさしく比較"
+ }
 ]
