@@ -112,5 +112,11 @@
   "theme": "a glowing translucent hourglass with light particles flowing upward, next to a floating calendar panel with one date highlighted, on the right side",
   "main": "Claude Fable 5|お試し期間 延長",
   "sub": "7月20日まで・中小企業の実践ガイド"
+ },
+ {
+  "slug": "chatgpt-work-kaisetsu",
+  "theme": "a glowing translucent AI assistant orb delegating tasks to three floating document panels (report, spreadsheet, presentation) connected by streams of light, symbolizing an AI agent delivering finished work, on the right side",
+  "main": "ChatGPT Work|徹底解説",
+  "sub": "Chat・Codexとの違いと使い方"
  }
 ]
