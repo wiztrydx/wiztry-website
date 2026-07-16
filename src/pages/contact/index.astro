@@ -84,8 +84,9 @@ import { SITE } from '../../data/site';
 
         <aside class="contact-aside reveal reveal-d2">
           <div class="card card--pad tilt">
-            <h3>メールでも受け付けています</h3>
-            <p>フォームのご利用が難しい場合は、下記メールアドレスへ直接ご連絡ください。</p>
+            <h3>お電話・メールでも受け付けています</h3>
+            <p>フォームのご利用が難しい場合は、お電話または下記メールアドレスへ直接ご連絡ください。</p>
+            <a href={`tel:${SITE.tel.replaceAll('-', '')}`} class="btn btn--ghost">{SITE.tel}</a>
             <a href={`mailto:${SITE.email}`} class="btn btn--ghost">{SITE.email}</a>
           </div>
         </aside>

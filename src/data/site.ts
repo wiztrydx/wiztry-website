@@ -5,6 +5,7 @@ export const SITE = {
   nameEn: 'WizTry Inc.',
   domain: 'https://wiztrydx.com',
   email: 'info@wiztrydx.com',
+  tel: '080-6414-9171',
   address: '〒860-0047 熊本県熊本市西区春日1丁目14番1号 くまもと森都心プラザ2階 XOSS POINT. Room4',
   founded: '2023年7月',
   ceo: '末松 光太郎',

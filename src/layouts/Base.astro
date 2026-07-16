@@ -38,6 +38,7 @@ const jsonLd = {
   name: SITE.name,
   url: SITE.domain,
   email: SITE.email,
+  telephone: '+81-80-6414-9171',
   logo: `${SITE.domain}/logos/mark-512.png`,
   foundingDate: '2023-07',
   founder: { '@type': 'Person', name: SITE.ceo },
@@ -150,6 +151,7 @@ const jsonLd = {
             <p class="addr">
               {SITE.name}<br />
               {SITE.address}<br />
+              TEL: <a href={`tel:${SITE.tel.replaceAll('-', '')}`}>{SITE.tel}</a><br />
               {SITE.email}
             </p>
           </div>
