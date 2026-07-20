@@ -130,5 +130,11 @@
   "theme": "a glowing translucent AI assistant orb delegating tasks to three floating document panels (report, spreadsheet, presentation) connected by streams of light, symbolizing an AI agent delivering finished work, on the right side",
   "main": "ChatGPT Work|徹底解説",
   "sub": "Chat・Codexとの違いと使い方"
+ },
+ {
+  "slug": "gemini-spark-kaisetsu",
+  "theme": "three glowing translucent icons in a row on the right side - a checklist, a small graduation cap, and a clock - connected by soft light trails, navy blue business gradient background with subtle particles",
+  "main": "Gemini Spark|超入門",
+  "sub": "使い方と育て方を徹底解説"
  }
 ]
