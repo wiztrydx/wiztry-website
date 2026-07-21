@@ -136,5 +136,11 @@
   "theme": "an open glowing notebook with document pages flowing into it, and small album-style shelves of grouped notebook cards on the right side, one notebook card glowing inside two albums at once connected by light trails, navy blue business gradient background with subtle particles",
   "main": "NotebookLM|超入門",
   "sub": "新機能と質問窓口の作り方"
+ },
+ {
+  "slug": "ai-agent-3kyou-hikaku",
+  "theme": "three glowing translucent hexagonal panels arranged in a triangle on the right side, each panel showing a distinct silhouette icon - a suited assistant, a coworker at a desk, and a night-shift figure with a clock - connected by soft light lines, navy blue business gradient background with subtle light particles",
+  "main": "AIエージェント3強|徹底比較",
+  "sub": "Work・Cowork・Sparkの選び方"
  }
 ]
