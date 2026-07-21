@@ -130,5 +130,11 @@
   "theme": "three glowing translucent icons in a row on the right side - a checklist, a small graduation cap, and a clock - connected by soft light trails, navy blue business gradient background with subtle particles",
   "main": "Gemini Spark|超入門",
   "sub": "使い方と育て方を徹底解説"
+ },
+ {
+  "slug": "notebooklm-kaisetsu",
+  "theme": "an open glowing notebook with document pages flowing into it, and small album-style shelves of grouped notebook cards on the right side, one notebook card glowing inside two albums at once connected by light trails, navy blue business gradient background with subtle particles",
+  "main": "NotebookLM|超入門",
+  "sub": "新機能と質問窓口の作り方"
  }
 ]
