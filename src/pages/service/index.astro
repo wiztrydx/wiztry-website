@@ -312,6 +312,9 @@ const faqLd = {
           ))
         }
       </div>
+      <p class="to-agent reveal">
+        <a href="/kumamoto-ai-agent/">熊本のAIエージェント導入支援を詳しく見る <span class="arrow">→</span></a>
+      </p>
     </div>
   </section>
 
@@ -655,5 +658,20 @@ const faqLd = {
     .training-split {
       margin-bottom: 0;
     }
+  }
+
+  /* 濃色セクション上の導線なので、白系の文字色にする */
+  .to-agent {
+    margin-top: 48px;
+  }
+
+  .to-agent a {
+    font-weight: 700;
+    color: var(--cyan-400);
+    text-decoration: none;
+  }
+
+  .to-agent a:hover {
+    text-decoration: underline;
   }
 </style>
