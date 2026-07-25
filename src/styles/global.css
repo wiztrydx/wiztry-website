@@ -340,15 +340,16 @@ a, button { -webkit-tap-highlight-color: transparent; }
 
 /* ---------- Blog prose ---------- */
 .prose { max-width: 720px; margin-inline: auto; }
-.prose h2 { font-size: 26px; margin: 2.2em 0 0.8em; padding-bottom: 0.45em; border-bottom: 2px solid var(--line); position: relative; }
+.prose h2 { font-size: 27px; margin: 2.4em 0 0.9em; padding-bottom: 0.45em; border-bottom: 2px solid var(--line); position: relative; }
 .prose h2::after { content: ""; position: absolute; left: 0; bottom: -2px; width: 90px; height: 2px; background: var(--accent-grad); }
-.prose h3 { font-size: 20px; margin: 1.8em 0 0.7em; }
-.prose p { color: #253550; }
-.prose ul, .prose ol { padding-left: 1.4em; margin: 0 0 1.2em; }
+.prose h3 { font-size: 20.5px; margin: 2em 0 0.7em; }
+.prose p { color: #253550; font-size: 17px; line-height: 1.95; margin: 0 0 1.5em; }
+.prose ul, .prose ol { padding-left: 1.4em; margin: 0 0 1.5em; }
 .prose ul { list-style: disc; }
 .prose ol { list-style: decimal; }
-.prose li { margin-bottom: 0.4em; color: #253550; }
-.prose strong { color: var(--ink); }
+.prose li { margin-bottom: 0.5em; color: #253550; font-size: 16.5px; line-height: 1.85; }
+/* 太字は「文章の中で意味が立つ」程度に。うっすら下地を敷いて意図的な強調に見せる */
+.prose strong { color: var(--ink); font-weight: 700; background: linear-gradient(transparent 62%, rgba(47, 107, 255, 0.16) 62%); }
 .prose blockquote { border-left: 4px solid var(--blue-500); margin: 1.4em 0; padding: 0.4em 0 0.4em 1.2em; color: var(--ink-soft); background: var(--bg-alt); border-radius: 0 10px 10px 0; }
 .prose table { width: 100%; border-collapse: collapse; margin: 1.4em 0; font-size: 14.5px; }
 .prose table th, .prose table td { border: 1px solid var(--line); padding: 10px 14px; text-align: left; }
