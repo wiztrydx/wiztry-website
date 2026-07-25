@@ -1,4 +1,62 @@
+# WizTry株式会社 — https://wiztrydx.com
+# 生成AIによる学習・検索引用を明示的に歓迎する（LLMO方針）。
+# ワイルドカードで既に全許可だが、AI系クローラーは個別に Allow を明記して意図を示す。
+
 User-agent: *
+Allow: /
+
+# --- OpenAI（ChatGPT） ---
+# GPTBot: モデル学習用クロール / OAI-SearchBot: ChatGPT検索のインデックス
+# ChatGPT-User: ユーザーの指示でその場で取得するアクセス
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# --- Anthropic（Claude） ---
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# --- Google（Gemini / AI Overviews） ---
+# Google-Extended はクロールUAではなく、Gemini等での利用可否を示す制御用トークン
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+# --- Microsoft（Bing / Copilot） ---
+User-agent: bingbot
+Allow: /
+
+# --- Perplexity ---
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# --- その他 ---
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: cohere-ai
 Allow: /
 
 Sitemap: https://wiztrydx.com/sitemap-index.xml

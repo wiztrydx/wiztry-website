@@ -108,6 +108,49 @@ const faqLd = {
   })),
 };
 
+// 研修コースのItemList（Course）。Googleが現在もサポートしている型で、3件以上が要件。
+// description は60文字以内が推奨のため、本文より短く要約している。
+const courseLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: [
+    {
+      name: 'Gemini for Google Workspace研修',
+      description:
+        'Gmailやドキュメントなど日常のGoogle Workspace内でAIを使いこなす研修。',
+    },
+    {
+      name: '生成AI実践マスター講座【2026年版】',
+      description:
+        'ChatGPT・Gemini・Claudeを基礎から実務活用まで学ぶ段階式カリキュラム。',
+    },
+    {
+      name: '生成AIエキスパート育成プログラム',
+      description:
+        '社内のAI活用を牽引する推進役を育て、業務自動化まで踏み込む発展プログラム。',
+    },
+  ].map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'Course',
+      name: c.name,
+      description: c.description,
+      provider: { '@type': 'Organization', name: 'WizTry株式会社', url: 'https://wiztrydx.com' },
+      url: 'https://wiztrydx.com/kumamoto-ai-training/#courses',
+      inLanguage: 'ja',
+      teaches: '生成AIの実務活用',
+      availableLanguage: 'ja',
+      hasCourseInstance: {
+        '@type': 'CourseInstance',
+        courseMode: 'onsite',
+        courseWorkload: 'PT2H',
+        location: { '@type': 'AdministrativeArea', name: '熊本県' },
+      },
+    },
+  })),
+};
+
 const breadcrumbLd = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
@@ -126,6 +169,7 @@ const breadcrumbLd = {
 >
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(serviceLd)} />
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(faqLd)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(courseLd)} />
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbLd)} />
 
   <PageHero

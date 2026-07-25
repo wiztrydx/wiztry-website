@@ -29,3 +29,13 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      # 公開直後にBing系（=ChatGPTの検索グラウンディング元）へ更新を通知する。
+      # 失敗してもデプロイ自体は成功扱いにしたいので continue-on-error にしている。
+      - name: Notify IndexNow
+        continue-on-error: true
+        run: |
+          curl -sS -X POST https://api.indexnow.org/indexnow \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d '{"host":"wiztrydx.com","key":"13cedb6977af8923f843dbfdf8bd69a615385400c8cb0edd","keyLocation":"https://wiztrydx.com/13cedb6977af8923f843dbfdf8bd69a615385400c8cb0edd.txt","urlList":["https://wiztrydx.com/","https://wiztrydx.com/kumamoto-ai-training/","https://wiztrydx.com/service/","https://wiztrydx.com/works/","https://wiztrydx.com/about/","https://wiztrydx.com/blog/"]}' \
+            -w "\nIndexNow HTTP %{http_code}\n"

@@ -32,19 +32,39 @@ const pageTitle = title
   : 'WizTry株式会社｜熊本の生成AI研修・AIエージェント導入支援';
 const canonical = new URL(Astro.url.pathname, SITE.domain).href;
 
+// 構造化データ。生成AI（ChatGPT検索・Gemini・Claude等）が「熊本の生成AI研修会社」として
+// 機械的に読み取れるよう、Organization に LocalBusiness を併記し地域・領域を明示する。
+// 注: 満足度4.8は自社アンケートの自己申告値なので aggregateRating では宣言しない（本文表記のみ）。
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@type': ['Organization', 'LocalBusiness'],
+  '@id': `${SITE.domain}/#organization`,
   name: SITE.name,
+  alternateName: ['WizTry', 'ウィズトライ', 'WizTry Inc.'],
   url: SITE.domain,
   email: SITE.email,
   telephone: '+81-80-6414-9171',
   logo: `${SITE.domain}/logos/mark-512.png`,
+  image: `${SITE.domain}/og-cover.jpg`,
   foundingDate: '2023-07',
-  founder: { '@type': 'Person', name: SITE.ceo },
-  sameAs: [YOUTUBE.url],
-  areaServed: { '@type': 'AdministrativeArea', name: '熊本県' },
-  knowsAbout: ['生成AI研修', 'AIエージェント導入支援', 'DX支援', 'リスキリング'],
+  founder: { '@type': 'Person', '@id': `${SITE.domain}/about/#ceo`, name: SITE.ceo },
+  sameAs: [YOUTUBE.url, 'https://x.com/suematsu_wiztry'],
+  areaServed: [
+    { '@type': 'AdministrativeArea', name: '熊本県' },
+    { '@type': 'City', name: '熊本市' },
+    { '@type': 'AdministrativeArea', name: '九州' },
+  ],
+  knowsAbout: [
+    '生成AI研修',
+    'ChatGPT研修',
+    'Gemini研修',
+    'Claude活用',
+    'AIエージェント導入支援',
+    'DX支援',
+    'リスキリング',
+    '熊本県リスキリング応援補助金',
+    '人材開発支援助成金',
+  ],
   address: {
     '@type': 'PostalAddress',
     addressRegion: '熊本県',

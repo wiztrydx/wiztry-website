@@ -3,7 +3,27 @@ import Base from '../../layouts/Base.astro';
 import SectionHead from '../../components/SectionHead.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import PageHero from '../../components/PageHero.astro';
-import { SITE, MEDIA } from '../../data/site';
+import { SITE, MEDIA, YOUTUBE } from '../../data/site';
+
+// 代表のプロフィールを構造化データで明示する。生成AIが「熊本の生成AI研修の講師は誰か」を
+// 機械的に読み取れるようにし、経歴・登壇実績を根拠として引用できる状態にする。
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${SITE.domain}/about/#ceo`,
+  name: SITE.ceo,
+  alternateName: '末松光太郎',
+  jobTitle: '代表取締役',
+  description:
+    'WizTry株式会社代表取締役。九州大学大学院修了後、KMバイオロジクスでワクチン製造の技術職として約6年間従事。30歳で独立し、映像制作・SNS運用支援を経て2023年にWizTry株式会社を設立。熊本を拠点に累計90社以上の企業の生成AI活用を支援し、2025年度の研修・セミナー登壇は年間300回以上。',
+  worksFor: { '@id': `${SITE.domain}/#organization` },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: '九州大学大学院' },
+  birthPlace: { '@type': 'Place', name: '福岡県糸島市' },
+  knowsAbout: ['生成AI研修', 'ChatGPT', 'Gemini', 'Claude', 'AIエージェント', 'DX支援'],
+  knowsLanguage: 'ja',
+  url: `${SITE.domain}/about/`,
+  sameAs: [YOUTUBE.url, 'https://x.com/suematsu_wiztry', ...MEDIA.map((m) => m.url)],
+};
 ---
 
 <Base
@@ -11,6 +31,7 @@ import { SITE, MEDIA } from '../../data/site';
   description="WizTry株式会社は熊本発のAIパートナー企業。『挑戦で溢れる世界を創る』をミッションに、生成AI研修とAIエージェント開発で企業の挑戦を後押しします。会社概要・代表メッセージ・代表プロフィール・メディア掲載。"
   onDark={true}
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(personLd)} />
   <PageHero
     en="ABOUT"
     jp="会社案内"
