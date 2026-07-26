@@ -262,17 +262,17 @@ const faq = [
   },
   {
     q: 'どのAIツールに対応していますか?',
-    a: 'ChatGPT・Google Gemini・Claudeという主要な生成AIに対応しています。Google Workspaceを導入済みの企業には、Gemini in Gmail/Docs/Sheets/Slides、Gemini Notebook（旧NotebookLM）、Google Vids、Gemsまで扱うGemini研修を。さらに進んだ自動化には、Google Apps Script・Workspace Studio・Dify・Codex／Claude Codeによる業務自動化までご提案できます。',
+    a: 'ChatGPT・Google Gemini・Claudeに対応しています。Google Workspaceを導入済みの企業には、Gemini Notebook（旧NotebookLM）やGoogle Vidsまで扱うGemini研修を。さらに進んだ自動化には、GASやAIエージェントによる業務自動化までご提案できます。',
     link: { href: '#tools', label: '対応ツールの一覧を見る' },
   },
   {
     q: '研修のカリキュラムはどんな内容ですか?',
-    a: '一例として、もっとも多い1回2時間×全6回（計12時間）の構成をご紹介します。①指示の組み立て方と文書・画像生成、②社内資料を読ませた自分専用AIの構築、③パソコン作業を任せるAIエージェント入門、④提案・プレゼン資料の作成、⑤表計算・集計業務の効率化、⑥実務を想定した総合演習、という順で進みます。扱うツールやテーマの深さ、回数によって組み立ては変わるため、これはあくまでサンプルです。最終回は、データの突合から連絡文の作成、一覧化、報告資料までを一連の業務として通しで実施します。演習は当社が用意する研修用のサンプル教材で行い、毎回「持ち帰れる成果物」が1つ残る設計です。',
+    a: '一例として多いのは1回2時間×全6回（計12時間）です。指示の出し方 → 社内資料を読ませた専用AI → パソコン作業の自動化 → 提案資料の作成 → 表計算 → 実務を想定した総合演習、という順に進みます。演習は当社が用意するサンプル教材で行い、毎回「持ち帰れる成果物」が1つ残る設計です。回数や扱うツールで組み立ては変わるため、あくまで一例です。',
     link: { href: '#curriculum', label: '全6回のカリキュラム例を見る' },
   },
   {
     q: '研修の効果はどうやって測りますか?',
-    a: '感想アンケートだけでは、実務で使われているかどうかは分かりません。当社の研修では、受講者自身に「初稿までの時間」「修正にかかった時間」「事実の正確さ」「根拠を確認した割合」「他の人が同じ作業を再現できるか」を測ってもらいます。とくに見落とされがちなのが修正時間で、初稿が10分で出ても手直しに1時間かかっていれば効率化にはなっていません。ここまで測って初めて、導入判断に使える数字になります。',
+    a: '感想アンケートだけでは、実務で使われているかは分かりません。当社の研修では「初稿までの時間」「修正にかかった時間」「事実の正確さ」など5つの指標を、受講者自身に測ってもらいます。見落とされがちなのが修正時間で、初稿が10分で出ても手直しに1時間かかっていれば効率化にはなっていません。',
     link: { href: '#effect', label: '期待される効果と測り方を見る' },
   },
   {
@@ -281,7 +281,7 @@ const faq = [
   },
   {
     q: '講師はどなたが担当しますか?',
-    a: '代表の末松光太郎が中心に登壇します。九州大学大学院で遺伝子工学を専攻し、修了後はKMバイオロジクスでワクチン製造の技術職として約6年間従事。2021年に30歳で独立し、2023年7月にWizTry株式会社を設立しました。熊本県内を中心に累計90社以上で研修講師を務めるほか、熊本日日新聞社「熊日プレジデント倶楽部」の会員企業向けセミナー、富士フイルムビジネスイノベーションジャパン主催「Bridge for Innovation」、熊本県弁護士会・熊本商工会議所の共催セミナー、熊本県経済同友会DX委員会 熊本フォーラム、肥後銀行「熊本ニューリーダー会」など、外部主催のセミナーにも講師として招かれています。自社の業務にもAIを組み込み、担当を分けた「AI社員」10名分を毎日動かしている実務者が教えるため、「使っていない人の一般論」になりません。研修は代表のほか複数名の講師が担当します。',
+    a: '代表の末松光太郎が中心に登壇し、ほかに複数名の講師が担当します。熊本県内を中心に累計90社以上で研修講師を務めるほか、熊本日日新聞社「熊日プレジデント倶楽部」、肥後銀行「熊本ニューリーダー会」、熊本県弁護士会・熊本商工会議所の共催セミナーなど、外部主催の場にも招かれています。自社の業務にもAIを組み込んで毎日動かしている実務者が教えるため、「使っていない人の一般論」になりません。',
     link: { href: '#instructor', label: '講師のプロフィールを見る' },
   },
   {
@@ -699,6 +699,14 @@ const breadcrumbLd = {
       <p class="metric-note reveal">
         とくに見落とされがちなのが<strong>「修正にかかった時間」</strong>です。初稿が10分で出ても、確認と手直しに1時間かかっていれば効率化にはなりません。ここまで測って初めて、導入判断ができる数字になります。
       </p>
+
+      {/* ページが長いため中盤にも導線を置く。最下部のCtaBandと役割が重ならないよう控えめな体裁にする */}
+      <div class="mid-cta reveal">
+        <p class="mid-cta-text">
+          「自社ならどの業務から効果が出るか」は、業種と体制によって変わります。現状をお聞かせいただければ、その場でご一緒に考えます。
+        </p>
+        <a href="/contact/" class="btn btn--primary">研修について相談する <span class="arrow">→</span></a>
+      </div>
     </div>
   </section>
 
@@ -755,7 +763,9 @@ const breadcrumbLd = {
       <div class="instructor">
         <div class="instructor-main reveal">
           <span class="instructor-role">WizTry株式会社 代表取締役</span>
-          <h3 class="instructor-name">末松 光太郎<span class="instructor-kana">すえまつ こうたろう</span></h3>
+          {/* 読み仮名を見出しの中に入れると「末松 光太郎すえまつ こうたろう」と続けて読まれるため外に出す */}
+          <h3 class="instructor-name">末松 光太郎</h3>
+          <p class="instructor-kana">すえまつ こうたろう</p>
           <p class="instructor-body">
             九州大学大学院で遺伝子工学を学び、KMバイオロジクスの技術職として約6年間ワクチン製造に従事。2021年に30歳で独立し、2023年7月にWizTry株式会社を設立しました。最初の就職先が熊本で、独立したときに熊本の経営者の方々に助けていただいた——その恩返しがしたくて、熊本を事業拠点に選んでいます。
           </p>
@@ -785,6 +795,13 @@ const breadcrumbLd = {
             }
           </dl>
         </div>
+      </div>
+
+      <div class="instructor-why reveal">
+        <h3>なぜ「AIの検品」まで必ず教えるのか</h3>
+        <p>
+          生成AIは、それらしい嘘を自信たっぷりに書きます。研究職時代、数字を一つ間違えれば実験そのものがやり直しになる環境にいたため、出てきた結果を確かめずに次へ進む怖さを知っています。だからWizTryの研修では、便利な使い方と同じだけの時間をかけて、<strong>根拠の確かめ方と、人が最終確認する工程の置き方</strong>を扱います。社外に出す文書、お金に関わる数字、初めてやる種類の仕事——ここには必ず人の関所を残します。
+        </p>
       </div>
 
       <h3 class="block-title reveal mt-72">主な登壇実績</h3>
@@ -833,13 +850,6 @@ const breadcrumbLd = {
             </div>
           ))
         }
-      </div>
-
-      <div class="instructor-why reveal">
-        <h4>なぜ「AIの検品」まで必ず教えるのか</h4>
-        <p>
-          生成AIは、それらしい嘘を自信たっぷりに書きます。研究職時代、数字を一つ間違えれば実験そのものがやり直しになる環境にいたため、出てきた結果を確かめずに次へ進む怖さを知っています。だからWizTryの研修では、便利な使い方と同じだけの時間をかけて、<strong>根拠の確かめ方と、人が最終確認する工程の置き方</strong>を扱います。社外に出す文書、お金に関わる数字、初めてやる種類の仕事——ここには必ず人の関所を残します。
-        </p>
       </div>
 
       <p class="instructor-note reveal">
@@ -1271,6 +1281,26 @@ const breadcrumbLd = {
     color: var(--ink);
   }
 
+  /* 中盤CTA: 最下部のCtaBandより控えめにして、主役を奪わないようにする */
+  .mid-cta {
+    margin-top: 56px;
+    padding: 30px clamp(24px, 3vw, 40px);
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 32px;
+  }
+  .mid-cta-text {
+    flex: 1 1 380px;
+    font-size: 14.5px;
+    line-height: 2;
+    color: var(--ink-soft);
+  }
+
   /* ── 講師 ───────────────────────────────────── */
   .instructor {
     display: grid;
@@ -1286,15 +1316,12 @@ const breadcrumbLd = {
     color: var(--blue-500);
   }
   .instructor-name {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 6px 14px;
-    margin: 10px 0 22px;
+    margin: 10px 0 4px;
     font-size: clamp(22px, 2.6vw, 28px);
     letter-spacing: 0.04em;
   }
   .instructor-kana {
+    margin-bottom: 22px;
     font-size: 12.5px;
     font-weight: 500;
     letter-spacing: 0.1em;
@@ -1431,7 +1458,7 @@ const breadcrumbLd = {
     border-radius: 16px;
     padding: 28px clamp(22px, 3vw, 34px);
   }
-  .instructor-why h4 {
+  .instructor-why h3 {
     font-size: 16px;
     line-height: 1.6;
     margin-bottom: 14px;
