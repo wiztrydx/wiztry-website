@@ -43,17 +43,202 @@ const industries = [
   '小売・サービス',
 ];
 
+// カリキュラム: 全6回・12時間の標準構成。
+// 汎用カリキュラム（Off-JT）として見えることが必須のため、
+// 「御社の業務を教材にする」等の個社カスタマイズを想起させる表現は書かない。
+// 実演習の詳細は非公開とし、テーマ・学ぶこと・持ち帰るものの粒度で抽象化して掲載する。
+const curriculum = [
+  {
+    num: '第1回',
+    img: '/gen/curr-01-prompt.webp',
+    title: 'AIへの指示の組み立て方と、文書・画像の生成',
+    learn:
+      '同じAIでも、指示の書き方で出力の質は大きく変わります。役割・前提・材料の渡し方・出力形式という指示の型を身につけ、返信文、資料の要約、案内チラシの初稿までを実際に作ります。',
+    output: '自分の業務でそのまま使える、プロンプトの型',
+  },
+  {
+    num: '第2回',
+    img: '/gen/curr-02-knowledge.webp',
+    title: '社内の資料を読ませて、自分専用のAIをつくる',
+    learn:
+      '汎用のAIは一般論しか答えません。手元の資料を読み込ませ、根拠を示しながら答えるAIをつくります。資料に書かれていないことを推測で答えさせない設定と、共有範囲の決め方まで扱います。',
+    output: '業務ごとのナレッジを溜めたAI（社内Q&A）',
+  },
+  {
+    num: '第3回',
+    img: '/gen/curr-03-agent.webp',
+    title: 'パソコン上の作業を任せる — AIエージェント入門',
+    learn:
+      '文章を書かせる段階から一歩進み、ファイルの突合や一覧の作成といった手作業をAIに実行させます。元のデータを壊さない進め方と、出てきた結果の検品の仕方をセットで学びます。',
+    output: '繰り返し発生する作業を任せる手順',
+  },
+  {
+    num: '第4回',
+    img: '/gen/curr-04-deck.webp',
+    title: '提案・プレゼン資料をAIでつくる',
+    learn:
+      '構成の設計、公的データの調査、スライドの叩き台生成までを通しで行います。出典のない数字を使わない、写真の扱いに注意するなど、社外に出す資料で外せない確認工程も含みます。',
+    output: '提案資料を初稿まで一気に作る流れ',
+  },
+  {
+    num: '第5回',
+    img: '/gen/curr-05-sheet.webp',
+    title: '表計算・集計業務を効率化する',
+    learn:
+      '関数やマクロの作成、データの加工と突合、確認メールの下書きまで。AIが出した数字をそのまま信じず、件数と金額を検算して確かめるところまでを一連の作業として身につけます。',
+    output: '何度でも使い回せる、集計作業の手順書',
+  },
+  {
+    num: '第6回',
+    img: '/gen/curr-06-integration.webp',
+    title: '実務を想定した総合演習',
+    learn:
+      '最終回は、1〜5回で学んだことをすべてつなげます。「データを突き合わせて確認する → 必要な連絡文を作る → 対応状況を一覧にまとめる → 報告資料にする」という、実際の業務に近い一連の流れを、最初から最後まで自分の手で通します。どこに人の確認を入れるかも、受講者自身が判断します。最後は受講者どうしで成果を発表し、社内展開の計画に落とし込みます。',
+    output: '業務ひとつ分の通し手順と、社内展開の計画',
+  },
+];
+
+// 各回120分の内訳。「受講者が手を動かす時間の割合」が定着を左右するという設計思想を数字で示す。
+const lessonFlow = [
+  { time: '15分', label: '前回の振り返り', desc: '現場で試した結果と、うまくいかなかった点を共有します。ここがいちばん学びが多い時間です。' },
+  { time: '20分', label: 'テーマ解説', desc: 'その回で扱う機能と、いまの時点でできないこと・注意すべき制約をあわせて説明します。' },
+  { time: '60分', label: '実機ハンズオン', desc: '受講者が自分のパソコンで手を動かします。講師が席を回り、詰まったところをその場で解消します。' },
+  { time: '15分', label: '相互レビュー', desc: '受講者どうしで成果物を見せ合います。他の人の使い方が、いちばん実務のヒントになります。' },
+  { time: '10分', label: '持ち帰り課題', desc: '次回までに現場で試すことと、その効果をどう測るかを決めて終わります。' },
+];
+
+// 対応ツール: 「使っているものだけ書く」方針。ツールを羅列するだけの見せ方にはしない。
+const toolGroups = [
+  {
+    label: '生成AIの本体',
+    note: '研修の中心になるツールです。導入済みのものに合わせてコースを選べます。',
+    items: [
+      { name: 'ChatGPT', desc: '対話型AIの標準。文書作成から表計算の相談まで、業務全般の入口になります' },
+      { name: 'Google Gemini', desc: 'Google Workspaceを使っている会社との相性が良く、普段の画面の中でそのまま使えます' },
+      { name: 'Claude', desc: '長い資料の読み込みや、文章の品質が問われる場面で力を発揮します' },
+    ],
+  },
+  {
+    label: 'Google Workspaceの中で使う',
+    note: '毎日開いている画面の中で完結するため、「AI用の別画面を開く」習慣がいらないのが利点です。',
+    items: [
+      { name: 'Gemini in Gmail / Docs / Sheets / Slides', desc: 'メール返信、文書作成、表の集計、スライド生成を使い慣れた画面の中で行います' },
+      { name: 'Gemini Notebook（旧NotebookLM）', desc: '社内資料を読み込ませ、出典を示しながら答えさせます。社内Q&Aの土台になります' },
+      { name: 'Google Vids', desc: 'スライドから説明動画をつくります。研修の復習動画や手順の共有に使えます' },
+      { name: 'Gems', desc: '部署ごと・業務ごとの専用AIを作って、同じ指示を何度も書かなくて済むようにします' },
+    ],
+  },
+  {
+    label: '発展編（自動化・エージェント）',
+    note: 'エキスパート育成プログラムで扱う領域です。人が操作しなくても仕組みが動く段階に入ります。',
+    items: [
+      { name: 'Google Apps Script (GAS)', desc: 'スプレッドシート・Gmail・カレンダーをつないで自動化します' },
+      { name: 'Workspace Studio', desc: '申請メールの抽出、台帳への記録、担当者への通知といった流れを自動で回します' },
+      { name: 'Dify', desc: '社内文書を読み込ませたチャットボットを構築します' },
+      { name: 'Codex / Claude Code', desc: 'パソコン上の作業そのものをAIに実行させます。当社が自社の業務で毎日動かしている領域です' },
+    ],
+  },
+];
+
+// 期待される効果: 「○%削減」のような検証していない数字は書かない。
+// かわりに「どの業務で何が起きるか」と「どう測るか」を示す。
+const outcomes = [
+  {
+    role: '営業・提案',
+    body: '商談前に、過去のやりとりと資料から要点をまとめたブリーフが作れるようになります。提案書は白紙からではなく、社内の実績と公開データを引いた初稿から始まります。',
+  },
+  {
+    role: '総務・経理・バックオフィス',
+    body: '箇条書きやメール本文を表に変換する、社内規程を読ませて引用付きで答えさせる、請求と入金の突合で不一致を洗い出す。定型の確認作業に使う時間が変わります。',
+  },
+  {
+    role: '人事・教育',
+    body: '既存の業務マニュアルから、新人向けの教材・確認テスト・説明動画を作れるようになります。同じ資料を、対象者に合わせて何通りにも作り直せます。',
+  },
+  {
+    role: '経営・管理職',
+    body: '朝いちばんに、重要なメール・期限が近い案件・その日の会議資料をまとめて把握できます。月次報告や複数部門の報告の比較も、下書きまではAIが担当します。',
+  },
+  {
+    role: '現場部門',
+    body: '安全手順や設備操作の動画化、案件資料の比較と確認質問リストの作成、写真と報告書からの引き継ぎ資料づくりなど、これまで後回しになりがちだった作業が進みます。',
+  },
+  {
+    role: '広報・マーケティング',
+    body: '既存のスライドを縦横比の違う説明動画に展開する、資料から図解を作るなど、制作にかかる工数が下がります。公開前の確認項目もあわせて学びます。',
+  },
+];
+
+// 効果測定の指標。研修の中で受講者自身に測ってもらうため、「使われずに終わる」を防ぐ仕掛けでもある。
+const metrics = [
+  { title: '初稿までの時間', desc: 'AIを使う前と後で、最初の下書きができるまでの時間を計測します' },
+  { title: '修正にかかった時間', desc: '初稿のあとの確認・修正・承認の時間を別で測ります。ここが減らないと本当の効率化にはなりません' },
+  { title: '事実の正確さ', desc: '元の資料と一致していた記述の割合。AIの出力を鵜呑みにしていないかが分かります' },
+  { title: '根拠を確認した割合', desc: '重要な主張について、原文まで戻って確認できているか' },
+  { title: '再現できるか', desc: '同じ作業を、作った本人以外が再実行できる形になっているか' },
+];
+
+// 講師プロフィール。研究職としての経歴が「検品する工程を必ず入れる」設計思想につながっている点を出す。
+const instructorFacts = [
+  { label: '学歴', value: '九州大学大学院 修了（遺伝子工学専攻）' },
+  { label: '前職', value: 'KMバイオロジクス株式会社 技術職として約6年間、ワクチン製造に従事' },
+  { label: '独立', value: '2021年・30歳で独立。2023年7月にWizTry株式会社を設立' },
+  { label: '研修実績', value: '熊本県内を中心に累計90社以上で研修講師を担当' },
+  { label: '登壇回数', value: '2025年の1年間で、企業との打ち合わせ・研修・セミナーは合計300回以上' },
+  { label: '発信', value: 'YouTubeチャンネル「KOTARO AI & VIDEO」を運営' },
+];
+
+// 主な外部登壇。金融機関・報道機関・士業団体など、第三者が主催した場に呼ばれた実績を出す。
+// 熊日の記事は公開記事があるため出典としてリンクする。
+const speakingRecord = [
+  {
+    org: '熊本日日新聞社「熊日プレジデント倶楽部」',
+    title: '会員企業向け 生成AI活用セミナー 講師',
+    note: '2024年5月・びぷれすイノベーションスタジオ（熊本市中央区）',
+    link: {
+      href: 'https://kumanichi.com/articles/1435479',
+      label: '熊本日日新聞の記事を見る',
+    },
+  },
+  {
+    org: '富士フイルムビジネスイノベーションジャパン株式会社',
+    title: '「Bridge for Innovation」登壇',
+    note: '2025年8月・熊本城ホール。県内企業が集まる同社主催イベントに登壇',
+  },
+  {
+    org: '熊本県弁護士会・熊本商工会議所 共催',
+    title: '生成AIセミナー「未来を掴むのはあなた」講師',
+    note: '2025年7月。士業・会員企業向けに、実務でのAI活用を解説',
+  },
+  {
+    org: '熊本県経済同友会 DX委員会',
+    title: '熊本フォーラム 登壇',
+    note: '県内経営者が集まるフォーラムで、DX・AI活用をテーマに登壇',
+  },
+  {
+    org: '肥後銀行「熊本ニューリーダー会」',
+    title: '会員向けセミナー 講師（複数回）',
+    note: '各支部の勉強会でくり返し講師を担当',
+  },
+];
+
 const cases = [
   {
     title: '不動産会社さま（約40名の全社研修）',
+    img: '/gen/case-realestate.webp',
+    alt: '不動産会社での全社向け生成AI研修のイメージ',
     body: 'Gemini for Google Workspaceの全社研修を約40名規模で実施。文書作成や情報共有のスピードが大きく向上し、1年目の成果を受けて2期目の研修を継続してご依頼いただきました。',
   },
   {
     title: '電気設備工事会社さま（12名の集中育成）',
+    img: '/gen/case-electric.webp',
+    alt: '電気設備工事会社での生成AI研修のイメージ',
     body: '全6回・12時間のマスターハンズオン講座を実施。助成金を活用しながら現場部門の中核メンバーを集中的に育成し、研修後には継続のご依頼をいただきました。',
   },
   {
     title: '歯科医院さま（診療と両立する少人数研修）',
+    img: '/gen/case-dental.webp',
+    alt: '歯科医院での少人数の生成AI研修のイメージ',
     body: 'Gemini研修を全6回で実施。診療業務と両立できる回数設計で、書類作成や患者対応文書の効率化を実現。院内の複数スタッフがAIを日常的に使える状態になりました。',
   },
 ];
@@ -77,8 +262,18 @@ const faq = [
   },
   {
     q: 'どのAIツールに対応していますか?',
-    a: 'ChatGPT・Gemini・Claudeなど主要な生成AIに対応しています。Google Workspaceを導入済みの企業にはGemini研修、さらに進んだ自動化にはGASやAIエージェントまでご提案できます。',
-    link: { href: '/kumamoto-ai-agent/', label: 'AIエージェント導入支援を見る' },
+    a: 'ChatGPT・Google Gemini・Claudeという主要な生成AIに対応しています。Google Workspaceを導入済みの企業には、Gemini in Gmail/Docs/Sheets/Slides、Gemini Notebook（旧NotebookLM）、Google Vids、Gemsまで扱うGemini研修を。さらに進んだ自動化には、Google Apps Script・Workspace Studio・Dify・Codex／Claude Codeによる業務自動化までご提案できます。',
+    link: { href: '#tools', label: '対応ツールの一覧を見る' },
+  },
+  {
+    q: '研修のカリキュラムはどんな内容ですか?',
+    a: '一例として、もっとも多い1回2時間×全6回（計12時間）の構成をご紹介します。①指示の組み立て方と文書・画像生成、②社内資料を読ませた自分専用AIの構築、③パソコン作業を任せるAIエージェント入門、④提案・プレゼン資料の作成、⑤表計算・集計業務の効率化、⑥実務を想定した総合演習、という順で進みます。扱うツールやテーマの深さ、回数によって組み立ては変わるため、これはあくまでサンプルです。最終回は、データの突合から連絡文の作成、一覧化、報告資料までを一連の業務として通しで実施します。演習は当社が用意する研修用のサンプル教材で行い、毎回「持ち帰れる成果物」が1つ残る設計です。',
+    link: { href: '#curriculum', label: '全6回のカリキュラム例を見る' },
+  },
+  {
+    q: '研修の効果はどうやって測りますか?',
+    a: '感想アンケートだけでは、実務で使われているかどうかは分かりません。当社の研修では、受講者自身に「初稿までの時間」「修正にかかった時間」「事実の正確さ」「根拠を確認した割合」「他の人が同じ作業を再現できるか」を測ってもらいます。とくに見落とされがちなのが修正時間で、初稿が10分で出ても手直しに1時間かかっていれば効率化にはなっていません。ここまで測って初めて、導入判断に使える数字になります。',
+    link: { href: '#effect', label: '期待される効果と測り方を見る' },
   },
   {
     q: '熊本でAI研修を実施している会社はどこですか?',
@@ -86,7 +281,8 @@ const faq = [
   },
   {
     q: '講師はどなたが担当しますか?',
-    a: '代表の末松光太郎が中心に登壇します。九州大学大学院修了後、KMバイオロジクスでワクチン製造の技術職として約6年間従事し、30歳で独立。2025年度の研修・セミナー登壇は年間300回以上です。自らも日常業務でAIを使い続けている実務者が教えるため、「使っていない人の一般論」になりません。',
+    a: '代表の末松光太郎が中心に登壇します。九州大学大学院で遺伝子工学を専攻し、修了後はKMバイオロジクスでワクチン製造の技術職として約6年間従事。2021年に30歳で独立し、2023年7月にWizTry株式会社を設立しました。熊本県内を中心に累計90社以上で研修講師を務めるほか、熊本日日新聞社「熊日プレジデント倶楽部」の会員企業向けセミナー、富士フイルムビジネスイノベーションジャパン主催「Bridge for Innovation」、熊本県弁護士会・熊本商工会議所の共催セミナー、熊本県経済同友会DX委員会 熊本フォーラム、肥後銀行「熊本ニューリーダー会」など、外部主催のセミナーにも講師として招かれています。自社の業務にもAIを組み込み、担当を分けた「AI社員」10名分を毎日動かしている実務者が教えるため、「使っていない人の一般論」になりません。研修は代表のほか複数名の講師が担当します。',
+    link: { href: '#instructor', label: '講師のプロフィールを見る' },
   },
   {
     q: 'オンラインでも受講できますか?',
@@ -181,6 +377,35 @@ const courseLd = {
   })),
 };
 
+// 講師のPerson構造化データ。E-E-A-T（誰が教えているのか）を検索エンジン・LLMに明示する。
+const instructorLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: '末松 光太郎',
+  jobTitle: '代表取締役 / 生成AI研修講師',
+  worksFor: { '@type': 'Organization', name: 'WizTry株式会社', url: 'https://wiztrydx.com' },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: '九州大学大学院' },
+  knowsAbout: [
+    '生成AI',
+    'ChatGPT',
+    'Google Gemini',
+    'Claude',
+    'AIエージェント',
+    '企業研修',
+    '業務自動化',
+  ],
+  url: 'https://wiztrydx.com/kumamoto-ai-training/#instructor',
+  image: 'https://wiztrydx.com/photos/ceo.webp',
+  // 第三者主催の登壇歴。誰に呼ばれている講師なのかを機械可読にする
+  subjectOf: speakingRecord.map((t) => ({
+    '@type': 'Event',
+    name: `${t.org} ${t.title}`,
+    description: t.note,
+    performer: { '@type': 'Person', name: '末松 光太郎' },
+    ...(t.link ? { sameAs: t.link.href } : {}),
+  })),
+};
+
 const breadcrumbLd = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
@@ -194,12 +419,13 @@ const breadcrumbLd = {
 
 <Base
   title="熊本の企業向け生成AI研修"
-  description="熊本の企業向け生成AI研修（ChatGPT・Gemini・Claude対応）。講師が隣につく対面ハンズオン形式で、累計90社以上・満足度4.8。助成金・補助金の活用もサポート。熊本県内全域に対応します。"
+  description="熊本の企業向け生成AI研修（ChatGPT・Gemini・Claude対応）。全6回12時間のカリキュラム例、部門別に期待される効果、対応ツール、講師の経歴まで公開。講師が隣につく対面ハンズオン形式で、累計90社以上・満足度4.8。助成金・補助金の活用もサポートします。"
   onDark={true}
 >
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(serviceLd)} />
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(faqLd)} />
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(courseLd)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(instructorLd)} />
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbLd)} />
 
   <PageHero
@@ -208,6 +434,21 @@ const breadcrumbLd = {
     desc="ChatGPT・Gemini・Claudeを「現場で使える」レベルまで。講師が隣につく対面ハンズオンで、熊本の会社の生産性を変えます。"
     bg="/photos/hero-seminar.webp"
   />
+
+  <!-- ページ内ナビ: 情報量が多いページなので、知りたい所へ直接飛べるようにする -->
+  <nav class="page-nav" aria-label="ページ内の目次">
+    <div class="container">
+      <ul>
+        <li><a href="#curriculum">カリキュラム例</a></li>
+        <li><a href="#tools">対応ツール</a></li>
+        <li><a href="#effect">期待される効果</a></li>
+        <li><a href="#cases">研修事例</a></li>
+        <li><a href="#instructor">講師について</a></li>
+        <li><a href="#subsidy">助成金・補助金</a></li>
+        <li><a href="#faq">よくある質問</a></li>
+      </ul>
+    </div>
+  </nav>
 
   <!-- 導入: 課題への共感と答え -->
   <section class="section">
@@ -303,8 +544,166 @@ const breadcrumbLd = {
     </div>
   </section>
 
+  <!-- カリキュラム例 -->
+  <section class="section" id="curriculum">
+    <div class="container">
+      <SectionHead
+        en="CURRICULUM"
+        title="カリキュラム例（全6回・12時間）"
+        lead="ここに載せているのは、数あるカリキュラムのうちの一例です。1回2時間×全6回でご依頼いただくことが多いため、その構成をサンプルとしてご紹介します。"
+      />
+
+      <div class="container narrow-copy">
+        <p class="lead-copy reveal">
+          研修の中身は、ここに書いたものだけではありません。扱うツール、テーマの深さ、回数によって組み立ては変わります。<em>あくまで「こういう流れで進みます」という一例</em>として見ていただき、詳しい内容はご相談の際にお伝えできればと思います。
+        </p>
+        <p class="lead-copy reveal reveal-d1">
+          共通しているのは進め方です。1日に詰め込むのではなく、間隔をあけて「学ぶ→現場で試す→持ち帰って質問する」を繰り返します。
+        </p>
+      </div>
+
+      <div class="curriculum">
+        {
+          curriculum.map((c) => (
+            <article class="lesson reveal">
+              <div class="lesson-media zoom-media">
+                <img src={c.img} alt={`${c.num}「${c.title}」のイメージ`} loading="lazy" decoding="async" width="1024" height="1024" />
+              </div>
+              <div class="lesson-content">
+                <div class="lesson-head">
+                  <span class="lesson-num">{c.num}</span>
+                  <h3 class="lesson-title">{c.title}</h3>
+                </div>
+                <p class="lesson-learn">{c.learn}</p>
+                <p class="lesson-output">
+                  <span class="lesson-output-label">持ち帰るもの</span>
+                  {c.output}
+                </p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <p class="curriculum-note reveal">
+        ※上記はカリキュラムの一例です。演習は当社が用意する研修用のサンプル教材で行います。カリキュラムは、累計90社以上の支援で集積した業種別の活用事例・知見を体系化した共通教材です。
+      </p>
+
+      <h3 class="block-title reveal mt-72">1回120分の進め方</h3>
+      <p class="block-lead reveal">
+        研修が「聞いて終わり」になるかどうかは、受講者が実際に手を動かした時間の割合でほぼ決まります。だから時間配分は毎回この形に固定しています。
+      </p>
+      <div class="flow-line">
+        {
+          lessonFlow.map((f, i) => (
+            <div class={`flow-cell reveal reveal-d${(i % 3) + 1}`}>
+              <span class="flow-time">{f.time}</span>
+              <span class="flow-label">{f.label}</span>
+              <p class="flow-desc">{f.desc}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="flow-emph reveal">
+        受講者が自分で操作・レビューする時間が、<em>全体の60%以上</em>。講義を聞いている時間のほうが短くなるように設計しています。
+      </p>
+
+      <div class="variant-box reveal">
+        <h4>回数・時間の組み替えについて</h4>
+        <ul>
+          <li><strong>全4〜10回</strong>まで、業務と両立できるペースに合わせて調整します</li>
+          <li><strong>4時間の短縮版</strong>もご用意しています（要点を絞り、発展編は紹介にとどめます）</li>
+          <li><strong>管理者向けの追加60分</strong>では、機能のON/OFF、共有範囲、情報漏えい対策などの管理設定を扱います</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 対応ツール -->
+  <section class="section section--navy" id="tools">
+    <div class="container">
+      <SectionHead
+        en="TOOLS"
+        title="対応する生成AIツール"
+        lead="流行っているツールを名前だけ並べることはしません。当社が実際に自社の業務で動かし、研修で教えられるものだけを掲載しています。"
+      />
+      {
+        toolGroups.map((g, gi) => (
+          <div class={`tool-group reveal reveal-d${(gi % 3) + 1}`}>
+            <div class="tool-group-head">
+              <h3>{g.label}</h3>
+              <p>{g.note}</p>
+            </div>
+            <div class="tool-list">
+              {g.items.map((t) => (
+                <div class="tool-item">
+                  <span class="tool-name">{t.name}</span>
+                  <span class="tool-desc">{t.desc}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+      <p class="tool-note reveal">
+        新しいツールが出るたびに乗り換える研修はしません。指示の組み立て方、根拠の確かめ方、人が検品する工程の置き方——この土台は共通なので、ツールが入れ替わっても使い続けられます。
+      </p>
+    </div>
+  </section>
+
+  <!-- 期待される効果 -->
+  <section class="section" id="effect">
+    <div class="container">
+      <SectionHead
+        en="EFFECT"
+        title="研修後に、何が変わるか"
+        lead="職種によって効果の出方は違います。実際に受講後の現場で起きていることを、部門別にまとめました。"
+      />
+      <div class="effect-band zoom-media reveal">
+        <img
+          src="/gen/effect-office.webp"
+          alt="研修後、日常業務のなかでAIを使いこなすオフィスのイメージ"
+          loading="lazy"
+          decoding="async"
+          width="1536"
+          height="1024"
+        />
+      </div>
+      <div class="grid grid--3">
+        {
+          outcomes.map((o, i) => (
+            <div class={`card outcome-card tilt reveal reveal-d${(i % 3) + 1}`}>
+              <span class="outcome-role">{o.role}</span>
+              <p>{o.body}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="container narrow-copy">
+        <h3 class="block-title reveal mt-72">「便利だった」で終わらせないための、効果の測り方</h3>
+        <p class="lead-copy reveal">
+          研修がうまくいったかどうかを、感想アンケートだけで判断すると、たいてい半年後には誰も使っていません。だから当社の研修では、<em>受講者自身に次の指標を測ってもらいます</em>。数字で見えると、続ける理由が本人の中にできます。
+        </p>
+      </div>
+      <div class="metrics">
+        {
+          metrics.map((m, i) => (
+            <div class={`metric reveal reveal-d${(i % 3) + 1}`}>
+              <h4>{m.title}</h4>
+              <p>{m.desc}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="metric-note reveal">
+        とくに見落とされがちなのが<strong>「修正にかかった時間」</strong>です。初稿が10分で出ても、確認と手直しに1時間かかっていれば効率化にはなりません。ここまで測って初めて、導入判断ができる数字になります。
+      </p>
+    </div>
+  </section>
+
   <!-- 対応業種 -->
-  <section class="section">
+  <section class="section section--alt">
     <div class="container">
       <SectionHead en="INDUSTRY" title="熊本の幅広い業種に対応" center />
       <div class="tag-row center reveal">
@@ -317,7 +716,7 @@ const breadcrumbLd = {
   </section>
 
   <!-- 事例 -->
-  <section class="section section--alt">
+  <section class="section" id="cases">
     <div class="container">
       <SectionHead
         en="CASE"
@@ -328,8 +727,13 @@ const breadcrumbLd = {
         {
           cases.map((c, i) => (
             <div class:list={['card', 'case-mini', 'tilt', 'reveal', `reveal-d${i + 1}`]}>
-              <h3>{c.title}</h3>
-              <p>{c.body}</p>
+              <div class="case-media zoom-media">
+                <img src={c.img} alt={c.alt} loading="lazy" decoding="async" width="1200" height="900" />
+              </div>
+              <div class="case-body">
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </div>
             </div>
           ))
         }
@@ -340,14 +744,121 @@ const breadcrumbLd = {
     </div>
   </section>
 
+  <!-- 講師 -->
+  <section class="section section--alt" id="instructor">
+    <div class="container">
+      <SectionHead
+        en="INSTRUCTOR"
+        title="講師について"
+        lead="研修の質は、教材よりも「誰が教えるか」に左右されます。だから経歴も、なぜこの教え方をしているのかも、先に開示しています。"
+      />
+      <div class="instructor">
+        <div class="instructor-main reveal">
+          <span class="instructor-role">WizTry株式会社 代表取締役</span>
+          <h3 class="instructor-name">末松 光太郎<span class="instructor-kana">すえまつ こうたろう</span></h3>
+          <p class="instructor-body">
+            九州大学大学院で遺伝子工学を学び、KMバイオロジクスの技術職として約6年間ワクチン製造に従事。2021年に30歳で独立し、2023年7月にWizTry株式会社を設立しました。最初の就職先が熊本で、独立したときに熊本の経営者の方々に助けていただいた——その恩返しがしたくて、熊本を事業拠点に選んでいます。
+          </p>
+          <p class="instructor-body">
+            いまは自社の業務そのものをAIで動かしています。担当を分けた「AI社員」を10名分運用し、毎日・毎週・毎月の定時業務を回している当事者です。<em>自分が毎日使っているからこそ、「使っていない人の一般論」にならない</em>——これが研修でいちばん大事にしている点です。
+          </p>
+        </div>
+        <div class="instructor-side reveal reveal-d1">
+          <div class="instructor-photo zoom-media">
+            <img
+              src="/photos/ceo.webp"
+              alt="WizTry株式会社 代表取締役 末松光太郎"
+              loading="lazy"
+              decoding="async"
+              width="1080"
+              height="1080"
+            />
+          </div>
+          <dl class="instructor-facts">
+            {
+              instructorFacts.map((f) => (
+                <div class="fact">
+                  <dt>{f.label}</dt>
+                  <dd>{f.value}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+
+      <h3 class="block-title reveal mt-72">主な登壇実績</h3>
+      <p class="block-lead reveal">
+        自社開催のセミナーだけでなく、報道機関・金融機関・士業団体・経済団体など、第三者が主催する場にも講師として呼ばれています。
+      </p>
+
+      <div class="talk-photos reveal">
+        <figure class="talk-photo zoom-media">
+          <img
+            src="/photos/seminar-podium.webp"
+            alt="外部主催セミナーで登壇する代表・末松光太郎"
+            loading="lazy"
+            decoding="async"
+            width="1800"
+            height="1350"
+          />
+        </figure>
+        <figure class="talk-photo zoom-media">
+          <img
+            src="/photos/seminar-wide.webp"
+            alt="満席の会場で行われた生成AIセミナーの様子"
+            loading="lazy"
+            decoding="async"
+            width="1800"
+            height="1350"
+          />
+        </figure>
+      </div>
+      <p class="talk-photo-cap reveal">外部主催セミナーでの登壇の様子。数十名〜100名弱の規模でお話しすることが多くあります。</p>
+
+      <div class="talks">
+        {
+          speakingRecord.map((t, i) => (
+            <div class={`talk reveal reveal-d${(i % 3) + 1}`}>
+              <span class="talk-org">{t.org}</span>
+              <h4 class="talk-title">{t.title}</h4>
+              <p class="talk-note">{t.note}</p>
+              {t.link && (
+                <p class="talk-link">
+                  <a href={t.link.href} target="_blank" rel="noopener noreferrer">
+                    {t.link.label} <span class="arrow">→</span>
+                  </a>
+                </p>
+              )}
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="instructor-why reveal">
+        <h4>なぜ「AIの検品」まで必ず教えるのか</h4>
+        <p>
+          生成AIは、それらしい嘘を自信たっぷりに書きます。研究職時代、数字を一つ間違えれば実験そのものがやり直しになる環境にいたため、出てきた結果を確かめずに次へ進む怖さを知っています。だからWizTryの研修では、便利な使い方と同じだけの時間をかけて、<strong>根拠の確かめ方と、人が最終確認する工程の置き方</strong>を扱います。社外に出す文書、お金に関わる数字、初めてやる種類の仕事——ここには必ず人の関所を残します。
+        </p>
+      </div>
+
+      <p class="instructor-note reveal">
+        研修は代表のほか、複数名の講師が担当します。回数・受講人数・実施時期に応じて体制をご相談ください。
+      </p>
+    </div>
+  </section>
+
   <!-- 助成金 -->
-  <section class="section section--navy">
+  <section class="section section--navy" id="subsidy">
     <div class="container">
       <SectionHead
         en="SUBSIDY"
         title="助成金・補助金の活用もサポート"
         lead="要件に合う制度があれば、受講負担を抑えて研修を実施できます。制度選びから申請の流れまで、あわせてご案内します。"
       />
+      <div class="subsidy-visual reveal">
+        <img src="/gen/subsidy-support.webp" alt="助成金・補助金を活用した人材育成のイメージ" loading="lazy" decoding="async" width="1200" height="900" />
+      </div>
       <div class="grid grid--2">
         <div class="card subsidy-card reveal">
           <h3>熊本県リスキリング応援補助金</h3>
@@ -363,7 +874,7 @@ const breadcrumbLd = {
   </section>
 
   <!-- FAQ -->
-  <section class="section">
+  <section class="section" id="faq">
     <div class="container">
       <SectionHead en="FAQ" title="よくある質問" center />
       <div class="faq faq-single reveal">
@@ -455,6 +966,491 @@ const breadcrumbLd = {
     color: var(--ink-soft);
   }
 
+  /* ── カリキュラム ───────────────────────────── */
+  .curriculum {
+    display: grid;
+    gap: 16px;
+    margin-top: 44px;
+  }
+  /* 各回カード: 左に正方形のイメージ、右に本文。画像は角丸の内側に収める */
+  .lesson {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0;
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .lesson-media {
+    height: 100%;
+    background: #0a1630;
+  }
+  .lesson-media img {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    object-fit: cover;
+    display: block;
+  }
+  .lesson-content {
+    padding: 26px clamp(20px, 3vw, 32px);
+  }
+  .lesson-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 16px;
+    margin-bottom: 14px;
+  }
+  .lesson-num {
+    flex: 0 0 auto;
+    font-family: var(--font-en);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    color: var(--blue-500);
+  }
+  .lesson-title {
+    font-size: clamp(16px, 1.9vw, 19px);
+    line-height: 1.65;
+    letter-spacing: 0.02em;
+  }
+  .lesson-learn {
+    font-size: 14px;
+    line-height: 2.05;
+    color: var(--ink-soft);
+  }
+  /* 持ち帰る成果物: 「聞いて終わりではない」ことを一目で示す行 */
+  .lesson-output {
+    margin-top: 16px;
+    padding-top: 15px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 12px;
+    font-size: 13.5px;
+    line-height: 1.9;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .lesson-output-label {
+    flex: 0 0 auto;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--blue-500);
+    border: 1px solid rgba(47, 107, 255, 0.32);
+    border-radius: 999px;
+    padding: 3px 12px;
+  }
+  .curriculum-note {
+    margin-top: 22px;
+    font-size: 12.5px;
+    line-height: 1.95;
+    color: var(--muted);
+  }
+
+  .block-title {
+    font-size: clamp(18px, 2vw, 21px);
+    font-weight: 700;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .block-lead {
+    font-size: 14.5px;
+    line-height: 2.1;
+    color: var(--ink-soft);
+    max-width: 720px;
+  }
+  .mt-72 {
+    margin-top: 72px;
+  }
+
+  /* 120分の内訳: 時間の重みが見えるよう横一列に並べる */
+  .flow-line {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 30px;
+  }
+  .flow-cell {
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 18px;
+  }
+  .flow-time {
+    display: block;
+    font-family: var(--font-en);
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--blue-500);
+  }
+  .flow-label {
+    display: block;
+    margin: 10px 0 10px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .flow-desc {
+    font-size: 12.5px;
+    line-height: 1.95;
+    color: var(--ink-soft);
+  }
+  .flow-emph {
+    margin-top: 24px;
+    font-size: 14.5px;
+    line-height: 2;
+    color: var(--ink-soft);
+  }
+  .flow-emph em {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--ink);
+    background: linear-gradient(transparent 68%, rgba(47, 107, 255, 0.18) 68%);
+  }
+
+  .variant-box {
+    margin-top: 44px;
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px clamp(22px, 3vw, 34px);
+  }
+  .variant-box h4 {
+    font-size: 15.5px;
+    margin-bottom: 16px;
+  }
+  .variant-box ul {
+    list-style: none;
+    display: grid;
+    gap: 11px;
+  }
+  .variant-box li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 13.5px;
+    line-height: 1.95;
+    color: var(--ink-soft);
+  }
+  .variant-box li::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 11px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--cyan-400, var(--blue-500));
+  }
+  .variant-box strong {
+    color: var(--ink);
+  }
+
+  /* ── 対応ツール（navy背景） ───────────────────── */
+  .tool-group + .tool-group {
+    margin-top: 44px;
+  }
+  .tool-group:first-of-type {
+    margin-top: 44px;
+  }
+  .tool-group-head h3 {
+    color: #fff;
+    font-size: 16.5px;
+    letter-spacing: 0.03em;
+    margin-bottom: 8px;
+  }
+  .tool-group-head p {
+    font-size: 13px;
+    line-height: 1.95;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .tool-list {
+    display: grid;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .tool-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 18px;
+    padding: 17px 22px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .tool-name {
+    flex: 0 0 auto;
+    font-family: var(--font-en);
+    font-weight: 700;
+    font-size: 15.5px;
+    color: #fff;
+  }
+  .tool-desc {
+    flex: 1 1 260px;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .tool-note {
+    margin-top: 40px;
+    font-size: 13.5px;
+    line-height: 2.05;
+    color: rgba(255, 255, 255, 0.65);
+    max-width: 760px;
+  }
+
+  /* ── 期待される効果 ──────────────────────────── */
+  .effect-band {
+    margin: 44px 0 40px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+  }
+  .effect-band img {
+    width: 100%;
+    aspect-ratio: 21 / 8;
+    object-fit: cover;
+    display: block;
+  }
+
+  .outcome-card {
+    padding: 28px clamp(20px, 3vw, 30px);
+  }
+  .outcome-role {
+    display: inline-block;
+    margin-bottom: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--blue-500);
+    background: rgba(47, 107, 255, 0.08);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+  .outcome-card p {
+    font-size: 13.5px;
+    line-height: 2;
+    color: var(--ink-soft);
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 32px;
+  }
+  .metric {
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 20px;
+  }
+  .metric h4 {
+    font-size: 14.5px;
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+  .metric p {
+    font-size: 12.5px;
+    line-height: 1.95;
+    color: var(--ink-soft);
+  }
+  .metric-note {
+    margin-top: 26px;
+    font-size: 13.5px;
+    line-height: 2.05;
+    color: var(--ink-soft);
+    max-width: 780px;
+  }
+  .metric-note strong {
+    color: var(--ink);
+  }
+
+  /* ── 講師 ───────────────────────────────────── */
+  .instructor {
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap: 32px;
+    align-items: start;
+    margin-top: 44px;
+  }
+  .instructor-role {
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--blue-500);
+  }
+  .instructor-name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 14px;
+    margin: 10px 0 22px;
+    font-size: clamp(22px, 2.6vw, 28px);
+    letter-spacing: 0.04em;
+  }
+  .instructor-kana {
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .instructor-body {
+    font-size: 14.5px;
+    line-height: 2.15;
+    color: var(--ink-soft);
+  }
+  .instructor-body + .instructor-body {
+    margin-top: 1.3em;
+  }
+  .instructor-body em {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--ink);
+    background: linear-gradient(transparent 68%, rgba(47, 107, 255, 0.18) 68%);
+  }
+
+  /* 顔写真＋経歴表を縦に積む右カラム */
+  .instructor-photo {
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    margin-bottom: 18px;
+  }
+  .instructor-photo img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center 32%;
+    display: block;
+  }
+
+  .instructor-facts {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 26px clamp(20px, 2.5vw, 28px);
+  }
+  .instructor-facts .fact + .fact {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .instructor-facts dt {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--blue-500);
+    margin-bottom: 7px;
+  }
+  .instructor-facts dd {
+    font-size: 13.5px;
+    line-height: 1.95;
+    color: var(--ink-soft);
+  }
+
+  /* 登壇実績の実写。生成画像だと「架空のイベント写真」に見えるため実際の登壇写真を使う */
+  .talk-photos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 32px;
+  }
+  .talk-photo {
+    border-radius: 16px;
+    border: 1px solid var(--line);
+  }
+  .talk-photo img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+  }
+  .talk-photo-cap {
+    margin-top: 14px;
+    font-size: 12.5px;
+    line-height: 1.9;
+    color: var(--muted);
+  }
+
+  /* 登壇実績: 主催者名を上に置き、どこに呼ばれたかが先に読めるようにする */
+  .talks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+    margin-top: 32px;
+  }
+  .talk {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--blue-500);
+    border-radius: 14px;
+    padding: 24px 22px;
+  }
+  .talk-org {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--blue-500);
+    line-height: 1.7;
+    margin-bottom: 9px;
+  }
+  .talk-title {
+    font-size: 14.5px;
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+  .talk-note {
+    font-size: 12.5px;
+    line-height: 1.95;
+    color: var(--ink-soft);
+  }
+  .talk-link {
+    margin-top: 12px;
+    font-size: 12.5px;
+    font-weight: 700;
+  }
+  .talk-link a {
+    color: var(--blue-500);
+    text-decoration: none;
+  }
+  .talk-link a:hover {
+    text-decoration: underline;
+  }
+
+  .instructor-why {
+    margin-top: 40px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--blue-500);
+    border-radius: 16px;
+    padding: 28px clamp(22px, 3vw, 34px);
+  }
+  .instructor-why h4 {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .instructor-why p {
+    font-size: 14px;
+    line-height: 2.1;
+    color: var(--ink-soft);
+  }
+  .instructor-why strong {
+    color: var(--ink);
+  }
+  .instructor-note {
+    margin-top: 24px;
+    font-size: 12.5px;
+    line-height: 1.95;
+    color: var(--muted);
+  }
+
   .to-service {
     margin-top: 36px;
     text-align: center;
@@ -488,8 +1484,46 @@ const breadcrumbLd = {
     margin-top: 44px;
   }
 
+  /* ページ内ナビ: ヒーロー直下。長いページの入口として横並びで置く */
+  .page-nav {
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+  }
+  .page-nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 4px;
+    padding: 14px 0;
+  }
+  .page-nav a {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .page-nav a:hover {
+    background: rgba(47, 107, 255, 0.08);
+    color: var(--blue-500);
+  }
+
   .case-mini {
-    padding: 28px clamp(20px, 3vw, 30px);
+    padding: 0;
+    overflow: hidden;
+  }
+  .case-media img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    display: block;
+  }
+  .case-body {
+    padding: 24px clamp(20px, 3vw, 28px) 28px;
   }
   .case-mini h3 {
     font-size: 15.5px;
@@ -501,6 +1535,18 @@ const breadcrumbLd = {
     font-size: 13.5px;
     line-height: 2;
     color: var(--ink-soft);
+  }
+
+  /* 助成金セクションの視覚的な休符。navy背景に馴染むよう幅を抑えて中央に置く */
+  .subsidy-visual {
+    max-width: 460px;
+    margin: 40px auto 4px;
+  }
+  .subsidy-visual img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 18px;
   }
 
   .section--navy .subsidy-card {
@@ -580,9 +1626,75 @@ const breadcrumbLd = {
     text-decoration: underline;
   }
 
+  /* 120分の内訳は5列固定だと窮屈になるため、中間幅で2段に折る */
+  @media (max-width: 900px) {
+    .flow-line {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .instructor {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    /* 1カラムになると顔写真が全幅まで伸びて主張しすぎるため、
+       プロフィール写真らしい大きさに絞って正方形に切る */
+    .instructor-photo {
+      max-width: 180px;
+    }
+    .instructor-photo img {
+      aspect-ratio: 1 / 1;
+    }
+    .lesson {
+      grid-template-columns: 150px 1fr;
+    }
+  }
+
   @media (max-width: 640px) {
     .lead-copy {
       line-height: 2.05;
+    }
+    /* スマホでは横並びだと画像も本文も潰れるため、画像を上に回す */
+    .lesson {
+      grid-template-columns: 1fr;
+    }
+    .lesson-media img {
+      min-height: 0;
+      aspect-ratio: 16 / 9;
+    }
+    .effect-band img {
+      aspect-ratio: 16 / 9;
+    }
+    .talk-photos {
+      grid-template-columns: 1fr;
+    }
+    .page-nav ul {
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .page-nav ul::-webkit-scrollbar {
+      display: none;
+    }
+    .page-nav a {
+      white-space: nowrap;
+    }
+    .flow-line {
+      grid-template-columns: 1fr;
+    }
+    .metrics {
+      grid-template-columns: 1fr;
+    }
+    /* 縦並びに切り替えると flex-basis が「高さ」として効いてしまい、
+       説明文の下に260px分の空白が出るため、ここで基準値を戻す */
+    .tool-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      padding: 18px 20px;
+    }
+    .tool-desc {
+      flex: 0 1 auto;
     }
   }
 </style>
