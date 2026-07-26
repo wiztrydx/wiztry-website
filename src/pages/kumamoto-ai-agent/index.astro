@@ -40,17 +40,6 @@ const capabilities = [
   },
 ];
 
-const agentTasks = [
-  '営業資料作成',
-  '研修資料作成',
-  'メール返信の下書き',
-  'ブログ更新',
-  '請求書作成',
-  '問い合わせ一次対応',
-  '会議後の情報整理',
-  '定時レポート',
-];
-
 const kumamotoReasons = [
   {
     num: '01',
@@ -226,23 +215,6 @@ const breadcrumbLd = {
           <p class="intro-lead reveal">
             WizTryのAI導入支援は、熊本の企業に残る繰り返し業務を、<strong>AIエージェントが最後まで進められる仕組み</strong>へ変える支援です。ツールを入れて終わりではなく、業務の整理、試作、本番導入、運用改善まで伴走します。
           </p>
-        </div>
-
-        <figure class="figure reveal">
-          <img
-            src="/gen/diag-jisseki.webp"
-            alt="WizTryでの実績。実務がAIエージェントだけで回る割合は8割以上。任せている業務は営業資料作成・研修資料作成・メール返信・ブログ更新・SNS運用・請求書作成・問い合わせ対応・HP作成"
-            loading="lazy"
-            decoding="async"
-            width="1024"
-            height="1024"
-          />
-          <figcaption class="figure-cap">
-            WizTry自身の実績です。Claude CodeやCodexで組んだAIエージェントに日々の業務を任せ、その運用で分かったことをそのまま支援に使っています。
-          </figcaption>
-        </figure>
-
-        <div class="reading-column">
           <div class="quick-start reveal reveal-d1">
             <div>
               <span class="quick-start-label">SMALL START</span>
@@ -288,13 +260,6 @@ const breadcrumbLd = {
             <h3>ハウスメーカーの業務エージェント導入</h3>
             <p class="case-summary">定型業務をAIエージェントへ移し、空いた時間をお客様対応と提案品質の向上へ充てられる状態をつくりました。</p>
             <p class="case-result"><strong>月20時間以上</strong><span>1人あたりの業務時間を削減</span></p>
-            <dl class="case-facts">
-              <div><dt>業種</dt><dd>ハウスメーカー</dd></div>
-              <div><dt>導入前の課題</dt><dd>定型業務が担当者の時間を圧迫</dd></div>
-              <div><dt>導入した仕組み</dt><dd>業務エージェント</dd></div>
-              <div><dt>削減時間</dt><dd>1人あたり月20時間以上</dd></div>
-              <div><dt>導入期間</dt><dd>対象業務と連携範囲により変動</dd></div>
-            </dl>
             <p class="case-note">※守秘のため社名と対象業務の詳細は非公開です。導入期間の目安は、業務を確認したうえでご案内します。</p>
           </div>
         </article>
@@ -431,23 +396,24 @@ const breadcrumbLd = {
           <SectionHead
             en="WHY WIZTRY"
             title="自社で使い切っているから、運用まで設計できます"
-            lead="WizTry自身が、Claude CodeやCodexで組んだAIエージェントを毎日の社内業務で動かしています。机上の一般論ではなく、実際に止まった点や直し方まで支援へ反映します。"
+            lead="WizTry自身が、Claude CodeやCodexで組んだAIエージェントに、実務の8割以上を任せています。机上の一般論ではなく、実際に止まった点や直し方まで支援へ反映します。"
           />
         </div>
 
-        <div class="proof-grid wide-column">
-          <div class="headline-stat reveal">
-            <p class="headline-num">8<span>割以上</span></p>
-            <p class="headline-label">当社の実務で、AIエージェントが作業を担う割合</p>
-          </div>
-          <div class="proof-tasks reveal reveal-d1">
-            <p class="proof-tasks-title">実際に任せている業務</p>
-            <ul class="task-list">
-              {agentTasks.map((task) => <li>{task}</li>)}
-            </ul>
-            <p class="proof-sub">累計90社以上の支援を続けながら、定時業務18本を社内で運用しています。</p>
-          </div>
-        </div>
+        <figure class="figure reveal">
+          <img
+            src="/gen/diag-jisseki.webp"
+            alt="WizTryでの実績。実務がAIエージェントだけで回る割合は8割以上。任せている業務は営業資料作成・研修資料作成・メール返信・ブログ更新・SNS運用・請求書作成・問い合わせ対応・HP作成"
+            loading="lazy"
+            decoding="async"
+            width="1024"
+            height="1024"
+          />
+          <figcaption class="figure-cap">
+            営業資料・研修資料の作成、メール返信の下書き、ブログ更新、請求書作成、問い合わせの一次対応まで、日々の実務をAIエージェントが担っています。累計90社以上の支援を続けながら、定時業務18本を社内で運用中です。
+          </figcaption>
+        </figure>
+
         <p class="proof-note wide-column reveal">
           ※「実務の8割以上」は、当社が定義する定型業務・資料作成・情報整理等の作業時間に占める割合（2026年7月時点の社内集計）です。最終確認・経営判断・送信・契約や金額の確定など、対外的な意思決定は人が実施しています。
         </p>
@@ -538,21 +504,9 @@ const breadcrumbLd = {
             height="1024"
           />
           <figcaption class="figure-cap">
-            STEP 02でつくる「AIが読む会社の資料」の形です。特別なシステムではなく、フォルダとファイルの集まりです。AIエージェントは仕事のたびにここを読み返すので、ここが整うほど出てくるものの質が上がります。
+            STEP 02でつくる「AIが読む会社の資料」の形です。特別なシステムではなく、フォルダとファイルの集まりです。AIエージェントは仕事のたびにここを読み返すので、現場のやり方が変わったら、この資料も一緒に更新します。
           </figcaption>
         </figure>
-
-        <div class="reading-column">
-          <div class="reality-panel reveal">
-            <h3>導入で失敗しないための3原則</h3>
-            <ol>
-              <li><strong>小さく始める</strong><span>最初から「営業を全部」のような大きな単位を選ばない。</span></li>
-              <li><strong>直した内容を戻す</strong><span>AIの出力へ入れた修正を、その場で手順とルールへ書き戻す。</span></li>
-              <li><strong>運用を止めない</strong><span>現場のやり方が変わったら、AIが読む情報も同時に更新する。</span></li>
-            </ol>
-            <p>導入期間は、対象業務・社内資料の状態・必要な連携で変わります。初回相談で試作と本番導入の目安を分けてお伝えします。</p>
-          </div>
-        </div>
 
         <div class="training-choice wide-column reveal">
           <article>
@@ -707,7 +661,6 @@ const breadcrumbLd = {
     color: var(--ink-soft);
   }
 
-  .figure + .proof-grid,
   .figure + .security-grid {
     margin-top: 36px;
   }
@@ -933,31 +886,6 @@ const breadcrumbLd = {
     color: var(--ink);
   }
 
-  .case-facts {
-    margin: 18px 0 0;
-  }
-
-  .case-facts div {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 16px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .case-facts dt {
-    font-size: 12.5px;
-    font-weight: 700;
-    color: var(--muted);
-  }
-
-  .case-facts dd {
-    margin: 0;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--ink);
-  }
-
   .case-note {
     margin: 16px 0 0;
     font-size: 11.5px;
@@ -1090,17 +1018,13 @@ const breadcrumbLd = {
     margin-top: 16px;
   }
 
-  .fit-panel li,
-  .task-list li {
+  .fit-panel li {
     padding: 7px 13px;
+    border: 1px solid var(--line);
     border-radius: 999px;
+    background: #fff;
     font-size: 12.5px;
     font-weight: 700;
-  }
-
-  .fit-panel li {
-    border: 1px solid var(--line);
-    background: #fff;
     color: var(--ink-soft);
   }
 
@@ -1115,76 +1039,6 @@ const breadcrumbLd = {
 
   .proof-section .figure-cap {
     color: rgba(255, 255, 255, 0.72);
-  }
-
-  .proof-grid {
-    display: grid;
-    grid-template-columns: 0.85fr 1.15fr;
-    gap: 20px;
-  }
-
-  .headline-stat,
-  .proof-tasks {
-    padding: 32px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(8px);
-  }
-
-  .headline-stat {
-    display: grid;
-    align-content: center;
-    text-align: center;
-  }
-
-  .headline-num {
-    margin: 0;
-    font-family: var(--font-en);
-    font-size: clamp(66px, 9vw, 96px);
-    font-weight: 800;
-    line-height: 1;
-    color: var(--cyan-400);
-  }
-
-  .headline-num span {
-    margin-left: 5px;
-    font-size: 0.3em;
-  }
-
-  .headline-label {
-    margin: 16px 0 0;
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 1.8;
-    color: #fff;
-  }
-
-  .proof-tasks-title {
-    margin: 0 0 14px;
-    font-size: 13px;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.72);
-  }
-
-  .task-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 9px;
-  }
-
-  .task-list li {
-    background: rgba(55, 200, 240, 0.12);
-    color: #eafaff;
-  }
-
-  .proof-sub {
-    margin: 20px 0 0;
-    padding-top: 18px;
-    border-top: 1px solid rgba(255, 255, 255, 0.13);
-    font-size: 13.5px;
-    line-height: 1.9;
-    color: rgba(255, 255, 255, 0.78);
   }
 
   .proof-note {
@@ -1290,47 +1144,6 @@ const breadcrumbLd = {
     font-size: 14px;
     line-height: 1.95;
     color: var(--ink-soft);
-  }
-
-  .reality-panel {
-    margin-top: 32px;
-    padding: 28px 30px;
-    border-radius: 18px;
-    background: var(--bg-alt);
-  }
-
-  .reality-panel h3 {
-    font-size: 19px;
-  }
-
-  .reality-panel ol {
-    display: grid;
-    gap: 12px;
-    margin-top: 18px;
-  }
-
-  .reality-panel li {
-    display: grid;
-    grid-template-columns: 140px 1fr;
-    gap: 14px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .reality-panel li strong {
-    font-size: 14px;
-    color: var(--ink);
-  }
-
-  .reality-panel li span,
-  .reality-panel > p {
-    font-size: 13.5px;
-    line-height: 1.85;
-    color: var(--ink-soft);
-  }
-
-  .reality-panel > p {
-    margin: 16px 0 0;
   }
 
   .training-choice {
@@ -1463,8 +1276,7 @@ const breadcrumbLd = {
   }
 
   @media (max-width: 900px) {
-    .case-showcase,
-    .proof-grid {
+    .case-showcase {
       grid-template-columns: 1fr;
     }
 
@@ -1490,11 +1302,6 @@ const breadcrumbLd = {
 
     .quick-start :global(.btn) {
       width: 100%;
-    }
-
-    .reality-panel li {
-      grid-template-columns: 1fr;
-      gap: 4px;
     }
   }
 
@@ -1539,14 +1346,11 @@ const breadcrumbLd = {
 
     .quick-start,
     .case-content,
-    .headline-stat,
-    .proof-tasks,
     .change-card,
     .flow-card,
     .reason-card,
     .security-card,
     .cost-card,
-    .reality-panel,
     .training-choice article {
       padding: 23px 20px;
     }
@@ -1567,11 +1371,6 @@ const breadcrumbLd = {
 
     .case-result strong {
       font-size: 32px;
-    }
-
-    .case-facts div {
-      grid-template-columns: 1fr;
-      gap: 3px;
     }
 
     .fit-panel,
