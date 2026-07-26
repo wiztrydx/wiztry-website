@@ -14,7 +14,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # sitemapのlastmodを各ページのGit更新履歴から正確に生成するため、履歴を取得する。
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: withastro/action@v3
         with:
           node-version: 22
