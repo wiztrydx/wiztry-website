@@ -1,164 +1,170 @@
 [
- {
-  "slug": "ai-shijisho-diet",
-  "theme": "a long translucent scroll of rule text being trimmed by glowing scissors into one small bright card on the right side, navy blue business gradient background with soft light particles",
-  "main": "AIへの指示は|削るほど効く",
-  "sub": "指示書を8割減らす新常識"
- },
- {
-  "slug": "chusho-90days-ai-donyu",
-  "theme": "three glowing translucent milestone panels arranged along a rising path with 30/60/90 markers on the right side, navy blue business gradient background with soft light particles",
-  "main": "中小企業のAI導入|最初の90日プラン",
-  "sub": "30日ごとの3フェーズで動く"
- },
- {
-  "slug": "chatgpt-shanai-teichaku",
-  "theme": "three glowing translucent gear panels aligned on the right side with a subtle spark connecting them, navy blue business gradient background with soft light particles",
-  "main": "使われないChatGPT|定着の3つの仕掛け",
-  "sub": "導入しただけで終わらせない"
- },
- {
-  "slug": "chatgpt-voice-live-2026-07",
-  "theme": "a glowing translucent microphone with light waveform ripples spreading outward and floating translation bubbles on the right side, navy blue business gradient background",
-  "main": "ChatGPT|新音声モード解説",
-  "sub": "同時通訳と現場記録の使いどころ"
- },
- {
-  "slug": "kumamoto-reskilling-hojokin",
-  "theme": "a glowing translucent sprout growing from stacked coins held by a gentle glass hand on the right side",
-  "main": "熊本県リスキリング補助金",
-  "sub": "生成AI研修での活用ポイント"
- },
- {
-  "slug": "ai-training-erabikata",
-  "theme": "five glowing checkmark panels floating in a row on the right side",
-  "main": "失敗しないAI研修の選び方",
-  "sub": "5つのチェックポイント"
- },
- {
-  "slug": "ai-agent-jitsumu",
-  "theme": "a sleek dark dashboard interface with glowing node graphs on the right side",
-  "main": "AIエージェント導入の実際",
-  "sub": "実務はここまで自動化できる"
- },
- {
-  "slug": "milestone-90-companies",
-  "theme": "a rising bar chart made of glowing translucent panels with celebratory light particles on the right side",
-  "main": "累計支援企業数 90社突破",
-  "sub": "熊本の企業AI研修・AI導入支援"
- },
- {
-  "slug": "youtube-1600-subscribers",
-  "theme": "a glowing video play button surrounded by light particles and a subtle upward growth curve on the right side",
-  "main": "チャンネル登録者 1,600人突破",
-  "sub": "KOTARO AI & VIDEO"
- },
- {
-  "slug": "office-xosspoint",
-  "theme": "a modern glass office building at dusk with warm interior lights and blue data particles rising into the sky on the right side",
-  "main": "オフィス移転のお知らせ",
-  "sub": "くまもと森都心プラザ XOSS POINT."
- },
- {
-  "slug": "ai-agent-knowledge",
-  "theme": "a glowing translucent brain made of light lattice connected to floating documents and folders on the right side",
-  "main": "AI×社内ナレッジ活用術",
-  "sub": "会社の記憶をAIの戦力に変える"
- },
- {
-  "slug": "gpt-5-6-kaisetsu",
-  "theme": "three glowing celestial orbs of different sizes like a sun, an earth and a moon, aligned diagonally on the right side",
-  "main": "GPT-5.6 徹底解説",
-  "sub": "Sol・Terra・Luna の選び方"
- },
- {
-  "slug": "claude-fable-5-kaisetsu",
-  "theme": "a majestic glowing geometric monolith ascending above smaller pillars, symbolizing a new top tier, on the right side",
-  "main": "Claude Fable 5とは？",
-  "sub": "Opusの上をいく新クラス Mythos"
- },
- {
-  "slug": "claude-cowork-kaisetsu",
-  "theme": "a modern desk setup with dual monitors and a friendly glowing AI orb hovering beside an office chair on the right side",
-  "main": "Claude Coworkとは？",
-  "sub": "AIが同僚になる新しい働き方"
- },
- {
-  "slug": "openai-codex-kaisetsu",
-  "theme": "a sleek dark terminal window with streams of glowing code light flowing outward on the right side",
-  "main": "OpenAI Codexとは？",
-  "sub": "開発を任せるAIエージェント"
- },
- {
-  "slug": "agent-skills-kaisetsu",
-  "theme": "a glowing translucent folder with organized documents and a small graduation cap made of light on the right side",
-  "main": "Agent Skillsとは？",
-  "sub": "AIに仕事を教える新標準"
- },
- {
-  "slug": "course-gemini-workspace",
-  "theme": "floating glassmorphic app windows of email, documents and spreadsheets connected by glowing light threads with a sparkling four-pointed star, on the right side",
-  "main": "Gemini for|Google Workspace",
-  "sub": "毎日の業務ツールを、AIで速く"
- },
- {
-  "slug": "course-master-2026",
-  "theme": "an ascending glowing staircase of translucent panels with light particles, symbolizing step-by-step mastery, on the right side",
-  "main": "生成AI実践|マスター講座",
-  "sub": "2026年版・基礎から実務まで"
- },
- {
-  "slug": "course-expert-program",
-  "theme": "a glowing humanoid silhouette standing at the center of an orbiting network of light nodes, symbolizing an in-house AI leader, on the right side",
-  "main": "生成AIエキスパート|育成プログラム",
-  "sub": "社内のAI推進役をつくる"
- },
- {
-  "slug": "kensyu-teichaku-shikumi",
-  "theme": "a glowing translucent gear circulating light streams between small human silhouettes standing in a ring, symbolizing knowledge flowing back into the workplace, on the right side",
-  "main": "受けて終わり|にしない設計",
-  "sub": "学びを現場に還元する仕組み"
- },
- {
-  "slug": "chatgpt-claude-saishin-hikaku",
-  "theme": "two abstract glowing AI orbs facing each other symmetrically, one warm white-blue and one cyan, subtle versus composition, dark navy tech background with fine light streams",
-  "main": "ChatGPT × Claude|最新AI どっちを選ぶ？",
-  "sub": "中小企業向けにやさしく比較"
- },
- {
-  "slug": "claude-fable-5-encho-katsuyo",
-  "theme": "a glowing translucent hourglass with light particles flowing upward, next to a floating calendar panel with one date highlighted, on the right side",
-  "main": "Claude Fable 5|お試し期間 延長",
-  "sub": "7月20日まで・中小企業の実践ガイド"
- },
- {
-  "slug": "chatgpt-work-kaisetsu",
-  "theme": "a glowing translucent AI assistant orb delegating tasks to three floating document panels (report, spreadsheet, presentation) connected by streams of light, symbolizing an AI agent delivering finished work, on the right side",
-  "main": "ChatGPT Work|徹底解説",
-  "sub": "Chat・Codexとの違いと使い方"
- },
- {
-  "slug": "gemini-spark-kaisetsu",
-  "theme": "three glowing translucent icons in a row on the right side - a checklist, a small graduation cap, and a clock - connected by soft light trails, navy blue business gradient background with subtle particles",
-  "main": "Gemini Spark|超入門",
-  "sub": "使い方と育て方を徹底解説"
- },
- {
-  "slug": "notebooklm-kaisetsu",
-  "theme": "an open glowing notebook with document pages flowing into it, and small album-style shelves of grouped notebook cards on the right side, one notebook card glowing inside two albums at once connected by light trails, navy blue business gradient background with subtle particles",
-  "main": "NotebookLM|超入門",
-  "sub": "新機能と質問窓口の作り方"
- },
- {
-  "slug": "ai-agent-3kyou-hikaku",
-  "theme": "three glowing translucent hexagonal panels arranged in a triangle on the right side, each panel showing a distinct silhouette icon - a suited assistant, a coworker at a desk, and a night-shift figure with a clock - connected by soft light lines, navy blue business gradient background with subtle light particles",
-  "main": "AIエージェント3強|徹底比較",
-  "sub": "Work・Cowork・Sparkの選び方"
- },
- {
-  "slug": "ai-shain-tsukurikata",
-  "theme": "a row of cute rounded white robot employees wearing ID badges on lanyards, happily working at glowing desks in a modern office at dawn, steaming coffee cup, warm morning light through a large window, friendly flat-design business illustration",
-  "main": "うちの社員、AIです。",
-  "sub": "AI社員の作り方と費用【実録】"
- }
+  {
+    "slug": "ai-shijisho-diet",
+    "theme": "a long translucent scroll of rule text being trimmed by glowing scissors into one small bright card on the right side, navy blue business gradient background with soft light particles",
+    "main": "AIへの指示は|削るほど効く",
+    "sub": "指示書を8割減らす新常識"
+  },
+  {
+    "slug": "chusho-90days-ai-donyu",
+    "theme": "three glowing translucent milestone panels arranged along a rising path with 30/60/90 markers on the right side, navy blue business gradient background with soft light particles",
+    "main": "中小企業のAI導入|最初の90日プラン",
+    "sub": "30日ごとの3フェーズで動く"
+  },
+  {
+    "slug": "chatgpt-shanai-teichaku",
+    "theme": "three glowing translucent gear panels aligned on the right side with a subtle spark connecting them, navy blue business gradient background with soft light particles",
+    "main": "使われないChatGPT|定着の3つの仕掛け",
+    "sub": "導入しただけで終わらせない"
+  },
+  {
+    "slug": "chatgpt-voice-live-2026-07",
+    "theme": "a glowing translucent microphone with light waveform ripples spreading outward and floating translation bubbles on the right side, navy blue business gradient background",
+    "main": "ChatGPT|新音声モード解説",
+    "sub": "同時通訳と現場記録の使いどころ"
+  },
+  {
+    "slug": "kumamoto-reskilling-hojokin",
+    "theme": "a glowing translucent sprout growing from stacked coins held by a gentle glass hand on the right side",
+    "main": "熊本県リスキリング補助金",
+    "sub": "生成AI研修での活用ポイント"
+  },
+  {
+    "slug": "ai-training-erabikata",
+    "theme": "five glowing checkmark panels floating in a row on the right side",
+    "main": "失敗しないAI研修の選び方",
+    "sub": "5つのチェックポイント"
+  },
+  {
+    "slug": "ai-agent-jitsumu",
+    "theme": "a sleek dark dashboard interface with glowing node graphs on the right side",
+    "main": "AIエージェント導入の実際",
+    "sub": "実務はここまで自動化できる"
+  },
+  {
+    "slug": "milestone-90-companies",
+    "theme": "a rising bar chart made of glowing translucent panels with celebratory light particles on the right side",
+    "main": "累計支援企業数 90社突破",
+    "sub": "熊本の企業AI研修・AI導入支援"
+  },
+  {
+    "slug": "youtube-1600-subscribers",
+    "theme": "a glowing video play button surrounded by light particles and a subtle upward growth curve on the right side",
+    "main": "チャンネル登録者 1,600人突破",
+    "sub": "KOTARO AI & VIDEO"
+  },
+  {
+    "slug": "office-xosspoint",
+    "theme": "a modern glass office building at dusk with warm interior lights and blue data particles rising into the sky on the right side",
+    "main": "オフィス移転のお知らせ",
+    "sub": "くまもと森都心プラザ XOSS POINT."
+  },
+  {
+    "slug": "ai-agent-knowledge",
+    "theme": "a glowing translucent brain made of light lattice connected to floating documents and folders on the right side",
+    "main": "AI×社内ナレッジ活用術",
+    "sub": "会社の記憶をAIの戦力に変える"
+  },
+  {
+    "slug": "gpt-5-6-kaisetsu",
+    "theme": "three glowing celestial orbs of different sizes like a sun, an earth and a moon, aligned diagonally on the right side",
+    "main": "GPT-5.6 徹底解説",
+    "sub": "Sol・Terra・Luna の選び方"
+  },
+  {
+    "slug": "claude-fable-5-kaisetsu",
+    "theme": "a majestic glowing geometric monolith ascending above smaller pillars, symbolizing a new top tier, on the right side",
+    "main": "Claude Fable 5とは？",
+    "sub": "Opusの上をいく新クラス Mythos"
+  },
+  {
+    "slug": "claude-cowork-kaisetsu",
+    "theme": "a modern desk setup with dual monitors and a friendly glowing AI orb hovering beside an office chair on the right side",
+    "main": "Claude Coworkとは？",
+    "sub": "AIが同僚になる新しい働き方"
+  },
+  {
+    "slug": "openai-codex-kaisetsu",
+    "theme": "a sleek dark terminal window with streams of glowing code light flowing outward on the right side",
+    "main": "OpenAI Codexとは？",
+    "sub": "開発を任せるAIエージェント"
+  },
+  {
+    "slug": "agent-skills-kaisetsu",
+    "theme": "a glowing translucent folder with organized documents and a small graduation cap made of light on the right side",
+    "main": "Agent Skillsとは？",
+    "sub": "AIに仕事を教える新標準"
+  },
+  {
+    "slug": "course-gemini-workspace",
+    "theme": "floating glassmorphic app windows of email, documents and spreadsheets connected by glowing light threads with a sparkling four-pointed star, on the right side",
+    "main": "Gemini for|Google Workspace",
+    "sub": "毎日の業務ツールを、AIで速く"
+  },
+  {
+    "slug": "course-master-2026",
+    "theme": "an ascending glowing staircase of translucent panels with light particles, symbolizing step-by-step mastery, on the right side",
+    "main": "生成AI実践|マスター講座",
+    "sub": "2026年版・基礎から実務まで"
+  },
+  {
+    "slug": "course-expert-program",
+    "theme": "a glowing humanoid silhouette standing at the center of an orbiting network of light nodes, symbolizing an in-house AI leader, on the right side",
+    "main": "生成AIエキスパート|育成プログラム",
+    "sub": "社内のAI推進役をつくる"
+  },
+  {
+    "slug": "kensyu-teichaku-shikumi",
+    "theme": "a glowing translucent gear circulating light streams between small human silhouettes standing in a ring, symbolizing knowledge flowing back into the workplace, on the right side",
+    "main": "受けて終わり|にしない設計",
+    "sub": "学びを現場に還元する仕組み"
+  },
+  {
+    "slug": "chatgpt-claude-saishin-hikaku",
+    "theme": "two abstract glowing AI orbs facing each other symmetrically, one warm white-blue and one cyan, subtle versus composition, dark navy tech background with fine light streams",
+    "main": "ChatGPT × Claude|最新AI どっちを選ぶ？",
+    "sub": "中小企業向けにやさしく比較"
+  },
+  {
+    "slug": "claude-fable-5-encho-katsuyo",
+    "theme": "a glowing translucent hourglass with light particles flowing upward, next to a floating calendar panel with one date highlighted, on the right side",
+    "main": "Claude Fable 5|お試し期間 延長",
+    "sub": "7月20日まで・中小企業の実践ガイド"
+  },
+  {
+    "slug": "chatgpt-work-kaisetsu",
+    "theme": "a glowing translucent AI assistant orb delegating tasks to three floating document panels (report, spreadsheet, presentation) connected by streams of light, symbolizing an AI agent delivering finished work, on the right side",
+    "main": "ChatGPT Work|徹底解説",
+    "sub": "Chat・Codexとの違いと使い方"
+  },
+  {
+    "slug": "gemini-spark-kaisetsu",
+    "theme": "three glowing translucent icons in a row on the right side - a checklist, a small graduation cap, and a clock - connected by soft light trails, navy blue business gradient background with subtle particles",
+    "main": "Gemini Spark|超入門",
+    "sub": "使い方と育て方を徹底解説"
+  },
+  {
+    "slug": "notebooklm-kaisetsu",
+    "theme": "an open glowing notebook with document pages flowing into it, and small album-style shelves of grouped notebook cards on the right side, one notebook card glowing inside two albums at once connected by light trails, navy blue business gradient background with subtle particles",
+    "main": "NotebookLM|超入門",
+    "sub": "新機能と質問窓口の作り方"
+  },
+  {
+    "slug": "ai-agent-3kyou-hikaku",
+    "theme": "three glowing translucent hexagonal panels arranged in a triangle on the right side, each panel showing a distinct silhouette icon - a suited assistant, a coworker at a desk, and a night-shift figure with a clock - connected by soft light lines, navy blue business gradient background with subtle light particles",
+    "main": "AIエージェント3強|徹底比較",
+    "sub": "Work・Cowork・Sparkの選び方"
+  },
+  {
+    "slug": "ai-shain-tsukurikata",
+    "theme": "a row of cute rounded white robot employees wearing ID badges on lanyards, happily working at glowing desks in a modern office at dawn, steaming coffee cup, warm morning light through a large window, friendly flat-design business illustration",
+    "main": "うちの社員、AIです。",
+    "sub": "AI社員の作り方と費用【実録】"
+  },
+  {
+    "slug": "kumamoto-ai-shain",
+    "theme": "a warm local Japanese small-office scene on the left with a veteran craftsman-like employee at a desk, his knowledge shown as glowing handwritten notes flowing to the right into a softly lit archive room of neat labeled shelves, a cute rounded white robot employee reading from those shelves, navy blue business gradient background with subtle light particles, friendly flat-design business illustration",
+    "main": "熊本の会社こそ|AI社員が向く",
+    "sub": "属人化は資産に変わる"
+  }
 ]
