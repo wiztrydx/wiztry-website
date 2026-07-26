@@ -31,9 +31,9 @@ const agentDefinition = [
 
 // 「代行する時代」の裏づけ。抽象論にならないよう、自社で実際に起きている事象に寄せる。
 const delegationFacts = [
-  { num: '18', unit: '本', title: '毎日・毎週・毎月動く定時業務' },
-  { num: '約4', unit: '割', title: '人が指示していない時間帯の稼働' },
+  { num: '90', unit: '社以上', title: '少人数の体制で支援してきた企業' },
   { num: '8', unit: '割以上', title: '実務がAIエージェントで回る割合' },
+  { num: '18', unit: '本', title: '毎日・毎週・毎月動く定時業務' },
 ];
 
 // AIを「担当者」として成立させるために資料室へ入れる3点。手順書だけで止まっている例が多いので、
@@ -56,7 +56,7 @@ const knowledgeSet = [
   },
 ];
 
-// 熊本の企業にAIエージェントが向く4つの理由。出典は自社ブログ /blog/kumamoto-ai-shain/。
+// 熊本の企業にAIエージェントが向く3つの理由。出典は自社ブログ /blog/kumamoto-ai-shain/。
 // 「地方だから遅れている」ではなく「地方だから条件が揃っている」という逆の主張にしてある。
 // 他社の導入支援ページにない中身なので、生成AIに引用される塊になることを狙っている。
 const kumamotoReasons = [
@@ -81,14 +81,6 @@ const kumamotoReasons = [
     title: '仕事の型が変わらないので、手順書が腐らない',
     body:
       '半年ごとにやり方が変わる会社では、手順書は書いた3ヶ月後には現場と合わなくなり、結局誰も見なくなります。AIエージェントも同じで、資料室の中身が現場とずれれば、出てくるものも的外れになります。<em>長く同じやり方で回してきた会社では、一度きちんと書けば効き続けます。</em>',
-  },
-  {
-    num: '04',
-    title: '人が採れない前提で、設計できる',
-    body:
-      '募集を出しても応募がない、来ても定着しない。この話をお聞きしない月がありません。<em>誤解のないように書きますが、いまいる方を減らす話ではありません。</em>採用できなかった1人分の穴をどう埋めるか、という話です。',
-    note:
-      '事務職を1人採用すれば、人件費に加えて教育の時間がかかります。その予算と時間の一部を、繰り返しの事務作業を任せる仕組みに向けるという選択肢が、いまは現実的に取れます。しかもこの仕組みは辞めませんし、引き継ぎも要りません。',
   },
 ];
 
@@ -461,7 +453,7 @@ const breadcrumbLd = {
       <div class="figure-wide reveal">
         <img
           src="/gen/diag-jisseki.webp"
-          alt="弊社での実績。毎日動く定時業務18本、無指示の時間に稼働が約4割、実務がAIで回る割合が8割以上"
+          alt="弊社での実績。少人数で支援してきた企業が90社以上、実務がAIで回る割合が8割以上、毎日動く定時業務が18本"
           loading="lazy"
           decoding="async"
           width="1024"
@@ -499,7 +491,7 @@ const breadcrumbLd = {
 
       <div class="container narrow-copy">
         <p class="lead-copy reveal mt-40">
-          <em>人がいなくなったわけではありません。</em>増えたのは考える時間のほうです。人が担っているのは、外に出るものの最終確認と、判断が要る場面だけになりました。
+          累計90社以上のご支援を、<em>集客から顧客対応まで少人数の体制で回しています</em>。それができているのは、作業の大半をAIエージェントが引き受けているからです。人が担っているのは、外に出るものの最終確認と、判断が要る場面だけになりました。
         </p>
       </div>
     </div>
@@ -586,7 +578,7 @@ const breadcrumbLd = {
 
       <div class="container narrow-copy">
         <p class="to-service reveal">
-          <a href="/blog/kumamoto-ai-shain/">熊本の会社にAI社員が向いている4つの理由を詳しく読む <span class="arrow">→</span></a>
+          <a href="/blog/kumamoto-ai-shain/">熊本の会社にAI社員が向いている理由を、もっと詳しく読む <span class="arrow">→</span></a>
         </p>
       </div>
     </div>
@@ -1467,7 +1459,7 @@ const breadcrumbLd = {
   }
 
   .fact {
-    padding: 30px 28px;
+    padding: 24px 26px;
     background: var(--bg);
     border: 1px solid var(--line);
     border-top: 3px solid var(--blue-500);
@@ -1490,7 +1482,7 @@ const breadcrumbLd = {
   }
 
   .fact-title {
-    margin: 16px 0 10px;
+    margin: 12px 0 0;
     font-size: 16px;
     font-weight: 700;
     line-height: 1.7;
@@ -1534,7 +1526,7 @@ const breadcrumbLd = {
     color: var(--ink-soft);
   }
 
-  /* 熊本の4つの理由: 左に太いラインを通して「並列の主張」であることを示す */
+  /* 熊本の3つの理由: 左に太いラインを通して「並列の主張」であることを示す */
   .reasons {
     display: grid;
     gap: 20px;
@@ -1696,7 +1688,7 @@ const breadcrumbLd = {
     }
 
     .fact {
-      padding: 24px 22px;
+      padding: 20px 22px;
     }
 
     .fact-num {
