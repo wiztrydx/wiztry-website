@@ -30,28 +30,22 @@ const painPoints = [
 // 「どこまでを人がやるか」の線引きで説明する。ここが分かれば残りのセクションが全部つながる。
 const agentDefinition = [
   {
-    img: '/gen/agent-era-01-search.webp',
-    alt: '多数の資料の中から人が手作業で探し出している様子',
     era: '第1段階',
     label: '検索',
     title: '人が探して、人が読んで、人が作る',
     desc: '調べる手間は減りましたが、読むのも判断するのも書くのも人です。検索は「材料の置き場所」を教えてくれるだけでした。',
   },
   {
-    img: '/gen/agent-era-02-chat.webp',
-    alt: '質問と回答のやりとりの下で、人がまだ書類を手直ししている様子',
     era: '第2段階',
     label: 'チャットAI',
     title: '人が聞くと、AIが答える',
-    desc: 'ChatGPTなどがここです。下書きは出てきますが、指示を出すのも、出てきたものを直して仕上げるのも人のままです。手を離すと止まります。',
+    desc: 'ChatGPTやGeminiがここです。下書きは出てきますが、指示を出すのも、出てきたものを直して仕上げるのも人のままです。手を離すと止まります。',
   },
   {
-    img: '/gen/agent-era-03-agent.webp',
-    alt: '人の手を介さず、AIが工程を通して成果物まで仕上げている様子',
     era: '第3段階',
     label: 'AIエージェント',
     title: '任せると、最後まで仕上がる',
-    desc: '手順と判断の基準を渡しておけば、指示を待たずに工程を進め、成果物の形まで持っていきます。人が見るのは、外に出す前の最終確認だけです。',
+    desc: 'Claude CodeやCodexがここです。手順と判断の基準を渡しておけば、指示を待たずに工程を進め、成果物の形まで持っていきます。人が見るのは、外に出す前の最終確認だけです。',
   },
 ];
 
@@ -367,25 +361,27 @@ const breadcrumbLd = {
       <SectionHead
         en="WHAT IS AN AI AGENT"
         title="AIエージェントとは何か"
-        lead="ChatGPTとは何が違うのか。機能の一覧で比べても分かりにくいので、「どこまでを人がやるか」の線引きで並べます。"
+        lead="ChatGPTやGeminiとは何が違うのか。まず、よく聞く名前で並べてみます。"
       />
 
-      <div class="grid grid--3 eras">
-        {
-          agentDefinition.map((d, i) => (
-            <article class={`card era-card reveal reveal-d${i + 1}`}>
-              <div class="era-media">
-                <img src={d.img} alt={d.alt} loading="lazy" decoding="async" width="1024" height="1024" />
-              </div>
-              <div class="era-body">
-                <span class="era-step">{d.era}</span>
-                <span class="era-label">{d.label}</span>
-                <h3>{d.title}</h3>
-                <p>{d.desc}</p>
-              </div>
-            </article>
-          ))
-        }
+      <div class="container narrow-copy">
+        <p class="lead-copy reveal">
+          結論から言うと、<em>同じ会社が「チャット版」と「エージェント版」の2種類を出しています</em>。ふだん耳にするChatGPT・Gemini・Claudeはチャット版で、その裏にエージェント版があります。
+        </p>
+      </div>
+
+      <div class="figure-wide reveal">
+        <img
+          src="/gen/diag-chat-vs-agent.webp"
+          alt="同じ会社がチャット版とエージェント版の2種類を出している対比図。ChatGPTとCodex、ClaudeとClaude Code、GeminiとGemini CLIが同じ行に並ぶ"
+          loading="lazy"
+          decoding="async"
+          width="1024"
+          height="1024"
+        />
+        <p class="figure-cap">
+          横に並んでいるのが同じ会社の製品です。ChatGPTとCodexはOpenAI、ClaudeとClaude CodeはAnthropic、GeminiとGemini CLIはGoogle。弊社が導入支援で使うのは、主に右側のClaude CodeとCodexです。
+        </p>
       </div>
 
       <div class="container narrow-copy">
@@ -399,8 +395,37 @@ const breadcrumbLd = {
 
       <div class="figure-wide reveal">
         <img
-          src="/gen/agent-what-is.webp"
-          alt="指示を受け取ったAIエージェントが、会社の資料を参照しながら工程を進め、完成した成果物を出すまでの流れ"
+          src="/gen/diag-work-split.webp"
+          alt="検索はすべて人がやる。チャットAIはAIが下書きし人が仕上げる。AIエージェントはAIが最後までやり人は確認だけ、という帯グラフ"
+          loading="lazy"
+          decoding="async"
+          width="1024"
+          height="1024"
+        />
+        <p class="figure-cap">
+          同じ「AIを使う」でも、人の手元に残る仕事の量が変わります。灰色が人、色が付いているところがAIの担当範囲です。
+        </p>
+      </div>
+
+      <div class="grid grid--3 grid--trio eras">
+        {
+          agentDefinition.map((d, i) => (
+            <article class={`card era-card reveal reveal-d${i + 1}`}>
+              <div class="era-body">
+                <span class="era-step">{d.era}</span>
+                <span class="era-label">{d.label}</span>
+                <h3>{d.title}</h3>
+                <p>{d.desc}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="figure-wide reveal">
+        <img
+          src="/gen/diag-flow-gate.webp"
+          alt="AIエージェントが資料室を読み、作業し、下書きを完成させ、最後に人が確認してから外に出すまでの流れ図"
           loading="lazy"
           decoding="async"
           width="1024"
@@ -414,7 +439,7 @@ const breadcrumbLd = {
   </section>
 
   <!-- AIエージェントが作業を代行する時代 -->
-  <section class="section section--navy">
+  <section class="section section--alt">
     <div class="container">
       <SectionHead
         en="DELEGATION"
@@ -422,7 +447,7 @@ const breadcrumbLd = {
         lead="「いずれそうなる」という話ではありません。弊社ではすでにこの状態で会社が回っています。数字でお見せします。"
       />
 
-      <div class="grid grid--3 facts">
+      <div class="grid grid--3 grid--trio facts">
         {
           delegationFacts.map((f, i) => (
             <div class={`fact reveal reveal-d${i + 1}`}>
@@ -437,37 +462,23 @@ const breadcrumbLd = {
         }
       </div>
 
-      <div class="figure-wide figure-wide--onDark reveal mt-64">
+      <div class="figure-wide reveal mt-64">
         <img
-          src="/gen/agent-night-office.webp"
-          alt="人が退社したあとの無人のオフィスで、画面だけが点灯し資料の処理が進んでいる様子"
+          src="/gen/diag-timetable.webp"
+          alt="AIエージェントの時間割。7時30分に承認待ちを報告、会議後に次アクションを整理、23時30分に録画を整理、23時55分に日報を作成"
           loading="lazy"
           decoding="async"
           width="1024"
           height="1024"
         />
         <p class="figure-cap">
-          定時業務は時間になれば動きます。人が退社したあとの時間帯に処理が終わっていることも、珍しくありません。
+          弊社の定時業務のうち4本です。人が呼ばなくても、時間になれば動きます。人が退社したあとの時間帯に処理が終わっていることも珍しくありません。
         </p>
       </div>
 
       <div class="container narrow-copy">
-        <p class="lead-copy lead-copy--onDark reveal mt-40">
-          ここで大事なのは、<em>人がいなくなったわけではない</em>ことです。弊社で人間が担っているのは、外に出るものの最終確認と、判断が要る場面です。作業そのものが手元を離れたぶん、判断に使える時間が増えました。
-        </p>
-      </div>
-
-      <div class="figure-wide figure-wide--onDark reveal">
-        <img
-          src="/gen/agent-gate.webp"
-          alt="AIが処理した書類が、外部へ出る前に人の確認を通る関所の仕組み"
-          loading="lazy"
-          decoding="async"
-          width="1024"
-          height="1024"
-        />
-        <p class="figure-cap">
-          AIは最後まで走り、外に出る直前に必ず人間の関所を通します。関所を増やしすぎると人が渋滞の原因になり、少なすぎると事故が起きます。
+        <p class="lead-copy reveal mt-40">
+          ここで大事なのは、<em>人がいなくなったわけではない</em>ことです。むしろ増えたのは考える時間のほうでした。作業に追われていた頃は手が回らなかった提案の準備や、お客様への一手先のご連絡に、その時間を回せるようになっています。
         </p>
       </div>
     </div>
@@ -509,7 +520,7 @@ const breadcrumbLd = {
         </p>
       </div>
 
-      <div class="grid grid--3 knowledge-set">
+      <div class="grid grid--3 grid--trio knowledge-set">
         {
           knowledgeSet.map((k, i) => (
             <div class={`card knowledge-card reveal reveal-d${i + 1}`}>
@@ -523,15 +534,15 @@ const breadcrumbLd = {
 
       <div class="figure-wide reveal mt-40">
         <img
-          src="/gen/agent-knowledge-room.webp"
-          alt="全社ルール・部署のルール・仕事の手順書という3層で構成された会社の資料室を、AIエージェントが参照している様子"
+          src="/gen/diag-knowledge-room.webp"
+          alt="会社の資料室は3層。第1層は全社ルール、第2層は部署のルール、第3層は仕事の手順書で、AIエージェントがそれを読む図"
           loading="lazy"
           decoding="async"
           width="1024"
           height="1024"
         />
         <p class="figure-cap">
-          資料室は特別なシステムではありません。会社の知識が整理された、フォルダとファイルの集まりです。AIは仕事のたびにここを読み返します。
+          並べ方はこの3層だけです。上から順に、全社で守ること、部署ごとの決まり、実際の仕事の手順。AIは仕事のたびにここを読み返します。
         </p>
       </div>
 
@@ -546,8 +557,8 @@ const breadcrumbLd = {
 
       <div class="figure-wide reveal">
         <img
-          src="/gen/agent-veteran-transfer.webp"
-          alt="ベテラン社員の頭の中にある判断の基準が、書き出されて会社の資料室へ移っていく様子"
+          src="/gen/diag-zokujinka.webp"
+          alt="属人化が資産に変わる流れ。ベテランの頭の中にある判断基準を書き出して会社の資料室へ移し、AIエージェントがそれを読む"
           loading="lazy"
           decoding="async"
           width="1024"
@@ -650,7 +661,7 @@ const breadcrumbLd = {
         </p>
       </div>
       <h3 class="block-title reveal mt-64">確認しておきたい費用の内訳</h3>
-      <div class="grid grid--3">
+      <div class="grid grid--3 grid--trio">
         {
           costItems.map((c, i) => (
             <div class={`card cost-card reveal reveal-d${i + 1}`}>
@@ -661,7 +672,7 @@ const breadcrumbLd = {
         }
       </div>
       <p class="cost-note reveal">
-        AIサービスの利用料は当社への支払いとは別枠です。ここを混ぜて説明されると総額が見えなくなるため、切り分けてご案内しています。
+        この3つを混ぜて総額だけを提示されると、あとから「これは別料金です」が出てきます。弊社は最初から切り分けてご案内しています。
       </p>
     </div>
   </section>
@@ -717,7 +728,7 @@ const breadcrumbLd = {
         title="最初の1体は、この3つの質問で選ぶ"
         lead="ご相談の前に、社内の業務をこの3つに当ててみてください。2つ当てはまれば、任せる候補になります。"
       />
-      <div class="grid grid--3 questions">
+      <div class="grid grid--3 grid--trio questions">
         {
           firstAgentQuestions.map((q, i) => (
             <div class={`card question-card reveal reveal-d${i + 1}`}>
@@ -759,7 +770,7 @@ const breadcrumbLd = {
       </div>
 
       <h3 class="block-title reveal mt-64">うまくいかない会社の、3つの終わり方</h3>
-      <div class="grid grid--3">
+      <div class="grid grid--3 grid--trio">
         {
           failurePatterns.map((f, i) => (
             <div class={`card failure-card reveal reveal-d${i + 1}`}>
@@ -1119,19 +1130,6 @@ const breadcrumbLd = {
     flex-direction: column;
   }
 
-  .era-media {
-    aspect-ratio: 1 / 1;
-    background: #0a1630;
-    overflow: hidden;
-  }
-
-  .era-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
   .era-body {
     padding: 24px 26px 28px;
   }
@@ -1178,7 +1176,7 @@ const breadcrumbLd = {
     display: block;
     border-radius: 16px;
     border: 1px solid var(--line);
-    background: #0a1630;
+    background: var(--bg-alt);
   }
 
   .figure-cap {
@@ -1189,23 +1187,27 @@ const breadcrumbLd = {
     text-align: center;
   }
 
-  .figure-wide--onDark img {
-    border-color: rgba(255, 255, 255, 0.14);
+  /* 3枚組が2列に折り返すと右下が1枚分空くため、trioは3列→1列で送る */
+  .grid--trio {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .figure-wide--onDark .figure-cap {
-    color: rgba(255, 255, 255, 0.66);
+  @media (max-width: 900px) {
+    .grid--trio {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
 
-  /* 代行の実績数値。ネイビー背景の上に置くので白系で組む */
+  /* 代行の実績数値。明色セクションに置くので数字だけを強く出す */
   .facts {
     margin-top: 44px;
   }
 
   .fact {
     padding: 30px 28px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--blue-500);
     border-radius: 16px;
   }
 
@@ -1214,7 +1216,7 @@ const breadcrumbLd = {
     font-weight: 800;
     font-size: 46px;
     line-height: 1;
-    color: var(--cyan-400);
+    color: var(--blue-500);
   }
 
   .fact-unit {
@@ -1228,21 +1230,13 @@ const breadcrumbLd = {
     font-size: 16px;
     font-weight: 700;
     line-height: 1.7;
-    color: #fff;
+    color: var(--ink);
   }
 
   .fact-desc {
     font-size: 13.5px;
     line-height: 1.95;
-    color: rgba(255, 255, 255, 0.72);
-  }
-
-  .lead-copy--onDark {
-    color: rgba(255, 255, 255, 0.8);
-  }
-
-  .lead-copy--onDark em {
-    color: #fff;
+    color: var(--ink-soft);
   }
 
   /* 資料室の3点セット: 番号を大きく出して「3つ揃って初めて成立する」を視覚化する */
