@@ -781,7 +781,7 @@ const breadcrumbLd = {
         title="進め方"
         lead="小さく試して、効果を確認してから広げます。最初から全社展開はしません。"
       />
-      <div class="grid grid--4">
+      <div class="grid grid--4 flow-grid">
         {
           flow.map((f, i) => (
             <div class={`card flow-card reveal reveal-d${i + 1}`}>
@@ -1268,7 +1268,6 @@ const breadcrumbLd = {
 
   /* 大きめの図版＋キャプション。本文の流れを止めずに理解を補助する */
   .figure-wide {
-    max-width: 760px;
     margin: 40px auto 0;
   }
 
@@ -1533,6 +1532,39 @@ const breadcrumbLd = {
     font-weight: 700;
     line-height: 1.6;
     color: var(--blue-500);
+  }
+
+
+  /* ---- 横幅の設計 ----
+     読み列: 680px（見出し・本文・縦積みカード・図版）
+     グリッド列: 900px（複数カラムのカード行のみ、読み列の外へ左右対称に広げる）
+     この2段だけに絞り、見出しが本文より左に飛び出さないようにする */
+  .section :global(.sec-head) {
+    max-width: 680px;
+    margin-inline: auto;
+  }
+
+  .figure-wide {
+    max-width: 680px;
+  }
+
+  .eras,
+  .grid--trio,
+  .flow-grid,
+  .stack-list {
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  /* 900px幅で4カラムは1枚205pxと窮屈なため2×2に */
+  .flow-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 640px) {
+    .flow-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
 
   /* 章の結論を先に出すブロック。長い章なので、読み始めで要点が分かるようにする */
