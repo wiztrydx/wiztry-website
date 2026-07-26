@@ -29,11 +29,17 @@ const agentDefinition = [
   },
 ];
 
-// 「代行する時代」の裏づけ。抽象論にならないよう、自社で実際に起きている事象に寄せる。
-const delegationFacts = [
-  { num: '90', unit: '社以上', title: '少人数の体制で支援してきた企業' },
-  { num: '8', unit: '割以上', title: '実務がAIエージェントで回る割合' },
-  { num: '18', unit: '本', title: '毎日・毎週・毎月動く定時業務' },
+// 「代行する時代」の裏づけ。数字を並列にすると主役が埋もれるため、8割以上だけを大きく出す。
+// 実際に任せている業務名を並べたほうが、割合よりも具体的に伝わる。
+const agentTasks = [
+  '営業資料作成',
+  '研修資料作成',
+  'メール返信',
+  'ブログ更新',
+  'SNS運用',
+  '請求書作成',
+  '問い合わせ対応',
+  'HP作成',
 ];
 
 // 熊本の企業にAIエージェントが向く3つの理由。出典は自社ブログ /blog/kumamoto-ai-shain/。
@@ -435,7 +441,7 @@ const breadcrumbLd = {
       <div class="figure-wide reveal">
         <img
           src="/gen/diag-jisseki.webp"
-          alt="弊社での実績。少人数で支援してきた企業が90社以上、実務がAIで回る割合が8割以上、毎日動く定時業務が18本"
+          alt="弊社での実績。実務がAIエージェントだけで回る割合は8割以上。任せている業務は営業資料作成・研修資料作成・メール返信・ブログ更新・SNS運用・請求書作成・問い合わせ対応・HP作成"
           loading="lazy"
           decoding="async"
           width="1024"
@@ -443,18 +449,24 @@ const breadcrumbLd = {
         />
       </div>
 
-      <div class="grid grid--3 grid--trio facts">
-        {
-          delegationFacts.map((f, i) => (
-            <div class={`fact reveal reveal-d${i + 1}`}>
-              <p class="fact-num">
-                {f.num}
-                <span class="fact-unit">{f.unit}</span>
-              </p>
-              <h3 class="fact-title">{f.title}</h3>
-            </div>
-          ))
-        }
+      <div class="headline-stat reveal">
+        <p class="headline-num">
+          8<span class="headline-unit">割以上</span>
+        </p>
+        <p class="headline-label">弊社の実務が、AIエージェントだけで回っています</p>
+      </div>
+
+      <div class="tasks reveal">
+        <p class="tasks-title">AIエージェントがやっている業務</p>
+        <ul class="task-list">
+          {agentTasks.map((t) => <li>{t}</li>)}
+        </ul>
+      </div>
+
+      <div class="container narrow-copy">
+        <p class="lead-copy reveal mt-40">
+          補足として、支援してきた企業は累計90社以上です。その集客から顧客対応までを、少人数の体制で回しています。社内では毎日・毎週・毎月動く定時業務が18本あり、時間になれば人が呼ばなくても動きます。
+        </p>
       </div>
 
       <div class="figure-wide reveal mt-64">
@@ -1431,13 +1443,23 @@ const breadcrumbLd = {
     }
   }
 
-  /* 代行の実績数値。明色セクションに置くので数字だけを強く出す */
-  .facts {
-    margin-top: 44px;
-  }
 
-  .fact {
-    padding: 24px 26px;
+
+
+
+
+
+
+
+
+
+
+  /* 主役の数字。3つ横並びだと同じ重さに見えるので、1つだけ大きく出す */
+  .headline-stat {
+    max-width: 760px;
+    margin: 44px auto 0;
+    padding: 40px 32px;
+    text-align: center;
     background: var(--bg);
     border: 1px solid var(--line);
     border-top: 3px solid var(--blue-500);
@@ -1445,33 +1467,64 @@ const breadcrumbLd = {
     box-shadow: var(--shadow-sm);
   }
 
-  .fact-num {
+  .headline-num {
     font-family: var(--font-en);
     font-weight: 800;
-    font-size: 46px;
+    font-size: clamp(64px, 11vw, 104px);
     line-height: 1;
+    letter-spacing: -0.02em;
     color: var(--blue-500);
   }
 
-  .fact-unit {
-    margin-left: 4px;
-    font-size: 18px;
+  .headline-unit {
+    margin-left: 6px;
+    font-size: 0.32em;
     font-weight: 700;
+    letter-spacing: 0;
   }
 
-  .fact-title {
-    margin: 12px 0 0;
-    font-size: 16px;
+  .headline-label {
+    margin-top: 18px;
+    font-size: 17px;
     font-weight: 700;
-    line-height: 1.7;
+    line-height: 1.8;
     color: var(--ink);
   }
 
+  /* 割合だけだと実感が湧かないので、実際に任せている業務名を並べる */
+  .tasks {
+    max-width: 760px;
+    margin: 24px auto 0;
+  }
 
+  .tasks-title {
+    margin-bottom: 14px;
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    text-align: center;
+  }
 
+  .task-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
 
-
-
+  .task-list li {
+    padding: 9px 18px;
+    border-radius: 999px;
+    background: rgba(47, 107, 255, 0.08);
+    font-size: 14.5px;
+    font-weight: 700;
+    line-height: 1.6;
+    color: var(--blue-500);
+  }
 
   /* 章の結論を先に出すブロック。長い章なので、読み始めで要点が分かるようにする */
   .conclusion {
@@ -1729,6 +1782,15 @@ const breadcrumbLd = {
     .security-layer,
     .cost-card {
       padding: 22px 20px;
+    }
+
+    .headline-stat {
+      padding: 30px 20px;
+    }
+
+    .task-list li {
+      padding: 8px 14px;
+      font-size: 13.5px;
     }
 
     .failure-card {
