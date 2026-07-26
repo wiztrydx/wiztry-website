@@ -9,6 +9,7 @@ const pageDescription =
   '熊本のAI導入支援・業務自動化ならWizTry。AIエージェントで定型業務を自動化し、まずは1業務から効果を確認して広げます。1人あたり月20時間以上を削減した支援事例、自社での実践、費用、安全設計、導入の流れを紹介。';
 
 const pageIndex = [
+  { href: '#ai-agent', label: 'AIエージェントとは' },
   { href: '#capabilities', label: 'できること' },
   { href: '#case-study', label: '導入事例' },
   { href: '#cost', label: '費用' },
@@ -77,7 +78,7 @@ const flow = [
   {
     step: '02',
     title: '手順と判断を整理して試す',
-    desc: '社内の資料とベテランの方の判断を整理し、小規模な試作をつくります。実際の仕事で効果が出るかを確認します。',
+    desc: '社内の資料とベテランの方の判断を整理し、Claude CodeやCodexなどのAIエージェントで小規模な試作をつくります。実際の仕事で効果が出るかを確認します。',
   },
   {
     step: '03',
@@ -125,6 +126,14 @@ const costItems = [
 ];
 
 const faq = [
+  {
+    q: 'AIエージェントとChatGPTのようなチャットAIは何が違いますか？',
+    a: 'ChatGPT・Claude・GeminiなどのチャットAIは、人が指示を出し、返ってきた下書きを人が仕上げます。AIエージェントは手順と判断の基準を読み、成果物の形まで自分で進めます。Claude CodeやCodexが代表例で、もともと開発者向けに登場した仕組みですが、やっているのは「手順どおりに作業を進めて仕上げる」ことなので、資料作成や事務作業にもそのまま使えます。',
+  },
+  {
+    q: 'どのAIサービスを使いますか？',
+    a: '業務に合わせて選びます。相談や文章づくりはChatGPT・Claude・Gemini、手順が決まった業務の自動化はClaude CodeやCodexなどのAIエージェントを使い、Google Workspaceなど既にお使いの環境とつなぎます。特定の1社に固定せず、費用・安全性・業務内容を見て組み合わせをご提案します。',
+  },
   {
     q: '熊本のどのエリアまで対応していますか？',
     a: '熊本市に拠点があり、熊本県内全域へ対応しています。打ち合わせは対面・オンラインのどちらでも可能です。近県のご相談も承ります。',
@@ -217,6 +226,23 @@ const breadcrumbLd = {
           <p class="intro-lead reveal">
             WizTryのAI導入支援は、熊本の企業に残る繰り返し業務を、<strong>AIエージェントが最後まで進められる仕組み</strong>へ変える支援です。ツールを入れて終わりではなく、業務の整理、試作、本番導入、運用改善まで伴走します。
           </p>
+        </div>
+
+        <figure class="figure reveal">
+          <img
+            src="/gen/diag-jisseki.webp"
+            alt="WizTryでの実績。実務がAIエージェントだけで回る割合は8割以上。任せている業務は営業資料作成・研修資料作成・メール返信・ブログ更新・SNS運用・請求書作成・問い合わせ対応・HP作成"
+            loading="lazy"
+            decoding="async"
+            width="1024"
+            height="1024"
+          />
+          <figcaption class="figure-cap">
+            WizTry自身の実績です。Claude CodeやCodexで組んだAIエージェントに日々の業務を任せ、その運用で分かったことをそのまま支援に使っています。
+          </figcaption>
+        </figure>
+
+        <div class="reading-column">
           <div class="quick-start reveal reveal-d1">
             <div>
               <span class="quick-start-label">SMALL START</span>
@@ -275,13 +301,13 @@ const breadcrumbLd = {
       </div>
     </section>
 
-    <section class="section" id="capabilities">
+    <section class="section" id="ai-agent">
       <div class="container">
         <div class="reading-column">
           <SectionHead
-            en="WHAT CHANGES"
-            title="AI導入支援で、具体的に何が変わるか"
-            lead="AIエージェントは、AI導入を実務の変化までつなげるための手段です。チャットAIとの違いは、仕上げまでを誰が担うかにあります。"
+            en="AI AGENT"
+            title="AIエージェントとは、任せた仕事を最後まで進めるAI"
+            lead="チャットAIとの違いは、仕上げまでを誰が担うかにあります。Claude CodeやCodexが代表例です。"
           />
 
           <div class="agent-compare reveal">
@@ -297,6 +323,81 @@ const breadcrumbLd = {
             </article>
           </div>
         </div>
+
+        <figure class="figure reveal">
+          <img
+            src="/gen/diag-chat-vs-agent.webp"
+            alt="同じ会社が対話AIとAIエージェントの2種類を出している対比表。OpenAIはChatGPTとCodex、AnthropicはClaudeとClaude Code、GoogleはGeminiとAntigravity"
+            loading="lazy"
+            decoding="async"
+            width="1024"
+            height="1024"
+          />
+          <figcaption class="figure-cap">
+            横に並んでいるのは、同じ会社の製品です。右側はいずれも開発者向けに登場したAIエージェントですが、やっているのは<em>「手順どおりに作業を進めて仕上げる」</em>ことなので、資料作成や事務作業にもそのまま使えます。WizTryが導入支援で主に使うのも、Claude CodeとCodexです。
+          </figcaption>
+        </figure>
+
+        <figure class="figure reveal">
+          <img
+            src="/gen/diag-work-split.webp"
+            alt="チャットAIはAIが下書きして人が仕上げる。AIエージェントはAIが最後までやり人は確認だけ、という帯グラフの比較"
+            loading="lazy"
+            decoding="async"
+            width="1024"
+            height="1024"
+          />
+          <figcaption class="figure-cap">
+            同じ「AIを使う」でも、人の手元に残る仕事の量が変わります。灰色が人、色が付いているところがAIの担当範囲です。
+          </figcaption>
+        </figure>
+
+        <div class="reading-column">
+          <h3 class="block-title reveal">AIエージェントが仕事を進める4つの段階</h3>
+          <p class="block-copy reveal">
+            指示を受けたAIエージェントは、いきなり書き始めるわけではありません。まず会社の資料を読み、手順どおりに作業し、成果物の形まで仕上げます。そのうえで、外に出るものは必ず人が確認してから送ります。
+          </p>
+        </div>
+
+        <figure class="figure reveal">
+          <img
+            src="/gen/diag-flow-gate.webp"
+            alt="AIエージェントが資料室を読み、作業し、下書きを完成させ、最後に人が確認してから外に出すまでの流れ図"
+            loading="lazy"
+            decoding="async"
+            width="1024"
+            height="1024"
+          />
+          <figcaption class="figure-cap">
+            指示が入ってから成果物が出るまで、AIエージェントは途中で会社の資料を読みに行きます。この参照先が用意されているかどうかで、出てくるものの質が決まります。
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="capabilities">
+      <div class="container">
+        <div class="reading-column">
+          <SectionHead
+            en="WHAT CHANGES"
+            title="AI導入支援で、具体的に何が変わるか"
+            lead="AIエージェントに1業務を任せると、現場の景色はこう変わります。"
+          />
+        </div>
+
+        <figure class="figure reveal">
+          <img
+            src="/gen/diag-before-after.webp"
+            alt="AIエージェント導入前後の比較。手で作り直すが時間になれば完成へ、問い合わせに追われるが判断だけが手元にへ、あの人しか分からないが誰に聞いても同じへ、繁忙期は残業が件数が増えても同じへ変わる"
+            loading="lazy"
+            decoding="async"
+            width="1024"
+            height="1024"
+          />
+          <figcaption class="figure-cap">
+            熊本のご相談で多い4つの困りごとと、AI導入後の状態です。それぞれ何をどう任せるのかを、下に補足します。
+          </figcaption>
+        </figure>
 
         <div class="capability-grid wide-column">
           {capabilities.map((item, index) => (
@@ -330,7 +431,7 @@ const breadcrumbLd = {
           <SectionHead
             en="WHY WIZTRY"
             title="自社で使い切っているから、運用まで設計できます"
-            lead="WizTry自身が、毎日動くAIエージェントを社内業務で運用しています。机上の一般論ではなく、実際に止まった点や直し方まで支援へ反映します。"
+            lead="WizTry自身が、Claude CodeやCodexで組んだAIエージェントを毎日の社内業務で動かしています。机上の一般論ではなく、実際に止まった点や直し方まで支援へ反映します。"
           />
         </div>
 
@@ -350,6 +451,20 @@ const breadcrumbLd = {
         <p class="proof-note wide-column reveal">
           ※「実務の8割以上」は、当社が定義する定型業務・資料作成・情報整理等の作業時間に占める割合（2026年7月時点の社内集計）です。最終確認・経営判断・送信・契約や金額の確定など、対外的な意思決定は人が実施しています。
         </p>
+
+        <figure class="figure reveal">
+          <img
+            src="/gen/diag-timetable.webp"
+            alt="AIエージェントの時間割。7時30分に承認待ちを報告、会議後に次アクションを整理、23時30分に録画を整理、23時55分に日報を作成"
+            loading="lazy"
+            decoding="async"
+            width="1024"
+            height="1024"
+          />
+          <figcaption class="figure-cap">
+            社内で動かしている定時業務18本のうち、4本を抜き出したものです。人が呼ばなくても、時間になれば動きます。社員が退社したあとの時間帯に処理が終わっていることも珍しくありません。
+          </figcaption>
+        </figure>
       </div>
     </section>
 
@@ -371,6 +486,20 @@ const breadcrumbLd = {
             </article>
           ))}
         </div>
+        <figure class="figure reveal">
+          <img
+            src="/gen/diag-zokujinka.webp"
+            alt="属人化が資産に変わる流れ。ベテランの頭の中にある判断基準を書き出して会社の資料室へ移し、AIエージェントがそれを読む"
+            loading="lazy"
+            decoding="async"
+            width="1024"
+            height="1024"
+          />
+          <figcaption class="figure-cap">
+            ベテランの方の頭の中にある判断の基準を、辞める前に会社の資料へ移す。この一手が、属人化をリスクから資産へ変えます。
+          </figcaption>
+        </figure>
+
         <div class="reading-column">
           <p class="inline-link reveal">
             <a href="/blog/kumamoto-ai-shain/">熊本の会社にAI社員が向いている理由を詳しく読む <span aria-hidden="true">→</span></a>
@@ -398,6 +527,20 @@ const breadcrumbLd = {
             </li>
           ))}
         </ol>
+
+        <figure class="figure reveal">
+          <img
+            src="/gen/diag-knowledge-room.webp"
+            alt="会社の資料室は3層。第1層は全社ルール、第2層は部署のルール、第3層は仕事の手順書で、AIエージェントがそれを読む図"
+            loading="lazy"
+            decoding="async"
+            width="1024"
+            height="1024"
+          />
+          <figcaption class="figure-cap">
+            STEP 02でつくる「AIが読む会社の資料」の形です。特別なシステムではなく、フォルダとファイルの集まりです。AIエージェントは仕事のたびにここを読み返すので、ここが整うほど出てくるものの質が上がります。
+          </figcaption>
+        </figure>
 
         <div class="reading-column">
           <div class="reality-panel reveal">
@@ -436,6 +579,21 @@ const breadcrumbLd = {
             lead="「自社のパソコンに保存しているから、情報が外へ出ない」とは限りません。保存場所、送信範囲、契約プラン、確認工程を別々に確認します。"
           />
         </div>
+
+        <figure class="figure reveal">
+          <img
+            src="/gen/diag-security.webp"
+            alt="セキュリティは3つで守る。読ませる範囲を決める、外に出す前に人が確認する、作業の記録が残る"
+            loading="lazy"
+            decoding="async"
+            width="1024"
+            height="1024"
+          />
+          <figcaption class="figure-cap">
+            この3つを業種と業務に合わせて設計します。読ませる範囲は業務ごとに線を引き、外に出るものは人が確認し、いつ何をしたかの記録を残します。
+          </figcaption>
+        </figure>
+
         <div class="security-grid wide-column">
           {securityLayers.map((item, index) => (
             <article class={`security-card reveal reveal-d${index + 1}`}>
@@ -519,6 +677,52 @@ const breadcrumbLd = {
   .wide-column {
     width: min(100%, var(--wide-column));
     margin-inline: auto;
+  }
+
+  .figure {
+    width: min(100%, var(--wide-column));
+    margin: 40px auto 0;
+  }
+
+  .figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--bg-alt);
+  }
+
+  .figure-cap {
+    width: min(100%, var(--reading-column));
+    margin: 14px auto 0;
+    font-size: 13.5px;
+    line-height: 1.95;
+    color: var(--muted);
+  }
+
+  .figure-cap em {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+
+  .figure + .proof-grid,
+  .figure + .security-grid {
+    margin-top: 36px;
+  }
+
+  .block-title {
+    margin-top: 54px;
+    font-size: 19px;
+    line-height: 1.65;
+  }
+
+  .block-copy {
+    margin: 12px 0 0;
+    font-size: 15px;
+    line-height: 2.05;
+    color: var(--ink-soft);
   }
 
   section[id] {
@@ -902,6 +1106,15 @@ const breadcrumbLd = {
 
   .proof-section :global(.sec-head h2) {
     color: #fff;
+  }
+
+  .proof-section .figure img {
+    border-color: rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .proof-section .figure-cap {
+    color: rgba(255, 255, 255, 0.72);
   }
 
   .proof-grid {
@@ -1305,6 +1518,23 @@ const breadcrumbLd = {
     .intro-lead {
       font-size: 15px;
       line-height: 2;
+    }
+
+    .figure {
+      margin-top: 30px;
+    }
+
+    .figure-cap {
+      font-size: 12.5px;
+    }
+
+    .block-title {
+      margin-top: 40px;
+      font-size: 17px;
+    }
+
+    .block-copy {
+      font-size: 14px;
     }
 
     .quick-start,
