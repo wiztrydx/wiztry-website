@@ -806,7 +806,7 @@ const breadcrumbLd = {
         {
           flow.map((f, i) => (
             <div class={`card flow-card reveal reveal-d${i + 1}`}>
-              <span class="flow-step">{f.step}</span>
+              <span class="flow-num">{f.step}</span>
               <h3>{f.title}</h3>
               <p>{f.desc}</p>
             </div>
@@ -1136,18 +1136,21 @@ const breadcrumbLd = {
     color: rgba(255, 255, 255, 0.72);
   }
 
+  /* 衝突していた .flow-step の grid/padding が実質の余白になっていたため、
+     名前を分けた結果カードの余白が消えた。他のカードと同じ余白を明示する */
   .flow-card {
     position: relative;
+    padding: 26px 24px 28px;
   }
 
-  .flow-step {
+  .flow-num {
+    display: block;
+    margin-bottom: 10px;
     font-family: var(--font-en);
     font-weight: 800;
     font-size: 13px;
     letter-spacing: 0.08em;
     color: var(--blue-500);
-    display: block;
-    margin-bottom: 10px;
   }
 
   .flow-card h3 {
