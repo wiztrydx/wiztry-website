@@ -11,20 +11,6 @@ import PageHero from '../../components/PageHero.astro';
 // 費用について: 金額は出さない方針（光太郎くん判断 2026-07-25）。
 // かわりに「いま手作業にかかっている時間を人件費に換算する」考え方を示して判断材料にする。
 
-const painPoints = [
-  {
-    q: '毎月おなじ資料を、人が手で作り直している',
-    a: '定型の報告書・請求書・日報のような「フォーマットが決まっている仕事」は、AIエージェントがもっとも得意とする領域です。',
-  },
-  {
-    q: '問い合わせ対応で、担当者の時間が溶けていく',
-    a: '過去のやりとりと社内文書を読み込ませた一次対応の仕組みをつくると、人が判断すべき案件だけが手元に残ります。',
-  },
-  {
-    q: 'AIを入れたいが、どの業務からやるべきか分からない',
-    a: 'ここが最初の分かれ道です。効果が出る業務には共通の条件があるため、洗い出しと優先順位付けから一緒に行います。',
-  },
-];
 
 // 「AIエージェントとは何か」の定義。チャットAIとの違いを、機能の羅列ではなく
 // 「どこまでを人がやるか」の線引きで説明する。ここが分かれば残りのセクションが全部つながる。
@@ -45,24 +31,9 @@ const agentDefinition = [
 
 // 「代行する時代」の裏づけ。抽象論にならないよう、自社で実際に起きている事象に寄せる。
 const delegationFacts = [
-  {
-    num: '18',
-    unit: '本',
-    title: '毎日・毎週・毎月の定時業務',
-    desc: '朝の承認待ち報告、会議直後の次アクション整理、夜の録画整理、その日の日報。時間になれば、誰も呼ばなくても動きます。',
-  },
-  {
-    num: '約4',
-    unit: '割',
-    title: '人が指示していない時間帯の稼働',
-    desc: '直近2週間の記録では、会社の資料への保存・更新279回のうち約4割が、こちらが何も指示していない時間に動いた分でした。',
-  },
-  {
-    num: '8',
-    unit: '割以上',
-    title: '実務がAIエージェントで回っている割合',
-    desc: '人間が担っているのは、外に出るものの最終確認と、判断が要る場面だけです。作業そのものはほとんど手元を離れました。',
-  },
+  { num: '18', unit: '本', title: '毎日・毎週・毎月動く定時業務' },
+  { num: '約4', unit: '割', title: '人が指示していない時間帯の稼働' },
+  { num: '8', unit: '割以上', title: '実務がAIエージェントで回る割合' },
 ];
 
 // AIを「担当者」として成立させるために資料室へ入れる3点。手順書だけで止まっている例が多いので、
@@ -146,24 +117,31 @@ const failurePatterns = [
 
 // 導入後に何が変わるか。抽象的な「効率化」ではなく、朝の30分・引き継ぎ・繁忙期という
 // 中小企業の経営者が毎月実感している場面に寄せて書く。
+// ご相談時の状態（before）と、導入後に変わる場面（after）を1つにまとめたもの。
+// もとは「こんな状態から始まります」と「導入するとどうなるか」の2章に分かれていたが、
+// 同じ話の前後だったため統合した。
 const results = [
   {
-    before: '朝いちばんの30分が、昨日の整理で消える',
-    after: '出社したときには、整理が終わっている',
-    desc: '日報、議事録、承認待ちの一覧。時間になれば動くので、人が席に着く前に片づいています。その30分が、そのまま本来の仕事に戻ります。',
+    before: '毎月おなじ資料を、人が手で作り直している',
+    after: '時間になれば、出来上がっている',
+    desc: '定型の報告書・請求書・日報のように形が決まっている仕事は、AIエージェントがもっとも得意とする領域です。',
+  },
+  {
+    before: '問い合わせ対応で、担当者の時間が溶けていく',
+    after: '人が判断すべき案件だけが、手元に残る',
+    desc: '過去のやりとりと社内文書を読ませた一次対応をつくると、よくある質問はそこで片づきます。',
   },
   {
     before: '「あれはあの人しか分からない」が残り続ける',
     after: '誰が聞いても、同じ答えが返ってくる',
-    desc: '判断の基準が資料室にあるので、担当の方が休んでも、辞めても、出てくるものが変わりません。引き継ぎ資料を作り直す必要もなくなります。',
+    desc: '判断の基準が資料室にあるので、担当の方が休んでも、辞めても、出てくるものが変わりません。',
   },
   {
     before: '繁忙期は、残業か人を増やすかの二択',
-    after: '件数が増えても、かかる時間はあまり変わらない',
-    desc: '定型の処理は件数に比例して人手が増えるものですが、仕組みに移した部分はそうなりません。山の高さに人を合わせる必要が薄くなります。',
+    after: '件数が増えても、かかる時間は変わらない',
+    desc: '定型の処理は件数に比例して人手が要りますが、仕組みに移した部分はそうなりません。',
   },
 ];
-
 // セキュリティ。士業・製造・建設からは必ず質問が出るため、一般論ではなく
 // 「何を読ませないか」の設計として書く。過度な安全保証はしない。
 const securityLayers = [
@@ -480,6 +458,17 @@ const breadcrumbLd = {
         lead="「いずれそうなる」という話ではありません。弊社ではすでにこの状態で会社が回っています。数字でお見せします。"
       />
 
+      <div class="figure-wide reveal">
+        <img
+          src="/gen/diag-jisseki.webp"
+          alt="弊社での実績。毎日動く定時業務18本、無指示の時間に稼働が約4割、実務がAIで回る割合が8割以上"
+          loading="lazy"
+          decoding="async"
+          width="1024"
+          height="1024"
+        />
+      </div>
+
       <div class="grid grid--3 grid--trio facts">
         {
           delegationFacts.map((f, i) => (
@@ -489,7 +478,6 @@ const breadcrumbLd = {
                 <span class="fact-unit">{f.unit}</span>
               </p>
               <h3 class="fact-title">{f.title}</h3>
-              <p class="fact-desc">{f.desc}</p>
             </div>
           ))
         }
@@ -511,29 +499,8 @@ const breadcrumbLd = {
 
       <div class="container narrow-copy">
         <p class="lead-copy reveal mt-40">
-          ここで大事なのは、<em>人がいなくなったわけではない</em>ことです。むしろ増えたのは考える時間のほうでした。作業に追われていた頃は手が回らなかった提案の準備や、お客様への一手先のご連絡に、その時間を回せるようになっています。
+          <em>人がいなくなったわけではありません。</em>増えたのは考える時間のほうです。人が担っているのは、外に出るものの最終確認と、判断が要る場面だけになりました。
         </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- こんな状態から始まります -->
-  <section class="section">
-    <div class="container">
-      <SectionHead
-        en="SYMPTOMS"
-        title="こんな状態から始まります"
-        lead="ご相談の入口として多いのは、この3つです。"
-      />
-      <div class="pain-list">
-        {
-          painPoints.map((p, i) => (
-            <div class={`pain-item reveal reveal-d${i + 1}`}>
-              <p class="pain-q">「{p.q}」</p>
-              <p class="pain-a">{p.a}</p>
-            </div>
-          ))
-        }
       </div>
     </div>
   </section>
@@ -631,13 +598,13 @@ const breadcrumbLd = {
       <SectionHead
         en="RESULTS"
         title="熊本の会社がAIエージェントを導入すると、どうなるのか"
-        lead="効率化という言葉だと伝わりにくいので、実際に変わる場面で書きます。ご支援先でよく起きる3つです。"
+        lead="ご相談でいちばん多いのは「どの業務からやればいいか分からない」という段階です。効率化という言葉だと伝わりにくいので、実際に変わる場面を並べます。"
       />
 
       <div class="figure-wide reveal">
         <img
           src="/gen/diag-before-after.webp"
-          alt="AIエージェント導入前後の比較。朝30分は整理から出社時に整理済みへ、あの人しか分からないが誰に聞いても同じへ、繁忙期は残業が件数が増えても同じへ変わる"
+          alt="AIエージェント導入前後の比較。手で作り直すが時間になれば完成へ、問い合わせに追われるが判断だけが手元にへ、あの人しか分からないが誰に聞いても同じへ、繁忙期は残業が件数が増えても同じへ変わる"
           loading="lazy"
           decoding="async"
           width="1024"
@@ -974,34 +941,9 @@ const breadcrumbLd = {
     color: var(--ink);
   }
 
-  /* 症状リスト: 顧客の言葉をそのまま見出しに置く */
-  .pain-list {
-    display: grid;
-    gap: 20px;
-    margin-top: 40px;
-  }
 
-  .pain-item {
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    padding: 28px 30px;
-  }
 
-  .pain-q {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1.7;
-    margin-bottom: 12px;
-  }
 
-  .pain-a {
-    font-size: 15px;
-    line-height: 2;
-    color: var(--ink-soft);
-  }
 
   /* AIオフィス4段階: 縦に積み、左に段階番号の軸線を通す */
   .stages {
@@ -1552,11 +1494,6 @@ const breadcrumbLd = {
     color: var(--ink);
   }
 
-  .fact-desc {
-    font-size: 13.5px;
-    line-height: 1.95;
-    color: var(--ink-soft);
-  }
 
   /* 資料室の3点セット: 番号を大きく出して「3つ揃って初めて成立する」を視覚化する */
   .knowledge-set {
@@ -1801,14 +1738,6 @@ const breadcrumbLd = {
     .industry-item {
       grid-template-columns: 1fr;
       gap: 6px;
-    }
-
-    .pain-item {
-      padding: 22px 20px;
-    }
-
-    .pain-q {
-      font-size: 16px;
     }
 
     .stage {
