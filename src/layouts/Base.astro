@@ -5,6 +5,8 @@ import { SITE, NAV, YOUTUBE } from '../data/site';
 
 interface Props {
   title?: string;
+  /** titleタグをテンプレート化せず、そのまま使うページ向け */
+  fullTitle?: string;
   description?: string;
   /** ヘッダー背景が濃色ヒーローに重なるページは true（トップ・下層ヒーロー） */
   onDark?: boolean;
@@ -19,6 +21,7 @@ interface Props {
 
 const {
   title,
+  fullTitle,
   description = SITE.description,
   onDark = true,
   ogImage = '/og-cover.jpg',
@@ -27,9 +30,9 @@ const {
   noindex = false,
 } = Astro.props;
 
-const pageTitle = title
+const pageTitle = fullTitle ?? (title
   ? `${title} | WizTry株式会社（熊本の生成AI研修・AIエージェント導入支援）`
-  : 'WizTry株式会社｜熊本の生成AI研修・AIエージェント導入支援';
+  : 'WizTry株式会社｜熊本の生成AI研修・AIエージェント導入支援');
 const canonical = new URL(Astro.url.pathname, SITE.domain).href;
 
 // 構造化データ。生成AI（ChatGPT検索・Gemini・Claude等）が「熊本の生成AI研修会社」として

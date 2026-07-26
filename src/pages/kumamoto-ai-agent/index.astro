@@ -4,300 +4,186 @@ import SectionHead from '../../components/SectionHead.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import PageHero from '../../components/PageHero.astro';
 
-// 「熊本 AI導入支援」「熊本 AIコンサル」「熊本 業務効率化 AI」「熊本 AI 導入 費用」の検索意図に応える専用ページ。
-// /kumamoto-ai-training/ は「人が使えるようになる（研修）」、このページは「システムが動く（導入・自動化）」で
-// 求める成果物が別物なため、ページを分ける正当性がある（地域名差し替えの量産ページではない）。
-//
-// 費用について: 金額は出さない方針（光太郎くん判断 2026-07-25）。
-// かわりに「いま手作業にかかっている時間を人件費に換算する」考え方を示して判断材料にする。
+const pageTitle = '熊本のAI導入支援・業務自動化｜AIエージェントならWizTry株式会社';
+const pageDescription =
+  '熊本のAI導入支援・業務自動化ならWizTry。AIエージェントで定型業務を自動化し、まずは1業務から効果を確認して広げます。1人あたり月20時間以上を削減した支援事例、自社での実践、費用、安全設計、導入の流れを紹介。';
 
+const pageIndex = [
+  { href: '#capabilities', label: 'できること' },
+  { href: '#case-study', label: '導入事例' },
+  { href: '#cost', label: '費用' },
+  { href: '#flow', label: '導入の流れ' },
+  { href: '#faq', label: 'よくある質問' },
+];
 
-// 「AIエージェントとは何か」の定義。チャットAIとの違いを、機能の羅列ではなく
-// 「どこまでを人がやるか」の線引きで説明する。ここが分かれば残りのセクションが全部つながる。
-const agentDefinition = [
+const capabilities = [
   {
-    era: 'ChatGPT・Claude・Gemini',
-    label: 'チャットAI',
-    title: '人が聞くと、AIが答える',
-    desc: '下書きは出てきます。ただし、指示を出すのも、出てきたものを直して仕上げるのも人のままです。手を離すと止まります。',
+    before: '毎月おなじ資料を、人が手で作り直している',
+    after: '時間になれば、下書きができている',
+    desc: '報告書・請求書・日報など、形が決まっている仕事を仕組みに移します。',
   },
   {
-    era: 'Claude Code・Codex',
-    label: 'AIエージェント',
-    title: '任せると、最後まで仕上がる',
-    desc: '手順と判断の基準を渡しておけば、指示を待たずに工程を進め、成果物の形まで持っていきます。人が見るのは、外に出す前の最終確認だけです。',
+    before: '問い合わせ対応で、担当者の時間が減っていく',
+    after: '人が判断すべき案件だけが残る',
+    desc: '社内文書と過去のやりとりをもとに、よくある質問への一次対応を任せます。',
+  },
+  {
+    before: '「あの人しか分からない」が残り続ける',
+    after: '判断の基準が、会社に残る',
+    desc: 'ベテランの方の判断を文章にし、担当者が変わっても使える形に整えます。',
+  },
+  {
+    before: '繁忙期は、残業か採用で補うしかない',
+    after: '件数が増えても、定型作業は増えにくい',
+    desc: '繰り返し処理を人の手元から外し、お客様対応や判断が必要な仕事へ時間を戻します。',
   },
 ];
 
-// 「代行する時代」の裏づけ。数字を並列にすると主役が埋もれるため、8割以上だけを大きく出す。
-// 実際に任せている業務名を並べたほうが、割合よりも具体的に伝わる。
 const agentTasks = [
   '営業資料作成',
   '研修資料作成',
-  'メール返信',
+  'メール返信の下書き',
   'ブログ更新',
-  'SNS運用',
   '請求書作成',
-  '問い合わせ対応',
-  'HP作成',
+  '問い合わせ一次対応',
+  '会議後の情報整理',
+  '定時レポート',
 ];
 
-// 熊本の企業にAIエージェントが向く3つの理由。出典は自社ブログ /blog/kumamoto-ai-shain/。
-// 「地方だから遅れている」ではなく「地方だから条件が揃っている」という逆の主張にしてある。
-// 他社の導入支援ページにない中身なので、生成AIに引用される塊になることを狙っている。
 const kumamotoReasons = [
   {
     num: '01',
-    title: '属人化したナレッジが、すでに社内に集積している',
-    body:
-      '熊本の企業では、同じ方が同じ仕事を10年20年と続けてこられたケースが珍しくありません。その結果、手順書には書ききれない判断の基準が、担当者の中に濃く溜まっています。<em>これは買ってくることも、借りてくることもできない材料です。</em>',
-    note:
-      '累計90社以上のご支援で、各社の担当者の方と業務の中身までお話ししてきました。そのなかで確信したのは、地方の中小企業ほどこの蓄積が厚いということです。属人化はリスクだと言われ続けてきましたが、AIに仕事を任せる前提に立つと評価が逆転します。ベテランの方が辞める前に文章へ移せれば、会社に残る資産になります。',
+    title: '人手不足を、採用だけで埋めにくい',
+    desc: '採用して育てるまで待てない仕事が、現場には残っています。まず定型業務を1本外すことで、いまいる方の時間を戻せます。',
   },
   {
     num: '02',
-    title: '全国的にまだ普及していないので、先に動けば差がつく',
-    body:
-      '生成AIを触ったことのある会社は、この2年でずいぶん増えました。ただ、<em>AIエージェントを業務に組み込んで毎日動かしている中小企業は、弊社が見てきた範囲ではまだ限られています。</em>やり方が固まりきっていない領域なので、先に始めた会社ほど経験が溜まります。',
-    note:
-      '弊社自身、1体目がまともに動くまでには相応の時間がかかりました。ただ、そこで溜まった知見は他社が短期間では追いつけません。いま着手する価値は、削減できる時間そのものより、この差のほうが大きいと考えています。',
+    title: 'ベテランの判断が、社内に蓄積している',
+    desc: '長く同じ仕事を担ってきた方の判断基準は、他社が買えない資産です。退職前に文章へ移せば、AIが参照できる会社の知識になります。',
   },
   {
     num: '03',
-    title: '人手不足が特に深刻なので、導入が急務になっている',
-    body:
-      'TSMCの進出をはじめとする半導体関連の集積で、熊本は人材の獲得競争が激しくなりました。採用で埋めるという前提が、以前より通りにくくなっています。熊本の中小企業では総務の方が経理も採用も見ている、という体制も珍しくありません。<em>採れなかった1人分をどう埋めるかを、いま決める必要があります。</em>',
-    note:
-      '誤解のないように書きますが、いまいる方を減らす話ではありません。繰り返しの事務作業を仕組みへ移し、いまいる方が本来やるべき仕事に時間を戻すための選択肢です。兼務が当たり前の会社ほど、1本外れたときの効き幅が大きくなります。',
+    title: '一人が複数の仕事を兼務している',
+    desc: '総務・経理・採用などを兼務する体制では、繰り返し業務を1つ仕組みに移すだけでも、担当者が本来の仕事へ戻りやすくなります。',
   },
-];
-
-// 最初の1体を選ぶ基準。相談前にご自身で当てはめられる形にしておく。
-const firstAgentQuestions = [
-  'その仕事は、毎週やっていますか',
-  '「いつもこう作る」という型がありますか',
-  '社長やベテランの方でなくてもいい仕事ですか',
-];
-
-// うまくいかないパターン。都合の悪い話を先に書くことで、相談前の期待値を合わせる。
-const failurePatterns = [
-  {
-    title: '直さない',
-    desc: '出てきたものに赤を入れるが、その赤を資料室に書き戻さない。だから来週も同じものが出てきます。いちばん多いのがこれです。',
-  },
-  {
-    title: '放っておく',
-    desc: '作ったところで満足して3ヶ月触らない。その間に現場のやり方が動き、中身がずれていきます。',
-  },
-  {
-    title: 'チャット画面に戻る',
-    desc: '面倒になって、結局いつものAIに直接聞く生活へ戻る。仕組みが育たないまま止まります。',
-  },
-];
-
-// 導入後に何が変わるか。抽象的な「効率化」ではなく、朝の30分・引き継ぎ・繁忙期という
-// 中小企業の経営者が毎月実感している場面に寄せて書く。
-// ご相談時の状態（before）と、導入後に変わる場面（after）を1つにまとめたもの。
-// もとは「こんな状態から始まります」と「導入するとどうなるか」の2章に分かれていたが、
-// 同じ話の前後だったため統合した。
-const results = [
-  {
-    before: '毎月おなじ資料を、人が手で作り直している',
-    after: '時間になれば、出来上がっている',
-    desc: '定型の報告書・請求書・日報のように形が決まっている仕事は、AIエージェントがもっとも得意とする領域です。',
-  },
-  {
-    before: '問い合わせ対応で、担当者の時間が溶けていく',
-    after: '人が判断すべき案件だけが、手元に残る',
-    desc: '過去のやりとりと社内文書を読ませた一次対応をつくると、よくある質問はそこで片づきます。',
-  },
-  {
-    before: '「あれはあの人しか分からない」が残り続ける',
-    after: '誰が聞いても、同じ答えが返ってくる',
-    desc: '判断の基準が資料室にあるので、担当の方が休んでも、辞めても、出てくるものが変わりません。',
-  },
-  {
-    before: '繁忙期は、残業か人を増やすかの二択',
-    after: '件数が増えても、かかる時間は変わらない',
-    desc: '定型の処理は件数に比例して人手が要りますが、仕組みに移した部分はそうなりません。',
-  },
-];
-// セキュリティ。士業・製造・建設からは必ず質問が出るため、一般論ではなく
-// 「何を読ませないか」の設計として書く。過度な安全保証はしない。
-const securityLayers = [
-  {
-    num: '01',
-    title: '読ませる範囲を、最初に線引きする',
-    desc: '資料室は自社のパソコンやサーバーの中のフォルダです。何を入れて何を入れないかを、こちらで決められます。見せたくないものは、そもそも資料室に置きません。外部のチャット画面に情報を貼り付ける使い方との一番の違いがここです。',
-  },
-  {
-    num: '02',
-    title: '外に出る前に、必ず人が確認する',
-    desc: '確認を挟む場所は、外に出るもの・お金が動くもの・初めてやる仕事の3か所に絞ります。増やしすぎると人が渋滞の原因になり、少なすぎると事故が起きるためです。どこに置くかは業務を見てから決めます。',
-  },
-  {
-    num: '03',
-    title: '誰が何をしたか、記録が残る',
-    desc: 'どの担当がいつ何をしたかが記録として残ります。口頭で回っていた作業より、あとから追いやすい状態になります。',
-  },
-];
-
-// 業種ごとの設計の勘所。実名事例は出さず、業種名のとどめる方針に沿う。
-const securityByIndustry = [
-  { industry: '士業', point: '顧客情報と案件記録を、通常業務が読む範囲から外して別に管理します。' },
-  { industry: '製造', point: '図面・原価・取引条件を切り分け、社外に出る文書の確認を厚めに設計します。' },
-  { industry: '建設', point: '施主情報と見積の根拠を分け、金額が入る書類は必ず人の検算を通します。' },
-  { industry: '医療・介護', point: '利用者情報は資料室に入れず、書式と手順だけを任せる設計から始めます。' },
-];
-
-// 「AIオフィス」の4段階。自社（WizTry）で実際に動かしている仕組みをそのまま説明する構成。
-// 出典は自社ブログ /blog/ai-shain-tsukurikata/（AI社員10名の実録）。
-// Google公式が「効く」と明言している一次情報（first-hand）にあたるため、他社が書けない中身にする。
-const officeStages = [
-  {
-    num: '01',
-    label: '整理整頓',
-    title: '会社の情報を、AIが読める形に整える',
-    body:
-      'AIエージェントが働けない一番の理由は、AIの性能ではありません。<em>読むものが社内にない</em>ことです。人間の新入社員に業務マニュアルも議事録も渡さず「察して動け」と言っても無理なのと同じです。まずは会社の知識を、AIが毎回読み返せる形に整えます。',
-    detail: [
-      '会社の決まりごとを書き出す（商品、お客様への言葉遣い、やってはいけないこと）',
-      '散らばっている業務マニュアル・議事録・過去のやりとりを1か所に集める',
-    ],
-  },
-  {
-    num: '02',
-    label: '資料室づくり',
-    title: '3層構造で「会社の資料室」をつくる',
-    body:
-      '集めただけでは使えません。AIが迷わず必要な情報にたどり着けるよう、階層を決めます。弊社が自社で運用している資料室は、この3層だけです。特別なシステムではなく、<em>フォルダとファイルの集まり</em>です。',
-    detail: [
-      '第1層 全社ルール — 誰が読んでも守る決まりごと',
-      '第2層 部署のルール — 部署ごとに1枚',
-      '第3層 仕事の手順書 — 見積の作り方、日程調整の段取りなど',
-    ],
-  },
-  {
-    num: '03',
-    label: 'AIオフィス',
-    title: '担当を分けて、動く時間を決める',
-    body:
-      '資料室が整ったら、そこで働く「担当」を配置します。ポイントは<em>1人に1つの担当を持たせる</em>ことです。担当を曖昧にしたまま何でも頼むと、AIも人と同じで仕事が雑になります。',
-    detail: [
-      '業務ごとに担当を切る（メール担当、資料作成担当、議事録担当など）',
-      '動く時間を決める（朝の報告、会議後のフォロー、夜の記録整理など）',
-      '毎日の記録が資料室に書き戻るようにして、放っておいても知識が溜まる形にする',
-    ],
-  },
-  {
-    num: '04',
-    label: '安全な仕組み',
-    title: '人が見る場所を決めてから、任せ切る',
-    body:
-      '最後に安全設計です。弊社の考え方は、<em>AIが最後まで走り、外に出る直前に必ず人の確認を通す</em>というものです。確認箇所を増やしすぎると人が渋滞の原因になり、少なすぎると事故が起きます。だから次の3つに絞ります。',
-    detail: [
-      '外に出るもの（メール・SNS・公開文書）— AIは下書きまで。送信ボタンは人間が押す',
-      'お金と契約（見積・請求・申込）— 数字は人間が検算してから確定する',
-      '初めてやる種類の仕事 — 最初の1回だけ人間が横で見る',
-    ],
-  },
-];
-
-// 費用の考え方: 金額ではなく「換算のしかた」と「確認すべき費用項目」を示す
-const costItems = [
-  {
-    title: '初期構築',
-    desc: '業務の洗い出し、試作、本番の作り込み。対象業務の数と、既存システムとつなぐ必要があるかで変わります。',
-  },
-  {
-    title: '運用・改善',
-    desc: '動かし始めてからの調整と、任せる業務を増やしていく分。AIが新しくなったときの手直しもここに入ります。',
-  },
-  {
-    title: 'AIの利用料',
-    desc: 'ChatGPTなどを使うための月々の料金です。使う人数と量で決まり、弊社へのお支払いとは別にかかります。',
-  },
-];
-
-const stack = [
-  { name: 'Claude Code', desc: '中心に使う道具。手順どおりに作業を進めて、成果物まで仕上げます' },
-  { name: 'Codex', desc: '同じくエージェント。作ったものの点検や作り直しに併用します' },
-  { name: 'Dify', desc: '社内の資料を読ませた問い合わせ窓口をつくるときに使います' },
-  { name: 'Google Apps Script', desc: 'スプレッドシート・Gmail・カレンダーを自動でつなぎます' },
 ];
 
 const flow = [
-  { step: '01', title: '課題ヒアリング', desc: '自動化する業務を洗い出し、効果と実現しやすさで優先順位をつけます。ここで「やらない業務」も決めます。' },
-  { step: '02', title: '小さく試す', desc: '1業務だけ作って、実際の仕事で効果を確かめます。ここで見込みが立たなければ、本番に進みません。' },
-  { step: '03', title: '本番構築', desc: '業務フローに組み込み、担当者が日常的に使える形にして社内展開します。' },
-  { step: '04', title: '運用伴走', desc: '使われ方を見ながら改善し、対象業務を広げます。AI顧問として継続的にご相談いただけます。' },
+  {
+    step: '01',
+    title: '任せる1業務を選ぶ',
+    desc: '毎週・毎月繰り返し、作り方の型がある業務を洗い出します。効果と実現しやすさを見て、最初の1本を決めます。',
+  },
+  {
+    step: '02',
+    title: '手順と判断を整理して試す',
+    desc: '社内の資料とベテランの方の判断を整理し、小規模な試作をつくります。実際の仕事で効果が出るかを確認します。',
+  },
+  {
+    step: '03',
+    title: '本番業務へ組み込む',
+    desc: '既存の業務フローやGoogle Workspaceなどとつなぎます。情報の範囲と、人が確認する場所もこの段階で決めます。',
+  },
+  {
+    step: '04',
+    title: '直した内容を仕組みに戻す',
+    desc: '使いながら出た修正を手順へ書き戻し、同じ間違いを繰り返さない状態にします。安定後に、次の業務へ広げます。',
+  },
+];
+
+const securityLayers = [
+  {
+    num: '01',
+    title: '保存場所と送信範囲を分けて考える',
+    desc: '資料のファイルを自社のパソコンやサーバーで管理することと、AIの処理時に情報が外部サービスへ送信されることは別の話です。利用するAI・契約プラン・設定ごとに確認します。',
+  },
+  {
+    num: '02',
+    title: 'AIに読ませる情報を先に決める',
+    desc: '機密区分と権限を確認し、参照させるファイル、送信する情報、対象外にする情報を業務ごとに線引きします。何でも読ませる設計にはしません。',
+  },
+  {
+    num: '03',
+    title: '外へ出す前に人が確認する',
+    desc: 'メール・公開文書・見積・契約など、外に出るものやお金が動くものは人が最終確認します。AIへ任せる範囲と、人が判断する範囲を分けます。',
+  },
+];
+
+const costItems = [
+  {
+    title: '初期の整理・試作',
+    desc: '対象業務の洗い出し、手順の整理、小規模な試作。業務の数と資料の状態で変わります。',
+  },
+  {
+    title: '本番構築・連携',
+    desc: '既存のシステムやGoogle Workspaceとの連携、権限・確認工程の設計。つなぐ範囲で変わります。',
+  },
+  {
+    title: '運用・AI利用料',
+    desc: '導入後の改善支援と、利用するAIサービスの料金。契約プランと利用量を分けてご案内します。',
+  },
 ];
 
 const faq = [
   {
-    q: '熊本のどのエリアまで対応していますか?',
-    a: '熊本市に拠点があり、熊本県内全域へお伺いしています。打ち合わせは対面・オンラインのどちらでも可能で、構築作業自体はオンライン中心で進むため、遠方でも進行に支障はありません。近県のご相談も承ります。',
+    q: '熊本のどのエリアまで対応していますか？',
+    a: '熊本市に拠点があり、熊本県内全域へ対応しています。打ち合わせは対面・オンラインのどちらでも可能です。近県のご相談も承ります。',
   },
   {
-    q: 'AI導入の費用はどのくらいかかりますか?',
-    a: '対象業務の数、既存システムとの連携の有無、運用をどこまでお任せいただくかで大きく変わるため、内容をお伺いしてからお見積りします。判断材料として、いま手作業にかかっている時間を人件費に換算してみるのが有効です。たとえば月20時間かかっている作業があれば、その担当者の時間単価×20時間が毎月消えている計算になります。ご相談時にこの試算からご一緒します。',
+    q: 'AI導入の費用はどのくらいかかりますか？',
+    a: '対象業務の数、既存システムとの連携、セキュリティ要件、運用支援の範囲で変わるため、内容を確認してからお見積りします。最初から全社展開を前提にせず、小規模な1業務の試作からご相談いただけます。',
   },
   {
-    q: '何から始めればいいですか?',
-    a: 'まずは「毎月・毎週おなじ手順で繰り返している作業」を1つ挙げてください。頻度が高く手順が決まっている業務ほど、効果がはっきり出ます。逆に、毎回判断が変わる業務は最初の対象に向きません。',
+    q: '何から始めればいいですか？',
+    a: 'まずは「毎週・毎月、同じ手順で繰り返している仕事」を1つ挙げてください。頻度が高く、作り方の型がある業務ほど、最初の対象に向いています。',
   },
   {
-    q: '小さく試すことはできますか?',
-    a: 'できます。むしろ推奨しています。最初に1業務だけ作って効果を確かめ、そのうえで広げる進め方です。見込みが立たなければ本番に進まない、という判断も含めてご提案します。',
+    q: '社内にITに詳しい人がいなくても大丈夫ですか？',
+    a: '大丈夫です。現場の担当者の方には、普段の手順と判断のしかたを教えていただきます。技術の選定、試作、連携、運用設計はWizTryが支援します。',
   },
   {
-    q: '社内にITに詳しい人がいなくても大丈夫ですか?',
-    a: '大丈夫です。むしろ多くのお客様がその状態から始めています。仕組みは私たちが構築し、担当者の方には「使う」ところだけをお願いします。必要に応じて社内向けの操作説明も行います。',
+    q: '機密情報はどのように扱いますか？',
+    a: 'ファイルの保存場所と、AI処理時のデータ送信は分けて確認します。AIに参照させる情報、対象外にする情報、利用するモデル・契約プラン・保存設定を業務ごとに整理し、外部へ出す前には人の確認を入れます。',
   },
   {
-    q: '属人化が進んでいるのですが、AI導入には不利ですか?',
-    a: '逆です。AIに仕事を任せる前提では、属人化した判断は他社が持っていない材料になります。ベテランの方の頭の中にある「この客先は敬称を役職で書く」「この時期にこの条件の見積もりは通らない」といった基準は、手順書と違って真似ができません。本人が辞める前に文章として会社側へ移せれば、会社に残る資産になります。最初の作業は、まさにこの書き出しから始めます。',
+    q: 'AIで人を減らすということですか？',
+    a: 'いまいる方を減らすことを前提にした支援ではありません。繰り返しの事務作業を仕組みへ移し、お客様対応や経営判断など、人が担うべき仕事へ時間を戻すことが目的です。',
   },
   {
-    q: '機密情報をクラウドに出さずに済みますか?',
-    a: '資料室は自社のパソコンやサーバーの中のフォルダとして持つため、見せたくないものはそもそも置かない、という制御ができます。読ませる範囲の線引きは初回の設計時に必ず決めます。業種ごとの考え方はセキュリティの項をご覧ください。',
+    q: '導入までにどのくらいかかりますか？',
+    a: '対象業務の複雑さ、手順書や社内資料の状態、必要なシステム連携で変わります。最初の相談で業務を確認し、試作と本番導入それぞれの目安をお伝えします。',
   },
   {
-    q: 'AIで人を減らすということですか?',
-    a: 'ちがいます。いまいる方を減らす前提での支援は行っていません。ご相談の多くは「採用したいが応募が来ない」「その1人分の穴が埋まらない」という状態からのご依頼です。繰り返しの事務作業を仕組みへ移し、いまいる方が本来やるべき仕事に時間を戻すことを目的にしています。',
-  },
-  {
-    q: '導入までにどのくらいの期間がかかりますか?',
-    a: '1体目が実務で使える状態になるまで、おおむね1〜2ヶ月をみていただいています。前半は、ベテランの方の判断基準を聞き取って文章に書き出す作業が中心で、ここが最も時間のかかる工程です。2体目以降は土台ができているぶん、半分以下の期間で立ち上がります。',
-  },
-  {
-    q: '研修とどちらを先にやるべきですか?',
-    a: '社員が日常業務でAIを使えるようになりたいなら研修から、特定の業務を確実に自動化したいなら導入支援からです。両方をご希望の場合は、研修で全体のリテラシーを上げながら、並行して効果の大きい業務を自動化する進め方が多いです。',
+    q: 'AI研修と導入支援は、どちらを選べばいいですか？',
+    a: '社員が日常業務でAIを使えるようになりたい場合は研修、特定の業務を仕組みとして自動化したい場合は導入支援が向いています。両方を並行して進めることもできます。',
   },
 ];
 
 const serviceLd = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  name: '熊本の企業向けAIエージェント導入支援・業務自動化',
-  serviceType: 'AIエージェント開発・業務自動化・AI導入コンサルティング',
-  provider: { '@type': 'Organization', name: 'WizTry株式会社', url: 'https://wiztrydx.com' },
+  name: '熊本のAI導入支援・業務自動化',
+  serviceType: 'AI導入支援・AIエージェント開発・業務自動化',
+  provider: {
+    '@type': 'Organization',
+    name: 'WizTry株式会社',
+    url: 'https://wiztrydx.com',
+  },
   areaServed: [
     { '@type': 'AdministrativeArea', name: '熊本県' },
     { '@type': 'City', name: '熊本市' },
   ],
-  description:
-    '熊本の企業向けにAIエージェントの構築と業務自動化を支援。ベテランの属人化した判断基準を「会社の資料室」へ書き出し、AIが手順どおり最後まで仕上げる状態をつくります。WizTry自身、実務の8割以上をAIエージェントで運用。Claude Code・Codex・Dify・GASを用いて、問い合わせ対応・資料作成・データ集計などの定型業務を自動化します。小さく試して効果を確認してから本番構築へ進みます。',
+  description: pageDescription,
   url: 'https://wiztrydx.com/kumamoto-ai-agent/',
 };
 
 const faqLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: faq.map((f) => ({
+  mainEntity: faq.map((item) => ({
     '@type': 'Question',
-    name: f.q,
-    acceptedAnswer: { '@type': 'Answer', text: f.a },
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
   })),
 };
 
@@ -307,1575 +193,1164 @@ const breadcrumbLd = {
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'ホーム', item: 'https://wiztrydx.com/' },
     { '@type': 'ListItem', position: 2, name: 'サービス', item: 'https://wiztrydx.com/service/' },
-    { '@type': 'ListItem', position: 3, name: '熊本のAIエージェント導入支援' },
+    { '@type': 'ListItem', position: 3, name: '熊本のAI導入支援・業務自動化' },
   ],
 };
 ---
 
-<Base
-  title="熊本のAIエージェント導入支援・業務自動化"
-  description="熊本の企業向けAIエージェント導入支援。属人化した判断を「会社の資料室」へ移し、定型業務をAIが最後まで仕上げる状態をつくります。弊社は実務の8割以上をAIエージェントで運用。小さく試してから本番構築、熊本県内全域に対応。"
-  onDark={true}
->
+<Base fullTitle={pageTitle} description={pageDescription} onDark={true}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(serviceLd)} />
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(faqLd)} />
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbLd)} />
 
-  <PageHero
-    en="AI AGENT"
-    jp="熊本のAIエージェント導入支援"
-    desc="人を増やさずに、仕事の量を減らす。熊本の企業の定型業務を、AIエージェントで自動化します。"
-    bg="/gen/scene-agent-dev.webp"
-  />
+  <div class="agent-page">
+    <PageHero
+      en="AI IMPLEMENTATION"
+      jp="熊本のAI導入支援・業務自動化"
+      desc="AIエージェントで、人を増やさずに仕事の量を減らす。"
+      bg="/gen/scene-agent-dev.webp"
+    />
 
-  <!-- 導入 -->
-  <section class="section">
-    <div class="container narrow-copy">
-      <p class="lead-copy reveal">
-        熊本はいま、全国でも人の採り合いが激しい地域のひとつになりました。TSMCの進出をはじめとする半導体関連の集積が進み、働き手も、賃金の水準も、そちらへ引っ張られています。<em>もともと採用に苦労していた中小企業にとっては、条件がさらに厳しくなりました。</em>
-      </p>
-      <p class="lead-copy reveal reveal-d1">
-        募集しても応募が来ない。来ても育つまで時間がかかる。その一方で、<em>人がやらなくてもいい仕事</em>が現場を圧迫し続けています。人手不足は、もう採用だけでは解決しなくなりました。
-      </p>
-      <p class="lead-copy reveal reveal-d1">
-        WizTryのAIエージェント導入支援は、この「人がやらなくてもいい仕事」を仕組みに置き換える支援です。研修が<em>人が使えるようになる</em>ための取り組みなら、こちらは<em>システムが動くようになる</em>ための取り組みです。
-      </p>
-      <p class="lead-copy reveal reveal-d1">
-        机上の話ではありません。弊社自身、いまは<em>実務の8割以上をAIエージェントが回している</em>状態で会社を動かしています。このページで説明するのは、その仕組みをそのままお客様の会社へ移すための考え方と手順です。
-      </p>
-    </div>
-  </section>
+    <section class="section section--tight intro-section" aria-label="AI導入支援の概要">
+      <div class="container">
+        <div class="reading-column">
+          <p class="intro-lead reveal">
+            WizTryのAI導入支援は、熊本の企業に残る繰り返し業務を、<strong>AIエージェントが最後まで進められる仕組み</strong>へ変える支援です。ツールを入れて終わりではなく、業務の整理、試作、本番導入、運用改善まで伴走します。
+          </p>
+          <div class="quick-start reveal reveal-d1">
+            <div>
+              <span class="quick-start-label">SMALL START</span>
+              <h2>1業務の小さな試作から始められます</h2>
+              <p>本番導入の費用は、業務数・連携範囲・セキュリティ要件で変わります。最初から大規模な開発を前提にする必要はありません。</p>
+            </div>
+            <a class="btn btn--primary" href="/contact/">1業務を相談する <span class="arrow">→</span></a>
+          </div>
 
-  <!-- AIエージェントとは何か -->
-  <section class="section section--alt">
-    <div class="container">
-      <SectionHead
-        en="WHAT IS AN AI AGENT"
-        title="AIエージェントとは何か"
-        lead="ChatGPTやGeminiとは何が違うのか。まず、よく聞く名前で並べてみます。"
-      />
-
-      <div class="container narrow-copy">
-        <p class="lead-copy reveal">
-          結論から言うと、<em>同じ会社が「対話AI（チャットAI）」と「エージェント」の2種類を出しています</em>。ふだん耳にするChatGPT・Claude・Geminiは対話AIのほうで、その裏にエージェントがあります。
-        </p>
+          <nav class="page-index reveal" aria-label="このページの目次">
+            <p>知りたい項目から読めます</p>
+            <ul>
+              {pageIndex.map((item) => <li><a href={item.href}>{item.label}<span aria-hidden="true">↓</span></a></li>)}
+            </ul>
+          </nav>
+        </div>
       </div>
+    </section>
 
-      <div class="figure-wide reveal">
-        <img
-          src="/gen/diag-chat-vs-agent.webp"
-          alt="同じ会社が対話AIと開発エージェントの2種類を出している対比表。OpenAIはChatGPTとCodex、AnthropicはClaudeとClaude Code、GoogleはGeminiとAntigravity"
-          loading="lazy"
-          decoding="async"
-          width="1024"
-          height="1024"
-        />
-        <p class="figure-cap">
-          横に並んでいるのが同じ会社の製品です。右側はいずれも開発者向けに出てきたエージェントですが、<em>やっていることは「手順どおりに作業を進めて仕上げる」</em>なので、事務作業にもそのまま使えます。弊社が導入支援で使うのは、主にClaude CodeとCodexです。
-        </p>
+    <section class="section section--alt" id="case-study">
+      <div class="container">
+        <div class="reading-column">
+          <SectionHead
+            en="CASE STUDY"
+            title="AI導入支援の事例"
+            lead="成果が確認できている事例を、公開可能な範囲でご紹介します。"
+          />
+        </div>
+
+        <article class="case-showcase wide-column reveal">
+          <div class="case-media">
+            <img
+              src="/gen/case-housemaker.webp"
+              alt="ハウスメーカーでAIエージェントを導入し、1人あたり月20時間以上を削減した事例のイメージ"
+              loading="lazy"
+              decoding="async"
+              width="1024"
+              height="1024"
+            />
+          </div>
+          <div class="case-content">
+            <span class="case-label">匿名事例</span>
+            <h3>ハウスメーカーの業務エージェント導入</h3>
+            <p class="case-summary">定型業務をAIエージェントへ移し、空いた時間をお客様対応と提案品質の向上へ充てられる状態をつくりました。</p>
+            <p class="case-result"><strong>月20時間以上</strong><span>1人あたりの業務時間を削減</span></p>
+            <dl class="case-facts">
+              <div><dt>業種</dt><dd>ハウスメーカー</dd></div>
+              <div><dt>導入前の課題</dt><dd>定型業務が担当者の時間を圧迫</dd></div>
+              <div><dt>導入した仕組み</dt><dd>業務エージェント</dd></div>
+              <div><dt>削減時間</dt><dd>1人あたり月20時間以上</dd></div>
+              <div><dt>導入期間</dt><dd>対象業務と連携範囲により変動</dd></div>
+            </dl>
+            <p class="case-note">※守秘のため社名と対象業務の詳細は非公開です。導入期間の目安は、業務を確認したうえでご案内します。</p>
+          </div>
+        </article>
       </div>
+    </section>
 
-      <div class="container narrow-copy">
-        <p class="lead-copy reveal mt-40">
-          違いは賢さではありません。<em>仕上げまでを誰が持つか</em>です。チャットAIは道具なので、こちらが手に持って動かした分だけ働き、手を離せば止まります。電動ドリルと同じです。
-        </p>
-        <p class="lead-copy reveal reveal-d1">
-          AIエージェントは担当者として置きます。担当者なら、そばで持っていなくても仕事が進みます。<em>ただし条件が1つあって、その担当者は会社のことを知っている必要があります。</em>この条件をどう満たすかが、このあとの中心の話です。
-        </p>
-      </div>
+    <section class="section" id="capabilities">
+      <div class="container">
+        <div class="reading-column">
+          <SectionHead
+            en="WHAT CHANGES"
+            title="AI導入支援で、具体的に何が変わるか"
+            lead="AIエージェントは、AI導入を実務の変化までつなげるための手段です。チャットAIとの違いは、仕上げまでを誰が担うかにあります。"
+          />
 
-      <div class="figure-wide reveal">
-        <img
-          src="/gen/diag-work-split.webp"
-          alt="チャットAIはAIが下書きして人が仕上げる。AIエージェントはAIが最後までやり人は確認だけ、という帯グラフの比較"
-          loading="lazy"
-          decoding="async"
-          width="1024"
-          height="1024"
-        />
-        <p class="figure-cap">
-          同じ「AIを使う」でも、人の手元に残る仕事の量が変わります。灰色が人、色が付いているところがAIの担当範囲です。
-        </p>
-      </div>
-
-      <div class="grid grid--2 eras">
-        {
-          agentDefinition.map((d, i) => (
-            <article class={`card era-card reveal reveal-d${i + 1}`}>
-              <div class="era-body">
-                <span class="era-step">{d.era}</span>
-                <span class="era-label">{d.label}</span>
-                <h3>{d.title}</h3>
-                <p>{d.desc}</p>
-              </div>
+          <div class="agent-compare reveal">
+            <article>
+              <span>ChatGPT・Claude・Gemini</span>
+              <h3>チャットAIは、聞くと答える</h3>
+              <p>人が指示し、出てきた下書きを人が直して仕上げます。手を離すと仕事は止まります。</p>
             </article>
-          ))
-        }
-      </div>
+            <article class="agent-compare-primary">
+              <span>Claude Code・Codexなど</span>
+              <h3>AIエージェントは、任せた工程を進める</h3>
+              <p>手順と判断の基準を読み、成果物の形まで進めます。人は外へ出す前の確認と意思決定を担います。</p>
+            </article>
+          </div>
+        </div>
 
-      <div class="figure-wide reveal">
-        <img
-          src="/gen/diag-flow-gate.webp"
-          alt="AIエージェントが資料室を読み、作業し、下書きを完成させ、最後に人が確認してから外に出すまでの流れ図"
-          loading="lazy"
-          decoding="async"
-          width="1024"
-          height="1024"
-        />
-        <p class="figure-cap">
-          指示が入ってから成果物が出るまで、AIエージェントは途中で会社の資料を読みに行きます。この参照先が用意されているかどうかで、出てくるものの質が決まります。
+        <div class="capability-grid wide-column">
+          {capabilities.map((item, index) => (
+            <article class={`change-card reveal reveal-d${(index % 4) + 1}`}>
+              <p class="change-before">導入前<span>{item.before}</span></p>
+              <span class="change-arrow" aria-hidden="true">↓</span>
+              <p class="change-after">導入後<span>{item.after}</span></p>
+              <p class="change-desc">{item.desc}</p>
+            </article>
+          ))}
+        </div>
+
+        <div class="reading-column">
+          <div class="fit-panel reveal">
+            <h3>最初の1業務に向いているもの</h3>
+            <p>「毎週・毎月ある」「作り方の型がある」「重い経営判断を含まない」のうち、2つ以上が当てはまる業務です。</p>
+            <ul>
+              <li>請求書の作成</li>
+              <li>定型メールの下書き</li>
+              <li>議事録の整理</li>
+              <li>決まった形式の報告書</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--navy proof-section">
+      <div class="container">
+        <div class="reading-column">
+          <SectionHead
+            en="WHY WIZTRY"
+            title="自社で使い切っているから、運用まで設計できます"
+            lead="WizTry自身が、毎日動くAIエージェントを社内業務で運用しています。机上の一般論ではなく、実際に止まった点や直し方まで支援へ反映します。"
+          />
+        </div>
+
+        <div class="proof-grid wide-column">
+          <div class="headline-stat reveal">
+            <p class="headline-num">8<span>割以上</span></p>
+            <p class="headline-label">当社の実務で、AIエージェントが作業を担う割合</p>
+          </div>
+          <div class="proof-tasks reveal reveal-d1">
+            <p class="proof-tasks-title">実際に任せている業務</p>
+            <ul class="task-list">
+              {agentTasks.map((task) => <li>{task}</li>)}
+            </ul>
+            <p class="proof-sub">累計90社以上の支援を続けながら、定時業務18本を社内で運用しています。</p>
+          </div>
+        </div>
+        <p class="proof-note wide-column reveal">
+          ※「実務の8割以上」は、当社が定義する定型業務・資料作成・情報整理等の作業時間に占める割合（2026年7月時点の社内集計）です。最終確認・経営判断・送信・契約や金額の確定など、対外的な意思決定は人が実施しています。
         </p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- AIエージェントが作業を代行する時代 -->
-  <section class="section">
-    <div class="container">
-      <SectionHead
-        en="DELEGATION"
-        title="AIエージェントが作業を代行する時代"
-        lead="「いずれそうなる」という話ではありません。弊社ではすでにこの状態で会社が回っています。数字でお見せします。"
-      />
-
-      <div class="figure-wide reveal">
-        <img
-          src="/gen/diag-jisseki.webp"
-          alt="弊社での実績。実務がAIエージェントだけで回る割合は8割以上。任せている業務は営業資料作成・研修資料作成・メール返信・ブログ更新・SNS運用・請求書作成・問い合わせ対応・HP作成"
-          loading="lazy"
-          decoding="async"
-          width="1024"
-          height="1024"
-        />
+    <section class="section section--alt" id="why-kumamoto">
+      <div class="container">
+        <div class="reading-column">
+          <SectionHead
+            en="WHY KUMAMOTO"
+            title="熊本の企業が、いまAI導入に取り組む理由"
+            lead="人手不足と属人化は、AI導入の弱点ではありません。仕事の手順と判断を会社へ残すきっかけになります。"
+          />
+        </div>
+        <div class="reason-grid wide-column">
+          {kumamotoReasons.map((reason, index) => (
+            <article class={`reason-card reveal reveal-d${index + 1}`}>
+              <span>{reason.num}</span>
+              <h3>{reason.title}</h3>
+              <p>{reason.desc}</p>
+            </article>
+          ))}
+        </div>
+        <div class="reading-column">
+          <p class="inline-link reveal">
+            <a href="/blog/kumamoto-ai-shain/">熊本の会社にAI社員が向いている理由を詳しく読む <span aria-hidden="true">→</span></a>
+          </p>
+        </div>
       </div>
+    </section>
 
-      <div class="headline-stat reveal">
-        <p class="headline-num">
-          8<span class="headline-unit">割以上</span>
-        </p>
-        <p class="headline-label">弊社の実務が、AIエージェントだけで回っています</p>
-      </div>
+    <section class="section" id="flow">
+      <div class="container">
+        <div class="reading-column">
+          <SectionHead
+            en="PROCESS"
+            title="AI導入支援の流れ"
+            lead="最初から全社へ広げず、1業務で効果と安全性を確認してから本番導入へ進みます。"
+          />
+        </div>
 
-      <div class="tasks reveal">
-        <p class="tasks-title">AIエージェントがやっている業務</p>
-        <ul class="task-list">
-          {agentTasks.map((t) => <li>{t}</li>)}
-        </ul>
-      </div>
-
-      <div class="container narrow-copy">
-        <p class="lead-copy reveal mt-40">
-          補足として、支援してきた企業は累計90社以上です。その集客から顧客対応までを、少人数の体制で回しています。社内では毎日・毎週・毎月動く定時業務が18本あり、時間になれば人が呼ばなくても動きます。
-        </p>
-      </div>
-
-      <div class="figure-wide reveal mt-64">
-        <img
-          src="/gen/diag-timetable.webp"
-          alt="AIエージェントの時間割。7時30分に承認待ちを報告、会議後に次アクションを整理、23時30分に録画を整理、23時55分に日報を作成"
-          loading="lazy"
-          decoding="async"
-          width="1024"
-          height="1024"
-        />
-        <p class="figure-cap">
-          上の18本のうち、4本を抜き出したものです。人が呼ばなくても、時間になれば動きます。人が退社したあとの時間帯に処理が終わっていることも珍しくありません。
-        </p>
-      </div>
-
-      <div class="container narrow-copy">
-        <p class="lead-copy reveal mt-40">
-          累計90社以上のご支援を、<em>集客から顧客対応まで少人数の体制で回しています</em>。それができているのは、作業の大半をAIエージェントが引き受けているからです。人が担っているのは、外に出るものの最終確認と、判断が要る場面だけになりました。
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- なぜ熊本の会社に向いているのか（差別化セクション） -->
-  <section class="section section--alt">
-    <div class="container">
-      <SectionHead
-        en="WHY KUMAMOTO"
-        title="なぜ、熊本の会社に向いているのか"
-        lead="AIエージェントは、都市部の大企業から入るものだと思われがちです。ただ、実際に手を動かしてみると、条件が揃っているのはむしろ地方の中小企業のほうでした。"
-      />
-
-      <div class="conclusion reveal">
-        <p class="conclusion-lead">先に結論です。</p>
-        <p class="conclusion-body">
-          熊本の中小企業は、<em>AIエージェントを動かすのに必要な材料を、すでに持っています。</em>理由は次の3つです。
-        </p>
-        <ol class="conclusion-list">
-          {kumamotoReasons.map((r) => <li>{r.title}</li>)}
+        <ol class="flow-grid wide-column">
+          {flow.map((item, index) => (
+            <li class={`flow-card reveal reveal-d${index + 1}`}>
+              <span>STEP {item.step}</span>
+              <h3>{item.title}</h3>
+              <p>{item.desc}</p>
+            </li>
+          ))}
         </ol>
-        <p class="conclusion-note">なぜこの3つが効くのか、順に説明します。</p>
-      </div>
 
-      <div class="container narrow-copy">
-        <p class="lead-copy reveal mt-40">
-          前提はひとつだけです。<em>AIエージェントに必要なのは、会社のナレッジです。</em>高価なシステムでも、特別な開発でもありません。仕事の手順と判断の基準が社内に文章で残っていれば、AIはそれを読んで仕事を進められます。逆にそこが空のままでは、どのAIを入れても動きません。
-        </p>
-        <p class="lead-copy reveal reveal-d1">
-          ここから、先に挙げた3つの理由を順に見ていきます。
-        </p>
-      </div>
+        <div class="reading-column">
+          <div class="reality-panel reveal">
+            <h3>導入で失敗しないための3原則</h3>
+            <ol>
+              <li><strong>小さく始める</strong><span>最初から「営業を全部」のような大きな単位を選ばない。</span></li>
+              <li><strong>直した内容を戻す</strong><span>AIの出力へ入れた修正を、その場で手順とルールへ書き戻す。</span></li>
+              <li><strong>運用を止めない</strong><span>現場のやり方が変わったら、AIが読む情報も同時に更新する。</span></li>
+            </ol>
+            <p>導入期間は、対象業務・社内資料の状態・必要な連携で変わります。初回相談で試作と本番導入の目安を分けてお伝えします。</p>
+          </div>
+        </div>
 
-      <div class="figure-wide reveal">
-        <img
-          src="/gen/diag-zokujinka.webp"
-          alt="属人化が資産に変わる流れ。ベテランの頭の中にある判断基準を書き出して会社の資料室へ移し、AIエージェントがそれを読む"
-          loading="lazy"
-          decoding="async"
-          width="1024"
-          height="1024"
-        />
-        <p class="figure-cap">
-          ベテランの方の頭の中にある判断の基準を、辞める前に資料室へ移す。この一手が、属人化をリスクから資産へ変えます。
-        </p>
+        <div class="training-choice wide-column reveal">
+          <article>
+            <span>社員が使えるようになりたい</span>
+            <h3>生成AI研修</h3>
+            <p>社員一人ひとりが、日常業務でAIを使える状態をつくります。</p>
+            <a href="/kumamoto-ai-training/">熊本の生成AI研修を見る <span aria-hidden="true">→</span></a>
+          </article>
+          <article>
+            <span>業務そのものを仕組みに任せたい</span>
+            <h3>AI導入支援</h3>
+            <p>特定の業務を、担当者が変わっても動く仕組みへ変えます。</p>
+          </article>
+        </div>
       </div>
+    </section>
 
-      <div class="reasons">
-        {
-          kumamotoReasons.map((r) => (
-            <article class="reason reveal">
-              <header class="reason-head">
-                <span class="reason-num">{r.num}</span>
-                <h3 class="reason-title">{r.title}</h3>
-              </header>
-              <p class="reason-body" set:html={r.body} />
-              {r.note && <p class="reason-note">{r.note}</p>}
+    <section class="section section--alt" id="security">
+      <div class="container">
+        <div class="reading-column">
+          <SectionHead
+            en="SECURITY"
+            title="ファイル管理とAIへのデータ送信は、分けて設計します"
+            lead="「自社のパソコンに保存しているから、情報が外へ出ない」とは限りません。保存場所、送信範囲、契約プラン、確認工程を別々に確認します。"
+          />
+        </div>
+        <div class="security-grid wide-column">
+          {securityLayers.map((item, index) => (
+            <article class={`security-card reveal reveal-d${index + 1}`}>
+              <span>{item.num}</span>
+              <h3>{item.title}</h3>
+              <p>{item.desc}</p>
             </article>
-          ))
-        }
-      </div>
-
-      <div class="container narrow-copy">
-        <p class="to-service reveal">
-          <a href="/blog/kumamoto-ai-shain/">熊本の会社にAI社員が向いている理由を、もっと詳しく読む <span class="arrow">→</span></a>
+          ))}
+        </div>
+        <p class="security-note reading-column reveal">
+          絶対に事故が起きない仕組みはありません。だからこそ、利用するサービスの仕様を確認し、どこまでをAIへ任せ、どこから人が判断するかを導入前に決めます。
         </p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- 導入するとどうなるのか -->
-  <section class="section">
-    <div class="container">
-      <SectionHead
-        en="RESULTS"
-        title="熊本の会社がAIエージェントを導入すると、どうなるのか"
-        lead="ご相談でいちばん多いのは「どの業務からやればいいか分からない」という段階です。効率化という言葉だと伝わりにくいので、実際に変わる場面を並べます。"
-      />
-
-      <div class="figure-wide reveal">
-        <img
-          src="/gen/diag-before-after.webp"
-          alt="AIエージェント導入前後の比較。手で作り直すが時間になれば完成へ、問い合わせに追われるが判断だけが手元にへ、あの人しか分からないが誰に聞いても同じへ、繁忙期は残業が件数が増えても同じへ変わる"
-          loading="lazy"
-          decoding="async"
-          width="1024"
-          height="1024"
-        />
-      </div>
-
-      <div class="results">
-        {
-          results.map((r, i) => (
-            <article class={`result reveal reveal-d${i + 1}`}>
-              <div class="result-pair">
-                <p class="result-before">{r.before}</p>
-                <span class="result-arrow" aria-hidden="true">→</span>
-                <p class="result-after">{r.after}</p>
-              </div>
-              <p class="result-desc">{r.desc}</p>
+    <section class="section" id="cost">
+      <div class="container">
+        <div class="reading-column">
+          <SectionHead
+            en="COST"
+            title="熊本のAI導入支援・業務自動化の費用"
+            lead="費用は個別見積りですが、何に費用がかかるのかと、投資判断の考え方は先にお伝えできます。"
+          />
+          <div class="cost-lead reveal">
+            <h3>まずは、毎週繰り返す1業務から</h3>
+            <p>いま手作業にかかっている時間を人件費へ換算し、試作・本番導入の費用と比べます。月20時間かかる作業なら、年間では240時間です。ご相談時にこの試算から一緒に整理します。</p>
+          </div>
+        </div>
+        <div class="cost-grid wide-column">
+          {costItems.map((item, index) => (
+            <article class={`cost-card reveal reveal-d${index + 1}`}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <h3>{item.title}</h3>
+              <p>{item.desc}</p>
             </article>
-          ))
-        }
+          ))}
+        </div>
+        <p class="cost-note reading-column reveal">初期構築・運用支援・AIサービスの利用料を分けてご案内し、あとから費用の範囲が分かりにくくならないようにします。</p>
       </div>
+    </section>
 
-      <div class="container narrow-copy">
-        <p class="lead-copy reveal mt-40">
-          弊社の支援先では、ハウスメーカーで一人当たり月20時間以上の業務削減という結果が出ています。どれも、人を減らして生まれた変化ではありません。<em>これまで人がやらなくてもよかった作業が、手元から外れた結果</em>です。空いた時間をどこに使うかは、会社ごとに違っていいところだと思っています。
-        </p>
+    <section class="section section--alt" id="faq">
+      <div class="container">
+        <div class="reading-column">
+          <SectionHead en="FAQ" title="よくある質問" center />
+          <div class="faq-list reveal">
+            {faq.map((item) => (
+              <details>
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- AIオフィスの作り方（中核セクション） -->
-  <section class="section section--alt">
-    <div class="container">
-      <SectionHead
-        en="AI OFFICE"
-        title="AIオフィスの作り方——4つの段階"
-        lead="個別の作業を自動化して終わりにはしません。社員の代わりにAIが働ける「オフィス」そのものをつくります。弊社が自社で毎日動かしている仕組みを、そのままお客様の会社に移植する考え方です。"
-      />
-
-      <div class="container narrow-copy">
-        <p class="lead-copy reveal">
-          弊社で起きているのは「AIが賢いから会社が回る」ではなく、<em>資料室が揃っているから、どのAIが来ても同じ品質で働ける</em>という状態です。<em>だから順番が大事で、道具の導入から始めるとほぼ失敗します。</em>
-        </p>
-      </div>
-
-      <div class="stages">
-        {
-          officeStages.map((s) => (
-            <article class="stage reveal">
-              <header class="stage-head">
-                <span class="stage-num">{s.num}</span>
-                <span class="stage-label">{s.label}</span>
-                <h3 class="stage-title">{s.title}</h3>
-              </header>
-              <p class="stage-body" set:html={s.body} />
-              <ul class="stage-detail">
-                {s.detail.map((d) => <li>{d}</li>)}
-              </ul>
-            </article>
-          ))
-        }
-      </div>
-
-      <div class="figure-wide reveal mt-40">
-        <img
-          src="/gen/diag-knowledge-room.webp"
-          alt="会社の資料室は3層。第1層は全社ルール、第2層は部署のルール、第3層は仕事の手順書で、AIエージェントがそれを読む図"
-          loading="lazy"
-          decoding="async"
-          width="1024"
-          height="1024"
-        />
-        <p class="figure-cap">
-          段階02でつくる資料室の形です。特別なシステムではなく、フォルダとファイルの集まりです。AIは仕事のたびにここを読み返します。
-        </p>
-      </div>
-
-      <div class="container narrow-copy">
-        <h3 class="block-title reveal mt-64">この4段階を通すと、何が起きるか</h3>
-        <p class="lead-copy reveal">
-          先にお見せした<em>実務の8割以上がAIエージェントで回っている</em>状態は、弊社がこの4段階をそのまま自社で通した結果です。特別な開発をしたわけではありません。担当を分けた<em>AI社員10名</em>の体制で、定時業務が18本動いているだけです。
-        </p>
-        <p class="lead-copy reveal reveal-d1">
-          裏返すと、<em>4段階のどれかを飛ばすと止まります</em>。いちばん多いのは、01と02（情報を整えて資料室の形にする）を省いて、03（担当を置く）から始めてしまうことです。読むものがない担当者は、何度指示を出し直しても的外れなものを出し続けます。
-        </p>
-        <p class="to-service reveal">
-          <a href="/blog/ai-shain-tsukurikata/">弊社のAI社員10名の実録を読む <span class="arrow">→</span></a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- セキュリティ -->
-  <section class="section">
-    <div class="container">
-      <SectionHead
-        en="SECURITY"
-        title="セキュリティは、企業様ごとに設計します"
-        lead="「顧客の情報をAIに入れるのが怖い」。士業・製造・建設のお客様から必ず出るご質問です。これは正しい警戒だと思っています。"
-      />
-
-      <div class="figure-wide reveal">
-        <img
-          src="/gen/diag-security.webp"
-          alt="セキュリティは3つで守る。読ませる範囲を決める、外に出す前に人が確認する、作業の記録が残る"
-          loading="lazy"
-          decoding="async"
-          width="1024"
-          height="1024"
-        />
-      </div>
-
-      <div class="security-layers">
-        {
-          securityLayers.map((s) => (
-            <article class="security-layer reveal">
-              <span class="security-num">{s.num}</span>
-              <div>
-                <h3>{s.title}</h3>
-                <p>{s.desc}</p>
-              </div>
-            </article>
-          ))
-        }
-      </div>
-
-      <h3 class="block-title reveal mt-64">業種によって、線の引き方が変わります</h3>
-      <div class="container narrow-copy">
-        <p class="lead-copy reveal">
-          守り方の型は同じでも、<em>どこに線を引くかは業種で変わります</em>。初回の設計時に、実際の書類を見ながら決めていきます。
-        </p>
-      </div>
-      <div class="industry-list">
-        {
-          securityByIndustry.map((s, i) => (
-            <div class={`industry-item reveal reveal-d${(i % 3) + 1}`}>
-              <span class="industry-name">{s.industry}</span>
-              <span class="industry-point">{s.point}</span>
-            </div>
-          ))
-        }
-      </div>
-      <p class="cost-note reveal">
-        なお、絶対に事故が起きない仕組みは存在しません。弊社がお約束できるのは、<em>どこまでを任せ、どこから人が見るか</em>を先に決めて、その線を運用で守り続けることです。
-      </p>
-    </div>
-  </section>
-
-  <!-- 費用の考え方 -->
-  <section class="section section--alt">
-    <div class="container">
-      <SectionHead
-        en="COST"
-        title="AI導入支援の費用の考え方"
-        lead="金額は対象業務の数と連携範囲で変わるためお見積りになりますが、判断のしかたは先にお伝えできます。"
-      />
-      <div class="container narrow-copy">
-        <p class="lead-copy reveal">
-          いちばん確実なのは、<em>いま手作業にかかっている時間を人件費に換算してみること</em>です。月20時間かかっている作業があれば、その担当者の時間単価×20時間が、毎月消えていることになります。年間なら240時間です。
-        </p>
-        <p class="lead-copy reveal reveal-d1">
-          この「消えている金額」と、自動化にかかる費用を並べたときに前者が明らかに大きければ、投資判断はしやすくなります。ご相談時には、この試算からご一緒します。
-        </p>
-      </div>
-      <h3 class="block-title reveal mt-64">確認しておきたい費用の内訳</h3>
-      <div class="grid grid--3 grid--trio costs">
-        {
-          costItems.map((c, i) => (
-            <div class={`card cost-card reveal reveal-d${i + 1}`}>
-              <span class="cost-num">{String(i + 1).padStart(2, '0')}</span>
-              <h3>{c.title}</h3>
-              <p>{c.desc}</p>
-            </div>
-          ))
-        }
-      </div>
-      <p class="cost-note reveal">
-        この3つを混ぜて総額だけを提示されると、あとから「これは別料金です」が出てきます。弊社は最初から切り分けてご案内しています。
-      </p>
-    </div>
-  </section>
-
-  <!-- 技術スタック -->
-  <section class="section section--navy">
-    <div class="container">
-      <SectionHead
-        en="STACK"
-        title="使用する技術"
-        lead="流行りのツールを並べるのではなく、実際の業務に組み込んで運用しているものだけを使います。"
-      />
-      <div class="stack-list">
-        {
-          stack.map((s, i) => (
-            <div class={`stack-item reveal reveal-d${(i % 3) + 1}`}>
-              <span class="stack-name">{s.name}</span>
-              <span class="stack-desc">{s.desc}</span>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- 進め方 -->
-  <section class="section">
-    <div class="container">
-      <SectionHead
-        en="FLOW"
-        title="進め方"
-        lead="小さく試して、効果を確認してから広げます。最初から全社展開はしません。"
-      />
-      <div class="grid grid--4 flow-grid">
-        {
-          flow.map((f, i) => (
-            <div class={`card flow-card reveal reveal-d${i + 1}`}>
-              <span class="flow-num">{f.step}</span>
-              <h3>{f.title}</h3>
-              <p>{f.desc}</p>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- 最初の1体の選び方 -->
-  <section class="section section--alt">
-    <div class="container">
-      <SectionHead
-        en="FIRST AGENT"
-        title="最初の1体は、この3つの質問で選ぶ"
-        lead="ご相談の前に、社内の業務をこの3つに当ててみてください。2つ当てはまれば、任せる候補になります。"
-      />
-      <div class="grid grid--3 grid--trio questions">
-        {
-          firstAgentQuestions.map((q, i) => (
-            <div class={`card question-card reveal reveal-d${i + 1}`}>
-              <span class="question-num">Q{i + 1}</span>
-              <p>{q}</p>
-            </div>
-          ))
-        }
-      </div>
-      <div class="container narrow-copy">
-        <p class="lead-copy reveal mt-40">
-          入口として向いているのは、<em>請求書の作成、定型のメール返信、議事録の整理、決まった形式の報告書</em>あたりです。どれも毎週あって、型があって、判断がそれほど重くありません。
-        </p>
-        <p class="lead-copy reveal reveal-d1">
-          逆に、最初から「営業をまるごと自動化」のような大きい塊を選ぶと、ほぼ失敗します。その場合は「商談前の会社情報の下調べだけ」のように、いちばん狭いところまで切り出してから始めます。<em>小さく1つ動くと、社内の空気が変わります。</em>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 正直にお伝えしておくこと -->
-  <section class="section">
-    <div class="container">
-      <SectionHead
-        en="REALITY"
-        title="正直にお伝えしておくこと"
-        lead="良いことばかり書いても仕方がないので、都合の悪いところも先に書いておきます。"
-      />
-      <div class="container narrow-copy">
-        <p class="lead-copy reveal">
-          <em>最初の1〜2ヶ月は、かなり地味です。</em>熊本の会社は材料を持っている、と前半で書きました。ただしその材料は、いま紙とベテランの方の頭の中にあります。AIはどちらも読めません。
-        </p>
-        <p class="lead-copy reveal reveal-d1">
-          なので最初にやることは、AIの設定でも便利なツール選びでもありません。ベテランの方に横に座っていただいて、「この判断って、何を見て決めてるんですか」とお聞きし、文章に書き出す作業です。ここに1〜2ヶ月かかります。
-        </p>
-        <p class="lead-copy reveal reveal-d2">
-          弊社の資料室にも、AIの仕事への赤入れを書き足した跡が何十箇所も残っています。1体目がまともに動くまでには、それなりの時間がかかりました。ただ、<em>1体目の土台ができると、2体目からは半分以下の時間で立ち上がります。</em>ここは階段状に楽になっていきます。
-        </p>
-      </div>
-
-      <h3 class="block-title reveal mt-64">うまくいかない会社の、3つの終わり方</h3>
-      <div class="grid grid--3 grid--trio failures">
-        {
-          failurePatterns.map((f, i) => (
-            <div class={`card failure-card reveal reveal-d${i + 1}`}>
-              <h3>{f.title}</h3>
-              <p>{f.desc}</p>
-            </div>
-          ))
-        }
-      </div>
-      <div class="container narrow-copy">
-        <p class="lead-copy reveal mt-40">
-          いちばん多いのは1つ目です。逆を返せば、<em>赤を入れたらその場で資料室に書き戻す</em>。これさえ習慣になれば、仕組みは勝手に育っていきます。弊社の伴走は、この習慣が社内に根づくところまでを見ます。
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 研修との違い -->
-  <section class="section section--alt">
-    <div class="container narrow-copy">
-      <SectionHead en="OR TRAINING" title="研修とどう違うのか" />
-      <p class="lead-copy reveal">
-        <em>研修</em>は、社員がAIを使えるようになるための取り組みです。手を動かせる人が増えるほど、現場の判断が速くなります。
-      </p>
-      <p class="lead-copy reveal reveal-d1">
-        <em>導入支援</em>は、特定の業務を確実に自動化するための取り組みです。担当者が変わっても仕組みは動き続けます。
-      </p>
-      <p class="lead-copy reveal reveal-d2">
-        どちらが先かは目的によります。迷われる場合はご相談ください。両方を並行して進めるケースも多いです。
-      </p>
-      <p class="to-service reveal">
-        <a href="/kumamoto-ai-training/">熊本の企業向け生成AI研修を見る <span class="arrow">→</span></a>
-      </p>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="section">
-    <div class="container">
-      <SectionHead en="FAQ" title="よくある質問" center />
-      <div class="faq faq-single reveal">
-        {
-          faq.map((item) => (
-            <details>
-              <summary>{item.q}</summary>
-              <p>{item.a}</p>
-            </details>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <CtaBand />
+    <CtaBand />
+  </div>
 </Base>
 
 <style>
-  .narrow-copy {
+  .agent-page {
+    --reading-column: 680px;
+    --wide-column: 900px;
+  }
+
+  .agent-page .section {
+    padding-block: clamp(60px, 7vw, 96px);
+  }
+
+  .agent-page .section--tight {
+    padding-block: clamp(44px, 5vw, 68px);
+  }
+
+  .reading-column {
+    width: min(100%, var(--reading-column));
+    margin-inline: auto;
+  }
+
+  .wide-column {
+    width: min(100%, var(--wide-column));
+    margin-inline: auto;
+  }
+
+  section[id] {
+    scroll-margin-top: calc(var(--header-h) + 20px);
+  }
+
+  .agent-page :global(.page-hero .container) {
     max-width: 760px;
   }
 
-  .lead-copy {
-    font-size: 17px;
-    line-height: 2.1;
-    color: var(--ink-soft);
-    margin-bottom: 20px;
-  }
-
-  .lead-copy em {
-    font-style: normal;
-    font-weight: 700;
-    color: var(--ink);
-  }
-
-
-
-
-
-  /* AIオフィス4段階: 縦に積み、左に段階番号の軸線を通す */
-  .stages {
-    max-width: 680px;
-    margin-inline: auto;
-    display: grid;
-    gap: 20px;
-    margin-top: 48px;
-  }
-
-  .stage {
-    position: relative;
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    padding: 30px 32px;
-  }
-
-  .stage-head {
-    display: grid;
-    grid-template-columns: auto 1fr;
+  .agent-page :global(.page-hero .en) {
+    display: flex;
     align-items: center;
-    gap: 6px 14px;
-    margin-bottom: 18px;
-  }
-
-  .stage-num {
-    grid-row: span 2;
-    font-family: var(--font-en);
-    font-weight: 800;
-    font-size: 30px;
-    line-height: 1;
-    color: var(--blue-500);
-  }
-
-  .stage-label {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    color: var(--muted);
-  }
-
-  .stage-title {
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.6;
-    color: var(--ink);
-  }
-
-  .stage-body {
-    font-size: 16px;
-    line-height: 2.1;
-    color: var(--ink-soft);
-  }
-
-  /* set:html で差し込んだHTMLにはAstroのスコープ属性が付かないため :global() が必要 */
-  .stage-body :global(em) {
-    font-style: normal;
-    font-weight: 700;
-    color: var(--ink);
-  }
-
-  .stage-detail {
-    margin: 20px 0 0;
-    padding: 20px 0 0;
-    border-top: 1px solid var(--line);
-    list-style: none;
-    display: grid;
     gap: 12px;
+    font-size: clamp(12px, 1.1vw, 14px);
+    letter-spacing: 0.22em;
+    color: var(--cyan-400);
   }
 
-  .stage-detail li {
-    position: relative;
-    padding-left: 22px;
-    font-size: 15px;
-    line-height: 1.95;
-    color: var(--ink-soft);
-  }
-
-  .stage-detail li::before {
+  .agent-page :global(.page-hero .en::before) {
     content: '';
-    position: absolute;
-    left: 4px;
-    top: 12px;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
+    width: 30px;
+    height: 2px;
+    border-radius: 2px;
     background: var(--cyan-400);
   }
 
-  /* 注意点・補足は色を落として本文と区別する */
-  .stage-note {
-    margin-top: 18px;
-    padding: 14px 16px;
-    background: var(--bg-alt);
-    border-radius: 10px;
-    font-size: 13px;
-    line-height: 1.95;
-    color: var(--ink-soft);
-  }
-
-  .cost-card {
-    padding: 28px 30px;
-    border-top: 3px solid var(--blue-500);
-  }
-
-  .cost-num {
+  .agent-page :global(.page-hero .jp) {
     display: block;
-    margin-bottom: 12px;
-    font-family: var(--font-en);
+    max-width: 14em;
+    margin-top: 14px;
+    font-size: clamp(30px, 3.8vw, 48px);
     font-weight: 800;
-    font-size: 15px;
-    letter-spacing: 0.06em;
-    color: var(--blue-500);
-  }
-
-  .cost-card h3 {
-    font-size: 17px;
-    margin-bottom: 10px;
-  }
-
-  .cost-card p {
-    font-size: 14px;
-    line-height: 2;
-    color: var(--ink-soft);
-  }
-
-  .cost-note {
-    margin-top: 24px;
-    font-size: 13px;
-    line-height: 1.9;
-    color: var(--muted);
-  }
-
-  /* 節見出し。本文と同じ太字だけだと段落の途中に見えるため、
-     ブランドカラーの短い縦罫を立てて「ここから小見出し」を明示する */
-  .block-title {
-    position: relative;
-    padding-left: 16px;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.6;
-    letter-spacing: 0.01em;
-    margin-bottom: 24px;
-  }
-
-  .block-title::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.28em;
-    bottom: 0.28em;
-    width: 4px;
-    border-radius: 2px;
-    background: var(--accent-grad);
-  }
-
-  .mt-64 {
-    margin-top: 64px;
-  }
-
-  /* 技術スタック: 固有名詞と役割を1行で並べる */
-  .stack-list {
-    display: grid;
-    gap: 14px;
-    margin-top: 40px;
-  }
-
-  .stack-item {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 6px 18px;
-    padding: 18px 22px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.04);
-  }
-
-  .stack-name {
-    font-family: var(--font-en);
-    font-weight: 700;
-    font-size: 17px;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
     color: #fff;
-    flex: 0 0 auto;
   }
 
-  .stack-desc {
-    font-size: 14px;
-    line-height: 1.8;
-    color: rgba(255, 255, 255, 0.72);
-  }
-
-  /* 衝突していた .flow-step の grid/padding が実質の余白になっていたため、
-     名前を分けた結果カードの余白が消えた。他のカードと同じ余白を明示する */
-  .flow-card {
-    position: relative;
-    padding: 26px 24px 28px;
-  }
-
-  .flow-num {
-    display: block;
-    margin-bottom: 10px;
-    font-family: var(--font-en);
-    font-weight: 800;
-    font-size: 13px;
-    letter-spacing: 0.08em;
-    color: var(--blue-500);
-  }
-
-  .flow-card h3 {
-    font-size: 17px;
-    margin-bottom: 10px;
-  }
-
-  .flow-card p {
-    font-size: 14px;
-    line-height: 2;
-    color: var(--ink-soft);
-  }
-
-  .to-service {
-    margin-top: 32px;
-  }
-
-  .to-service a {
-    display: inline-block;
-    padding: 10px 0;
-    font-weight: 700;
-    line-height: 1.7;
-    color: var(--blue-500);
-    text-decoration: none;
-  }
-
-  .to-service a:hover {
-    text-decoration: underline;
-  }
-
-  /* FAQ: /kumamoto-ai-training/ と同じ見た目に揃える */
-  .faq-single {
-    max-width: 680px;
-    margin: 40px auto 0;
-  }
-
-  .faq details {
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 0 22px;
-    background: var(--bg);
-  }
-
-  .faq details + details {
-    margin-top: 12px;
-  }
-
-  .faq summary {
-    cursor: pointer;
-    list-style: none;
-    padding: 20px 0;
-    font-weight: 700;
-    font-size: 15px;
-    color: var(--ink);
-    position: relative;
-    padding-left: 26px;
-  }
-
-  .faq summary::-webkit-details-marker {
+  .agent-page :global(.page-hero .jp::before) {
     display: none;
   }
 
-  .faq summary::before {
-    content: 'Q';
-    position: absolute;
-    left: 0;
-    font-family: var(--font-en);
-    color: var(--blue-500);
-    font-weight: 800;
+  .agent-page :global(.page-hero .desc) {
+    max-width: 34em;
+    margin-top: 22px;
+    font-size: clamp(17px, 1.7vw, 21px);
+    font-weight: 500;
+    line-height: 1.85;
+    color: rgba(255, 255, 255, 0.9);
   }
 
-  .faq details p {
-    padding: 0 0 18px 26px;
-    font-size: 15px;
-    line-height: 2;
+  .intro-section {
+    background: #fff;
+  }
+
+  .intro-lead {
+    margin: 0;
+    font-size: 17px;
+    line-height: 2.05;
     color: var(--ink-soft);
   }
 
-  /* 検索→チャットAI→エージェントの3段階カード。図版で違いを一目で見せる */
-  .eras {
-    margin-top: 40px;
+  .intro-lead strong {
+    color: var(--ink);
   }
 
-  .era-card {
-    padding: 0;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+  .quick-start {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 28px;
+    margin-top: 32px;
+    padding: 28px 30px;
+    border: 1px solid rgba(47, 107, 255, 0.2);
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(47, 107, 255, 0.08), rgba(55, 200, 240, 0.05));
   }
 
-  .era-card {
-    border-top: 3px solid var(--line);
-  }
-
-  /* 2枚目（AIエージェント）が結論側なので、視線が止まるように色を持たせる */
-  .era-card:nth-child(2) {
-    border-top-color: var(--cyan-400);
-    background: linear-gradient(180deg, rgba(55, 200, 240, 0.05), transparent 120px);
-  }
-
-  .era-body {
-    padding: 26px 28px 30px;
-  }
-
-  .era-step {
+  .quick-start-label,
+  .case-label {
     display: inline-block;
     font-family: var(--font-en);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--blue-500);
+  }
+
+  .quick-start h2 {
+    margin-top: 6px;
+    font-size: 20px;
+    line-height: 1.55;
+  }
+
+  .quick-start p {
+    margin: 8px 0 0;
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--ink-soft);
+  }
+
+  .quick-start :global(.btn) {
+    flex: none;
+    white-space: nowrap;
+  }
+
+  .page-index {
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .page-index > p {
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+
+  .page-index ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+
+  .page-index a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: #fff;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+
+  .page-index a:hover {
+    transform: translateY(-2px);
+    border-color: var(--blue-500);
+    color: var(--blue-500);
+  }
+
+  .page-index a span {
+    color: var(--blue-500);
+  }
+
+  .case-showcase {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: var(--shadow-md);
+  }
+
+  .case-media {
+    min-height: 100%;
+    background: var(--navy-900);
+  }
+
+  .case-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .case-content {
+    padding: 36px 40px 38px;
+  }
+
+  .case-content h3 {
+    margin-top: 7px;
+    font-size: 23px;
+    line-height: 1.55;
+  }
+
+  .case-summary {
+    margin: 14px 0 0;
+    font-size: 15px;
+    line-height: 1.95;
+    color: var(--ink-soft);
+  }
+
+  .case-result {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 5px 14px;
+    margin: 24px 0 0;
+    padding: 20px 0;
+    border-block: 1px solid var(--line);
+  }
+
+  .case-result strong {
+    font-family: var(--font-en);
+    font-size: 38px;
+    line-height: 1;
+    color: var(--blue-500);
+  }
+
+  .case-result span {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .case-facts {
+    margin: 18px 0 0;
+  }
+
+  .case-facts div {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .case-facts dt {
     font-size: 12.5px;
     font-weight: 700;
+    color: var(--muted);
+  }
+
+  .case-facts dd {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .case-note {
+    margin: 16px 0 0;
+    font-size: 11.5px;
+    line-height: 1.8;
+    color: var(--muted);
+  }
+
+  .agent-compare {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .agent-compare article {
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--bg-alt);
+  }
+
+  .agent-compare .agent-compare-primary {
+    border-color: rgba(47, 107, 255, 0.3);
+    background: linear-gradient(160deg, rgba(47, 107, 255, 0.09), rgba(55, 200, 240, 0.04));
+  }
+
+  .agent-compare article > span {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--blue-500);
+  }
+
+  .agent-compare h3 {
+    margin-top: 7px;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  .agent-compare p {
+    margin: 9px 0 0;
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--ink-soft);
+  }
+
+  .capability-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 36px;
+  }
+
+  .change-card {
+    padding: 25px 28px 27px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .change-before,
+  .change-after {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 800;
     letter-spacing: 0.08em;
     color: var(--muted);
   }
 
-  .era-label {
+  .change-before span,
+  .change-after span {
     display: block;
-    margin: 4px 0 10px;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    color: var(--blue-500);
-  }
-
-  .era-card h3 {
-    font-size: 17px;
-    line-height: 1.65;
-    margin-bottom: 10px;
-  }
-
-  .era-card p {
-    font-size: 14px;
-    line-height: 2;
-    color: var(--ink-soft);
-  }
-
-  /* 大きめの図版＋キャプション。本文の流れを止めずに理解を補助する */
-  .figure-wide {
-    margin: 40px auto 0;
-  }
-
-  .figure-wide img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 16px;
-    border: 1px solid var(--line);
-    background: var(--bg-alt);
-  }
-
-  .figure-cap {
-    max-width: 620px;
-    margin: 14px auto 0;
-    font-size: 13.5px;
-    line-height: 1.95;
-    color: var(--muted);
-    text-align: center;
-  }
-
-  /* 導入前後の変化。左に旧状態、右に新状態を置いて矢印でつなぐ */
-  .results {
-    max-width: 680px;
-    margin-inline: auto;
-    display: grid;
-    gap: 18px;
-    margin-top: 40px;
-  }
-
-  .result {
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    padding: 26px 30px;
-  }
-
-  .result-pair {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    gap: 18px;
-    margin-bottom: 14px;
-  }
-
-  .result-before {
-    font-size: 15.5px;
-    line-height: 1.75;
-    color: var(--muted);
-  }
-
-  .result-arrow {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: var(--bg-alt);
+    margin-top: 4px;
     font-size: 15px;
-    font-weight: 700;
-    line-height: 1;
-    color: var(--blue-500);
-  }
-
-  .result-after {
-    font-size: 17px;
     font-weight: 700;
     line-height: 1.75;
-    color: var(--ink);
-  }
-
-  .result-desc {
-    padding-top: 14px;
-    border-top: 1px solid var(--line);
-    font-size: 15px;
-    line-height: 2;
-    color: var(--ink-soft);
-  }
-
-  /* セキュリティの3つの守り */
-  .security-layers {
-    max-width: 680px;
-    margin-inline: auto;
-    display: grid;
-    gap: 18px;
-    margin-top: 40px;
-  }
-
-  .security-layer {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 20px;
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    padding: 26px 30px;
-  }
-
-  .security-num {
-    font-family: var(--font-en);
-    font-weight: 800;
-    font-size: 22px;
-    line-height: 1.4;
-    color: var(--blue-500);
-  }
-
-  .security-layer h3 {
-    font-size: 17px;
-    line-height: 1.65;
-    margin-bottom: 10px;
-  }
-
-  .security-layer p {
-    font-size: 15px;
-    line-height: 2;
-    color: var(--ink-soft);
-  }
-
-  /* 業種別の線引き */
-  .industry-list {
-    max-width: 680px;
-    margin-inline: auto;
-    display: grid;
-    gap: 12px;
-    margin-top: 32px;
-  }
-
-  .industry-item {
-    display: grid;
-    grid-template-columns: 110px 1fr;
-    align-items: start;
-    gap: 16px;
-    padding: 18px 22px;
-    background: var(--bg);
-    border-radius: 12px;
-    border: 1px solid var(--line);
-  }
-
-  .industry-name {
-    justify-self: start;
-    padding: 5px 14px;
-    border-radius: 999px;
-    background: rgba(47, 107, 255, 0.08);
-    font-size: 13.5px;
-    font-weight: 700;
-    line-height: 1.6;
-    color: var(--blue-500);
-    white-space: nowrap;
-  }
-
-  .industry-point {
-    font-size: 15px;
-    line-height: 1.95;
-    color: var(--ink-soft);
-  }
-
-  /* 3枚組の折り返し。素の2列だと右下が1枚分空いて欠けて見えるため、
-     中間幅では2列にしたうえで3枚目を下段中央に置く。狭い幅では1列。 */
-  .grid--trio {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  @media (max-width: 900px) and (min-width: 641px) {
-    .grid--trio {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .grid--trio > *:nth-child(3):last-child {
-      grid-column: 1 / -1;
-      width: calc(50% - clamp(18px, 2.4vw, 30px) / 2);
-      justify-self: center;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .grid--trio {
-      grid-template-columns: minmax(0, 1fr);
-    }
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-  /* 主役の数字。3つ横並びだと同じ重さに見えるので、1つだけ大きく出す */
-  .headline-stat {
-    max-width: 680px;
-    margin: 44px auto 0;
-    padding: 40px 32px;
-    text-align: center;
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-top: 3px solid var(--blue-500);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-  }
-
-  .headline-num {
-    font-family: var(--font-en);
-    font-weight: 800;
-    font-size: clamp(64px, 11vw, 104px);
-    line-height: 1;
-    letter-spacing: -0.02em;
-    color: var(--blue-500);
-  }
-
-  .headline-unit {
-    margin-left: 6px;
-    font-size: 0.32em;
-    font-weight: 700;
     letter-spacing: 0;
   }
 
-  .headline-label {
-    margin-top: 18px;
-    font-size: 17px;
-    font-weight: 700;
-    line-height: 1.8;
-    color: var(--ink);
+  .change-before span {
+    color: var(--ink-soft);
   }
 
-  /* 割合だけだと実感が湧かないので、実際に任せている業務名を並べる */
-  .tasks {
-    max-width: 680px;
-    margin: 24px auto 0;
-  }
-
-  .tasks-title {
-    margin-bottom: 14px;
-    font-size: 13.5px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    color: var(--muted);
-    text-align: center;
-  }
-
-  .task-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  .task-list li {
-    padding: 9px 18px;
-    border-radius: 999px;
-    background: rgba(47, 107, 255, 0.08);
-    font-size: 14.5px;
-    font-weight: 700;
-    line-height: 1.6;
+  .change-after {
     color: var(--blue-500);
   }
 
-
-  /* ---- 横幅の設計 ----
-     読み列: 680px（見出し・本文・縦積みカード・図版）
-     グリッド列: 900px（複数カラムのカード行のみ、読み列の外へ左右対称に広げる）
-     この2段だけに絞り、見出しが本文より左に飛び出さないようにする */
-  .section :global(.sec-head) {
-    max-width: 680px;
-    margin-inline: auto;
+  .change-after span {
+    color: var(--ink);
   }
 
-  .figure-wide {
-    max-width: 680px;
+  .change-arrow {
+    display: block;
+    margin: 7px 0;
+    font-size: 18px;
+    color: var(--blue-500);
   }
 
-  .eras,
-  .grid--trio,
-  .flow-grid,
-  .stack-list {
-    max-width: 900px;
-    margin-inline: auto;
+  .change-desc {
+    margin: 16px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--ink-soft);
   }
 
-  /* 900px幅で4カラムは1枚205pxと窮屈なため2×2に */
-  .flow-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .fit-panel {
+    margin-top: 34px;
+    padding: 27px 30px;
+    border-left: 4px solid var(--blue-500);
+    border-radius: 0 16px 16px 0;
+    background: var(--bg-alt);
   }
 
-  @media (max-width: 640px) {
-    .flow-grid {
-      grid-template-columns: minmax(0, 1fr);
-    }
+  .fit-panel h3 {
+    font-size: 18px;
   }
 
-  /* 章の結論を先に出すブロック。長い章なので、読み始めで要点が分かるようにする */
-  .conclusion {
-    max-width: 680px;
-    margin: 40px auto 0;
-    padding: 32px 34px;
-    background: var(--bg);
+  .fit-panel > p {
+    margin: 9px 0 0;
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--ink-soft);
+  }
+
+  .fit-panel ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .fit-panel li,
+  .task-list li {
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 700;
+  }
+
+  .fit-panel li {
     border: 1px solid var(--line);
-    border-top: 3px solid var(--blue-500);
-    border-radius: var(--radius);
+    background: #fff;
+    color: var(--ink-soft);
+  }
+
+  .proof-section :global(.sec-head h2) {
+    color: #fff;
+  }
+
+  .proof-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 20px;
+  }
+
+  .headline-stat,
+  .proof-tasks {
+    padding: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(8px);
+  }
+
+  .headline-stat {
+    display: grid;
+    align-content: center;
+    text-align: center;
+  }
+
+  .headline-num {
+    margin: 0;
+    font-family: var(--font-en);
+    font-size: clamp(66px, 9vw, 96px);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--cyan-400);
+  }
+
+  .headline-num span {
+    margin-left: 5px;
+    font-size: 0.3em;
+  }
+
+  .headline-label {
+    margin: 16px 0 0;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.8;
+    color: #fff;
+  }
+
+  .proof-tasks-title {
+    margin: 0 0 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .task-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+
+  .task-list li {
+    background: rgba(55, 200, 240, 0.12);
+    color: #eafaff;
+  }
+
+  .proof-sub {
+    margin: 20px 0 0;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.13);
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .proof-note {
+    margin-top: 18px;
+    font-size: 11.5px;
+    line-height: 1.85;
+    color: rgba(255, 255, 255, 0.62);
+  }
+
+  .reason-grid,
+  .security-grid,
+  .cost-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .reason-card,
+  .security-card,
+  .cost-card {
+    padding: 28px 26px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: #fff;
     box-shadow: var(--shadow-sm);
   }
 
-  .conclusion-lead {
+  .reason-card > span,
+  .security-card > span,
+  .cost-card > span {
+    font-family: var(--font-en);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--blue-500);
+  }
+
+  .reason-card h3,
+  .security-card h3,
+  .cost-card h3 {
+    margin-top: 10px;
+    font-size: 17px;
+    line-height: 1.65;
+  }
+
+  .reason-card p,
+  .security-card p,
+  .cost-card p {
+    margin: 11px 0 0;
+    font-size: 13.5px;
+    line-height: 1.95;
+    color: var(--ink-soft);
+  }
+
+  .inline-link {
+    margin: 24px 0 0;
+  }
+
+  .inline-link a,
+  .training-choice a {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--blue-500);
+  }
+
+  .inline-link a:hover,
+  .training-choice a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .flow-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .flow-card {
+    position: relative;
+    padding: 28px 30px;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--blue-500);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .flow-card > span {
     font-family: var(--font-en);
     font-size: 12px;
     font-weight: 800;
     letter-spacing: 0.1em;
     color: var(--blue-500);
-    margin-bottom: 12px;
   }
 
-  .conclusion-body {
-    font-size: 16px;
-    line-height: 2;
-    color: var(--ink-soft);
+  .flow-card h3 {
+    margin-top: 8px;
+    font-size: 18px;
   }
 
-  .conclusion-body em {
-    font-style: normal;
-    font-weight: 700;
-    color: var(--ink);
-  }
-
-  .conclusion-list {
-    counter-reset: conclusion;
-    list-style: none;
-    margin: 20px 0 0;
-    padding: 0;
-    display: grid;
-    gap: 12px;
-  }
-
-  .conclusion-list li {
-    position: relative;
-    padding-left: 38px;
-    font-size: 15.5px;
-    font-weight: 700;
-    line-height: 1.8;
-    color: var(--ink);
-  }
-
-  .conclusion-list li::before {
-    counter-increment: conclusion;
-    content: counter(conclusion);
-    position: absolute;
-    left: 0;
-    top: 0.15em;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: var(--blue-500);
-    color: #fff;
-    font-family: var(--font-en);
-    font-size: 13px;
-    font-weight: 800;
-  }
-
-  .conclusion-note {
-    margin-top: 20px;
-    padding-top: 18px;
-    border-top: 1px solid var(--line);
-    font-size: 13.5px;
-    color: var(--muted);
-  }
-
-  /* 熊本の3つの理由: 左に太いラインを通して「並列の主張」であることを示す */
-  .reasons {
-    max-width: 680px;
-    margin-inline: auto;
-    display: grid;
-    gap: 20px;
-    margin-top: 48px;
-  }
-
-  .reason {
-    position: relative;
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-left: 3px solid var(--cyan-400);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    padding: 28px 32px;
-  }
-
-  .reason-head {
-    display: flex;
-    align-items: baseline;
-    gap: 14px;
-    margin-bottom: 16px;
-  }
-
-  .reason-num {
-    flex: none;
-    font-family: var(--font-en);
-    font-weight: 800;
-    font-size: 22px;
-    line-height: 1;
-    color: var(--blue-500);
-  }
-
-  .reason-title {
-    font-size: 19px;
-    font-weight: 700;
-    line-height: 1.6;
-    color: var(--ink);
-  }
-
-  .reason-body {
-    font-size: 16px;
-    line-height: 2.1;
-    color: var(--ink-soft);
-  }
-
-  /* set:html で差し込んだHTMLにはAstroのスコープ属性が付かないため :global() が必要 */
-  .reason-body :global(em) {
-    font-style: normal;
-    font-weight: 700;
-    color: var(--ink);
-  }
-
-  .reason-note {
-    margin-top: 18px;
-    padding: 18px 20px;
-    background: var(--bg-alt);
-    border-radius: 10px;
-    font-size: 15px;
+  .flow-card p {
+    margin: 10px 0 0;
+    font-size: 14px;
     line-height: 1.95;
     color: var(--ink-soft);
   }
 
-  /* 最初の1体を選ぶ3つの質問 */
-  .questions {
-    margin-top: 40px;
-  }
-
-  .question-card {
-    padding: 30px 28px;
-  }
-
-  .question-num {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 34px;
-    margin-bottom: 14px;
-    border-radius: 50%;
+  .reality-panel {
+    margin-top: 32px;
+    padding: 28px 30px;
+    border-radius: 18px;
     background: var(--bg-alt);
-    border: 1px solid var(--line);
-    font-family: var(--font-en);
-    font-weight: 800;
-    font-size: 13px;
-    letter-spacing: 0.02em;
-    color: var(--blue-500);
   }
 
-  .question-card p {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1.85;
+  .reality-panel h3 {
+    font-size: 19px;
+  }
+
+  .reality-panel ol {
+    display: grid;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .reality-panel li {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .reality-panel li strong {
+    font-size: 14px;
     color: var(--ink);
   }
 
-  /* 失敗パターンは「やってはいけない」側の情報。中立のカードと同じ見た目だと
-     読み飛ばされるため、警告色の縦罫と連番で別種類だと分かるようにする。
-     連番はCSSカウンタで振るので本文のマークアップは触らない */
-  .failures {
-    counter-reset: failure;
-  }
-
-  .failure-card {
-    padding: 26px 28px 26px 30px;
-    border-left: 3px solid #e0913c;
-  }
-
-  .failure-card h3 {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 17px;
-    margin-bottom: 10px;
-  }
-
-  .failure-card h3::before {
-    counter-increment: failure;
-    content: counter(failure);
-    flex: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: #fdf1e3;
-    color: #b96b1c;
-    font-family: var(--font-en);
-    font-size: 14px;
-    font-weight: 800;
-  }
-
-  .failure-card p {
-    font-size: 14px;
-    line-height: 2;
+  .reality-panel li span,
+  .reality-panel > p {
+    font-size: 13.5px;
+    line-height: 1.85;
     color: var(--ink-soft);
   }
 
+  .reality-panel > p {
+    margin: 16px 0 0;
+  }
+
+  .training-choice {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 34px;
+  }
+
+  .training-choice article {
+    padding: 26px 28px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: #fff;
+  }
+
+  .training-choice article:last-child {
+    border-color: rgba(47, 107, 255, 0.32);
+    background: linear-gradient(150deg, rgba(47, 107, 255, 0.08), rgba(55, 200, 240, 0.03));
+  }
+
+  .training-choice article > span {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+
+  .training-choice h3 {
+    margin-top: 7px;
+    font-size: 18px;
+  }
+
+  .training-choice p {
+    margin: 9px 0 12px;
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--ink-soft);
+  }
+
+  .security-card {
+    border-top: 3px solid var(--cyan-400);
+  }
+
+  .security-note,
+  .cost-note {
+    margin-top: 24px;
+    font-size: 12.5px;
+    line-height: 1.9;
+    color: var(--muted);
+  }
+
+  .cost-lead {
+    margin-bottom: 32px;
+    padding: 26px 28px;
+    border-left: 4px solid var(--blue-500);
+    border-radius: 0 16px 16px 0;
+    background: var(--bg-alt);
+  }
+
+  .cost-lead h3 {
+    font-size: 18px;
+  }
+
+  .cost-lead p {
+    margin: 9px 0 0;
+    font-size: 14px;
+    line-height: 1.95;
+    color: var(--ink-soft);
+  }
+
+  .cost-card {
+    border-top: 3px solid var(--blue-500);
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 11px;
+  }
+
+  .faq-list details {
+    padding: 0 22px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #fff;
+  }
+
+  .faq-list summary {
+    position: relative;
+    cursor: pointer;
+    list-style: none;
+    padding: 19px 34px 19px 27px;
+    font-size: 14.5px;
+    font-weight: 700;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+
+  .faq-list summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-list summary::before {
+    content: 'Q';
+    position: absolute;
+    left: 0;
+    font-family: var(--font-en);
+    color: var(--blue-500);
+  }
+
+  .faq-list summary::after {
+    content: '+';
+    position: absolute;
+    right: 0;
+    font-family: var(--font-en);
+    font-size: 20px;
+    line-height: 1;
+    color: var(--blue-500);
+  }
+
+  .faq-list details[open] summary::after {
+    content: '−';
+  }
+
+  .faq-list details p {
+    margin: 0;
+    padding: 0 0 19px 27px;
+    font-size: 14px;
+    line-height: 1.95;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 900px) {
+    .case-showcase,
+    .proof-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .case-media img {
+      aspect-ratio: 16 / 9;
+    }
+
+    .reason-grid,
+    .security-grid,
+    .cost-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .quick-start,
+    .agent-compare,
+    .capability-grid,
+    .flow-grid,
+    .training-choice {
+      grid-template-columns: 1fr;
+    }
+
+    .quick-start :global(.btn) {
+      width: 100%;
+    }
+
+    .reality-panel li {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  }
+
   @media (max-width: 640px) {
-    .lead-copy {
+    .agent-page .section {
+      padding-block: 58px;
+    }
+
+    .agent-page .section--tight {
+      padding-block: 42px;
+    }
+
+    .agent-page :global(.page-hero .jp) {
+      font-size: clamp(27px, 8vw, 36px);
+    }
+
+    .agent-page :global(.page-hero .desc) {
+      font-size: 16px;
+    }
+
+    .intro-lead {
       font-size: 15px;
       line-height: 2;
     }
 
-    .reason,
-    .conclusion {
-      padding: 24px 20px;
+    .quick-start,
+    .case-content,
+    .headline-stat,
+    .proof-tasks,
+    .change-card,
+    .flow-card,
+    .reason-card,
+    .security-card,
+    .cost-card,
+    .reality-panel,
+    .training-choice article {
+      padding: 23px 20px;
     }
 
-    .reason-title {
-      font-size: 16.5px;
+    .page-index ul {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .reason-head {
-      gap: 10px;
+    .page-index a {
+      justify-content: space-between;
+      width: 100%;
     }
 
-    .era-body {
-      padding: 20px 20px 24px;
+    .case-content h3 {
+      font-size: 20px;
     }
 
-    .fact {
-      padding: 20px 22px;
+    .case-result strong {
+      font-size: 32px;
     }
 
-    .fact-num {
-      font-size: 38px;
-    }
-
-    .figure-wide {
-      margin-top: 32px;
-    }
-
-    .result,
-    .security-layer,
-    .cost-card {
-      padding: 22px 20px;
-    }
-
-    .headline-stat {
-      padding: 30px 20px;
-    }
-
-    .task-list li {
-      padding: 8px 14px;
-      font-size: 13.5px;
-    }
-
-    .failure-card {
-      padding: 22px 20px 22px 22px;
-    }
-
-    .block-title {
-      font-size: 18px;
-      padding-left: 14px;
-    }
-
-    /* 狭い幅では横並びの矢印が潰れるので縦に積み、矢印を下向きにする */
-    .result-pair {
+    .case-facts div {
       grid-template-columns: 1fr;
-      gap: 8px;
+      gap: 3px;
     }
 
-    .result-arrow {
-      justify-self: start;
-      transform: rotate(90deg);
+    .fit-panel,
+    .cost-lead {
+      padding: 23px 20px;
     }
 
-    .security-layer {
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
-
-    .industry-item {
-      grid-template-columns: 1fr;
-      gap: 6px;
-    }
-
-    .stage {
-      padding: 26px 20px;
-    }
-
-    .stage-num {
-      font-size: 24px;
-    }
-
-    .stage-title {
-      font-size: 17px;
+    .faq-list details {
+      padding-inline: 18px;
     }
   }
 </style>
