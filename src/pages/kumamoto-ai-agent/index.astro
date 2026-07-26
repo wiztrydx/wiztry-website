@@ -81,6 +81,8 @@ const kumamotoReasons = [
     title: '仕事の型が変わらないので、手順書が腐らない',
     body:
       '半年ごとにやり方が変わる会社では、手順書は書いた3ヶ月後には現場と合わなくなり、結局誰も見なくなります。AIエージェントも同じで、資料室の中身が現場とずれれば、出てくるものも的外れになります。<em>長く同じやり方で回してきた会社では、一度きちんと書けば効き続けます。</em>',
+    note:
+      '熊本の会社では、10年20年おなじやり方で回してきた業務が珍しくありません。変化の遅さは普段こそ弱みとして語られますが、一度書いたものが長く使えるという意味では、まっすぐ有利に働きます。',
   },
 ];
 
@@ -506,9 +508,21 @@ const breadcrumbLd = {
         lead="AIエージェントは、都市部の大企業から入るものだと思われがちです。ただ、実際に手を動かしてみると、条件が揃っているのはむしろ地方の中小企業のほうでした。"
       />
 
+      <div class="conclusion reveal">
+        <p class="conclusion-lead">先に結論です。</p>
+        <p class="conclusion-body">
+          熊本の中小企業は、<em>AIエージェントを動かすのに必要な材料を、すでに持っています。</em>理由は次の3つです。
+        </p>
+        <ol class="conclusion-list">
+          {kumamotoReasons.map((r) => <li>{r.title}</li>)}
+        </ol>
+        <p class="conclusion-note">なぜこの3つが効くのか、順に説明します。</p>
+      </div>
+
       <div class="container narrow-copy">
+        <h3 class="block-title reveal mt-64">前提: AIを担当者に変えるのは「会社の資料室」</h3>
         <p class="lead-copy reveal">
-          前提として、AIを道具から担当者に変える鍵は、AIの側の賢さではありません。<em>会社側に置く「資料室」の中身</em>です。そして資料室が資料室として成立するには、次の3つが要ります。
+          AIを道具から担当者に変える鍵は、AIの側の賢さではありません。<em>会社側に置く「資料室」の中身</em>です。そして資料室が資料室として成立するには、次の3つが要ります。
         </p>
       </div>
 
@@ -543,7 +557,7 @@ const breadcrumbLd = {
           世の中でAI社員と呼ばれているものの多くは、1つ目の<em>手順書だけで止まっています</em>。残る2つは、買ってくることも借りてくることもできません。同じ仕事を、同じ人が、長く続けてきた会社にしか溜まらないからです。
         </p>
         <p class="lead-copy reveal reveal-d1">
-          ここから先が、熊本の会社が有利な理由です。
+          ここから、先に挙げた3つの理由を順に見ていきます。
         </p>
       </div>
 
@@ -570,7 +584,7 @@ const breadcrumbLd = {
                 <h3 class="reason-title">{r.title}</h3>
               </header>
               <p class="reason-body" set:html={r.body} />
-              <p class="reason-note">{r.note}</p>
+              {r.note && <p class="reason-note">{r.note}</p>}
             </article>
           ))
         }
@@ -1529,6 +1543,84 @@ const breadcrumbLd = {
     color: var(--ink-soft);
   }
 
+  /* 章の結論を先に出すブロック。長い章なので、読み始めで要点が分かるようにする */
+  .conclusion {
+    max-width: 760px;
+    margin: 40px auto 0;
+    padding: 32px 34px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--blue-500);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .conclusion-lead {
+    font-family: var(--font-en);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--blue-500);
+    margin-bottom: 12px;
+  }
+
+  .conclusion-body {
+    font-size: 16px;
+    line-height: 2;
+    color: var(--ink-soft);
+  }
+
+  .conclusion-body em {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .conclusion-list {
+    counter-reset: conclusion;
+    list-style: none;
+    margin: 20px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+  }
+
+  .conclusion-list li {
+    position: relative;
+    padding-left: 38px;
+    font-size: 15.5px;
+    font-weight: 700;
+    line-height: 1.8;
+    color: var(--ink);
+  }
+
+  .conclusion-list li::before {
+    counter-increment: conclusion;
+    content: counter(conclusion);
+    position: absolute;
+    left: 0;
+    top: 0.15em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--blue-500);
+    color: #fff;
+    font-family: var(--font-en);
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .conclusion-note {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+
   /* 熊本の3つの理由: 左に太いラインを通して「並列の主張」であることを示す */
   .reasons {
     display: grid;
@@ -1674,7 +1766,8 @@ const breadcrumbLd = {
       line-height: 2;
     }
 
-    .reason {
+    .reason,
+    .conclusion {
       padding: 24px 20px;
     }
 
