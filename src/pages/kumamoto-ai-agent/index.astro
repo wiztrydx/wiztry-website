@@ -26,6 +26,57 @@ const painPoints = [
   },
 ];
 
+// 「AIエージェントとは何か」の定義。チャットAIとの違いを、機能の羅列ではなく
+// 「どこまでを人がやるか」の線引きで説明する。ここが分かれば残りのセクションが全部つながる。
+const agentDefinition = [
+  {
+    img: '/gen/agent-era-01-search.webp',
+    alt: '多数の資料の中から人が手作業で探し出している様子',
+    era: '第1段階',
+    label: '検索',
+    title: '人が探して、人が読んで、人が作る',
+    desc: '調べる手間は減りましたが、読むのも判断するのも書くのも人です。検索は「材料の置き場所」を教えてくれるだけでした。',
+  },
+  {
+    img: '/gen/agent-era-02-chat.webp',
+    alt: '質問と回答のやりとりの下で、人がまだ書類を手直ししている様子',
+    era: '第2段階',
+    label: 'チャットAI',
+    title: '人が聞くと、AIが答える',
+    desc: 'ChatGPTなどがここです。下書きは出てきますが、指示を出すのも、出てきたものを直して仕上げるのも人のままです。手を離すと止まります。',
+  },
+  {
+    img: '/gen/agent-era-03-agent.webp',
+    alt: '人の手を介さず、AIが工程を通して成果物まで仕上げている様子',
+    era: '第3段階',
+    label: 'AIエージェント',
+    title: '任せると、最後まで仕上がる',
+    desc: '手順と判断の基準を渡しておけば、指示を待たずに工程を進め、成果物の形まで持っていきます。人が見るのは、外に出す前の最終確認だけです。',
+  },
+];
+
+// 「代行する時代」の裏づけ。抽象論にならないよう、自社で実際に起きている事象に寄せる。
+const delegationFacts = [
+  {
+    num: '18',
+    unit: '本',
+    title: '毎日・毎週・毎月の定時業務',
+    desc: '朝の承認待ち報告、会議直後の次アクション整理、夜の録画整理、その日の日報。時間になれば、誰も呼ばなくても動きます。',
+  },
+  {
+    num: '約4',
+    unit: '割',
+    title: '人が指示していない時間帯の稼働',
+    desc: '直近2週間の記録では、会社の資料への保存・更新279回のうち約4割が、こちらが何も指示していない時間に動いた分でした。',
+  },
+  {
+    num: '8',
+    unit: '割以上',
+    title: '実務がAIエージェントで回っている割合',
+    desc: '人間が担っているのは、外に出るものの最終確認と、判断が要る場面だけです。作業そのものはほとんど手元を離れました。',
+  },
+];
+
 // AIを「担当者」として成立させるために資料室へ入れる3点。手順書だけで止まっている例が多いので、
 // 残る2つ（判断の基準・過去の成果物）を明示して、次の「なぜ熊本の会社が有利か」へつなぐ。
 const knowledgeSet = [
@@ -310,8 +361,120 @@ const breadcrumbLd = {
     </div>
   </section>
 
-  <!-- こんな状態から始まります -->
+  <!-- AIエージェントとは何か -->
   <section class="section section--alt">
+    <div class="container">
+      <SectionHead
+        en="WHAT IS AN AI AGENT"
+        title="AIエージェントとは何か"
+        lead="ChatGPTとは何が違うのか。機能の一覧で比べても分かりにくいので、「どこまでを人がやるか」の線引きで並べます。"
+      />
+
+      <div class="grid grid--3 eras">
+        {
+          agentDefinition.map((d, i) => (
+            <article class={`card era-card reveal reveal-d${i + 1}`}>
+              <div class="era-media">
+                <img src={d.img} alt={d.alt} loading="lazy" decoding="async" width="1024" height="1024" />
+              </div>
+              <div class="era-body">
+                <span class="era-step">{d.era}</span>
+                <span class="era-label">{d.label}</span>
+                <h3>{d.title}</h3>
+                <p>{d.desc}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="container narrow-copy">
+        <p class="lead-copy reveal mt-40">
+          違いは賢さではありません。<em>仕上げまでを誰が持つか</em>です。チャットAIは道具なので、こちらが手に持って動かした分だけ働き、手を離せば止まります。電動ドリルと同じです。
+        </p>
+        <p class="lead-copy reveal reveal-d1">
+          AIエージェントは担当者として置きます。担当者なら、そばで持っていなくても仕事が進みます。<em>ただし条件が1つあって、その担当者は会社のことを知っている必要があります。</em>この条件をどう満たすかが、このあとの中心の話です。
+        </p>
+      </div>
+
+      <div class="figure-wide reveal">
+        <img
+          src="/gen/agent-what-is.webp"
+          alt="指示を受け取ったAIエージェントが、会社の資料を参照しながら工程を進め、完成した成果物を出すまでの流れ"
+          loading="lazy"
+          decoding="async"
+          width="1024"
+          height="1024"
+        />
+        <p class="figure-cap">
+          指示が入ってから成果物が出るまで、AIエージェントは途中で会社の資料を読みに行きます。この参照先が用意されているかどうかで、出てくるものの質が決まります。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AIエージェントが作業を代行する時代 -->
+  <section class="section section--navy">
+    <div class="container">
+      <SectionHead
+        en="DELEGATION"
+        title="AIエージェントが作業を代行する時代"
+        lead="「いずれそうなる」という話ではありません。弊社ではすでにこの状態で会社が回っています。数字でお見せします。"
+      />
+
+      <div class="grid grid--3 facts">
+        {
+          delegationFacts.map((f, i) => (
+            <div class={`fact reveal reveal-d${i + 1}`}>
+              <p class="fact-num">
+                {f.num}
+                <span class="fact-unit">{f.unit}</span>
+              </p>
+              <h3 class="fact-title">{f.title}</h3>
+              <p class="fact-desc">{f.desc}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="figure-wide figure-wide--onDark reveal mt-64">
+        <img
+          src="/gen/agent-night-office.webp"
+          alt="人が退社したあとの無人のオフィスで、画面だけが点灯し資料の処理が進んでいる様子"
+          loading="lazy"
+          decoding="async"
+          width="1024"
+          height="1024"
+        />
+        <p class="figure-cap">
+          定時業務は時間になれば動きます。人が退社したあとの時間帯に処理が終わっていることも、珍しくありません。
+        </p>
+      </div>
+
+      <div class="container narrow-copy">
+        <p class="lead-copy lead-copy--onDark reveal mt-40">
+          ここで大事なのは、<em>人がいなくなったわけではない</em>ことです。弊社で人間が担っているのは、外に出るものの最終確認と、判断が要る場面です。作業そのものが手元を離れたぶん、判断に使える時間が増えました。
+        </p>
+      </div>
+
+      <div class="figure-wide figure-wide--onDark reveal">
+        <img
+          src="/gen/agent-gate.webp"
+          alt="AIが処理した書類が、外部へ出る前に人の確認を通る関所の仕組み"
+          loading="lazy"
+          decoding="async"
+          width="1024"
+          height="1024"
+        />
+        <p class="figure-cap">
+          AIは最後まで走り、外に出る直前に必ず人間の関所を通します。関所を増やしすぎると人が渋滞の原因になり、少なすぎると事故が起きます。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- こんな状態から始まります -->
+  <section class="section">
     <div class="container">
       <SectionHead
         en="SYMPTOMS"
@@ -358,12 +521,40 @@ const breadcrumbLd = {
         }
       </div>
 
+      <div class="figure-wide reveal mt-40">
+        <img
+          src="/gen/agent-knowledge-room.webp"
+          alt="全社ルール・部署のルール・仕事の手順書という3層で構成された会社の資料室を、AIエージェントが参照している様子"
+          loading="lazy"
+          decoding="async"
+          width="1024"
+          height="1024"
+        />
+        <p class="figure-cap">
+          資料室は特別なシステムではありません。会社の知識が整理された、フォルダとファイルの集まりです。AIは仕事のたびにここを読み返します。
+        </p>
+      </div>
+
       <div class="container narrow-copy">
         <p class="lead-copy reveal mt-40">
           世の中でAI社員と呼ばれているものの多くは、1つ目の<em>手順書だけで止まっています</em>。残る2つは、買ってくることも借りてくることもできません。同じ仕事を、同じ人が、長く続けてきた会社にしか溜まらないからです。
         </p>
         <p class="lead-copy reveal reveal-d1">
           ここから先が、熊本の会社が有利な理由です。
+        </p>
+      </div>
+
+      <div class="figure-wide reveal">
+        <img
+          src="/gen/agent-veteran-transfer.webp"
+          alt="ベテラン社員の頭の中にある判断の基準が、書き出されて会社の資料室へ移っていく様子"
+          loading="lazy"
+          decoding="async"
+          width="1024"
+          height="1024"
+        />
+        <p class="figure-cap">
+          ベテランの方の頭の中にある判断の基準を、辞める前に資料室へ移す。この一手が、属人化をリスクから資産へ変えます。
         </p>
       </div>
 
@@ -430,13 +621,10 @@ const breadcrumbLd = {
       <div class="container narrow-copy">
         <h3 class="block-title reveal mt-64">この4段階を通すと、何が起きるか</h3>
         <p class="lead-copy reveal">
-          弊社の実例です。この4段階を自社で通した結果、いまは<em>実務の8割以上がAIエージェントで回っている</em>状態になりました。人間が担っているのは、外に出るものの最終確認と、判断が要る場面だけです。
+          先にお見せした<em>実務の8割以上がAIエージェントで回っている</em>状態は、弊社がこの4段階をそのまま自社で通した結果です。特別な開発をしたわけではありません。担当を分けた10名体制で、定時業務が18本動いているだけです。
         </p>
         <p class="lead-copy reveal reveal-d1">
-          具体的には、担当を分けた10名体制で、毎日・毎週・毎月の定時業務が<em>18本</em>動いています。朝の承認待ち報告、会議直後の次アクションとお礼メールの下書き、夜の録画整理、その日の日報。
-        </p>
-        <p class="lead-copy reveal reveal-d2">
-          直近2週間の記録では、会社の資料への保存・更新が<em>279回</em>ありました。そのうち<em>約4割は、人間が何も指示していない時間帯にAIだけで動いたもの</em>です。これが「社員の代わりに働く」の実態です。
+          裏返すと、<em>4段階のどれかを飛ばすと止まります</em>。いちばん多いのは、01と02（情報を整えて資料室の形にする）を省いて、03（担当を置く）から始めてしまうことです。読むものがない担当者は、何度指示を出し直しても的外れなものを出し続けます。
         </p>
         <p class="to-service reveal">
           <a href="/blog/ai-shain-tsukurikata/">弊社のAI社員10名の実録を読む <span class="arrow">→</span></a>
@@ -919,6 +1107,144 @@ const breadcrumbLd = {
     color: var(--ink-soft);
   }
 
+  /* 検索→チャットAI→エージェントの3段階カード。図版で違いを一目で見せる */
+  .eras {
+    margin-top: 40px;
+  }
+
+  .era-card {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .era-media {
+    aspect-ratio: 1 / 1;
+    background: #0a1630;
+    overflow: hidden;
+  }
+
+  .era-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .era-body {
+    padding: 24px 26px 28px;
+  }
+
+  .era-step {
+    display: inline-block;
+    font-family: var(--font-en);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  .era-label {
+    display: block;
+    margin: 4px 0 10px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--blue-500);
+  }
+
+  .era-card h3 {
+    font-size: 17px;
+    line-height: 1.65;
+    margin-bottom: 10px;
+  }
+
+  .era-card p {
+    font-size: 14px;
+    line-height: 2;
+    color: var(--ink-soft);
+  }
+
+  /* 大きめの図版＋キャプション。本文の流れを止めずに理解を補助する */
+  .figure-wide {
+    max-width: 760px;
+    margin: 40px auto 0;
+  }
+
+  .figure-wide img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: #0a1630;
+  }
+
+  .figure-cap {
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 1.95;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .figure-wide--onDark img {
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+
+  .figure-wide--onDark .figure-cap {
+    color: rgba(255, 255, 255, 0.66);
+  }
+
+  /* 代行の実績数値。ネイビー背景の上に置くので白系で組む */
+  .facts {
+    margin-top: 44px;
+  }
+
+  .fact {
+    padding: 30px 28px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+  }
+
+  .fact-num {
+    font-family: var(--font-en);
+    font-weight: 800;
+    font-size: 46px;
+    line-height: 1;
+    color: var(--cyan-400);
+  }
+
+  .fact-unit {
+    margin-left: 4px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .fact-title {
+    margin: 16px 0 10px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.7;
+    color: #fff;
+  }
+
+  .fact-desc {
+    font-size: 13.5px;
+    line-height: 1.95;
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .lead-copy--onDark {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .lead-copy--onDark em {
+    color: #fff;
+  }
+
   /* 資料室の3点セット: 番号を大きく出して「3つ揃って初めて成立する」を視覚化する */
   .knowledge-set {
     margin-top: 40px;
@@ -1070,6 +1396,22 @@ const breadcrumbLd = {
 
     .reason-head {
       gap: 10px;
+    }
+
+    .era-body {
+      padding: 20px 20px 24px;
+    }
+
+    .fact {
+      padding: 24px 22px;
+    }
+
+    .fact-num {
+      font-size: 38px;
+    }
+
+    .figure-wide {
+      margin-top: 32px;
     }
 
     .pain-item {
