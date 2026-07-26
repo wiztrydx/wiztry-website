@@ -16,7 +16,7 @@ import PageHero from '../../components/PageHero.astro';
 // 「どこまでを人がやるか」の線引きで説明する。ここが分かれば残りのセクションが全部つながる。
 const agentDefinition = [
   {
-    era: 'ChatGPT・Gemini・Claude',
+    era: 'ChatGPT・Claude・Gemini',
     label: 'チャットAI',
     title: '人が聞くと、AIが答える',
     desc: '下書きは出てきます。ただし、指示を出すのも、出てきたものを直して仕上げるのも人のままです。手を離すと止まります。',
@@ -145,7 +145,7 @@ const securityLayers = [
   {
     num: '02',
     title: '外に出る前に、必ず人が確認する',
-    desc: 'メール・SNS・公開文書はAIが下書きまでで止まり、送信ボタンは人が押します。見積・請求・申込のように数字が入るものは、人が検算してから確定します。',
+    desc: '確認を挟む場所は、外に出るもの・お金が動くもの・初めてやる仕事の3か所に絞ります。増やしすぎると人が渋滞の原因になり、少なすぎると事故が起きるためです。どこに置くかは業務を見てから決めます。',
   },
   {
     num: '03',
@@ -204,9 +204,9 @@ const officeStages = [
   {
     num: '04',
     label: '安全な仕組み',
-    title: '「関所」を決めてから、任せ切る',
+    title: '人が見る場所を決めてから、任せ切る',
     body:
-      '最後に安全設計です。弊社の考え方は<em>AIが最後まで走り、外に出る直前に必ず人間の関所を通る</em>です。関所を増やしすぎると人間が渋滞の原因になり、少なすぎると事故が起きます。だから関所は3つに絞ります。',
+      '最後に安全設計です。弊社の考え方は、<em>AIが最後まで走り、外に出る直前に必ず人の確認を通す</em>というものです。確認箇所を増やしすぎると人が渋滞の原因になり、少なすぎると事故が起きます。だから次の3つに絞ります。',
     detail: [
       '外に出るもの（メール・SNS・公開文書）— AIは下書きまで。送信ボタンは人間が押す',
       'お金と契約（見積・請求・申込）— 数字は人間が検算してから確定する',
@@ -272,7 +272,7 @@ const faq = [
   },
   {
     q: '機密情報をクラウドに出さずに済みますか?',
-    a: '資料室は自社のパソコンやサーバーの中のフォルダとして持ちます。何を読ませて何を読ませないかをこちらで決められるため、見せたくないものはそもそも資料室に置かない、という制御ができます。外部のチャット画面に情報を貼り付ける使い方との一番の違いがここです。士業・製造・建設のお客様からは必ず出るご質問なので、読ませる範囲の線引きは初回の設計時に必ず決めます。',
+    a: '資料室は自社のパソコンやサーバーの中のフォルダとして持つため、見せたくないものはそもそも置かない、という制御ができます。読ませる範囲の線引きは初回の設計時に必ず決めます。業種ごとの考え方はセキュリティの項をご覧ください。',
   },
   {
     q: 'AIで人を減らすということですか?',
@@ -369,7 +369,7 @@ const breadcrumbLd = {
 
       <div class="container narrow-copy">
         <p class="lead-copy reveal">
-          結論から言うと、<em>同じ会社が「対話AI」と「エージェント」の2種類を出しています</em>。ふだん耳にするChatGPT・Claude・Geminiは対話AIのほうで、その裏にエージェントがあります。
+          結論から言うと、<em>同じ会社が「対話AI（チャットAI）」と「エージェント」の2種類を出しています</em>。ふだん耳にするChatGPT・Claude・Geminiは対話AIのほうで、その裏にエージェントがあります。
         </p>
       </div>
 
@@ -442,7 +442,7 @@ const breadcrumbLd = {
   </section>
 
   <!-- AIエージェントが作業を代行する時代 -->
-  <section class="section section--alt">
+  <section class="section">
     <div class="container">
       <SectionHead
         en="DELEGATION"
@@ -485,7 +485,7 @@ const breadcrumbLd = {
           height="1024"
         />
         <p class="figure-cap">
-          弊社の定時業務のうち4本です。人が呼ばなくても、時間になれば動きます。人が退社したあとの時間帯に処理が終わっていることも珍しくありません。
+          上の18本のうち、4本を抜き出したものです。人が呼ばなくても、時間になれば動きます。人が退社したあとの時間帯に処理が終わっていることも珍しくありません。
         </p>
       </div>
 
@@ -498,7 +498,7 @@ const breadcrumbLd = {
   </section>
 
   <!-- なぜ熊本の会社に向いているのか（差別化セクション） -->
-  <section class="section">
+  <section class="section section--alt">
     <div class="container">
       <SectionHead
         en="WHY KUMAMOTO"
@@ -585,7 +585,7 @@ const breadcrumbLd = {
   </section>
 
   <!-- 導入するとどうなるのか -->
-  <section class="section section--alt">
+  <section class="section">
     <div class="container">
       <SectionHead
         en="RESULTS"
@@ -628,7 +628,7 @@ const breadcrumbLd = {
   </section>
 
   <!-- AIオフィスの作り方（中核セクション） -->
-  <section class="section">
+  <section class="section section--alt">
     <div class="container">
       <SectionHead
         en="AI OFFICE"
@@ -663,7 +663,7 @@ const breadcrumbLd = {
       <div class="container narrow-copy">
         <h3 class="block-title reveal mt-64">この4段階を通すと、何が起きるか</h3>
         <p class="lead-copy reveal">
-          先にお見せした<em>実務の8割以上がAIエージェントで回っている</em>状態は、弊社がこの4段階をそのまま自社で通した結果です。特別な開発をしたわけではありません。担当を分けた10名体制で、定時業務が18本動いているだけです。
+          先にお見せした<em>実務の8割以上がAIエージェントで回っている</em>状態は、弊社がこの4段階をそのまま自社で通した結果です。特別な開発をしたわけではありません。担当を分けた<em>AI社員10名</em>の体制で、定時業務が18本動いているだけです。
         </p>
         <p class="lead-copy reveal reveal-d1">
           裏返すと、<em>4段階のどれかを飛ばすと止まります</em>。いちばん多いのは、01と02（情報を整えて資料室の形にする）を省いて、03（担当を置く）から始めてしまうことです。読むものがない担当者は、何度指示を出し直しても的外れなものを出し続けます。
@@ -676,7 +676,7 @@ const breadcrumbLd = {
   </section>
 
   <!-- セキュリティ -->
-  <section class="section section--alt">
+  <section class="section">
     <div class="container">
       <SectionHead
         en="SECURITY"
@@ -732,11 +732,11 @@ const breadcrumbLd = {
   </section>
 
   <!-- 費用の考え方 -->
-  <section class="section">
+  <section class="section section--alt">
     <div class="container">
       <SectionHead
         en="COST"
-        title="費用の考え方"
+        title="AI導入支援の費用の考え方"
         lead="金額は対象業務の数と連携範囲で変わるためお見積りになりますが、判断のしかたは先にお伝えできます。"
       />
       <div class="container narrow-copy">
@@ -847,7 +847,7 @@ const breadcrumbLd = {
       />
       <div class="container narrow-copy">
         <p class="lead-copy reveal">
-          <em>最初の1〜2ヶ月は、かなり地味です。</em>材料は持っている、と書きました。ただし、その材料はいま紙とベテランの方の頭の中にあります。AIはどちらも読めません。
+          <em>最初の1〜2ヶ月は、かなり地味です。</em>熊本の会社は材料を持っている、と前半で書きました。ただしその材料は、いま紙とベテランの方の頭の中にあります。AIはどちらも読めません。
         </p>
         <p class="lead-copy reveal reveal-d1">
           なので最初にやることは、AIの設定でも便利なツール選びでもありません。ベテランの方に横に座っていただいて、「この判断って、何を見て決めてるんですか」とお聞きし、文章に書き出す作業です。ここに1〜2ヶ月かかります。
@@ -1161,7 +1161,10 @@ const breadcrumbLd = {
   }
 
   .to-service a {
+    display: inline-block;
+    padding: 10px 0;
     font-weight: 700;
+    line-height: 1.7;
     color: var(--blue-500);
     text-decoration: none;
   }
@@ -1247,7 +1250,7 @@ const breadcrumbLd = {
   .era-step {
     display: inline-block;
     font-family: var(--font-en);
-    font-size: 11px;
+    font-size: 12.5px;
     font-weight: 700;
     letter-spacing: 0.08em;
     color: var(--muted);
