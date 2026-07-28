@@ -5,6 +5,7 @@ import CtaBand from '../components/CtaBand.astro';
 import LogoWall from '../components/LogoWall.astro';
 import Stats from '../components/Stats.astro';
 import ParticleField from '../components/ParticleField.astro';
+import Ticks from '../components/Ticks.astro';
 import { MEDIA, YOUTUBE } from '../data/site';
 import { getCollection } from 'astro:content';
 
@@ -26,14 +27,23 @@ const NUMBERS = [
   <!-- 1-1 Hero -->
   <section class="hero">
     <div class="hero-video-slot" aria-hidden="true"></div>
-    <div class="hero-beams" aria-hidden="true"><i></i><i></i></div>
-    <div class="hero-lights" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-    <div class="hero-streaks" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="hero-beams" aria-hidden="true" data-plx="7"><i></i><i></i></div>
+    <div class="hero-lights" aria-hidden="true" data-plx="15"><i></i><i></i><i></i><i></i></div>
+    <div class="hero-streaks" aria-hidden="true" data-plx="10"><i></i><i></i><i></i></div>
     <ParticleField density={13} opacity={0.6} />
     <div class="container hero-inner">
       <div class="hero-copy reveal">
         <span class="hero-label">KUMAMOTO × GENERATIVE AI</span>
-        <h1 class="hero-title">生成AIを、<br />事業の力に。</h1>
+        {/* キネティックタイトル: 1文字ずつマスクから立ち上がる。分割はビルド時に行いCLSゼロ */}
+        <h1 class="hero-title">
+          {['生成AIを、', '事業の力に。'].map((line, li) => (
+            <span class="line" style={`--l:${li}`}>
+              {[...line].map((ch, ci) => (
+                <span class="ch" style={`--i:${ci}`}>{ch}</span>
+              ))}
+            </span>
+          ))}
+        </h1>
         <p class="hero-sub">
           熊本から、企業のAI活用を成果まで導く。講師が隣で伴走するハンズオン研修と、Claude
           Code・Codexによる実務自動化エージェントの開発。WizTryは「使えるようになるまで」を約束する、企業のAIパートナーです。
@@ -143,6 +153,7 @@ const NUMBERS = [
   <!-- 1-5 数字で見るWizTry -->
   <section class="section section--navy sec-ghost numbers-sec" data-ghost="NUMBERS">
     <ParticleField density={6} opacity={0.35} />
+    <Ticks />
     <div class="container">
       <SectionHead en="NUMBERS" title="数字で見るWizTry" center />
       <div class="grid grid--4">
@@ -292,9 +303,10 @@ const NUMBERS = [
       setTimeout(() => {
         hero.classList.add('hero-in');
         // 保険: 何らかの理由でCSSアニメが走らない環境でも文字を必ず表示する
+        // （タイトルは文字分割になったため、旧来のopacity機構が残るサブ文で判定する）
         setTimeout(() => {
-          const title = hero.querySelector('.hero-title');
-          if (title && getComputedStyle(title).opacity === '0') hero.classList.add('hero-static');
+          const sub = hero.querySelector('.hero-sub');
+          if (sub && getComputedStyle(sub).opacity === '0') hero.classList.add('hero-static');
         }, 2600);
       }, 80);
     const loader = document.getElementById('siteLoader');
@@ -314,6 +326,35 @@ const NUMBERS = [
   armHeroIntro();
   document.addEventListener('astro:page-load', armHeroIntro);
 
+  // ヒーローのマウス追従パララックス（精密ポインタのみ・軽量lerp）
+  function initHeroParallax() {
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const hero = document.querySelector<HTMLElement>('.hero');
+    if (!hero || hero.dataset.plxReady) return;
+    hero.dataset.plxReady = '1';
+    const els = hero.querySelectorAll<HTMLElement>('[data-plx]');
+    if (!els.length) return;
+    let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+    const loop = () => {
+      cx += (tx - cx) * 0.06;
+      cy += (ty - cy) * 0.06;
+      els.forEach((el) => {
+        const f = parseFloat(el.dataset.plx || '10');
+        el.style.transform = `translate3d(${(cx * f).toFixed(2)}px, ${(cy * f).toFixed(2)}px, 0)`;
+      });
+      if (Math.abs(tx - cx) > 0.001 || Math.abs(ty - cy) > 0.001) raf = requestAnimationFrame(loop);
+      else raf = 0;
+    };
+    hero.addEventListener('pointermove', (e) => {
+      const r = hero.getBoundingClientRect();
+      tx = e.clientX / r.width - 0.5;
+      ty = (e.clientY - r.top) / r.height - 0.5;
+      if (!raf) raf = requestAnimationFrame(loop);
+    });
+  }
+  initHeroParallax();
+  document.addEventListener('astro:page-load', initHeroParallax);
 </script>
 
 <style>
@@ -533,43 +574,60 @@ const NUMBERS = [
     padding-block: clamp(44px, 8vw, 72px);
   }
   /* 段階フェードイン: ページが実際に見えてから（.hero-in付与後に）開始する。
-     読み込み中にアニメが終わってしまう問題への対策 */
-  .hero-label, .hero-title, .hero-sub, .hero-actions {
+     読み込み中にアニメが終わってしまう問題への対策
+     ※タイトルは文字単位のマスク出現に変更したためこのグループから外している */
+  .hero-label, .hero-sub, .hero-actions {
     opacity: 0;
     transform: translateY(26px);
   }
   .hero.hero-in .hero-label,
-  .hero.hero-in .hero-title,
   .hero.hero-in .hero-sub,
   .hero.hero-in .hero-actions {
     animation: heroRise 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  .hero.hero-in .hero-title { animation-delay: 0.15s; }
-  .hero.hero-in .hero-sub { animation-delay: 0.32s; }
-  .hero.hero-in .hero-actions { animation-delay: 0.5s; }
+  .hero.hero-in .hero-sub { animation-delay: 0.44s; }
+  .hero.hero-in .hero-actions { animation-delay: 0.62s; }
   @keyframes heroRise {
     to { opacity: 1; transform: none; }
   }
+  /* キネティックタイトル: 行ごとのoverflowマスク内で文字が立ち上がる */
+  .hero-title .line { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+  .hero-title .ch {
+    display: inline-block;
+    transform: translateY(115%) rotate(4deg);
+    will-change: transform;
+  }
+  .hero.hero-in .hero-title .ch {
+    animation: chRise 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(0.08s + var(--l, 0) * 0.22s + var(--i, 0) * 0.045s);
+  }
+  @keyframes chRise {
+    to { transform: translateY(0) rotate(0deg); }
+  }
   @media (prefers-reduced-motion: reduce) {
-    .hero-label, .hero-title, .hero-sub, .hero-actions { opacity: 1; transform: none; }
+    .hero-label, .hero-sub, .hero-actions { opacity: 1; transform: none; }
+    .hero-title .ch { transform: none; animation: none; }
   }
   /* アニメ非動作環境の保険 */
   .hero.hero-static .hero-label,
-  .hero.hero-static .hero-title,
   .hero.hero-static .hero-sub,
   .hero.hero-static .hero-actions {
     animation: none;
     opacity: 1;
     transform: none;
   }
+  .hero.hero-static .hero-title .ch {
+    animation: none;
+    transform: none;
+  }
   .hero-label {
     display: inline-flex;
     align-items: center;
     gap: 14px;
-    font-family: var(--font-en);
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.28em;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--cyan-400);
     margin-bottom: 24px;
@@ -580,6 +638,21 @@ const NUMBERS = [
     height: 2px;
     background: var(--accent-grad);
     border-radius: 2px;
+  }
+  /* ターミナルの入力カーソル風の点滅ブロック */
+  .hero-label::after {
+    content: '';
+    width: 8px;
+    height: 14px;
+    background: var(--cyan-400);
+    animation: caretBlink 1.15s steps(1) infinite;
+  }
+  @keyframes caretBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-label::after { animation: none; }
   }
   .hero-title {
     color: #fff;

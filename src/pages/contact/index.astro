@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
+import Ticks from '../../components/Ticks.astro';
 import { SITE } from '../../data/site';
 ---
 
@@ -83,11 +84,21 @@ import { SITE } from '../../data/site';
         </form>
 
         <aside class="contact-aside reveal reveal-d2">
-          <div class="card card--pad tilt">
-            <h3>お電話・メールでも受け付けています</h3>
-            <p>フォームのご利用が難しい場合は、お電話または下記メールアドレスへ直接ご連絡ください。</p>
-            <a href={`tel:${SITE.tel.replaceAll('-', '')}`} class="btn btn--ghost">{SITE.tel}</a>
-            <a href={`mailto:${SITE.email}`} class="btn btn--ghost">{SITE.email}</a>
+          <div class="contact-panel">
+            <div class="aurora" aria-hidden="true"><i></i><i></i></div>
+            <Ticks />
+            <div class="panel-inner">
+              <span class="en-label">DIRECT CONTACT</span>
+              <h3>お電話・メールでも受け付けています</h3>
+              <p class="panel-lead">
+                フォームのご利用が難しい場合は、お電話または下記メールアドレスへ直接ご連絡ください。
+              </p>
+              <div class="panel-actions">
+                <a href={`tel:${SITE.tel.replaceAll('-', '')}`} class="btn btn--ghost-white">{SITE.tel}</a>
+                <a href={`mailto:${SITE.email}`} class="btn btn--ghost-white">{SITE.email}</a>
+              </div>
+              <p class="panel-note">2営業日以内にご返信します</p>
+            </div>
           </div>
         </aside>
       </div>
@@ -110,9 +121,85 @@ import { SITE } from '../../data/site';
   @media (max-width: 860px) {
     .contact-layout { grid-template-columns: 1fr; }
   }
-  .contact-aside .card { position: sticky; top: calc(var(--header-h) + 24px); }
-  .contact-aside h3 { font-size: 18px; margin-bottom: 12px; }
-  .contact-aside p { color: var(--ink-soft); font-size: 14.5px; margin-bottom: 20px; }
+
+  /* 送信ボタンだけ他フィールドよりひと呼吸あける */
+  .form-grid .field:last-child { margin-top: 6px; }
+
+  /* ---------- 右サイド: ダークネイビーパネル ---------- */
+  .contact-panel {
+    /* sticky自体が位置指定要素なので、Ticks/auroraの絶対配置の基準になる */
+    position: sticky;
+    top: calc(var(--header-h) + 24px);
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--bg-navy-grad);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: clamp(30px, 3.2vw, 40px);
+    box-shadow: var(--shadow-md);
+  }
+  /* 上辺のアクセントヘアライン */
+  .contact-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: var(--accent-grad);
+    z-index: 3;
+  }
+  /* 共通auroraを小さめのパネル用に調整（色はglobalのまま） */
+  .contact-panel .aurora i {
+    filter: blur(56px);
+    opacity: 0.4;
+  }
+  .contact-panel .aurora i:nth-child(1) {
+    width: 260px; height: 260px; top: -110px; right: -80px;
+  }
+  .contact-panel .aurora i:nth-child(2) {
+    width: 220px; height: 220px; bottom: -100px; left: -70px;
+  }
+
+  .panel-inner { position: relative; z-index: 2; }
+  .panel-inner .en-label { display: block; }
+  .contact-panel h3 {
+    font-size: 18px;
+    line-height: 1.65;
+    color: #fff;
+    margin: 14px 0 12px;
+  }
+  .panel-lead {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 14.5px;
+    line-height: 1.9;
+    margin: 0;
+  }
+  .panel-actions {
+    display: grid;
+    gap: 12px;
+    margin-top: 26px;
+  }
+  .panel-actions .btn {
+    display: flex;
+    width: 100%;
+    padding: 14px 18px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .panel-note {
+    margin: 24px 0 0;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    font-size: 13px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  @media (max-width: 860px) {
+    /* 1カラム時はフォームの下に通常配置（stickyは効かせない） */
+    .contact-panel { position: relative; top: auto; }
+  }
+
   .consent-label {
     display: flex;
     align-items: flex-start;

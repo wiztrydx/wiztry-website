@@ -25,6 +25,7 @@
   /* Typography */
   --font-jp: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
   --font-en: "Outfit", "Noto Sans JP", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", "Menlo", monospace;
 
   /* Rhythm */
   --container: 1160px;
@@ -97,10 +98,10 @@ a, button { -webkit-tap-highlight-color: transparent; }
 /* ---------- Section heading pattern ---------- */
 .sec-head { margin-bottom: clamp(36px, 5vw, 64px); }
 .sec-head .en {
-  font-family: var(--font-en);
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.28em;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--blue-500);
   display: flex;
@@ -803,3 +804,186 @@ html.is-loading { overflow: hidden; }
 .mb-0 { margin-bottom: 0; }
 .accent-text { background: var(--accent-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .note { font-size: 12px; color: var(--muted); }
+
+/* ============================================================
+   Premium layer (2026-07-28) — 質感・カーソル・フッター・遷移
+   ============================================================ */
+
+/* ----- モノスペースのENマイクロラベル体系 -----
+   英字の小ラベルだけ等幅にして「設計図・ターミナル」の気配を足す。
+   日本語テキストには適用しない */
+.crumbs,
+.post-card time,
+.media-tag,
+.site-footer h4,
+.flow-step .badge small,
+.yt-en,
+.en-label {
+  font-family: var(--font-mono);
+}
+.en-label {
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--cyan-400);
+}
+
+/* ----- フィルムグレイン（デスクトップのみ・全画面に3%の粒子） -----
+   blend含め常時1レイヤーのみ。モバイルはGPU節約のため出さない */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 13000;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+}
+@media (max-width: 768px), print {
+  body::after { display: none; }
+}
+
+/* ----- コーナーティック（＋印。設計図の座標マーク） ----- */
+span.ticks { position: absolute; inset: 16px; pointer-events: none; z-index: 1; display: block; }
+.ticks i {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  opacity: 0.5;
+  background:
+    linear-gradient(rgba(140, 200, 255, 0.6), rgba(140, 200, 255, 0.6)) center / 100% 1.5px no-repeat,
+    linear-gradient(rgba(140, 200, 255, 0.6), rgba(140, 200, 255, 0.6)) center / 1.5px 100% no-repeat;
+}
+.ticks i:nth-child(1) { top: 0; left: 0; }
+.ticks i:nth-child(2) { top: 0; right: 0; }
+.ticks i:nth-child(3) { bottom: 0; left: 0; }
+.ticks i:nth-child(4) { bottom: 0; right: 0; }
+
+/* ----- カスタムカーソル（精密ポインタのみ。ネイティブカーソルは消さない） ----- */
+.cur { display: none; }
+html.cur-on .cur { display: block; }
+.cur-dot,
+.cur-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 11000;
+  pointer-events: none;
+  border-radius: 50%;
+  mix-blend-mode: difference;
+  /* 初回のpointermoveまでは画面外に置く（左上に見切れて写り込む問題の対策） */
+  transform: translate3d(-100px, -100px, 0);
+}
+.cur-dot {
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  background: #fff;
+}
+.cur-ring {
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  transition: width 0.25s ease, height 0.25s ease, margin 0.25s ease, opacity 0.25s ease;
+}
+html.cur-hover .cur-ring {
+  width: 58px;
+  height: 58px;
+  margin: -29px 0 0 -29px;
+  opacity: 0.65;
+}
+
+/* ----- トップへ戻る（スクロール進捗リング付き） ----- */
+.to-top {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 95;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(10, 22, 48, 0.82);
+  color: #fff;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
+}
+.to-top::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 50%;
+  background: conic-gradient(var(--cyan-400) calc(var(--p, 0) * 1turn), rgba(255, 255, 255, 0.12) 0);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 2px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 2px));
+}
+.to-top.is-show { opacity: 1; transform: none; pointer-events: auto; }
+.to-top:hover { background: var(--navy-700); }
+.to-top svg { width: 15px; height: 15px; display: block; }
+@media (max-width: 768px) {
+  .to-top { width: 46px; height: 46px; right: 16px; bottom: 16px; }
+}
+
+/* ----- フッター: 巨大アウトラインワードマーク ----- */
+.site-footer { overflow: hidden; }
+.foot-word {
+  font-family: var(--font-en);
+  font-weight: 800;
+  line-height: 0.82;
+  font-size: clamp(88px, 15.5vw, 226px);
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.09);
+  user-select: none;
+  pointer-events: none;
+  margin-top: clamp(36px, 5vw, 64px);
+}
+
+/* ----- 現在地ナビ（下線を常時点灯） ----- */
+.gnav a.is-current:not(.btn)::after { width: 100%; }
+
+/* ----- クライアントロゴ: 通常グレースケール→ホバーで彩色（hover環境のみ） ----- */
+@media (hover: hover) {
+  .logo-cell img { filter: grayscale(1); opacity: 0.82; transition: filter 0.35s ease, opacity 0.35s ease; }
+  .logo-cell:hover img { filter: none; opacity: 1; }
+}
+
+/* ----- 数字セクション: 各カード上辺にアクセントライン ----- */
+.numbers-sec .stat { position: relative; overflow: hidden; }
+.numbers-sec .stat::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent-grad);
+  opacity: 0.55;
+}
+
+/* ----- ページ遷移（View Transitions対応ブラウザのみ強化） ----- */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) { animation: vtOut 0.24s ease both; }
+  ::view-transition-new(root) { animation: vtIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) both; }
+}
+@keyframes vtOut { to { opacity: 0; transform: translateY(-12px); } }
+@keyframes vtIn { from { opacity: 0; transform: translateY(16px); } }
+
+/* ----- Lenis慣性スクロール有効時はネイティブsmoothを無効化（二重補間防止） ----- */
+html.lenis-on { scroll-behavior: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cur, .to-top::before { display: none; }
+}
