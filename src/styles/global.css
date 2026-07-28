@@ -954,12 +954,6 @@ html.cur-hover .cur-ring {
 /* ----- 現在地ナビ（下線を常時点灯） ----- */
 .gnav a.is-current:not(.btn)::after { width: 100%; }
 
-/* ----- クライアントロゴ: 通常グレースケール→ホバーで彩色（hover環境のみ） ----- */
-@media (hover: hover) {
-  .logo-cell img { filter: grayscale(1); opacity: 0.82; transition: filter 0.35s ease, opacity 0.35s ease; }
-  .logo-cell:hover img { filter: none; opacity: 1; }
-}
-
 /* ----- 数字セクション: 各カード上辺にアクセントライン ----- */
 .numbers-sec .stat { position: relative; overflow: hidden; }
 .numbers-sec .stat::before {
