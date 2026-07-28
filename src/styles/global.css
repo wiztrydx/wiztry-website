@@ -873,7 +873,6 @@ html.cur-on .cur { display: block; }
   z-index: 11000;
   pointer-events: none;
   border-radius: 50%;
-  mix-blend-mode: difference;
   /* 初回のpointermoveまでは画面外に置く（左上に見切れて写り込む問題の対策） */
   transform: translate3d(-100px, -100px, 0);
 }
@@ -881,20 +880,41 @@ html.cur-on .cur { display: block; }
   width: 7px;
   height: 7px;
   margin: -3.5px 0 0 -3.5px;
-  background: #fff;
+  background: var(--cyan-400);
+  box-shadow: 0 0 10px rgba(55, 200, 240, 0.9);
 }
 .cur-ring {
   width: 36px;
   height: 36px;
   margin: -18px 0 0 -18px;
-  border: 1.5px solid rgba(255, 255, 255, 0.85);
   transition: width 0.25s ease, height 0.25s ease, margin 0.25s ease, opacity 0.25s ease;
+}
+/* HUD風: 切れ目のあるシアン→ブルーのリングがゆっくり回転する
+   （位置のtranslateはJSが.cur-ring本体に書くため、回転は::beforeに分離） */
+.cur-ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    transparent 0deg,
+    transparent 55deg,
+    rgba(55, 200, 240, 0.95) 110deg,
+    rgba(47, 107, 255, 0.85) 360deg
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #fff calc(100% - 1.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #fff calc(100% - 1.5px));
+  filter: drop-shadow(0 0 6px rgba(55, 200, 240, 0.45));
+  animation: curSpin 3.2s linear infinite;
+}
+@keyframes curSpin {
+  to { transform: rotate(360deg); }
 }
 html.cur-hover .cur-ring {
   width: 58px;
   height: 58px;
   margin: -29px 0 0 -29px;
-  opacity: 0.65;
+  opacity: 0.75;
 }
 
 /* ----- トップへ戻る（スクロール進捗リング付き） ----- */
