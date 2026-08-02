@@ -172,5 +172,11 @@
     "theme": "an isometric miniature office floor on the right where several cute rounded white robot employees work at glowing desks and one small human character in a navy suit sits at a wooden executive desk watching over them, the whole office shown as if it lives inside a laptop screen, navy blue business gradient background with subtle light particles, friendly flat-design business illustration",
     "main": "パソコンの中に|AIオフィス",
     "sub": "AI社員が働く会社の作り方"
+  },
+  {
+    "slug": "kumamoto-shien-navi-yatsushiro",
+    "theme": "a big glowing smartphone showing a Japanese city map with colorful location pins and a small friendly white robot gently placing one glowing pin, warm golden sunrise light behind silhouetted mountains in the distance, navy blue business gradient background with soft light particles",
+    "main": "八代市の|公式案内になりました",
+    "sub": "支援ナビの実績と仕組み"
   }
 ]
