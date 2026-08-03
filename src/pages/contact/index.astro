@@ -31,7 +31,6 @@ import { SITE } from '../../data/site';
         >
           <input type="hidden" name="_next" value={`${SITE.domain}/contact/thanks/`} />
           <input type="hidden" name="_subject" value="【HP】お問い合わせ" />
-          <input type="hidden" name="_captcha" value="false" />
           <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
 
           <div class="field">
@@ -80,6 +79,7 @@ import { SITE } from '../../data/site';
 
           <div class="field">
             <button type="submit" class="btn btn--primary btn--lg">送信する <span class="arrow">→</span></button>
+            <p class="submit-note">送信後に認証画面が表示された場合は、チェックを完了してください。</p>
           </div>
         </form>
 
@@ -124,6 +124,12 @@ import { SITE } from '../../data/site';
 
   /* 送信ボタンだけ他フィールドよりひと呼吸あける */
   .form-grid .field:last-child { margin-top: 6px; }
+  .submit-note {
+    margin: 12px 0 0;
+    color: var(--ink-soft);
+    font-size: 13px;
+    line-height: 1.7;
+  }
 
   /* ---------- 右サイド: ダークネイビーパネル ---------- */
   .contact-panel {

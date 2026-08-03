@@ -218,7 +218,8 @@ Base: title="お問い合わせ"
 - page-hero: en `CONTACT`, jp `お問い合わせ`, desc: `ご相談・お見積りは無料です。2営業日以内にご返信します。`
 - 導入文: 「AIで何ができるか知りたい」段階のご相談も歓迎、の一文。
 - フォーム: `<form action="https://formsubmit.co/info@wiztrydx.com" method="POST">`
-  - hidden: `_next`=https://wiztrydx.com/contact/thanks/, `_subject`=【HP】お問い合わせ, `_captcha`=false, honeypot `_honey`
+  - hidden: `_next`=https://wiztrydx.com/contact/thanks/, `_subject`=【HP】お問い合わせ, honeypot `_honey`
+  - reCAPTCHAは有効にする。FormSubmitの技術的制限で正規送信が破棄されるおそれがあるため、`_captcha=false` は設定しない
   - 会社名(必須 text company) / お名前(必須 text name) / メールアドレス(必須 email email) / 電話番号(任意 tel phone) / ご相談内容の種類(select category: 生成AI研修について / AIエージェント導入について / 補助金・助成金について / 取材・登壇のご依頼 / その他) / ご相談内容(必須 textarea message rows=7)
   - プライバシーポリシー同意チェック(required checkbox) → /privacy/ リンク
   - 送信ボタン: btn--primary btn--lg「送信する →」

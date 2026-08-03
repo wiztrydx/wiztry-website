@@ -40,6 +40,8 @@ npm run preview  # ビルド結果の確認
 
 FormSubmit.co を使用し info@wiztrydx.com へ送信される。**初回送信時にFormSubmitからアクティベーションメールが届くので、リンクを1回クリックして有効化が必要。**
 
+FormSubmit公式が、reCAPTCHAを無効化したフォームにはスパム対策上の技術的制限を課す場合があると明記しているため、`_captcha=false` は設定しない。
+
 ## 注意事項
 
 - 「No.1」等の最上級表現は景表法対応のため使用しない（数字ベースの表現を使う）
