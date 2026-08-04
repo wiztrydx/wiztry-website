@@ -1,6 +1,6 @@
 # WizTry株式会社 公式サイト
 
-Astro 5製の静的コーポレートサイト。ホスティングはCloudflare Pages（予定）、ドメインは wiztrydx.com。
+Astro 5製の静的コーポレートサイト。ホスティングはGitHub Pages（mainへのpushで `.github/workflows/deploy.yml` が自動デプロイ）、ドメインは wiztrydx.com。
 
 ## 更新の運用
 
@@ -46,6 +46,8 @@ FormSubmit.co を使用し info@wiztrydx.com へ送信される。**初回送信
 2. **フォールバック（JS無効時、およびfetchがネットワーク層で失敗した時）**: 従来どおり `https://formsubmit.co/info@wiztrydx.com` へ通常POSTし、FormSubmitの認証画面（英語）→ `_next` のサンクスページへ
 
 フォールバック経路の注意（従来からの教訓）: FormSubmit公式が、reCAPTCHAを無効化したフォームにはスパム対策上の技術的制限を課す場合があると明記しているため、`_captcha=false` は設定しない。`_honey` も、入力補助機能等で値が入ると送信が無通知で破棄されるため設定しない。AJAX経路はFormSubmit公式サポートの送信方式で、captcha無効化設定には当たらない（配信可否はAJAXテスト送信の受信箱着弾で2026-08-04に確認済み）。
+
+**テスト時の注意**: FormSubmitのアクティベーションは送信元ドメイン単位。localhostからの実送信は `success:false`（This form needs Activation）になり、info@ 宛にlocalhost用のActivateメールが届くが、**クリックせず無視してよい**。実送信テストは本番 `https://wiztrydx.com` で行うか、curlで `Origin: https://wiztrydx.com` ヘッダーを付けて行う。
 
 ## 注意事項
 
