@@ -25,12 +25,14 @@ import { SITE } from '../../data/site';
 
       <div class="contact-layout">
         <form
+          id="contact-form"
           class="card card--pad form-grid reveal reveal-d1"
           action="https://formsubmit.co/info@wiztrydx.com"
           method="POST"
         >
           <input type="hidden" name="_next" value={`${SITE.domain}/contact/thanks/`} />
           <input type="hidden" name="_subject" value="【HP】お問い合わせ" />
+          <input type="hidden" name="_template" value="table" />
 
           <div class="field">
             <label for="company">会社名<span class="req">必須</span></label>
@@ -77,8 +79,11 @@ import { SITE } from '../../data/site';
           </div>
 
           <div class="field">
-            <button type="submit" class="btn btn--primary btn--lg">送信する <span class="arrow">→</span></button>
-            <p class="submit-note">送信後に認証画面が表示された場合は、チェックを完了してください。</p>
+            <button type="submit" id="contact-submit" class="btn btn--primary btn--lg">問い合わせを送信 <span class="arrow">→</span></button>
+            <p class="form-error" id="contact-error" role="alert" hidden>
+              送信できませんでした。恐れ入りますが、時間をおいて再度お試しいただくか、お電話（{SITE.tel}）またはメール（{SITE.email}）で直接ご連絡ください。
+            </p>
+            <p class="submit-note">万一、送信後に英語の認証画面が表示された場合は、「私はロボットではありません」にチェックを入れてください。</p>
           </div>
         </form>
 
@@ -105,6 +110,57 @@ import { SITE } from '../../data/site';
   </section>
 </Base>
 
+<script>
+  // FormSubmitへAJAXで直接送信し、英語のreCAPTCHA中間画面を経由せずに完了させる。
+  // fetch自体が失敗した場合のみ従来のPOST（認証画面あり）へフォールバックして取りこぼしを防ぐ。
+  // ClientRouterの遷移でbodyが差し替わるため、astro:page-loadごとに付け直す（Base.astroと同じ流儀）。
+  function initContactForm() {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const submitBtn = document.getElementById('contact-submit') as HTMLButtonElement | null;
+    const errorBox = document.getElementById('contact-error');
+    if (!form || !submitBtn || !errorBox || form.dataset.ajaxBound) return;
+    form.dataset.ajaxBound = 'true';
+
+    const AJAX_ENDPOINT = 'https://formsubmit.co/ajax/info@wiztrydx.com';
+    let sending = false;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (sending) return;
+      sending = true;
+      errorBox.hidden = true;
+
+      const originalLabel = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.textContent = '送信中…';
+
+      try {
+        const res = await fetch(AJAX_ENDPOINT, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        const data = await res.json().catch(() => null);
+
+        if (res.ok && data && String(data.success) === 'true') {
+          window.location.href = '/contact/thanks/';
+          return;
+        }
+        // FormSubmit側で受理されなかった: 日本語で案内し、直接連絡の導線を出す
+        errorBox.hidden = false;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalLabel;
+        sending = false;
+      } catch {
+        // ネットワーク層の失敗のみ、従来のPOST送信（認証画面あり）で救済する。
+        // form.submit() はsubmitイベントを発火しないため、このハンドラは再実行されない。
+        form.submit();
+      }
+    });
+  }
+  document.addEventListener('astro:page-load', initContactForm);
+</script>
+
 <style>
   .intro {
     color: var(--ink-soft);
@@ -123,6 +179,16 @@ import { SITE } from '../../data/site';
 
   /* 送信ボタンだけ他フィールドよりひと呼吸あける */
   .form-grid .field:last-child { margin-top: 6px; }
+  .form-error {
+    margin: 14px 0 0;
+    padding: 12px 14px;
+    border: 1px solid #e5484d;
+    border-radius: 8px;
+    background: rgba(229, 72, 77, 0.06);
+    color: #c62a30;
+    font-size: 14px;
+    line-height: 1.8;
+  }
   .submit-note {
     margin: 12px 0 0;
     color: var(--ink-soft);

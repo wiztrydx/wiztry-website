@@ -217,13 +217,15 @@ frontmatter: title="Claude Code・Codexで何が自動化できる？AIエージ
 Base: title="お問い合わせ"
 - page-hero: en `CONTACT`, jp `お問い合わせ`, desc: `ご相談・お見積りは無料です。2営業日以内にご返信します。`
 - 導入文: 「AIで何ができるか知りたい」段階のご相談も歓迎、の一文。
-- フォーム: `<form action="https://formsubmit.co/info@wiztrydx.com" method="POST">`
-  - hidden: `_next`=https://wiztrydx.com/contact/thanks/, `_subject`=【HP】お問い合わせ
-  - reCAPTCHAは有効にする。FormSubmitの技術的制限で正規送信が破棄されるおそれがあるため、`_captcha=false` は設定しない
-  - honeypot `_honey` も設定しない。値が入った送信を無通知で破棄する仕様のため、reCAPTCHAと併用しない
+- フォーム: `<form id="contact-form" action="https://formsubmit.co/info@wiztrydx.com" method="POST">`
+  - hidden: `_next`=https://wiztrydx.com/contact/thanks/, `_subject`=【HP】お問い合わせ, `_template`=table
+  - **送信はJSでAJAX（`https://formsubmit.co/ajax/info@wiztrydx.com` へfetch）**。成功時に `/contact/thanks/` へ遷移し、英語のreCAPTCHA中間画面を出さない。受理されなかった場合は日本語のエラー文（`#contact-error`）で電話・メールの代替導線を案内。fetchがネットワーク層で失敗した時のみ `form.submit()` で従来POST（認証画面あり）にフォールバック
+  - フォールバック経路のreCAPTCHAは有効にする。FormSubmitの技術的制限で正規送信が破棄されるおそれがあるため、`_captcha=false` は設定しない
+  - honeypot `_honey` も設定しない。値が入った送信を無通知で破棄する仕様のため、設定しない
   - 会社名(必須 text company) / お名前(必須 text name) / メールアドレス(必須 email email) / 電話番号(任意 tel phone) / ご相談内容の種類(select category: 生成AI研修について / AIエージェント導入について / 補助金・助成金について / 取材・登壇のご依頼 / その他) / ご相談内容(必須 textarea message rows=7)
   - プライバシーポリシー同意チェック(required checkbox) → /privacy/ リンク
-  - 送信ボタン: btn--primary btn--lg「送信する →」
+  - 送信ボタン: btn--primary btn--lg「問い合わせを送信 →」（送信中は「送信中…」表示・二重送信防止）
+  - ボタン下の注記: 万一英語の認証画面が出た場合はチェックを完了するよう案内
 - フォーム横 or 下: メール直接連絡も可 `info@wiztrydx.com`（mailtoリンク）
 - thanks.astro: 「送信ありがとうございました。2営業日以内にご返信します」＋トップへ戻るボタン。**CtaBandは置かない**。
 

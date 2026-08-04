@@ -38,9 +38,14 @@ npm run preview  # ビルド結果の確認
 
 ## お問い合わせフォーム
 
-FormSubmit.co を使用し info@wiztrydx.com へ送信される。**初回送信時にFormSubmitからアクティベーションメールが届くので、リンクを1回クリックして有効化が必要。**
+FormSubmit.co を使用し info@wiztrydx.com へ送信される。**初回送信時にFormSubmitからアクティベーションメールが届くので、リンクを1回クリックして有効化が必要**（2026-07-10に有効化済み）。
 
-FormSubmit公式が、reCAPTCHAを無効化したフォームにはスパム対策上の技術的制限を課す場合があると明記しているため、`_captcha=false` は設定しない。`_honey` も、入力補助機能等で値が入ると送信が無通知で破棄されるため、reCAPTCHA使用時は設定しない。
+**送信経路は2段構え（2026-08-04改修）**:
+
+1. **通常時（JS有効）**: `https://formsubmit.co/ajax/info@wiztrydx.com` へfetchでAJAX送信。英語のreCAPTCHA中間画面を経由せず、日本語のまま `/contact/thanks/` に遷移する。FormSubmitに受理されなかった場合は日本語のエラーメッセージと電話・メールの代替導線を表示
+2. **フォールバック（JS無効時、およびfetchがネットワーク層で失敗した時）**: 従来どおり `https://formsubmit.co/info@wiztrydx.com` へ通常POSTし、FormSubmitの認証画面（英語）→ `_next` のサンクスページへ
+
+フォールバック経路の注意（従来からの教訓）: FormSubmit公式が、reCAPTCHAを無効化したフォームにはスパム対策上の技術的制限を課す場合があると明記しているため、`_captcha=false` は設定しない。`_honey` も、入力補助機能等で値が入ると送信が無通知で破棄されるため設定しない。AJAX経路はFormSubmit公式サポートの送信方式で、captcha無効化設定には当たらない（配信可否はAJAXテスト送信の受信箱着弾で2026-08-04に確認済み）。
 
 ## 注意事項
 
