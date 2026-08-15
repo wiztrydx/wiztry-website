@@ -61,21 +61,155 @@ export const INDUSTRIES = [
   '自動車',
 ];
 
-export const MEDIA = [
+// お知らせ・メディア掲載・登壇のニュース一覧（トップと会社案内に表示）。
+// date は出来事があった実際の日付。過去の実績も実日付で遡って載せる。日まで特定できないものは 'YYYY-MM'。
+// url=外部リンク（別タブ）／href=サイト内リンク。どちらも無い項目はリンクなしの行になる。
+// outlet があればチップに媒体名、なければ category が出る。表示側で日付の新しい順にソートされる。
+export type NewsItem = {
+  date: string;
+  category: 'メディア掲載' | '登壇・セミナー' | 'お知らせ';
+  title: string;
+  outlet?: string;
+  url?: string;
+  href?: string;
+};
+
+export const NEWS: NewsItem[] = [
   {
-    title: '「挫折を原点に、挑戦し続けてきた先に見えた景色とは」代表・末松のインタビュー',
+    date: '2026-08-13',
+    category: 'お知らせ',
+    title: 'AI社員17体を1年間運用した実録記事をnoteで公開しました',
+    url: 'https://note.com/note_wiztry/n/ncd98ad679178',
+  },
+  {
+    date: '2026-08-07',
+    category: 'お知らせ',
+    title: '熊本県公式X「気になる！くまもと」で、くまもと被災者支援ナビが紹介されました',
+  },
+  {
+    date: '2026-08-06',
+    category: 'お知らせ',
+    title: '「くまもと被災者支援ナビ」の利用がのべ10万回を超えました（ご利用と報道のご報告）',
+    href: '/blog/kumamoto-shien-navi-100k/',
+  },
+  {
+    date: '2026-08-05',
+    category: 'メディア掲載',
+    outlet: 'リビング熊本',
+    title: '生活情報メディア「リビング熊本」で、くまもと被災者支援ナビをご紹介いただきました',
+    href: '/blog/kumamoto-shien-navi-100k/',
+  },
+  {
+    date: '2026-08-05',
+    category: 'メディア掲載',
+    outlet: 'テレビ熊本',
+    title: 'テレビ熊本「英太郎のかたらんね」で、くまもと被災者支援ナビをご紹介いただきました',
+    href: '/blog/kumamoto-shien-navi-100k/',
+  },
+  {
+    date: '2026-08-04',
+    category: 'メディア掲載',
+    outlet: 'テレビ朝日',
+    title: 'テレビ朝日の番組で、くまもと被災者支援ナビをご紹介いただきました',
+    href: '/blog/kumamoto-shien-navi-100k/',
+  },
+  {
+    date: '2026-08-03',
+    category: 'お知らせ',
+    title: 'くまもと被災者支援ナビが、八代市の公式サイト・公式LINE・公式Xで案内されるようになりました',
+    href: '/blog/kumamoto-shien-navi-yatsushiro/',
+  },
+  {
+    date: '2026-07-31',
+    category: 'お知らせ',
+    title: '熊本県国際協会の地震情報ページ（やさしい日本語対応）で、くまもと被災者支援ナビが紹介されました',
+    url: 'https://www.kuma-koku.jp/page381.html',
+  },
+  {
+    date: '2026-07-29',
+    category: 'お知らせ',
+    title: '熊本地震で被災された方向けのWebアプリ「くまもと被災者支援ナビ」を無償公開しました',
+    href: '/blog/kumamoto-shien-navi/',
+  },
+  {
+    date: '2026-07-17',
+    category: '登壇・セミナー',
+    title: '肥銀ビジネス教育主催の公開セミナー「生成AIハンズオン オンラインセミナー」に講師として登壇しました',
+  },
+  {
+    date: '2026-07-10',
+    category: 'お知らせ',
+    title: '企業のAI研修・AI導入支援の累計支援企業数が90社を突破しました',
+    href: '/blog/milestone-90-companies/',
+  },
+  {
+    date: '2026-07-10',
+    category: 'お知らせ',
+    title: 'YouTubeチャンネル「KOTARO AI & VIDEO」の登録者が1,600人を突破しました',
+    href: '/blog/youtube-1600-subscribers/',
+  },
+  {
+    date: '2026-01-05',
+    category: 'お知らせ',
+    title: 'YouTubeチャンネル「KOTARO AI & VIDEO」を開設しました',
+    url: 'https://www.youtube.com/@aivideo_biz',
+  },
+  {
+    date: '2025-12-23',
+    category: 'メディア掲載',
     outlet: 'Muse',
+    title: '「挫折を原点に、挑戦し続けてきた先に見えた景色とは」— 代表・末松のインタビューが掲載されました',
     url: 'https://www.my-muse.jp/people/kotaro_suematsu/',
   },
   {
-    title: 'ChatGPTで業務効率化を 熊本市でプレジ会員向けセミナー',
+    date: '2025-10-02',
+    category: '登壇・セミナー',
+    title: 'レイメイ藤井主催「ソリューションフェア2025」（福岡国際センター）で、生成AI活用のトークセッションに登壇しました',
+  },
+  {
+    date: '2025-10-01',
+    category: 'お知らせ',
+    title: 'オフィスをくまもと森都心プラザ2階「XOSS POINT.」へ移転しました',
+    href: '/blog/office-xosspoint/',
+  },
+  {
+    date: '2025-08-05',
+    category: '登壇・セミナー',
+    title: 'ビジネスイベント「Bridge for Innovation 2025 summer 熊本」（熊本城ホール）にパネル登壇・ブース出展しました',
+  },
+  {
+    date: '2025-08-01',
+    category: '登壇・セミナー',
+    title: '肥後銀行ニューリーダー会のセミナーに、生成AI活用の講師として登壇しました',
+  },
+  {
+    date: '2025-07-23',
+    category: '登壇・セミナー',
+    title: '熊本商工会議所・熊本県弁護士会との提携セミナーで、生成AI活用の講師を務めました',
+  },
+  {
+    date: '2025-03-05',
+    category: '登壇・セミナー',
+    title: '熊本電気工事協同組合の生成AI活用セミナーに講師として登壇しました',
+  },
+  {
+    date: '2024-05-17',
+    category: 'メディア掲載',
     outlet: '熊本日日新聞',
+    title: '「ChatGPTで業務効率化を 熊本市でプレジ会員向けセミナー」— 熊日プレジデント倶楽部での講演が掲載されました',
     url: 'https://kumanichi.com/articles/1435479',
   },
   {
-    title: '【実演あり】仕事に活かすChatGPT勉強会 開催レポート',
+    date: '2023-12-13',
+    category: '登壇・セミナー',
     outlet: 'XOSS POINT.',
+    title: '「仕事に活かすChatGPT勉強会」に代表・末松が講師として登壇しました（開催レポート）',
     url: 'https://xosspoint.jp/event-archive/chatgpt_xosspoint231213/',
+  },
+  {
+    date: '2023-07',
+    category: 'お知らせ',
+    title: 'WizTry株式会社を設立しました',
   },
 ];
 

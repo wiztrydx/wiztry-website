@@ -3,7 +3,11 @@ import Base from '../../layouts/Base.astro';
 import SectionHead from '../../components/SectionHead.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import PageHero from '../../components/PageHero.astro';
-import { SITE, MEDIA, YOUTUBE } from '../../data/site';
+import { SITE, NEWS, YOUTUBE } from '../../data/site';
+
+// お知らせ・メディア掲載・登壇の全量を新しい順で表示する
+const news = [...NEWS].sort((a, b) => b.date.localeCompare(a.date));
+const fmtNewsDate = (d: string) => d.replaceAll('-', '.');
 
 // 代表のプロフィールを構造化データで明示する。生成AIが「熊本の生成AI研修の講師は誰か」を
 // 機械的に読み取れるようにし、経歴・登壇実績を根拠として引用できる状態にする。
@@ -22,7 +26,13 @@ const personLd = {
   knowsAbout: ['生成AI研修', 'ChatGPT', 'Gemini', 'Claude', 'AIエージェント', 'DX支援'],
   knowsLanguage: 'ja',
   url: `${SITE.domain}/about/`,
-  sameAs: [YOUTUBE.url, 'https://x.com/suematsu_wiztry', ...MEDIA.map((m) => m.url)],
+  sameAs: [
+    ...new Set([
+      YOUTUBE.url,
+      'https://x.com/suematsu_wiztry',
+      ...NEWS.filter((n) => n.url && n.category === 'メディア掲載').map((n) => n.url),
+    ]),
+  ],
 };
 ---
 
@@ -162,18 +172,36 @@ const personLd = {
     </div>
   </section>
 
-  <!-- 4-4 メディア掲載・登壇 -->
-  <section class="section section--alt">
+  <!-- 4-4 お知らせ・メディア掲載・登壇 -->
+  <section class="section section--alt" id="news">
     <div class="container">
-      <SectionHead en="MEDIA" title="メディア掲載・登壇" />
-      <ul class="grid grid--2">
+      <SectionHead en="NEWS" title="お知らせ・メディア掲載" />
+      <p class="news-lead">創業からのお知らせ・メディア掲載・登壇の記録です。日付は出来事があった当時のものを記載しています。</p>
+      <ul class="media-list">
         {
-          MEDIA.map((m, i) => (
+          news.map((m, i) => (
             <li class:list={['reveal', `reveal-d${(i % 4) + 1}`]}>
-              <a class="card card--pad media-card tilt" href={m.url} target="_blank" rel="noopener">
-                <span class="media-tag">{m.outlet}</span>
-                <h3>{m.title}</h3>
-              </a>
+              {m.url ? (
+                <a href={m.url} target="_blank" rel="noopener" class="media-link">
+                  <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                  <span class="media-tag">{m.outlet ?? m.category}</span>
+                  <span class="media-title">{m.title}</span>
+                  <span class="media-go" aria-hidden="true">↗</span>
+                </a>
+              ) : m.href ? (
+                <a href={m.href} class="media-link">
+                  <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                  <span class="media-tag">{m.outlet ?? m.category}</span>
+                  <span class="media-title">{m.title}</span>
+                  <span class="media-go" aria-hidden="true">→</span>
+                </a>
+              ) : (
+                <div class="media-link media-link--plain">
+                  <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                  <span class="media-tag">{m.outlet ?? m.category}</span>
+                  <span class="media-title">{m.title}</span>
+                </div>
+              )}
             </li>
           ))
         }
@@ -404,25 +432,81 @@ const personLd = {
     .profile-timeline li::after { left: 67px; }
     .pt-year { padding-right: 18px; font-size: 15px; }
   }
-  .media-card {
-    display: block;
-    height: 100%;
+  .news-lead {
+    margin: -18px 0 28px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .media-list {
+    display: grid;
+    gap: 14px;
+    max-width: 940px;
+  }
+  .media-link {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 24px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .media-link:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-sm);
+  }
+  .media-link--plain:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  .media-date {
+    flex: none;
+    min-width: 88px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
   }
   .media-tag {
-    display: inline-block;
-    font-size: 11.5px;
+    flex: none;
+    font-family: var(--font-en);
     font-weight: 700;
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
     color: var(--blue-500);
     background: rgba(47, 107, 255, 0.09);
     border-radius: 6px;
-    padding: 2px 10px;
-    width: fit-content;
-    margin-bottom: 14px;
+    padding: 5px 12px;
   }
-  .media-card h3 {
-    font-size: 16.5px;
-    line-height: 1.6;
-    font-weight: 700;
+  .media-title {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .media-go {
+    flex: none;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  @media (max-width: 640px) {
+    .media-link {
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      padding: 16px 18px;
+    }
+    .media-date {
+      min-width: 0;
+    }
+    .media-go {
+      margin-left: auto;
+    }
+    .media-title {
+      flex: 1 1 100%;
+      order: 4;
+      font-size: 14.5px;
+    }
   }
   .access-block p {
     color: var(--ink-soft);

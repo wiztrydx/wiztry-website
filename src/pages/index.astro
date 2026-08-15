@@ -6,12 +6,16 @@ import LogoWall from '../components/LogoWall.astro';
 import Stats from '../components/Stats.astro';
 import ParticleField from '../components/ParticleField.astro';
 import Ticks from '../components/Ticks.astro';
-import { MEDIA, YOUTUBE } from '../data/site';
+import { NEWS, YOUTUBE } from '../data/site';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
+
+// お知らせ・メディア掲載: 新しい順に直近だけ載せ、全量は会社案内ページへ
+const news = [...NEWS].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 6);
+const fmtNewsDate = (d: string) => d.replaceAll('-', '.');
 
 const NUMBERS = [
   { value: 90, decimals: 0, unit: '社以上', label: '累計支援企業数', note: '※2026年7月時点' },
@@ -193,23 +197,42 @@ const NUMBERS = [
     </div>
   </section>
 
-  <!-- 1-6 メディア掲載 -->
+  <!-- 1-6 お知らせ・メディア掲載 -->
   <section class="section section--deco">
     <div class="container">
-      <SectionHead en="MEDIA" title="メディア掲載・登壇" center />
+      <SectionHead en="NEWS" title="お知らせ・メディア掲載" center />
       <ul class="media-list">
         {
-          MEDIA.map((m, i) => (
+          news.map((m, i) => (
             <li class:list={['reveal', `reveal-d${(i % 4) + 1}`]}>
-              <a href={m.url} target="_blank" rel="noopener" class="media-link">
-                <span class="media-tag">{m.outlet}</span>
-                <span class="media-title">{m.title}</span>
-                <span class="media-go" aria-hidden="true">↗</span>
-              </a>
+              {m.url ? (
+                <a href={m.url} target="_blank" rel="noopener" class="media-link">
+                  <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                  <span class="media-tag">{m.outlet ?? m.category}</span>
+                  <span class="media-title">{m.title}</span>
+                  <span class="media-go" aria-hidden="true">↗</span>
+                </a>
+              ) : m.href ? (
+                <a href={m.href} class="media-link">
+                  <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                  <span class="media-tag">{m.outlet ?? m.category}</span>
+                  <span class="media-title">{m.title}</span>
+                  <span class="media-go" aria-hidden="true">→</span>
+                </a>
+              ) : (
+                <div class="media-link media-link--plain">
+                  <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                  <span class="media-tag">{m.outlet ?? m.category}</span>
+                  <span class="media-title">{m.title}</span>
+                </div>
+              )}
             </li>
           ))
         }
       </ul>
+      <div class="text-center mt-40">
+        <a href="/about/#news" class="btn btn--ghost">これまでのお知らせ・掲載をすべて見る <span class="arrow">→</span></a>
+      </div>
     </div>
   </section>
 
@@ -922,6 +945,18 @@ const NUMBERS = [
     transform: translateY(-3px);
     box-shadow: var(--shadow-sm);
   }
+  .media-link--plain:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  .media-date {
+    flex: none;
+    min-width: 88px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
   .media-tag {
     flex: none;
     font-family: var(--font-en);
@@ -943,5 +978,23 @@ const NUMBERS = [
     flex: none;
     color: var(--muted);
     font-size: 15px;
+  }
+  @media (max-width: 640px) {
+    .media-link {
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      padding: 16px 18px;
+    }
+    .media-date {
+      min-width: 0;
+    }
+    .media-go {
+      margin-left: auto;
+    }
+    .media-title {
+      flex: 1 1 100%;
+      order: 4;
+      font-size: 14.5px;
+    }
   }
 </style>
