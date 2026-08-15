@@ -149,6 +149,11 @@ export const NEWS: NewsItem[] = [
     href: '/blog/youtube-1600-subscribers/',
   },
   {
+    date: '2026-06-03',
+    category: '登壇・セミナー',
+    title: '熊本県日経会青年会のAI研修に講師として登壇しました',
+  },
+  {
     date: '2026-01-05',
     category: 'お知らせ',
     title: 'YouTubeチャンネル「KOTARO AI & VIDEO」を開設しました',
@@ -191,6 +196,11 @@ export const NEWS: NewsItem[] = [
     date: '2025-03-05',
     category: '登壇・セミナー',
     title: '熊本電気工事協同組合の生成AI活用セミナーに講師として登壇しました',
+  },
+  {
+    date: '2024-09',
+    category: '登壇・セミナー',
+    title: '熊本経済同友会「熊本フォーラム」（八代市開催）のDX委員会 分科会で、生成AIについて登壇しました',
   },
   {
     date: '2024-05-17',
