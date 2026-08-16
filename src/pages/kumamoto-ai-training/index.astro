@@ -397,11 +397,14 @@ const instructorLd = {
   url: 'https://wiztrydx.com/kumamoto-ai-training/#instructor',
   image: 'https://wiztrydx.com/photos/ceo.webp',
   // 第三者主催の登壇歴。誰に呼ばれている講師なのかを機械可読にする
+  // Event型は使わない: 過去の登壇にはstartDate/location等の必須項目が揃わず
+  // Search Consoleの「イベント」重大エラーになる（2026-08-15検出）。リッチリザルト対象外の
+  // 実績列挙はCreativeWork（講演＝著作物）として表現する
   subjectOf: speakingRecord.map((t) => ({
-    '@type': 'Event',
+    '@type': 'CreativeWork',
     name: `${t.org} ${t.title}`,
     description: t.note,
-    performer: { '@type': 'Person', name: '末松 光太郎' },
+    creator: { '@type': 'Person', name: '末松 光太郎' },
     ...(t.link ? { sameAs: t.link.href } : {}),
   })),
 };
