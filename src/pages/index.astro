@@ -231,7 +231,28 @@ const NUMBERS = [
         }
       </ul>
       <div class="text-center mt-40">
-        <a href="/about/#news" class="btn btn--ghost">これまでのお知らせ・掲載をすべて見る <span class="arrow">→</span></a>
+        <a href="/media/" class="btn btn--ghost">メディア掲載・登壇実績をすべて見る <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1-6b 自社プロジェクト（熊本地震の情報支援） -->
+  <section class="section section--navy home-projects">
+    <div class="container">
+      <SectionHead en="PROJECTS" title="熊本地震の翌日から、AIで運営するふたつのナビ" lead="研修とAI導入支援で培った技術を、被災地の情報支援に。テレビ・ラジオ・公的機関にご紹介いただきました。" center />
+      <div class="grid grid--2 hp-cards">
+        <a href="/projects/kumamoto-shien-navi/" class="card glass tilt reveal">
+          <span class="hp-tag">第1章 ／ 被災された方へ</span>
+          <h3>くまもと被災者支援ナビ</h3>
+          <p>発災翌日に公開。累計ページ表示22万回超、更新は1日も欠かさず。八代市・熊本県・防災科研の公式ページからリンク。</p>
+          <span class="hp-more">実績を見る →</span>
+        </a>
+        <a href="/projects/kumamoto-ouen-navi/" class="card glass tilt reveal reveal-d1">
+          <span class="hp-tag">第2章 ／ 応援したい方へ</span>
+          <h3>くまもと応援ナビ</h3>
+          <p>熊本ふっこう応援割の販売開始日に1日6万回。公開26日で累計24万回。リビング熊本が連携メディアに。</p>
+          <span class="hp-more">実績を見る →</span>
+        </a>
       </div>
     </div>
   </section>
@@ -997,4 +1018,10 @@ const NUMBERS = [
       font-size: 14.5px;
     }
   }
+  /* 自社プロジェクトの帯 */
+  .home-projects .hp-cards .card { color: #fff; padding: 28px 28px 30px; display: grid; gap: 10px; }
+  .home-projects .hp-tag { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; color: var(--cyan-400); font-weight: 700; }
+  .home-projects h3 { color: #fff; font-size: 22px; }
+  .home-projects p { color: rgba(255,255,255,0.78); font-size: 14.5px; line-height: 1.9; }
+  .home-projects .hp-more { font-weight: 700; color: #fff; font-size: 14px; margin-top: 4px; }
 </style>

@@ -1,0 +1,260 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import SectionHead from '../../../components/SectionHead.astro';
+import CtaBand from '../../../components/CtaBand.astro';
+import { SITE, NEWS } from '../../../data/site';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => /shien-navi/.test(p.id))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const fmt = (d: Date) =>
+  `${d.getUTCFullYear()}.${String(d.getUTCMonth() + 1).padStart(2, '0')}.${String(d.getUTCDate()).padStart(2, '0')}`;
+const fmtNewsDate = (d: string) => d.replaceAll('-', '.');
+
+// 支援ナビに関する掲載・紹介だけを NEWS から抜く
+const related = [...NEWS]
+  .filter((n) => n.title.includes('被災者支援ナビ') && n.category !== 'お知らせ')
+  .sort((a, b) => b.date.localeCompare(a.date));
+const press = related.filter((n) => n.category === 'メディア掲載');
+const pub = related.filter((n) => n.category === '公的機関・自治体');
+
+// 数値は 2026-09-17 21:25 JST に Cloudflare（ボット除外・匿名集計）から取り直した値
+const AS_OF = '2026年9月17日 21時25分';
+const NUMBERS = [
+  { num: '22.9', unit: '万回', label: '累計ページ表示', note: 'のべ229,200回' },
+  { num: '10.6', unit: '万', label: '累計訪問', note: '106,700訪問' },
+  { num: '13.2', unit: '万回', label: '地図などの操作', note: '絞り込み・地点を開く・道案内へ' },
+  { num: '51', unit: '日', label: '公開からの日数', note: '更新は1日も欠かしていません' },
+];
+
+const appLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'くまもと被災者支援ナビ',
+  url: 'https://kumamoto-shien.jp/',
+  applicationCategory: 'ReferenceApplication',
+  operatingSystem: 'Any',
+  isAccessibleForFree: true,
+  inLanguage: 'ja',
+  datePublished: '2026-07-29',
+  description:
+    '令和8年7月熊本地震で被災された方のための無料Webアプリ。給水所・お風呂・炊き出し・災害用トイレの支援場所マップ、給水・断水情報、り災証明の申請ガイド、もらえる支援のかんたん診断を、県・21市町村・国の公式発表だけをもとに、出典と発表日時つきで掲載。AIエージェントが毎日原則10回程度自動更新。',
+  author: { '@id': `${SITE.domain}/#organization` },
+  publisher: { '@id': `${SITE.domain}/#organization` },
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'JPY' },
+};
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'ホーム', item: `${SITE.domain}/` },
+    { '@type': 'ListItem', position: 2, name: '自社プロジェクト', item: `${SITE.domain}/projects/` },
+    { '@type': 'ListItem', position: 3, name: 'くまもと被災者支援ナビ', item: `${SITE.domain}/projects/kumamoto-shien-navi/` },
+  ],
+};
+---
+
+<Base
+  title="くまもと被災者支援ナビ｜発災翌日に公開、AIが毎日更新する被災者向けWebアプリの実績"
+  description="令和8年7月熊本地震の翌日に無償公開した「くまもと被災者支援ナビ」（kumamoto-shien.jp）の実績。累計ページ表示22万回超・更新無欠、八代市・熊本県・防災科研・熊本県国際協会の公式ページからリンク、テレビ朝日・テレビ熊本・エフエム熊本・リビング熊本で紹介。AIエージェントが公式発表を毎日巡回し、人が確かめて出典つきで届ける仕組みを解説します。"
+  onDark={true}
+  ogImage="/thumbs/kumamoto-shien-navi-100k.webp"
+  ogImageHeight={675}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(appLd)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbLd)} />
+  <PageHero
+    en="PROJECT 01"
+    jp="くまもと被災者支援ナビ"
+    desc="震度7の地震の翌日に公開。県・21市町村・国の公式発表だけを、地図と手順の形で。AIエージェントが毎日原則10回程度更新し、公開から1日も欠かしていません。"
+    bg="/gen/ph-projects.webp"
+  />
+
+  <!-- 概要 -->
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--2 pj-split">
+        <div class="pj-copy reveal">
+          <span class="en-label">OVERVIEW</span>
+          <h2>被災者が探し回らなくていい形に</h2>
+          <p>
+            2026年7月28日16時27分ごろ、熊本県でマグニチュード7.1、最大震度7の地震が発生しました。翌29日、WizTry株式会社は被災された方向けの無料Webアプリ「くまもと被災者支援ナビ」を公開しました。
+          </p>
+          <p>
+            行政の情報が無いのではなく、県・21市町村・国・各支援主体に分散している。その確かな情報を、給水所やお風呂は地図で、り災証明や支援金は手順で分かる形にしたものです。広告なし・登録不要・Cookieなし。災害救助法が適用された21市町村に対応しています。
+          </p>
+          <a href="https://kumamoto-shien.jp/" target="_blank" rel="noopener" class="btn btn--primary">くまもと被災者支援ナビを開く <span class="arrow">↗</span></a>
+        </div>
+        <div class="pj-shots reveal reveal-d1">
+          <img src="/projects/shien-top-mobile.webp" alt="くまもと被災者支援ナビのトップページ" loading="lazy" decoding="async" width="600" height="1298" />
+          <img src="/projects/shien-map-mobile.webp" alt="くまもと被災者支援ナビの支援場所マップ。給水・お風呂・井戸・トイレの色分けピン" loading="lazy" decoding="async" width="600" height="1298" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 数字 -->
+  <section class="section section--navy">
+    <div class="container">
+      <SectionHead en="NUMBERS" title="利用実績" center />
+      <div class="grid grid--4 pj-numbers">
+        {NUMBERS.map((n, i) => (
+          <div class:list={['pj-num', 'reveal', `reveal-d${i + 1}`]}>
+            <span class="v">{n.num}<small>{n.unit}</small></span>
+            <span class="l">{n.label}</span>
+            <span class="n">{n.note}</span>
+          </div>
+        ))}
+      </div>
+      <p class="pj-asof">※{AS_OF}時点。ボットを除外した、個人を特定しない匿名の集計です。いちばん多かった日は8月2日で、1日約3万5千回。8割以上がスマートフォンからの利用です。</p>
+    </div>
+  </section>
+
+  <!-- 速度と経緯 -->
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHead en="TIMELINE" title="経緯" />
+      <ol class="pj-timeline reveal">
+        <li><time>2026.07.28</time><div><strong>地震発生</strong><p>16時27分ごろ、M7.1・最大震度7。代表・末松自身も自宅が断水し、翌日の予定はすべてキャンセルに。</p></div></li>
+        <li><time>2026.07.29</time><div><strong>公開</strong><p>断水中の自宅で朝から設計を始め、その日のうちに最初の版を公開。Claude Code・Codexというコードを書くAIエージェントで開発。</p></div></li>
+        <li><time>2026.08.01</time><div><strong>支援場所マップを追加</strong><p>給水・お風呂・炊き出し・協力井戸・災害用トイレ・ガソリンを1枚の地図に。ピンからGoogleマップの道案内へ。</p></div></li>
+        <li><time>2026.08.03</time><div><strong>八代市の公式案内に</strong><p>市長へ直接URLを送ったことをきっかけに、八代市の公式サイト・公式LINE・公式Xで市民へ案内されるように。</p></div></li>
+        <li><time>2026.08.04〜05</time><div><strong>テレビ朝日・テレビ熊本で放送</strong><p>地震から1週間の節目に取材。「不確かだったり古い情報を発信しない仕組み」として紹介。</p></div></li>
+        <li><time>2026.08.06</time><div><strong>のべ10万回を突破</strong><p>公開9日でページ表示10万回。テレビ熊本の公式サイト「生活情報」ページに常設リンク。</p></div></li>
+        <li><time>2026.08.08</time><div><strong>自動更新を増便</strong><p>公開当初の1日3回から、毎日原則10回程度の定時便＋発表が動いた日の随時便へ。</p></div></li>
+        <li><time>2026.08.23</time><div><strong>第2章「くまもと応援ナビ」を公開</strong><p>応援する側のナビを同じ仕組みで立ち上げ。両ナビはフッターで相互にリンク。</p></div></li>
+        <li><time>2026.08.27</time><div><strong>エフエム熊本「InStyle」に生出演</strong><p>公開30日。累計ページ表示約18万回。熊本県公式ページ・防災クロスビューからのリンクを確認。</p></div></li>
+        <li><time>2026.09.17</time><div><strong>公開51日</strong><p>累計ページ表示22万9千回。更新は1日も欠かしていません。り災証明・支援金など「手続きの季節」へ。</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 公的機関・報道 -->
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        en="RECOGNITION"
+        title="公的機関からの紹介と、報道"
+        lead="いずれも先方からのお申し出によるものです。自治体・公的機関による運営・認定を意味するものではありません。"
+      />
+      <div class="grid grid--2 pj-recog">
+        <div class="reveal">
+          <h3>公的機関・自治体</h3>
+          <ul class="media-list">
+            {pub.map((m) => (
+              <li>
+                {m.url ? (
+                  <a href={m.url} target="_blank" rel="noopener" class="media-link"><time class="media-date">{fmtNewsDate(m.date)}</time><span class="media-tag">{m.outlet}</span><span class="media-title">{m.title}</span><span class="media-go" aria-hidden="true">↗</span></a>
+                ) : m.href ? (
+                  <a href={m.href} class="media-link"><time class="media-date">{fmtNewsDate(m.date)}</time><span class="media-tag">{m.outlet}</span><span class="media-title">{m.title}</span><span class="media-go" aria-hidden="true">→</span></a>
+                ) : (
+                  <div class="media-link media-link--plain"><time class="media-date">{fmtNewsDate(m.date)}</time><span class="media-tag">{m.outlet}</span><span class="media-title">{m.title}</span></div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="reveal reveal-d1">
+          <h3>報道・メディア</h3>
+          <ul class="media-list">
+            {press.map((m) => (
+              <li>
+                {m.url ? (
+                  <a href={m.url} target="_blank" rel="noopener" class="media-link"><time class="media-date">{fmtNewsDate(m.date)}</time><span class="media-tag">{m.outlet}</span><span class="media-title">{m.title}</span><span class="media-go" aria-hidden="true">↗</span></a>
+                ) : m.href ? (
+                  <a href={m.href} class="media-link"><time class="media-date">{fmtNewsDate(m.date)}</time><span class="media-tag">{m.outlet}</span><span class="media-title">{m.title}</span><span class="media-go" aria-hidden="true">→</span></a>
+                ) : (
+                  <div class="media-link media-link--plain"><time class="media-date">{fmtNewsDate(m.date)}</time><span class="media-tag">{m.outlet}</span><span class="media-title">{m.title}</span></div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div class="pj-figure reveal">
+        <img src="/blog/fmk-instyle-shien-navi/diagram-1-koteki-dosen.webp" alt="公的機関・メディアからの導線。熊本県、八代市、防災科研の防災クロスビュー、テレビ熊本の生活情報ページ、熊本県国際協会から、くまもと被災者支援ナビへ矢印が向かう図解" loading="lazy" decoding="async" width="1400" height="933" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 仕組み -->
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHead en="HOW IT WORKS" title="正しさを守る仕組み" lead="「AIは間違えるのでは」という問いに、運用で答えている実例です。" />
+      <div class="grid grid--3">
+        <div class="card card--pad reveal"><h3>載せるもの、載せないもの</h3><p>行政・公的機関の一次発表と、支援を実施する主体自身の公式発表だけ。口コミ・うわさ・又聞きは善意でも載せません。適用が確認できない制度は「発表待ち」と明示します。</p></div>
+        <div class="card card--pad reveal reveal-d1"><h3>AIエージェントのチーム</h3><p>司令塔のAIが手順書を読んで段取りを決め、市町村ごと・分野ごとに手分けしたリサーチAIが公式発表を調べに行きます。集めた情報はチェック役が出典と突き合わせ、人が最終確認します。</p></div>
+        <div class="card card--pad reveal reveal-d2"><h3>4段の防波堤</h3><p>約130の公式ページ等を毎日巡回、座標・リンク切れ・日時・終了済み情報の機械検査、不確かな情報は人が出典を読んでから公開、最終確認から3日超で「古い可能性」を自動表示。</p></div>
+      </div>
+      <div class="pj-figure reveal">
+        <img src="/blog/kumamoto-shien-navi-100k/team-shikumi.webp" alt="AIエージェントチームの仕組みの図解。公式情報源、司令塔AI、リサーチAI、出典を1件ずつ確認するチェック役、人が最終確認、出典つきで公開、という流れ" loading="lazy" decoding="async" width="1400" height="933" />
+      </div>
+      <p class="note text-center mt-24">ホスティングはCloudflare Pages、独自ドメイン kumamoto-shien.jp。PWAとして動作し、ホーム画面に追加すれば電波の弱い場所でも直前の情報を読めます。ふりがな付きの「やさしい日本語」ページを用意しています。</p>
+    </div>
+  </section>
+
+  <!-- 記事 -->
+  {posts.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <SectionHead en="REPORTS" title="運営からのご報告" />
+        <div class="grid grid--3">
+          {posts.map((p, i) => (
+            <a href={`/blog/${p.id}/`} class:list={['card', 'post-card', 'tilt', 'reveal', `reveal-d${(i % 4) + 1}`]}>
+              <div class="zoom-media"><img class="thumb" src={p.data.thumb} alt={p.data.title} loading="lazy" decoding="async" /></div>
+              <div class="body"><span class="tag">{p.data.tag}</span><h3>{p.data.title}</h3><time datetime={p.data.pubDate.toISOString()}>{fmt(p.data.pubDate)}</time></div>
+            </a>
+          ))}
+        </div>
+        <div class="text-center mt-40">
+          <a href="/projects/kumamoto-ouen-navi/" class="btn btn--ghost">第2章「くまもと応援ナビ」の実績を見る <span class="arrow">→</span></a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CtaBand />
+</Base>
+
+<style is:global>
+  .pj-split { align-items: center; }
+  .pj-copy h2 { font-size: clamp(24px, 3vw, 32px); margin: 8px 0 18px; }
+  .pj-copy p { color: var(--ink-soft); line-height: 1.95; margin-bottom: 14px; }
+  .pj-copy .btn { margin-top: 10px; }
+  .pj-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pj-shots img { width: 100%; height: auto; border-radius: 18px; box-shadow: var(--shadow-md); border: 1px solid var(--line); }
+  .pj-numbers { text-align: center; color: #fff; }
+  .pj-num { display: grid; gap: 6px; padding: 24px 12px; border: 1px solid rgba(255,255,255,0.14); border-radius: var(--radius); background: rgba(255,255,255,0.04); }
+  .pj-num .v { font-family: var(--font-en); font-weight: 800; font-size: clamp(38px, 5vw, 54px); line-height: 1; letter-spacing: -0.02em; }
+  .pj-num .v small { font-size: 0.4em; margin-left: 4px; font-family: var(--font-jp); font-weight: 700; }
+  .pj-num .l { font-weight: 700; font-size: 15px; }
+  .pj-num .n { font-size: 12.5px; color: rgba(255,255,255,0.65); }
+  .pj-asof { margin-top: 26px; text-align: center; font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.8; }
+  .pj-timeline { max-width: 860px; margin: 0 auto; display: grid; gap: 0; }
+  .pj-timeline li { display: grid; grid-template-columns: 130px 1fr; gap: 22px; padding: 18px 0; border-bottom: 1px dashed var(--line); }
+  .pj-timeline li:last-child { border-bottom: 0; }
+  .pj-timeline time { font-family: var(--font-mono); font-weight: 700; color: var(--blue-500); font-size: 14px; letter-spacing: 0.04em; padding-top: 3px; }
+  .pj-timeline strong { display: block; font-size: 16.5px; margin-bottom: 4px; }
+  .pj-timeline p { font-size: 14.5px; color: var(--ink-soft); line-height: 1.85; }
+  .pj-recog h3 { font-size: 18px; margin-bottom: 14px; }
+  .pj-figure { max-width: 960px; margin: clamp(28px, 4vw, 44px) auto 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); }
+  .pj-figure img { display: block; width: 100%; height: auto; }
+  .media-list { display: grid; gap: 12px; }
+  .media-link { display: flex; align-items: center; gap: 14px; padding: 15px 18px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+  .media-link:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); }
+  .media-link--plain:hover { transform: none; box-shadow: none; }
+  .media-date { flex: none; min-width: 84px; font-family: var(--font-mono); font-weight: 600; font-size: 13px; color: var(--muted); }
+  .media-tag { flex: none; font-family: var(--font-en); font-weight: 700; font-size: 11px; letter-spacing: 0.08em; color: var(--blue-500); background: #eef3ff; padding: 4px 9px; border-radius: 999px; }
+  .media-title { flex: 1; font-size: 14px; font-weight: 600; line-height: 1.7; }
+  .media-go { flex: none; color: var(--muted); }
+  .card--pad h3 { font-size: 17px; margin-bottom: 10px; }
+  .card--pad p { font-size: 14.5px; line-height: 1.9; color: var(--ink-soft); }
+  @media (max-width: 760px) {
+    .pj-timeline li { grid-template-columns: 1fr; gap: 6px; }
+    .media-link { flex-wrap: wrap; gap: 8px 12px; }
+    .media-title { flex: 1 1 100%; order: 4; }
+    .media-go { margin-left: auto; }
+  }
+</style>

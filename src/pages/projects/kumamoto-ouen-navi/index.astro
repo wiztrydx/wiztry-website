@@ -1,0 +1,254 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import SectionHead from '../../../components/SectionHead.astro';
+import CtaBand from '../../../components/CtaBand.astro';
+import { SITE, NEWS } from '../../../data/site';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => /ouen-navi/.test(p.id))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const fmt = (d: Date) =>
+  `${d.getUTCFullYear()}.${String(d.getUTCMonth() + 1).padStart(2, '0')}.${String(d.getUTCDate()).padStart(2, '0')}`;
+const fmtNewsDate = (d: string) => d.replaceAll('-', '.');
+
+const related = [...NEWS]
+  .filter((n) => n.title.includes('応援ナビ'))
+  .sort((a, b) => b.date.localeCompare(a.date));
+
+// 数値は 2026-09-17 21:25 JST に Cloudflare（ボット除外・匿名集計）と LINE の insight API から取り直した値
+const AS_OF = '2026年9月17日 21時25分';
+const NUMBERS = [
+  { num: '24.2', unit: '万回', label: '累計ページ表示', note: 'のべ242,880回（公開26日）' },
+  { num: '9.3', unit: '万', label: '累計訪問', note: '93,520訪問' },
+  { num: '6.0', unit: '万回', label: '販売開始日の1日の表示', note: '2026年9月15日・訪問22,070' },
+  { num: '2,756', unit: '人', label: 'LINE友だち', note: '9月16日時点' },
+];
+const SCALE = [
+  { k: '応援の台帳', v: '248件', n: '行く・買う・贈る・作る・広める・手伝う' },
+  { k: '宿の地図', v: '297軒', n: '名簿381軒のうち営業を確認できた宿' },
+  { k: '宿の直接予約の告知', v: '123軒', n: '公式サイト・電話で応援割の受付を告知' },
+  { k: 'いま使える割引', v: '150件', n: '確認した先220件。応援割以外も' },
+  { k: '予約経路の販売状況', v: '13社', n: '販売中・受付停止・準備中をAIが確認' },
+  { k: 'お知らせ', v: 'LINE・メール・X', n: 'LINEは重要なお知らせだけ、メールは全更新' },
+];
+
+const appLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'くまもと応援ナビ',
+  url: 'https://kumamoto-ouen.jp/',
+  applicationCategory: 'ReferenceApplication',
+  operatingSystem: 'Any',
+  isAccessibleForFree: true,
+  inLanguage: 'ja',
+  datePublished: '2026-08-23',
+  description:
+    '熊本を応援したい全国の人へ、きょうできる応援をAIが集めて出典と確認時刻つきで届ける無料Webアプリ。九州ふっこう応援割（熊本ふっこう応援割）の受付状況、宿の直接予約の告知、いま使える割引、応援の台帳。お金を扱わず、AIが集めて人が確かめてから公開。',
+  author: { '@id': `${SITE.domain}/#organization` },
+  publisher: { '@id': `${SITE.domain}/#organization` },
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'JPY' },
+};
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'ホーム', item: `${SITE.domain}/` },
+    { '@type': 'ListItem', position: 2, name: '自社プロジェクト', item: `${SITE.domain}/projects/` },
+    { '@type': 'ListItem', position: 3, name: 'くまもと応援ナビ', item: `${SITE.domain}/projects/kumamoto-ouen-navi/` },
+  ],
+};
+---
+
+<Base
+  title="くまもと応援ナビ｜九州ふっこう応援割の受付状況を追う、応援する側のWebアプリの実績"
+  description="熊本を応援したい全国の方向けに2026年8月23日に無償公開した「くまもと応援ナビ」（kumamoto-ouen.jp）の実績。熊本ふっこう応援割の販売開始日に1日6万回、公開26日で累計24万回、LINE友だち2,700人超。宿の直接予約の告知123軒・いま使える割引150件を出典と確認時刻つきで。熊本リビング新聞社「リビング熊本」が連携メディア。"
+  onDark={true}
+  ogImage="/thumbs/kumamoto-ouen-navi-hanbai-kaishi.webp"
+  ogImageHeight={675}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(appLd)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbLd)} />
+  <PageHero
+    en="PROJECT 02"
+    jp="くまもと応援ナビ"
+    desc="熊本を応援したい全国の方へ、きょうできる応援を出典と確認時刻つきで。九州ふっこう応援割の受付状況、宿の直接予約、いま使える割引を、AIが集めて人が確かめて届けます。"
+    bg="/gen/ph-projects.webp"
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--2 pj-split">
+        <div class="pj-copy reveal">
+          <span class="en-label">OVERVIEW</span>
+          <h2>応援したい気持ちを、行動につなぐ</h2>
+          <p>
+            被災者向けの「くまもと被災者支援ナビ」に続く第2章。相手は被災された方ではなく、熊本を応援したい全国の方です。「何が本当に役立つか分からない」「どこに届くか見えない」「詐欺が怖い」。応援の手前で止まる理由は全部、情報の問題でした。
+          </p>
+          <p>
+            入口は、行く・買う・贈る・作る・広める・手伝うの6つの動詞。裏側はひとつの「応援の台帳」で、AIエージェントが1日に何度も公式ページを巡回して更新します。決済も募金の受付もせず、公的機関・大手プラットフォーム・実名事業者の公式ページへのリンクだけを、出典と確認時刻つきで載せています。
+          </p>
+          <a href="https://kumamoto-ouen.jp/" target="_blank" rel="noopener" class="btn btn--primary">くまもと応援ナビを開く <span class="arrow">↗</span></a>
+        </div>
+        <div class="pj-shots reveal reveal-d1">
+          <img src="/projects/ouen-top-mobile.webp" alt="くまもと応援ナビのトップページ。あなたの予約が、熊本の力になる。という見出しと、応援割のいま・いま使える割引のボタン" loading="lazy" decoding="async" width="600" height="1298" />
+          <img src="/blog/kumamoto-ouen-navi/map-mobile.webp" alt="くまもと応援ナビの宿をさがす地図。熊本県全域に宿のピンが並ぶ" loading="lazy" decoding="async" width="600" height="1298" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--navy">
+    <div class="container">
+      <SectionHead en="NUMBERS" title="利用実績" center />
+      <div class="grid grid--4 pj-numbers">
+        {NUMBERS.map((n, i) => (
+          <div class:list={['pj-num', 'reveal', `reveal-d${i + 1}`]}>
+            <span class="v">{n.num}<small>{n.unit}</small></span>
+            <span class="l">{n.label}</span>
+            <span class="n">{n.note}</span>
+          </div>
+        ))}
+      </div>
+      <p class="pj-asof">※{AS_OF}時点。ボットを除外した、個人を特定しない匿名の集計です。平常日は1日3千〜5千回で、山は熊本県の発表日と販売開始日に立ちます。販売開始日の6万回は、被災者支援ナビの最多日（約3万5千回）を上回りました。</p>
+      <div class="pj-figure pj-figure--onnavy reveal">
+        <img src="/blog/kumamoto-ouen-navi-hanbai-kaishi/chart-daily-pv.webp" alt="くまもと応援ナビの1日ごとのページ表示回数の棒グラフ。9月11日の県発表で8,560回、9月15日の販売開始で60,190回、16日50,440回、17日30,950回" loading="lazy" decoding="async" width="1400" height="840" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHead en="SCALE" title="掲載している情報の規模" lead="2026年9月17日時点。すべて出典と確認時刻つきで、AIが集めたものを人が確かめてから公開しています。" />
+      <div class="grid grid--3 pj-scale">
+        {SCALE.map((s, i) => (
+          <div class:list={['card', 'card--pad', 'reveal', `reveal-d${(i % 4) + 1}`]}>
+            <span class="k">{s.k}</span>
+            <strong class="v">{s.v}</strong>
+            <span class="n">{s.n}</span>
+          </div>
+        ))}
+      </div>
+      <div class="pj-figure reveal">
+        <img src="/blog/kumamoto-ouen-navi/diagram-2-3yakusoku.webp" alt="掲載の3つの約束。お金を扱わない、全件に出典と確認時刻、AIが集め人が確かめてから出す" loading="lazy" decoding="async" width="1400" height="933" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead en="TIMELINE" title="経緯" />
+      <ol class="pj-timeline reveal">
+        <li><time>2026.08.22</time><div><strong>着手</strong><p>「熊本で一番」ではなく「日本の仕組みの第1号」として設計。熊本固有の値は設定で差し替えられる形に。</p></div></li>
+        <li><time>2026.08.23</time><div><strong>本公開</strong><p>着手の翌日。応援の台帳161件を人が全件確認して公開。メールのお知らせ基盤とLINE公式アカウントも同日に開通。</p></div></li>
+        <li><time>2026.08.31</time><div><strong>熊本リビング新聞社からご提案</strong><p>お金のやり取りなしで、紙面とアプリで応援ナビを紹介いただく相互紹介のご提案。</p></div></li>
+        <li><time>2026.09.11</time><div><strong>熊本県が販売開始日を発表</strong><p>「熊本ふっこう応援割」は9月15日10時から。割引60%・上限は宿泊単体で1人1泊2万円。発表当日、LINE・メール・Xで配信。</p></div></li>
+        <li><time>2026.09.15</time><div><strong>販売開始。1日で6万回</strong><p>予約サイトで先着上限・受付停止が相次ぐ中、「宿に直接予約する」ページと予約経路13社の状況を更新し続けた。リビング熊本が連携メディアに。</p></div></li>
+        <li><time>2026.09.17</time><div><strong>3日間で14万回、累計24万回</strong><p>宿の直接予約の告知123軒・割引150件。LINE友だち2,756人。</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHead en="PARTNER MEDIA" title="連携メディア" />
+      <div class="grid grid--2 pj-split">
+        <div class="pj-copy reveal">
+          <h3>熊本リビング新聞社「リビング熊本」「リビング熊本アプリ」</h3>
+          <p>
+            2026年9月15日から、熊本リビング新聞社の生活情報紙「リビング熊本」と「リビング熊本アプリ」が、くまもと応援ナビの連携メディアになりました。リビング熊本の紙面とアプリで応援ナビを紹介いただき、応援ナビの側ではアプリのダウンロード先をご案内しています。掲載料などのお金のやり取りはなく、お互いに案内し合う連携です。
+          </p>
+          <p>応援ナビの「このサイトについて」「広める」ページ、全ページのフッターの3か所に掲載しています。</p>
+        </div>
+        <div class="pj-figure reveal reveal-d1" style="margin-top:0">
+          <img src="/blog/kumamoto-ouen-navi-hanbai-kaishi/diagram-1-living-renkei.webp" alt="連携メディアとして、お互いに案内し合う。リビング熊本は応援ナビを紹介し、応援ナビはアプリのダウンロード先を案内する図解" loading="lazy" decoding="async" width="1400" height="933" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead en="NEWS" title="応援ナビに関するお知らせ・掲載" />
+      <ul class="media-list">
+        {related.map((m) => (
+          <li>
+            {m.url ? (
+              <a href={m.url} target="_blank" rel="noopener" class="media-link"><time class="media-date">{fmtNewsDate(m.date)}</time><span class="media-tag">{m.outlet ?? m.category}</span><span class="media-title">{m.title}</span><span class="media-go" aria-hidden="true">↗</span></a>
+            ) : m.href ? (
+              <a href={m.href} class="media-link"><time class="media-date">{fmtNewsDate(m.date)}</time><span class="media-tag">{m.outlet ?? m.category}</span><span class="media-title">{m.title}</span><span class="media-go" aria-hidden="true">→</span></a>
+            ) : (
+              <div class="media-link media-link--plain"><time class="media-date">{fmtNewsDate(m.date)}</time><span class="media-tag">{m.outlet ?? m.category}</span><span class="media-title">{m.title}</span></div>
+            )}
+          </li>
+        ))}
+      </ul>
+      <p class="note mt-24">公式X: <a href="https://x.com/ouen_navi" target="_blank" rel="noopener">@ouen_navi</a>／LINE公式アカウント「くまもと応援ナビ」（<a href="https://lin.ee/57YJ0bs" target="_blank" rel="noopener">友だち追加</a>）</p>
+    </div>
+  </section>
+
+  {posts.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <SectionHead en="REPORTS" title="運営からのご報告" />
+        <div class="grid grid--3">
+          {posts.map((p, i) => (
+            <a href={`/blog/${p.id}/`} class:list={['card', 'post-card', 'tilt', 'reveal', `reveal-d${(i % 4) + 1}`]}>
+              <div class="zoom-media"><img class="thumb" src={p.data.thumb} alt={p.data.title} loading="lazy" decoding="async" /></div>
+              <div class="body"><span class="tag">{p.data.tag}</span><h3>{p.data.title}</h3><time datetime={p.data.pubDate.toISOString()}>{fmt(p.data.pubDate)}</time></div>
+            </a>
+          ))}
+        </div>
+        <div class="text-center mt-40">
+          <a href="/projects/kumamoto-shien-navi/" class="btn btn--ghost">第1章「くまもと被災者支援ナビ」の実績を見る <span class="arrow">→</span></a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CtaBand />
+</Base>
+
+<style is:global>
+  .pj-split { align-items: center; }
+  .pj-copy h2 { font-size: clamp(24px, 3vw, 32px); margin: 8px 0 18px; }
+  .pj-copy h3 { font-size: 20px; margin-bottom: 14px; }
+  .pj-copy p { color: var(--ink-soft); line-height: 1.95; margin-bottom: 14px; }
+  .pj-copy .btn { margin-top: 10px; }
+  .pj-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pj-shots img { width: 100%; height: auto; border-radius: 18px; box-shadow: var(--shadow-md); border: 1px solid var(--line); }
+  .pj-numbers { text-align: center; color: #fff; }
+  .pj-num { display: grid; gap: 6px; padding: 24px 12px; border: 1px solid rgba(255,255,255,0.14); border-radius: var(--radius); background: rgba(255,255,255,0.04); }
+  .pj-num .v { font-family: var(--font-en); font-weight: 800; font-size: clamp(36px, 5vw, 52px); line-height: 1; letter-spacing: -0.02em; }
+  .pj-num .v small { font-size: 0.4em; margin-left: 4px; font-family: var(--font-jp); font-weight: 700; }
+  .pj-num .l { font-weight: 700; font-size: 15px; }
+  .pj-num .n { font-size: 12.5px; color: rgba(255,255,255,0.65); }
+  .pj-asof { margin-top: 26px; text-align: center; font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.8; max-width: 820px; margin-inline: auto; }
+  .pj-scale .card { display: grid; gap: 6px; }
+  .pj-scale .k { font-size: 13px; font-weight: 700; color: var(--blue-500); letter-spacing: 0.04em; }
+  .pj-scale .v { font-family: var(--font-en); font-size: 34px; font-weight: 800; color: var(--navy-900); line-height: 1.1; }
+  .pj-scale .n { font-size: 13.5px; color: var(--muted); line-height: 1.7; }
+  .pj-timeline { max-width: 860px; margin: 0 auto; display: grid; }
+  .pj-timeline li { display: grid; grid-template-columns: 130px 1fr; gap: 22px; padding: 18px 0; border-bottom: 1px dashed var(--line); }
+  .pj-timeline li:last-child { border-bottom: 0; }
+  .pj-timeline time { font-family: var(--font-mono); font-weight: 700; color: var(--blue-500); font-size: 14px; letter-spacing: 0.04em; padding-top: 3px; }
+  .pj-timeline strong { display: block; font-size: 16.5px; margin-bottom: 4px; }
+  .pj-timeline p { font-size: 14.5px; color: var(--ink-soft); line-height: 1.85; }
+  .pj-figure { max-width: 960px; margin: clamp(28px, 4vw, 44px) auto 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); }
+  .pj-figure img { display: block; width: 100%; height: auto; }
+  .media-list { display: grid; gap: 12px; max-width: 940px; }
+  .media-link { display: flex; align-items: center; gap: 14px; padding: 15px 18px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+  .media-link:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); }
+  .media-link--plain:hover { transform: none; box-shadow: none; }
+  .media-date { flex: none; min-width: 84px; font-family: var(--font-mono); font-weight: 600; font-size: 13px; color: var(--muted); }
+  .media-tag { flex: none; font-family: var(--font-en); font-weight: 700; font-size: 11px; letter-spacing: 0.08em; color: var(--blue-500); background: #eef3ff; padding: 4px 9px; border-radius: 999px; }
+  .media-title { flex: 1; font-size: 14px; font-weight: 600; line-height: 1.7; }
+  .media-go { flex: none; color: var(--muted); }
+  @media (max-width: 760px) {
+    .pj-timeline li { grid-template-columns: 1fr; gap: 6px; }
+    .media-link { flex-wrap: wrap; gap: 8px 12px; }
+    .media-title { flex: 1 1 100%; order: 4; }
+    .media-go { margin-left: auto; }
+  }
+</style>

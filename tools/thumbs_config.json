@@ -196,5 +196,23 @@
     "theme": "a calm Japanese company president in a navy suit sitting at a wooden desk with a cup of green tea, looking thoughtfully at a glowing tablet where a friendly small white robot offers a neatly written document, a small potted plant and a notebook on the desk, navy blue business gradient background with soft light particles, friendly flat-design business illustration, reassuring mood",
     "main": "経営者のための|生成AI超入門",
     "sub": "用語ゼロで分かる できること・危ないこと"
+  },
+  {
+    "slug": "kumamoto-ouen-navi",
+    "theme": "a warm glowing map of Kumamoto prefecture with six soft luminous icon tiles (a suitcase, a shopping bag, a gift box, a wrench, a megaphone, a helping hand) floating on the right side, navy blue business gradient background with soft light particles",
+    "main": "くまもと応援ナビ|公開しました",
+    "sub": "熊本を応援したい全国の方へ"
+  },
+  {
+    "slug": "fmk-instyle-shien-navi",
+    "theme": "a glowing translucent studio microphone with soft radio wave rings and a small floating smartphone showing a map with pins on the right side, navy blue business gradient background with soft light particles",
+    "main": "エフエム熊本|InStyleに生出演",
+    "sub": "支援ナビ 公開30日のご報告"
+  },
+  {
+    "slug": "kumamoto-ouen-navi-hanbai-kaishi",
+    "theme": "a rising glowing bar chart with a sharp peak, a smartphone showing a map of Kumamoto, and a small floating newspaper icon on the right side, navy blue business gradient background with soft light particles",
+    "main": "応援ナビ|3日で14万回",
+    "sub": "販売開始とリビング熊本との連携"
   }
 ]

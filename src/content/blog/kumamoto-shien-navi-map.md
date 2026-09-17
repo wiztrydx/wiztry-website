@@ -8,6 +8,8 @@ thumb: "/thumbs/kumamoto-shien-navi-map.webp"
 
 7月28日の熊本地震で被災された皆さまに、心よりお見舞い申し上げます。
 
+<p class="post-note"><strong>【追記 2026.09.17】</strong>この記事は公開当時のご報告です。最新の利用実績、公的機関からの紹介、報道の一覧は<a href="/projects/kumamoto-shien-navi/">くまもと被災者支援ナビの実績ページ</a>に、応援する側の第2章は<a href="/projects/kumamoto-ouen-navi/">くまもと応援ナビの実績ページ</a>にまとめています。</p>
+
 先月末に公開した無償の支援サイト「くまもと被災者支援ナビ」に、支援場所マップという機能を追加しました。給水所、無料で入れるお風呂、営業しているガソリンスタンド、災害用トイレを、1枚の地図の上にまとめて表示します。
 
 https://kumamoto-shien.jp/support-map

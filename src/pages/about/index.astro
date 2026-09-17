@@ -6,7 +6,7 @@ import PageHero from '../../components/PageHero.astro';
 import { SITE, NEWS, YOUTUBE } from '../../data/site';
 
 // お知らせ・メディア掲載・登壇の全量を新しい順で表示する
-const news = [...NEWS].sort((a, b) => b.date.localeCompare(a.date));
+const news = [...NEWS].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 10);
 const fmtNewsDate = (d: string) => d.replaceAll('-', '.');
 
 // 代表のプロフィールを構造化データで明示する。生成AIが「熊本の生成AI研修の講師は誰か」を
@@ -176,7 +176,7 @@ const personLd = {
   <section class="section section--alt" id="news">
     <div class="container">
       <SectionHead en="NEWS" title="お知らせ・メディア掲載" />
-      <p class="news-lead">創業からのお知らせ・メディア掲載・登壇の記録です。日付は出来事があった当時のものを記載しています。</p>
+      <p class="news-lead">直近のお知らせ・メディア掲載・登壇です。創業からの全量と媒体別の一覧は<a href="/media/">メディア掲載・登壇実績</a>にまとめています。</p>
       <ul class="media-list">
         {
           news.map((m, i) => (
@@ -206,6 +206,7 @@ const personLd = {
           ))
         }
       </ul>
+      <div class="text-center mt-40"><a href="/media/" class="btn btn--ghost">メディア掲載・登壇実績をすべて見る <span class="arrow">→</span></a></div>
     </div>
   </section>
 

@@ -1,0 +1,239 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { SITE } from '../../data/site';
+import { getCollection } from 'astro:content';
+
+// ナビ関連の自社発信記事（新しい順）
+const posts = (await getCollection('blog'))
+  .filter((p) => /navi/.test(p.id))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const fmt = (d: Date) =>
+  `${d.getUTCFullYear()}.${String(d.getUTCMonth() + 1).padStart(2, '0')}.${String(d.getUTCDate()).padStart(2, '0')}`;
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'ホーム', item: `${SITE.domain}/` },
+    { '@type': 'ListItem', position: 2, name: '自社プロジェクト', item: `${SITE.domain}/projects/` },
+  ],
+};
+---
+
+<Base
+  title="自社プロジェクト｜熊本地震の情報支援（被災者支援ナビ・応援ナビ）"
+  description="WizTry株式会社が令和8年7月熊本地震の翌日から無償で運営する2つのWebアプリ「くまもと被災者支援ナビ」「くまもと応援ナビ」の実績。AIエージェントが公式発表を毎日巡回し、人が確かめて出典つきで届ける仕組みと、利用実績・公的機関からの紹介・報道をまとめています。"
+  onDark={true}
+  ogImage="/gen/ph-projects.webp"
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbLd)} />
+  <PageHero
+    en="PROJECTS"
+    jp="自社プロジェクト"
+    desc="熊本地震の翌日から、AIエージェントで運営している2つのWebアプリ。研修とAI導入支援で培った技術を、被災地の情報支援に使っています。"
+    bg="/gen/ph-projects.webp"
+  />
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        en="KUMAMOTO 2026"
+        title="地震の翌日から、ふたつのナビ"
+        lead="2026年7月28日の熊本地震（最大震度7）の翌日に「くまもと被災者支援ナビ」を、8月23日に応援する側のための「くまもと応援ナビ」を公開しました。どちらもWizTry株式会社が災害支援として無償で運営し、広告なし・登録不要・お金を扱いません。"
+      />
+      <div class="proj-figure reveal">
+        <img
+          src="/projects/diagram-2chapters.webp"
+          alt="地震の翌日から、ふたつのナビ。第1章くまもと被災者支援ナビは支援を受ける側へ、第2章くまもと応援ナビは応援する側へ。AIが集め、人が確かめ、出典つきで届ける、という図解"
+          loading="lazy" decoding="async" width="1400" height="933"
+        />
+      </div>
+      <div class="grid grid--2 proj-cards">
+        <a href="/projects/kumamoto-shien-navi/" class="card tilt reveal">
+          <div class="zoom-media"><img src="/projects/shien-map-mobile.webp" alt="くまもと被災者支援ナビの支援場所マップ" loading="lazy" decoding="async" width="600" height="1298" /></div>
+          <div class="body">
+            <span class="tag">第1章 ／ 2026.07.29 公開</span>
+            <h3>くまもと被災者支援ナビ</h3>
+            <p>給水所・お風呂・り災証明・支援金。県・21市町村・国の公式発表だけを、地図と手順の形で。累計ページ表示22万回超、更新は公開から1日も欠かしていません。</p>
+            <span class="more">実績を見る →</span>
+          </div>
+        </a>
+        <a href="/projects/kumamoto-ouen-navi/" class="card tilt reveal reveal-d1">
+          <div class="zoom-media"><img src="/projects/ouen-top-mobile.webp" alt="くまもと応援ナビのトップページ" loading="lazy" decoding="async" width="600" height="1298" /></div>
+          <div class="body">
+            <span class="tag">第2章 ／ 2026.08.23 公開</span>
+            <h3>くまもと応援ナビ</h3>
+            <p>行く・買う・贈る・作る・広める・手伝う。熊本を応援したい全国の方へ、きょうできる応援を出典と確認時刻つきで。熊本ふっこう応援割の販売開始日に1日6万回。</p>
+            <span class="more">実績を見る →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--navy">
+    <div class="container">
+      <SectionHead en="HOW IT WORKS" title="共通する3つの原則" center />
+      <div class="grid grid--3">
+        <div class="card card--pad glass reveal">
+          <span class="pnum">01</span>
+          <h3>公式発表だけを、出典と時点つきで</h3>
+          <p>行政・公的機関の一次発表と、支援や応援を実施する主体自身の公式発表だけを載せます。口コミやうわさは、善意でも載せません。すべての情報に出典URLと確認した日時を付けます。</p>
+        </div>
+        <div class="card card--pad glass reveal reveal-d1">
+          <span class="pnum">02</span>
+          <h3>AIが集め、人が確かめてから出す</h3>
+          <p>役割を分けたAIエージェントのチームが、100を超える公式ページを毎日何度も巡回します。新しい種類の情報や少しでも不確かな情報は、人間が出典を読んでから公開します。</p>
+        </div>
+        <div class="card card--pad glass reveal reveal-d2">
+          <span class="pnum">03</span>
+          <h3>お金を扱わない、個人を追わない</h3>
+          <p>決済も募金の受付もしません。広告なし・Cookieなし。診断などの入力は端末の外に出しません。個人を特定しない匿名の集計だけで運営しています。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {posts.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <SectionHead en="REPORTS" title="運営からのご報告" lead="公開・機能追加・利用状況・報道など、節目ごとの公式のご報告です。" />
+        <div class="grid grid--3">
+          {posts.map((p, i) => (
+            <a href={`/blog/${p.id}/`} class:list={['card', 'post-card', 'tilt', 'reveal', `reveal-d${(i % 4) + 1}`]}>
+              <div class="zoom-media"><img class="thumb" src={p.data.thumb} alt={p.data.title} loading="lazy" decoding="async" /></div>
+              <div class="body">
+                <span class="tag">{p.data.tag}</span>
+                <h3>{p.data.title}</h3>
+                <time datetime={p.data.pubDate.toISOString()}>{fmt(p.data.pubDate)}</time>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container">
+      <div class="proj-biz reveal">
+        <span class="en-label">FOR BUSINESS</span>
+        <h2>災害が起きたら、短期間で立ち上がる情報基盤</h2>
+        <p>
+          ふたつのナビは、WizTryが企業向けに行っているAIエージェント導入支援と同じ技術で動いています。公式情報の巡回、裏取り、更新、報告までを無人で回す仕組みは、自治体・金融機関・メディア・企業の情報発信にもそのまま応用できます。
+        </p>
+        <div class="proj-biz-actions">
+          <a href="/kumamoto-ai-agent/" class="btn btn--navy">AIエージェント導入支援を見る <span class="arrow">→</span></a>
+          <a href="/contact/" class="btn btn--ghost">相談する</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .proj-figure {
+    max-width: 960px;
+    margin: 0 auto clamp(32px, 5vw, 56px);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+  .proj-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .proj-cards .card {
+    display: flex;
+    flex-direction: column;
+  }
+  .proj-cards .zoom-media {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: var(--radius) var(--radius) 0 0;
+    background: #f3ede2;
+  }
+  .proj-cards .zoom-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+  .proj-cards .body {
+    padding: 22px 24px 26px;
+  }
+  .proj-cards .tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--blue-500);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .proj-cards h3 {
+    font-size: 21px;
+    margin-bottom: 10px;
+  }
+  .proj-cards p {
+    font-size: 14.5px;
+    line-height: 1.9;
+    color: var(--ink-soft);
+  }
+  .proj-cards .more {
+    display: inline-block;
+    margin-top: 14px;
+    font-weight: 700;
+    color: var(--blue-500);
+    font-size: 14px;
+  }
+  .section--navy .card {
+    color: #fff;
+  }
+  .section--navy .card h3 {
+    color: #fff;
+    font-size: 18px;
+    margin: 10px 0 12px;
+  }
+  .section--navy .card p {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 14.5px;
+    line-height: 1.9;
+  }
+  .pnum {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--cyan-400);
+    letter-spacing: 0.12em;
+    font-size: 13px;
+  }
+  .proj-biz {
+    max-width: 820px;
+    margin: 0 auto;
+    text-align: center;
+    padding: clamp(32px, 5vw, 56px) clamp(20px, 4vw, 48px);
+    background: var(--bg-alt);
+    border-radius: var(--radius-lg);
+  }
+  .proj-biz h2 {
+    font-size: clamp(22px, 3vw, 28px);
+    margin: 8px 0 14px;
+  }
+  .proj-biz p {
+    color: var(--ink-soft);
+    line-height: 1.9;
+    margin-bottom: 22px;
+  }
+  .proj-biz-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>

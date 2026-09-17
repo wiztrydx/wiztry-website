@@ -1001,3 +1001,8 @@ html.lenis-on { scroll-behavior: auto; }
 @media (prefers-reduced-motion: reduce) {
   .cur, .to-top::before { display: none; }
 }
+
+/* 記事内: 画像の注記・追記ボックス */
+.prose .img-note { font-size: 12.5px; color: var(--muted); text-align: center; margin: -6px 0 26px; }
+.prose .post-note { background: var(--bg-alt); border-left: 4px solid var(--blue-500); border-radius: 0 var(--radius) var(--radius) 0; padding: 16px 20px; font-size: 14.5px; line-height: 1.9; margin: 28px 0; }
+.prose .post-note a { color: var(--blue-500); font-weight: 700; text-decoration: underline; }

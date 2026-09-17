@@ -65,9 +65,11 @@ export const INDUSTRIES = [
 // date は出来事があった実際の日付。過去の実績も実日付で遡って載せる。日まで特定できないものは 'YYYY-MM'。
 // url=外部リンク（別タブ）／href=サイト内リンク。どちらも無い項目はリンクなしの行になる。
 // outlet があればチップに媒体名、なければ category が出る。表示側で日付の新しい順にソートされる。
+// category「公的機関・自治体」は自治体・省庁・公的研究機関の公式サイト・公式SNSでの紹介やリンク採用（報道とは分けて数える）。
+// 全量は /media/ に掲載。トップは直近6件、会社案内は直近10件を出す。
 export type NewsItem = {
   date: string;
-  category: 'メディア掲載' | '登壇・セミナー' | 'お知らせ';
+  category: 'メディア掲載' | '公的機関・自治体' | '登壇・セミナー' | 'お知らせ';
   title: string;
   outlet?: string;
   url?: string;
@@ -76,6 +78,55 @@ export type NewsItem = {
 
 export const NEWS: NewsItem[] = [
   {
+    date: '2026-09-17',
+    category: 'お知らせ',
+    title: '熊本ふっこう応援割の販売開始から3日間で、くまもと応援ナビの利用が14万回を超えました（利用状況と連携のご報告）',
+    href: '/blog/kumamoto-ouen-navi-hanbai-kaishi/',
+  },
+  {
+    date: '2026-09-15',
+    category: 'メディア掲載',
+    outlet: 'リビング熊本',
+    title: '熊本リビング新聞社「リビング熊本」「リビング熊本アプリ」と、くまもと応援ナビが連携メディアとして相互に紹介を始めました',
+    href: '/blog/kumamoto-ouen-navi-hanbai-kaishi/',
+  },
+  {
+    date: '2026-09-15',
+    category: 'お知らせ',
+    title: '熊本ふっこう応援割の販売開始日、くまもと応援ナビが1日で6万回ひらかれました（支援ナビの最多日を上回る利用）',
+    href: '/blog/kumamoto-ouen-navi-hanbai-kaishi/',
+  },
+  {
+    date: '2026-08-28',
+    category: '登壇・セミナー',
+    title: '肥銀ビジネス教育主催・熊本県地質調査業協会の会員経営者向け生成AI研修（熊本城ホール）に講師として登壇しました',
+  },
+  {
+    date: '2026-08-27',
+    category: 'メディア掲載',
+    outlet: 'エフエム熊本',
+    title: 'エフエム熊本（FMK）「InStyle」に生出演し、くまもと被災者支援ナビについてお話ししました',
+    href: '/blog/fmk-instyle-shien-navi/',
+  },
+  {
+    date: '2026-08-27',
+    category: '登壇・セミナー',
+    title: '肥後銀行ニューリーダー会（玉名）で「AIエージェントを仕事に活かす方法」をテーマに講話しました',
+  },
+  {
+    date: '2026-08-25',
+    category: '公的機関・自治体',
+    outlet: '防災科研',
+    title: '防災科学技術研究所「防災クロスビュー」の令和8年熊本地震・生活支援状況に、くまもと被災者支援ナビへのリンクが掲載されました',
+    href: '/projects/kumamoto-shien-navi/',
+  },
+  {
+    date: '2026-08-23',
+    category: 'お知らせ',
+    title: '熊本を応援したい全国の方向けのWebアプリ「くまもと応援ナビ」を無償公開しました',
+    href: '/blog/kumamoto-ouen-navi/',
+  },
+  {
     date: '2026-08-13',
     category: 'お知らせ',
     title: 'AI社員17体を1年間運用した実録記事をnoteで公開しました',
@@ -83,8 +134,17 @@ export const NEWS: NewsItem[] = [
   },
   {
     date: '2026-08-07',
-    category: 'お知らせ',
-    title: '熊本県公式X「気になる！くまもと」で、くまもと被災者支援ナビが紹介されました',
+    category: '公的機関・自治体',
+    outlet: '熊本県',
+    title: '熊本県の公式LINEと公式X「気になる！くまもと」で、くまもと被災者支援ナビが紹介されました。県公式「令和8年熊本地震に関する情報」ページの被災者支援欄からもリンクいただいています',
+    url: 'https://www.pref.kumamoto.jp/soshiki/1/274517.html',
+  },
+  {
+    date: '2026-08-06',
+    category: 'メディア掲載',
+    outlet: 'テレビ熊本',
+    title: 'テレビ熊本（TKU）公式サイトの「生活情報」ページに、くまもと被災者支援ナビへのリンクを常設いただきました',
+    url: 'https://www.tku.co.jp/seikatsu-jouhou/',
   },
   {
     date: '2026-08-06',
@@ -115,13 +175,15 @@ export const NEWS: NewsItem[] = [
   },
   {
     date: '2026-08-03',
-    category: 'お知らせ',
+    category: '公的機関・自治体',
+    outlet: '八代市',
     title: 'くまもと被災者支援ナビが、八代市の公式サイト・公式LINE・公式Xで案内されるようになりました',
     href: '/blog/kumamoto-shien-navi-yatsushiro/',
   },
   {
     date: '2026-07-31',
-    category: 'お知らせ',
+    category: '公的機関・自治体',
+    outlet: '熊本県国際協会',
     title: '熊本県国際協会の地震情報ページ（やさしい日本語対応）で、くまもと被災者支援ナビが紹介されました',
     url: 'https://www.kuma-koku.jp/page381.html',
   },
@@ -152,6 +214,11 @@ export const NEWS: NewsItem[] = [
     date: '2026-06-03',
     category: '登壇・セミナー',
     title: '熊本県日経会青年会のAI研修に講師として登壇しました',
+  },
+  {
+    date: '2026-03-05',
+    category: '登壇・セミナー',
+    title: '肥後銀行 有明ブロック ニューリーダー会で、生成AI活用について講話しました',
   },
   {
     date: '2026-01-05',
@@ -233,6 +300,7 @@ export const YOUTUBE = {
 export const NAV = [
   { href: '/service/', label: 'サービス' },
   { href: '/works/', label: '導入実績' },
+  { href: '/media/', label: 'メディア掲載' },
   { href: '/about/', label: '会社案内' },
   { href: '/blog/', label: 'ブログ' },
 ];

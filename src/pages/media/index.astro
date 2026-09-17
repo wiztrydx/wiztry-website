@@ -1,0 +1,444 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { SITE, NEWS } from '../../data/site';
+import type { NewsItem } from '../../data/site';
+
+// お知らせ・メディア掲載・登壇の全量を、区分ごとに新しい順で並べる
+const sorted = [...NEWS].sort((a, b) => b.date.localeCompare(a.date));
+const byCat = (c: NewsItem['category']) => sorted.filter((n) => n.category === c);
+const media = byCat('メディア掲載');
+const publicOrgs = byCat('公的機関・自治体');
+const talks = byCat('登壇・セミナー');
+const notices = byCat('お知らせ');
+
+const fmtNewsDate = (d: string) => d.replaceAll('-', '.');
+const yearOf = (d: string) => d.slice(0, 4);
+
+// 登壇は年ごとにまとめる
+const talkYears = [...new Set(talks.map((t) => yearOf(t.date)))];
+
+// 媒体ごとの掲載回数（媒体チップの並び用）
+const outlets = [...new Set(media.map((m) => m.outlet).filter(Boolean))] as string[];
+
+const HIGHLIGHTS = [
+  { num: String(media.length), label: 'メディア掲載・出演', note: 'テレビ・ラジオ・新聞・生活情報メディア' },
+  { num: String(publicOrgs.length), label: '公的機関・自治体からの紹介', note: '公式サイト・公式LINE・公式Xでの案内、リンク採用' },
+  { num: String(talks.length), label: '登壇・セミナー', note: '金融機関・商工団体・経済団体の主催' },
+];
+
+// SEO: 掲載・登壇を ItemList として構造化
+const listLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'WizTry株式会社 メディア掲載・登壇実績',
+  itemListOrder: 'https://schema.org/ItemListOrderDescending',
+  numberOfItems: sorted.length,
+  itemListElement: sorted.map((n, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: n.title,
+    ...(n.url ? { url: n.url } : n.href ? { url: new URL(n.href, SITE.domain).href } : {}),
+  })),
+};
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'ホーム', item: `${SITE.domain}/` },
+    { '@type': 'ListItem', position: 2, name: 'メディア掲載・登壇実績', item: `${SITE.domain}/media/` },
+  ],
+};
+---
+
+<Base
+  title="メディア掲載・登壇実績"
+  description="WizTry株式会社のメディア掲載・登壇実績。テレビ朝日・テレビ熊本・エフエム熊本・熊本日日新聞・リビング熊本での紹介、熊本県・八代市・防災科研など公的機関からの紹介、金融機関・商工団体でのセミナー登壇を、創業からの実日付で一覧にしています。"
+  onDark={true}
+  ogImage="/gen/ph-media.webp"
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(listLd)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbLd)} />
+  <PageHero
+    en="MEDIA"
+    jp="メディア掲載・登壇実績"
+    desc="テレビ・ラジオ・新聞・Webでの紹介、公的機関からの案内、セミナー登壇の記録です。日付は出来事があった当時のものを記載しています。"
+    bg="/gen/ph-media.webp"
+  />
+
+  <!-- ハイライト -->
+  <section class="section section--tight">
+    <div class="container">
+      <div class="grid grid--3 media-highlights">
+        {
+          HIGHLIGHTS.map((h, i) => (
+            <div class:list={['card', 'card--pad', 'hl', 'reveal', `reveal-d${i + 1}`]}>
+              <span class="hl-num">{h.num}<small>件</small></span>
+              <strong class="hl-label">{h.label}</strong>
+              <span class="hl-note">{h.note}</span>
+            </div>
+          ))
+        }
+      </div>
+      <p class="note text-center mt-24">※2023年7月の創業から2026年9月17日までの件数。ご紹介いただいた媒体：{outlets.join('、')}</p>
+    </div>
+  </section>
+
+  <!-- 2026年夏の実績（支援ナビ・応援ナビ） -->
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHead
+        en="2026 SUMMER"
+        title="熊本地震の情報支援で、報道・公的機関にご紹介いただきました"
+        lead="令和8年7月熊本地震の翌日に公開した「くまもと被災者支援ナビ」と、応援する側のための「くまもと応援ナビ」。テレビ2局・ラジオ・生活情報メディアでの紹介に加え、熊本県・八代市・防災科学技術研究所など公的機関の公式ページからリンクいただいています。"
+      />
+      <div class="grid grid--2 navi-cards">
+        <a href="/projects/kumamoto-shien-navi/" class="card tilt reveal">
+          <div class="zoom-media"><img src="/projects/shien-top-mobile.webp" alt="くまもと被災者支援ナビのトップページ" loading="lazy" decoding="async" width="600" height="1298" /></div>
+          <div class="body">
+            <span class="tag">第1章</span>
+            <h3>くまもと被災者支援ナビの実績</h3>
+            <p>発災翌日に公開。累計ページ表示22万回超、テレビ朝日・テレビ熊本・エフエム熊本・リビング熊本で紹介。八代市・熊本県・防災科研の公式ページからリンク。</p>
+          </div>
+        </a>
+        <a href="/projects/kumamoto-ouen-navi/" class="card tilt reveal reveal-d1">
+          <div class="zoom-media"><img src="/projects/ouen-top-mobile.webp" alt="くまもと応援ナビのトップページ" loading="lazy" decoding="async" width="600" height="1298" /></div>
+          <div class="body">
+            <span class="tag">第2章</span>
+            <h3>くまもと応援ナビの実績</h3>
+            <p>熊本ふっこう応援割の販売開始日に1日6万回。公開26日で累計24万回。熊本リビング新聞社「リビング熊本」が連携メディアに。</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- メディア掲載 -->
+  <section class="section" id="media">
+    <div class="container">
+      <SectionHead en="PRESS" title="メディア掲載・出演" lead="いずれも媒体側からの取材・掲載のお申し出によるものです。" />
+      <ul class="media-list">
+        {media.map((m, i) => (
+          <li class:list={['reveal', `reveal-d${(i % 4) + 1}`]}>
+            {m.url ? (
+              <a href={m.url} target="_blank" rel="noopener" class="media-link">
+                <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                <span class="media-tag">{m.outlet ?? m.category}</span>
+                <span class="media-title">{m.title}</span>
+                <span class="media-go" aria-hidden="true">↗</span>
+              </a>
+            ) : m.href ? (
+              <a href={m.href} class="media-link">
+                <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                <span class="media-tag">{m.outlet ?? m.category}</span>
+                <span class="media-title">{m.title}</span>
+                <span class="media-go" aria-hidden="true">→</span>
+              </a>
+            ) : (
+              <div class="media-link media-link--plain">
+                <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                <span class="media-tag">{m.outlet ?? m.category}</span>
+                <span class="media-title">{m.title}</span>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 公的機関・自治体 -->
+  <section class="section section--alt" id="public">
+    <div class="container">
+      <SectionHead
+        en="PUBLIC"
+        title="公的機関・自治体からの紹介・リンク"
+        lead="自治体・省庁・公的研究機関の公式サイト・公式SNSで、当社が運営するWebアプリが案内された記録です。自治体等による運営・認定を意味するものではありません。"
+      />
+      <ul class="media-list">
+        {publicOrgs.map((m, i) => (
+          <li class:list={['reveal', `reveal-d${(i % 4) + 1}`]}>
+            {m.url ? (
+              <a href={m.url} target="_blank" rel="noopener" class="media-link">
+                <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                <span class="media-tag">{m.outlet ?? m.category}</span>
+                <span class="media-title">{m.title}</span>
+                <span class="media-go" aria-hidden="true">↗</span>
+              </a>
+            ) : m.href ? (
+              <a href={m.href} class="media-link">
+                <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                <span class="media-tag">{m.outlet ?? m.category}</span>
+                <span class="media-title">{m.title}</span>
+                <span class="media-go" aria-hidden="true">→</span>
+              </a>
+            ) : (
+              <div class="media-link media-link--plain">
+                <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                <span class="media-tag">{m.outlet ?? m.category}</span>
+                <span class="media-title">{m.title}</span>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 登壇・セミナー -->
+  <section class="section" id="talks">
+    <div class="container">
+      <SectionHead
+        en="TALKS"
+        title="登壇・セミナー"
+        lead="金融機関・商工団体・経済団体などが主催するセミナーや研修に、講師として登壇した記録です。企業ごとの社内研修は含みません。代表・末松の研修・セミナーの登壇は、2025年度で年間300回以上です。"
+      />
+      {talkYears.map((y) => (
+        <div class="talk-year reveal">
+          <h3 class="talk-year-h">{y}年</h3>
+          <ul class="media-list">
+            {talks.filter((t) => yearOf(t.date) === y).map((m) => (
+              <li>
+                {m.url ? (
+                  <a href={m.url} target="_blank" rel="noopener" class="media-link">
+                    <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                    <span class="media-tag">{m.outlet ?? '登壇'}</span>
+                    <span class="media-title">{m.title}</span>
+                    <span class="media-go" aria-hidden="true">↗</span>
+                  </a>
+                ) : (
+                  <div class="media-link media-link--plain">
+                    <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                    <span class="media-tag">{m.outlet ?? '登壇'}</span>
+                    <span class="media-title">{m.title}</span>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- お知らせ -->
+  <section class="section section--alt" id="news">
+    <div class="container">
+      <SectionHead en="NEWS" title="お知らせ" lead="会社からのお知らせと、自社プロジェクトの節目の記録です。" />
+      <ul class="media-list">
+        {notices.map((m, i) => (
+          <li class:list={['reveal', `reveal-d${(i % 4) + 1}`]}>
+            {m.url ? (
+              <a href={m.url} target="_blank" rel="noopener" class="media-link">
+                <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                <span class="media-tag">{m.category}</span>
+                <span class="media-title">{m.title}</span>
+                <span class="media-go" aria-hidden="true">↗</span>
+              </a>
+            ) : m.href ? (
+              <a href={m.href} class="media-link">
+                <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                <span class="media-tag">{m.category}</span>
+                <span class="media-title">{m.title}</span>
+                <span class="media-go" aria-hidden="true">→</span>
+              </a>
+            ) : (
+              <div class="media-link media-link--plain">
+                <time class="media-date" datetime={m.date}>{fmtNewsDate(m.date)}</time>
+                <span class="media-tag">{m.category}</span>
+                <span class="media-title">{m.title}</span>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 取材のご依頼 -->
+  <section class="section">
+    <div class="container">
+      <div class="press-contact reveal">
+        <span class="en-label">FOR PRESS</span>
+        <h2>取材・講演のご依頼</h2>
+        <p>
+          生成AIの実務活用、AIエージェントによる業務自動化、災害時の情報支援（くまもと被災者支援ナビ・くまもと応援ナビ）について、取材・講演のご依頼を承ります。放送・掲載前の事実確認にも対応します。
+        </p>
+        <a href="/contact/" class="btn btn--primary">取材・講演を依頼する <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .media-highlights .hl {
+    text-align: center;
+    display: grid;
+    gap: 6px;
+  }
+  .hl-num {
+    font-family: var(--font-en);
+    font-weight: 800;
+    font-size: clamp(40px, 5vw, 56px);
+    line-height: 1;
+    color: var(--navy-900);
+    letter-spacing: -0.02em;
+  }
+  .hl-num small {
+    font-size: 0.42em;
+    margin-left: 4px;
+    font-family: var(--font-jp);
+    font-weight: 700;
+  }
+  .hl-label {
+    font-size: 16px;
+    letter-spacing: 0.04em;
+  }
+  .hl-note {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .navi-cards .card {
+    display: flex;
+    flex-direction: column;
+  }
+  .navi-cards .zoom-media {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: var(--radius) var(--radius) 0 0;
+    background: #f3ede2;
+  }
+  .navi-cards .zoom-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+  .navi-cards .body {
+    padding: 22px 24px 26px;
+  }
+  .navi-cards .tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--blue-500);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .navi-cards h3 {
+    font-size: 19px;
+    margin-bottom: 10px;
+  }
+  .navi-cards p {
+    font-size: 14.5px;
+    line-height: 1.9;
+    color: var(--ink-soft);
+  }
+  .media-list {
+    display: grid;
+    gap: 14px;
+    max-width: 940px;
+  }
+  .media-link {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 24px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .section--alt .media-link {
+    background: #fff;
+  }
+  .media-link:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-sm);
+  }
+  .media-link--plain:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  .media-date {
+    flex: none;
+    min-width: 88px;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 13.5px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .media-tag {
+    flex: none;
+    font-family: var(--font-en);
+    font-weight: 700;
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    color: var(--blue-500);
+    background: var(--blue-50, #eef3ff);
+    padding: 5px 10px;
+    border-radius: 999px;
+  }
+  .media-title {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.7;
+  }
+  .media-go {
+    flex: none;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .talk-year + .talk-year {
+    margin-top: 36px;
+  }
+  .talk-year-h {
+    font-family: var(--font-en);
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    color: var(--navy-900);
+    margin-bottom: 14px;
+  }
+  .press-contact {
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+    padding: clamp(32px, 5vw, 56px) clamp(20px, 4vw, 48px);
+    background: var(--bg-alt);
+    border-radius: var(--radius-lg);
+  }
+  .press-contact h2 {
+    font-size: clamp(22px, 3vw, 28px);
+    margin: 8px 0 14px;
+  }
+  .press-contact p {
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+    line-height: 1.9;
+  }
+  @media (max-width: 640px) {
+    .media-link {
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      padding: 16px 18px;
+    }
+    .media-date {
+      min-width: 0;
+    }
+    .media-go {
+      margin-left: auto;
+    }
+    .media-title {
+      flex: 1 1 100%;
+      order: 4;
+      font-size: 14.5px;
+    }
+  }
+</style>
