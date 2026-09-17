@@ -97,6 +97,13 @@ export const NEWS: NewsItem[] = [
     href: '/blog/kumamoto-ouen-navi-hanbai-kaishi/',
   },
   {
+    date: '2026-09-01',
+    category: 'メディア掲載',
+    outlet: '時事通信',
+    title: '時事通信の全国配信記事「『やさしい日本語』で情報発信 熊本地震でも活用―防災の日」で、くまもと被災者支援ナビのやさしい日本語ページが紹介されました',
+    url: 'https://www.jiji.com/jc/article?k=2026083100569&g=soc',
+  },
+  {
     date: '2026-08-28',
     category: '登壇・セミナー',
     title: '肥銀ビジネス教育主催・熊本県地質調査業協会の会員経営者向け生成AI研修（熊本城ホール）に講師として登壇しました',

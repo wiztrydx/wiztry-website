@@ -24,7 +24,7 @@ const talkYears = [...new Set(talks.map((t) => yearOf(t.date)))];
 const outlets = [...new Set(media.map((m) => m.outlet).filter(Boolean))] as string[];
 
 const HIGHLIGHTS = [
-  { num: String(media.length), label: 'メディア掲載・出演', note: 'テレビ・ラジオ・新聞・生活情報メディア' },
+  { num: String(media.length), label: 'メディア掲載・出演', note: 'テレビ・ラジオ・新聞・通信社・生活情報メディア' },
   { num: String(publicOrgs.length), label: '公的機関・自治体からの紹介', note: '公式サイト・公式LINE・公式Xでの案内、リンク採用' },
   { num: String(talks.length), label: '登壇・セミナー', note: '金融機関・商工団体・経済団体の主催' },
 ];
@@ -92,7 +92,7 @@ const breadcrumbLd = {
       <SectionHead
         en="2026 SUMMER"
         title="熊本地震の情報支援で、報道・公的機関にご紹介いただきました"
-        lead="令和8年7月熊本地震の翌日に公開した「くまもと被災者支援ナビ」と、応援する側のための「くまもと応援ナビ」。テレビ2局・ラジオ・生活情報メディアでの紹介に加え、熊本県・八代市・防災科学技術研究所など公的機関の公式ページからリンクいただいています。"
+        lead="令和8年7月熊本地震の翌日に公開した「くまもと被災者支援ナビ」と、応援する側のための「くまもと応援ナビ」。テレビ2局・ラジオ・通信社の全国配信記事・生活情報メディアでの紹介に加え、熊本県・八代市・防災科学技術研究所など公的機関の公式ページからリンクいただいています。"
       />
       <div class="grid grid--2 navi-cards">
         <a href="/projects/kumamoto-shien-navi/" class="card tilt reveal">
@@ -100,7 +100,7 @@ const breadcrumbLd = {
           <div class="body">
             <span class="tag">第1章</span>
             <h3>くまもと被災者支援ナビの実績</h3>
-            <p>発災翌日に公開。累計ページ表示22万回超、テレビ朝日・テレビ熊本・エフエム熊本・リビング熊本で紹介。八代市・熊本県・防災科研の公式ページからリンク。</p>
+            <p>発災翌日に公開。累計ページ表示22万回超、テレビ朝日・テレビ熊本・エフエム熊本・時事通信・リビング熊本で紹介。八代市・熊本県・防災科研の公式ページからリンク。</p>
           </div>
         </a>
         <a href="/projects/kumamoto-ouen-navi/" class="card tilt reveal reveal-d1">
