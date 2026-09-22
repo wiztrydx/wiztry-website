@@ -14,6 +14,14 @@ thumb: "/thumbs/opus-5-5-gpt-6-erabikata.webp"
 
 2026年9月22日、AnthropicはClaude Opus 5.5を発表しました。同じ日にOpenAIが発表したのは、GPT-6 Sol（ソル）とGPT-6 Luna（ルナ）です。GPT-6 Astra（アストラ）は9月3日に先行して発表されています。つまり「GPT-6」と一括りにすると、価格も役割も違う3種類が混ざります。[Anthropicの発表](https://www.anthropic.com/claude-opus-5-5)と[OpenAIの9月22日の発表](https://openai.com/index/introducing-gpt-6-sol-and-luna/)で確認できます。
 
+<figure class="blog-diagram blog-diagram--timeline">
+  <figcaption><span class="blog-diagram__eyebrow">図解 01｜発表の順番</span><strong>同じ日に出たのは、Opus 5.5 と Sol・Luna</strong></figcaption>
+  <ol class="blog-diagram__timeline">
+    <li><span class="blog-diagram__date">9月3日</span><div class="blog-diagram__event"><span>OpenAI</span><strong>GPT-6 Astra</strong><small>先に登場した最上位モデル</small></div></li>
+    <li><span class="blog-diagram__date">9月22日</span><div class="blog-diagram__launches"><div class="blog-diagram__event"><span>Anthropic</span><strong>Claude Opus 5.5</strong><small>Claudeの新モデル</small></div><div class="blog-diagram__event"><span>OpenAI</span><strong>GPT-6 Sol・Luna</strong><small>GPT-6に加わった2モデル</small></div></div></li>
+  </ol>
+</figure>
+
 会社の人にたとえるなら、難しい案件を深く考える担当、幅広い仕事を任せる担当、大量の定型作業を素早くこなす担当がいるイメージです。ただし、実際の成果は依頼内容と使う道具にも左右されます。
 
 | モデル | 発表上の位置づけ | 最初に試したい仕事 |
@@ -40,6 +48,17 @@ thumb: "/thumbs/opus-5-5-gpt-6-erabikata.webp"
 
 たとえば「資料を10万トークン読み、回答を2万トークン書く」一回の作業なら、単純計算でOpus 5.5は0.80米ドル、Astraは2.00米ドル、Solは0.40米ドル、Lunaは0.02米ドルです。同じ品質になるという意味ではありません。安いモデルで修正を何度も繰り返せば、時間も費用も増えます。
 
+<figure class="blog-diagram blog-diagram--cost">
+  <figcaption><span class="blog-diagram__eyebrow">図解 02｜API料金の計算例</span><strong>入力10万・出力2万トークンなら</strong></figcaption>
+  <ol class="blog-diagram__bars">
+    <li><span>GPT-6 Astra</span><span class="blog-diagram__track"><i style="width:100%"></i></span><strong>2.00ドル</strong></li>
+    <li><span>Claude Opus 5.5</span><span class="blog-diagram__track"><i style="width:40%"></i></span><strong>0.80ドル</strong></li>
+    <li><span>GPT-6 Sol</span><span class="blog-diagram__track"><i style="width:20%"></i></span><strong>0.40ドル</strong></li>
+    <li><span>GPT-6 Luna</span><span class="blog-diagram__track"><i style="width:1%"></i></span><strong>0.02ドル</strong></li>
+  </ol>
+  <p class="blog-diagram__note">標準API単価だけの試算です。使える機能や仕上がりの品質を表す図ではありません。</p>
+</figure>
+
 Anthropicが説明する「Opus 5より典型的な作業で40％安い」も、入力単価が40％下がったという意味ではありません。単価の引き下げに加え、一件の作業で使う文章量が減ることを含む同社の試算です。
 
 ## 点数だけでは決められない理由
@@ -55,6 +74,16 @@ Anthropicが説明する「Opus 5より典型的な作業で40％安い」も、
 まず一点目。いつも発生する仕事を一つ選びます。たとえば「商談メモから、お客様への提案書の骨子を作る」「20件の問い合わせを担当別に仕分ける」です。機密情報は自社の利用規程と契約を確認し、比較用には匿名化した資料を使ってください。
 
 二点目。元資料、依頼文、完成条件をそろえて、使えるモデル二つに同じ仕事を頼みます。提案書なら「元資料にない金額を足さない」「不明点を列挙する」「1ページで読める構成にする」。仕分けなら「分類理由を一行で示す」「判断できないものは保留にする」といった条件です。
+
+<figure class="blog-diagram blog-diagram--workflow">
+  <figcaption><span class="blog-diagram__eyebrow">図解 03｜社内での比べ方</span><strong>条件をそろえて、仕事の結果を見る</strong></figcaption>
+  <div class="blog-diagram__input"><span>共通の入力</span><strong>同じ資料 ＋ 同じ依頼文 ＋ 同じ完成条件</strong></div>
+  <div class="blog-diagram__split" aria-hidden="true">↓</div>
+  <div class="blog-diagram__models"><div><span>モデル A</span><strong>仕事を依頼</strong></div><div><span>モデル B</span><strong>同じ仕事を依頼</strong></div></div>
+  <div class="blog-diagram__split" aria-hidden="true">↓</div>
+  <div class="blog-diagram__review"><strong>人が4項目で確認</strong><div><span>完成度</span><span>手直し</span><span>速さ</span><span>費用</span></div></div>
+  <p class="blog-diagram__note">1件だけで決めず、同じ種類の仕事を3件ほど試します。</p>
+</figure>
 
 三点目。担当者が次の四つを数えます。
 
