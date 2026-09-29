@@ -15,6 +15,26 @@ const trainingThemes = [
   'AI画像・動画生成',
 ];
 
+// 職種・役割別の研修コース（講座名の正本はここ。名称を差し替えるときは name だけ直せば見出し・本文すべてに反映される）
+// 金額・個社向けのカスタマイズに見える表現は書かない（汎用カリキュラムとして見せる）
+const roleCourses = [
+  {
+    label: '職種別',
+    name: 'マーケティング職のためのAIエージェント活用講座',
+    target: 'マーケティング・販売促進を担当する方',
+    learn: '市場・顧客の調査、販促文や企画書の作成、広告・販売データの集計など、マーケティング業務の工程ごとに、生成AI・AIエージェントへの依頼方法と結果の確認方法を学びます。',
+  },
+  {
+    label: '役割別',
+    name: 'DX推進者のためのAIエージェント習得プログラム',
+    target: '社内のDX・業務改善を推進する役割の方',
+    learn: '業務を工程に分けてAIに任せる範囲と人が確認する範囲を見極め、AIエージェントを使った業務改善の手順を設計し、社内に展開する方法を学びます。',
+  },
+];
+
+// 講座名は「〜のための」の後ろを改行位置の候補にする（行末に1文字だけ落ちるのを防ぐ）
+const nameParts = (name: string) => name.split(/(?<=のための)/);
+
 const trainingPoints = [
   '基本のAIリテラシー・プロンプトの書き方から、発展的な実務活用（資料作成・文書処理・データ集計・業務自動化）までを段階設計',
   '業種別の知見: 累計90社以上の支援で集積した業種別の活用事例・ノウハウを体系化した教材で学ぶ',
@@ -228,6 +248,37 @@ const faqLd = {
             </ul>
           </div>
         </div>
+      </div>
+
+      <h3 class="block-title reveal mt-64" id="role-courses">職種・役割別の研修コース</h3>
+      <p class="curriculum-note reveal">
+        特定の職種・役割の方を対象に、その職務で行う業務に沿って生成AI・AIエージェントの活用を学ぶ研修コースです。
+      </p>
+      <div class="grid grid--2 role-course-grid">
+        {
+          roleCourses.map((c, i) => (
+            <article class:list={['card', 'role-course', 'reveal', `reveal-d${i + 1}`]}>
+              <span class="role-course-label">{c.label}</span>
+              <h4 class="role-course-name">
+                {nameParts(c.name).map((part) => <span class="nb">{part}</span>)}
+              </h4>
+              <dl class="role-course-meta">
+                <div>
+                  <dt>対象</dt>
+                  <dd>{c.target}</dd>
+                </div>
+                <div>
+                  <dt>学ぶ内容</dt>
+                  <dd>{c.learn}</dd>
+                </div>
+              </dl>
+              <p class="role-course-ask">内容・日程・料金はお問い合わせください。</p>
+              <a href="/contact/" class="role-course-link">
+                この講座について問い合わせる <span class="arrow">→</span>
+              </a>
+            </article>
+          ))
+        }
       </div>
 
       <p class="lp-link reveal">
@@ -526,6 +577,100 @@ const faqLd = {
     counter-reset: cur;
   }
 
+  /* 2-3 職種・役割別の研修コース（講座名を見出しとして読みやすく） */
+  #role-courses {
+    scroll-margin-top: 90px;
+    /* .block-title の margin 指定で .mt-64 が効かないため、この見出しだけ上の余白を明示する */
+    margin-top: 56px;
+  }
+  .role-course {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(24px, 2.8vw, 34px);
+    border-top: 4px solid var(--blue-500);
+  }
+  .role-course-label {
+    align-self: flex-start;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--blue-500);
+    background: rgba(47, 107, 255, 0.09);
+    border-radius: 6px;
+    padding: 3px 12px;
+  }
+  .role-course-name {
+    font-size: clamp(18px, 1.9vw, 21px);
+    font-weight: 800;
+    line-height: 1.5;
+    color: var(--navy-900);
+    margin: 12px 0 18px;
+  }
+  .role-course-name .nb {
+    display: inline-block;
+  }
+  .role-course-meta {
+    display: grid;
+    gap: 12px;
+    margin: 0 0 18px;
+  }
+  .role-course-meta > div {
+    display: grid;
+    grid-template-columns: 6.2em minmax(0, 1fr);
+    gap: 12px;
+    align-items: baseline;
+  }
+  .role-course-meta dt {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--navy-700);
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    text-align: center;
+    padding: 2px 6px;
+  }
+  .role-course-meta dd {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    line-height: 1.8;
+  }
+  .role-course-ask {
+    margin: auto 0 10px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--line);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .role-course-link {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--blue-500);
+    font-weight: 700;
+    font-size: 14.5px;
+  }
+  .role-course-link .arrow {
+    display: inline-block;
+    transition: transform 0.25s ease;
+  }
+  .role-course-link:hover .arrow {
+    transform: translateX(4px);
+  }
+  @media (max-width: 480px) {
+    .role-course-meta > div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 6px;
+    }
+    .role-course-meta dt {
+      justify-self: start;
+      padding: 2px 10px;
+    }
+  }
+
   /* 2-3 FAQ + close-up photo */
   .lp-link {
     margin-top: 34px;
@@ -658,6 +803,11 @@ const faqLd = {
     .training-split {
       margin-bottom: 0;
     }
+  }
+
+  /* 進め方の説明文: 共通CSSの --ink-soft のままだと紺背景でほぼ読めないため白系にする */
+  .section--navy .flow-step p {
+    color: rgba(255, 255, 255, 0.78);
   }
 
   /* 濃色セクション上の導線なので、白系の文字色にする */
