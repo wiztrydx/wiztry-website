@@ -78,6 +78,13 @@ export type NewsItem = {
 
 export const NEWS: NewsItem[] = [
   {
+    date: '2026-09-23',
+    category: 'メディア掲載',
+    outlet: 'テレビ熊本',
+    title: 'テレビ熊本「英太郎のかたらんね」に出演し、くまもと応援ナビをご紹介いただきました',
+    href: '/blog/tku-kataranne-ouen-navi/',
+  },
+  {
     date: '2026-09-17',
     category: 'お知らせ',
     title: '熊本ふっこう応援割の販売開始から3日間で、くまもと応援ナビの利用が14万回を超えました（利用状況と連携のご報告）',
