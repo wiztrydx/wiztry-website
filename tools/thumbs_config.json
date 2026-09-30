@@ -220,5 +220,11 @@
     "theme": "two balanced luminous workstations on a modern Japanese office desk, one with a warm amber document and the other with cool blue connected workflow cards, a small central checklist showing the idea of fair comparison without any text, deep navy business gradient, polished friendly editorial illustration",
     "main": "Opus 5.5と|GPT-6を比較",
     "sub": "仕事で選ぶ新モデル"
+  },
+  {
+    "slug": "openai-shinkino-matome-2026-q3",
+    "theme": "a luminous open catalog of floating translucent feature cards arranged like a timeline across three months, small glowing icons of a brain, a briefcase, a picture frame, a microphone and a calendar on the cards, a friendly sense of a complete map, deep navy business gradient, polished editorial illustration",
+    "main": "OpenAI新機能|7〜9月 完全版",
+    "sub": "使い方と画像生成のコツ"
   }
 ]
