@@ -226,5 +226,11 @@
     "theme": "a luminous open catalog of floating translucent feature cards arranged like a timeline across three months, small glowing icons of a brain, a briefcase, a picture frame, a microphone and a calendar on the cards, a friendly sense of a complete map, deep navy business gradient, polished editorial illustration",
     "main": "OpenAI新機能|7〜9月 完全版",
     "sub": "使い方と画像生成のコツ"
+  },
+  {
+    "slug": "claude-code-mods-houjin",
+    "theme": "a friendly white company car seen from the side on a modern office floor, a small white round robot at the wheel, a glowing dashboard gauge panel, a small shield badge and a tiny dashcam icon floating above the car, navy blue business gradient background with soft light particles, friendly flat-design business illustration, no text, no logos",
+    "main": "Claude Code Mods|法人が検討する理由",
+    "sub": "AI社員の社用車に 会社の装備を後付け"
   }
 ]
