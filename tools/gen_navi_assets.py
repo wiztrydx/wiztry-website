@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """実績ページ・応援ナビ／FMK記事用の図解・ヒーロー画像を生成する（2026-09-17）。
-日本語文字入りは gpt-image-2 固定（imagegen.py の優先順位どおり）。生成後は原寸で全文字を目視検品する。
+日本語文字入りは imagegen.py の1位（2026-10-06〜 GPT Image 2.5＝gpt-image-2.5-sunburst・medium。作成当時は gpt-image-2・high）。
+生成後は原寸で全文字を目視検品する。
 usage: python3 tools/gen_navi_assets.py [key ...]   # 引数なしで全件。FORCE=1 で上書き
 """
 import os, sys, subprocess

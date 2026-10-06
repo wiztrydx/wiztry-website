@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ブログサムネイルを画像生成で作る。
 
-モデルの優先順位は imagegen.py の会社ルールに従う（GPT-Image-2 → Nano Banana 2 → Nano Banana Pro）。
+モデルの優先順位は imagegen.py の会社ルールに従う（GPT Image 2.5＝gpt-image-2.5-sunburst・medium → Nano Banana 2 → Nano Banana Pro）。
 タイトルのキーワードを画像内に直接描画させる。日本語の誤字が出ることがあるので、
 生成後は必ず目視チェックし、誤字があれば該当slugだけ再実行する。
 WizTryロゴは正確性のため生成後にPILで合成する。
