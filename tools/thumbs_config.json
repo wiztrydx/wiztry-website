@@ -232,5 +232,11 @@
     "theme": "a friendly white company car seen from the side on a modern office floor, a small white round robot at the wheel, a glowing dashboard gauge panel, a small shield badge and a tiny dashcam icon floating above the car, navy blue business gradient background with soft light particles, friendly flat-design business illustration, no text, no logos",
     "main": "Claude Code Mods|法人が検討する理由",
     "sub": "AI社員の社用車に 会社の装備を後付け"
+  },
+  {
+    "slug": "gemini-3-8-tts-tsukaikata",
+    "theme": "a friendly small white round robot standing at a studio microphone on a stand, soft sound waves flowing out of the microphone, a sheet of script paper and a separate small sticky-note card floating beside it, two or three small speech bubbles with simple emotion faces (a smile, a surprised face, a calm face), navy blue business gradient background with soft light particles, friendly flat-design business illustration, no text, no logos",
+    "main": "Gemini 3.8|TTSの使い方と料金",
+    "sub": "日本語15本で検証・感情の込め方"
   }
 ]
