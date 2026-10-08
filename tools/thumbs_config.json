@@ -238,5 +238,11 @@
     "theme": "a friendly small white round robot standing at a studio microphone on a stand, soft sound waves flowing out of the microphone, a sheet of script paper and a separate small sticky-note card floating beside it, two or three small speech bubbles with simple emotion faces (a smile, a surprised face, a calm face), navy blue business gradient background with soft light particles, friendly flat-design business illustration, no text, no logos",
     "main": "Gemini 3.8|TTSの使い方と料金",
     "sub": "日本語15本で検証・感情の込め方"
+  },
+  {
+    "slug": "claude-haiku-5-5-kaisetsu",
+    "theme": "Deep navy background with a friendly small white round robot in the lower right, subtle light speed lines and motion streaks suggesting speed and lightness, a few floating thin paper sheets and small coins hinting at low cost, soft rounded geometric shapes, no text, no logos",
+    "main": "Claude Haiku 5.5|速くて安い若手を実機検証",
+    "sub": "料金・性能・ChatGPTとの違い"
   }
 ]
