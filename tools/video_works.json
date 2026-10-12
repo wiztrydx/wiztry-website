@@ -13,7 +13,7 @@
    "slug": "exhibition-brand",
    "orientation": "landscape",
    "poster_at": 11.0,
-   "reel_at": 46.5,
+   "reel_at": 9.5,
    "reel_len": 4.0
   },
   {
@@ -60,8 +60,10 @@
   }
  ],
  "reel_order": [
+  "exhibition-brand",
+  "association-pv",
   "necklace-ad-2",
-  "necklace-ad-1",
-  "necklace-ad-3"
+  "image-song-ad",
+  "necklace-ad-1"
  ]
 }

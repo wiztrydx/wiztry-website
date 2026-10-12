@@ -45,7 +45,7 @@ export const VIDEO_WORKS: VideoWork[] = [
     durationIso: 'PT2M49S',
     date: '2026-10-12',
     method: 'AIで生成したアニメーションで、撮影なしで制作',
-    permission: 'pending',
+    permission: 'cleared',
   },
   {
     slug: 'exhibition-brand',
@@ -57,7 +57,7 @@ export const VIDEO_WORKS: VideoWork[] = [
     durationIso: 'PT1M6S',
     date: '2026-06-02',
     method: '製品カタログだけを預かり、撮影なしで制作。日本語と英語、繁体字中国語の3言語版を納品',
-    permission: 'pending',
+    permission: 'cleared',
   },
   {
     slug: 'image-song-ad',
@@ -69,7 +69,7 @@ export const VIDEO_WORKS: VideoWork[] = [
     durationIso: 'PT30S',
     date: '2026-07-23',
     method: 'イメージソングに合わせて、AIで生成した映像と施工写真を組み合わせて制作',
-    permission: 'pending',
+    permission: 'cleared',
   },
   {
     slug: 'app-intro',
@@ -81,7 +81,7 @@ export const VIDEO_WORKS: VideoWork[] = [
     durationIso: 'PT30S',
     date: '2026-09-29',
     method: 'AIで生成した映像に、アプリの実際の画面と写真を組み合わせて制作',
-    permission: 'pending',
+    permission: 'cleared',
   },
   {
     slug: 'necklace-ad-1',
