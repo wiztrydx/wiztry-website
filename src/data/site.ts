@@ -10,7 +10,7 @@ export const SITE = {
   founded: '2023年7月',
   ceo: '末松 光太郎',
   description:
-    '熊本の生成AI研修・AIエージェント導入支援のWizTry株式会社。講師が伴走するハンズオン研修と、Claude Code・Codex等による実務自動化で、企業のAI活用を成果まで導きます。',
+    '熊本の生成AI研修・AIエージェント導入支援のWizTry株式会社。講師が伴走するハンズオン研修、Claude Code・Codex等による実務自動化、AIを使ったホームページ制作と撮影なしのAI動画制作で、企業のAI活用を成果まで導きます。',
 };
 
 export const STATS = [

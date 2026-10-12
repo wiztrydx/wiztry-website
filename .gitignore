@@ -3,3 +3,8 @@ dist/
 .astro/
 .DS_Store
 assets-raw/
+
+# AI動画制作ページの作品のうち、先方の掲載許可が確認できていないもの（src/data/videoWorks.ts で permission: 'pending'）。
+# 開発サーバーでの確認用にローカルにだけ置き、フォルダごと公開リポジトリから外す。
+# 許可が取れたら permission を 'cleared' にし、mp4 と webp を public/videos/works/ へ移してコミットする。
+public/videos/works-pending/

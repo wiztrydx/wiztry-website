@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import SectionHead from '../../components/SectionHead.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import PageHero from '../../components/PageHero.astro';
+import { visibleVideoWorks, videoFile } from '../../data/videoWorks';
 
 const trainingThemes = [
   'ChatGPT',
@@ -121,6 +122,32 @@ const subsidies = [
   },
 ];
 
+// ホームページ制作（#web）
+const webFeatures = [
+  { title: 'スマホ対応と表示の速さを標準に', desc: 'スマホでの見やすさと表示の速さを、すべてのページの標準として設計します。' },
+  { title: '検索エンジン向けの基本設計', desc: '構造化データやサイトマップなど、検索エンジンに正しく伝わる基本設計を最初から入れます。' },
+  { title: 'AIで原稿も画像も速く', desc: '文章の下書きや画像づくりにAIを使い、確認と手直しは人が行います。制作の待ち時間を減らせます。' },
+  { title: '公開後の更新も素早く', desc: 'お知らせの追加やページの修正も、AIを使って素早く対応します。つくって終わりにしません。' },
+];
+
+const webKinds = ['コーポレートサイト', '採用ページ', 'サービス紹介ページ（LP）', '商品紹介ページ（LP）', 'ブログやお知らせ', '既存サイトの作り直しと保守'];
+
+const webFlow = [
+  { step: '01', title: 'ヒアリング', desc: '目的と伝えたい相手、掲載する内容、公開の時期をうかがいます。' },
+  { step: '02', title: '構成と原稿', desc: 'ページ構成と原稿案をAIでつくり、内容を一緒に固めます。' },
+  { step: '03', title: '制作と確認', desc: 'デザインと実装を進め、実際の画面で確認しながら仕上げます。' },
+  { step: '04', title: '公開と更新', desc: '公開後の更新や追加も、ご希望に応じて継続して対応します。' },
+];
+
+// AI動画制作（#video）。くわしくは /ai-video/。強みの4語は本人指定
+const videoPoints = [
+  { title: '撮影なし', icon: '/gen/icon-no-camera.webp' },
+  { title: '最短1週間', icon: '/gen/icon-fast.webp' },
+  { title: '低価格', icon: '/gen/icon-cost.webp' },
+  { title: '高品質', icon: '/gen/icon-quality.webp' },
+];
+const videoPicks = visibleVideoWorks().slice(0, 3);
+
 // SEO: FAQのリッチリザルト用構造化データ
 const faqLd = {
   '@context': 'https://schema.org',
@@ -135,18 +162,18 @@ const faqLd = {
 
 <Base
   title="サービス"
-  description="熊本の企業向け生成AI研修とAIエージェント導入支援。対面ハンズオン研修で基礎から実務活用まで、Claude Code・Codexで業務自動化まで一貫支援します。"
+  description="熊本の企業向け生成AI研修、AIエージェント導入支援、ホームページ制作、撮影なしのAI動画制作。対面ハンズオン研修で基礎から実務活用まで、Claude Code・Codexでの業務自動化、AIを使ったWebと動画の制作まで一貫支援します。"
   onDark={true}
 >
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(faqLd)} />
   <PageHero
     en="SERVICE"
     jp="事業内容"
-    desc="WizTryの支援は「研修で人を育てる」と「エージェントで業務を自動化する」の2本柱。どちらも、成果が出るまで伴走します。"
+    desc="WizTryの支援は「研修」「AIエージェント導入」「ホームページ制作」「AI動画制作」の4本柱。人を育て、業務を自動化し、会社の魅力を伝えるところまで、成果が出るまで伴走します。"
     bg="/gen/ph-service.webp"
   />
 
-  <!-- 2-2 2本柱の概要 -->
+  <!-- 2-2 4本柱の概要 -->
   <section class="section">
     <div class="container">
       <div class="grid grid--2">
@@ -163,6 +190,22 @@ const faqLd = {
           <h3>AIエージェント導入支援</h3>
           <p>
             Claude Code・Codexを核に、貴社の実務を自動化する高度なAIエージェントを構築。要件整理からPoC、本番運用、運用後の伴走まで一貫して支援します。
+          </p>
+          <span class="card-link">くわしく見る <span class="arrow">→</span></span>
+        </a>
+        <a href="#web" class="card num-card tilt reveal reveal-d1 anchor-card">
+          <span class="num">03</span>
+          <h3>ホームページ制作</h3>
+          <p>
+            会社の顔となるホームページを、AIを使って原稿づくりから制作、更新まで速く進めます。スマホ対応と表示の速さ、検索エンジン向けの基本設計を標準で備え、公開後の更新も素早く対応します。
+          </p>
+          <span class="card-link">くわしく見る <span class="arrow">→</span></span>
+        </a>
+        <a href="#video" class="card num-card tilt reveal reveal-d2 anchor-card">
+          <span class="num">04</span>
+          <h3>AI動画制作</h3>
+          <p>
+            映像生成AIと音声AI、音楽生成AIでつくった素材を、人の手で仕上げる動画制作です。撮影も出演者もいらないため費用を抑えられ、会社紹介や商品PR、SNS向けの短い動画を最短1週間（尺や内容による）からお届けします。
           </p>
           <span class="card-link">くわしく見る <span class="arrow">→</span></span>
         </a>
@@ -369,7 +412,118 @@ const faqLd = {
     </div>
   </section>
 
-  <!-- 2-5 補助金・助成金の活用 -->
+  <!-- 2-5 ホームページ制作 -->
+  <section class="section" id="web">
+    <div class="container">
+      <SectionHead
+        en="WEB PRODUCTION"
+        title="ホームページ制作"
+        lead="会社の顔になるホームページを、AIを使って速くつくり、公開後も育てていく。"
+      />
+      <div class="grid grid--2 web-split">
+        <div class="reveal">
+          <p class="section-body web-body">
+            WizTryは、この公式サイト自体を自社でコードから制作し、運用しています。制作にAIを使うため、原稿づくりや画像づくり、公開後の更新までを短い期間で進められます。教育機関のホームページの制作と保守、商品の紹介ページの制作などの実績があり、業種を問わずご相談いただけます。
+          </p>
+          <ul class="web-features">
+            {webFeatures.map((f) => (
+              <li>
+                <strong>{f.title}</strong>
+                <span>{f.desc}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="web-figure tilt reveal reveal-d1">
+          <div class="zoom-media">
+            <img
+              src="/gen/scene-web-dev.webp"
+              alt="パソコンとスマートフォンで、制作中のホームページの表示を確かめている様子"
+              loading="lazy" decoding="async"
+            />
+          </div>
+        </div>
+      </div>
+
+      <h3 class="block-title block-title--spaced reveal">制作できるものの例</h3>
+      <div class="tag-row reveal">
+        {webKinds.map((k) => <span class="tag">{k}</span>)}
+      </div>
+
+      <h3 class="block-title block-title--spaced reveal">進め方</h3>
+      <ol class="web-flow">
+        {webFlow.map((f, i) => (
+          <li class:list={['card', 'reveal', `reveal-d${i + 1}`]}>
+            <span class="web-flow-step">STEP {f.step}</span>
+            <strong>{f.title}</strong>
+            <span>{f.desc}</span>
+          </li>
+        ))}
+      </ol>
+
+      <p class="web-close reveal">
+        公開してからが本番のホームページだからこそ、更新まで含めてお気軽にご相談ください。
+      </p>
+      <p class="web-projects reveal">
+        <a href="/projects/">自社で開発し運用しているWebアプリの実績はこちら <span class="arrow">→</span></a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 2-6 AI動画制作（くわしくは /ai-video/） -->
+  <section class="section section--navy" id="video">
+    <div class="container">
+      <SectionHead
+        en="AI VIDEO"
+        title="AI動画制作"
+        lead="撮影なしで、伝わる動画を。"
+      />
+      <div class="grid grid--2 video-split">
+        <div class="reveal">
+          <p class="section-body">
+            映像生成AIと音声AI、音楽生成AIでつくった素材を、映像制作を本業とする編集者を含むチームが構成と編集で仕上げます。撮影も出演者もいらないため、会社紹介や商品PR、SNS向けの短い動画、解説動画を、お手持ちの写真や資料から最短1週間（尺や内容により異なります）でお届けします。
+          </p>
+          <ul class="video-points">
+            {videoPoints.map((v) => (
+              <li><img src={v.icon} alt="" width="40" height="40" loading="lazy" decoding="async" />{v.title}</li>
+            ))}
+          </ul>
+          <a href="/ai-video/" class="btn btn--primary video-more">
+            AI動画制作のくわしい内容と制作した動画を見る <span class="arrow">→</span>
+          </a>
+        </div>
+        <div class="video-figure tilt reveal reveal-d1">
+          <div class="zoom-media">
+            <img
+              src="/gen/scene-ai-video.webp"
+              alt="撮影機材を使わず、パソコンの編集画面で動画を仕上げている様子"
+              loading="lazy" decoding="async"
+            />
+          </div>
+        </div>
+      </div>
+      {videoPicks.length > 0 && (
+        <ul class="video-picks">
+          {videoPicks.map((w, i) => (
+            <li class:list={['reveal', `reveal-d${i + 1}`]}>
+              <a href={`/ai-video/?v=${w.slug}#works`}>
+                <span class:list={['video-pick-media', { 'video-pick-media--portrait': w.orientation === 'portrait' }]}>
+                  {w.orientation === 'portrait' && (
+                    <img class="video-pick-blur" src={videoFile(w, 'webp')} alt="" loading="lazy" decoding="async" />
+                  )}
+                  <img class="video-pick-img" src={videoFile(w, 'webp')} alt="" loading="lazy" decoding="async" />
+                  <span class="video-pick-play" aria-hidden="true"><i></i></span>
+                </span>
+                <span class="video-pick-title">{w.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+
+  <!-- 2-7 補助金・助成金の活用 -->
   <section class="section section--alt" id="subsidy">
     <div class="container">
       <SectionHead
@@ -415,6 +569,8 @@ const faqLd = {
 <style>
   #training,
   #agent,
+  #web,
+  #video,
   #subsidy {
     scroll-margin-top: 90px;
   }
@@ -808,6 +964,222 @@ const faqLd = {
   /* 進め方の説明文: 共通CSSの --ink-soft のままだと紺背景でほぼ読めないため白系にする */
   .section--navy .flow-step p {
     color: rgba(255, 255, 255, 0.78);
+  }
+
+  /* 2-5 ホームページ制作 */
+  /* .block-title の margin 指定で .mt-64 が効かないため、この節の小見出しは上の余白を明示する */
+  .block-title--spaced {
+    margin-top: 56px;
+  }
+  .web-split,
+  .video-split {
+    align-items: center;
+  }
+  .web-body {
+    opacity: 1;
+    color: var(--ink-soft);
+  }
+  .web-features {
+    display: grid;
+    gap: 14px;
+    margin-top: 26px;
+  }
+  .web-features li {
+    position: relative;
+    display: grid;
+    gap: 2px;
+    padding-left: 28px;
+  }
+  .web-features li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 13px;
+    height: 13px;
+    border-radius: 4px;
+    background: var(--accent-grad);
+  }
+  .web-features strong {
+    font-size: 16px;
+  }
+  .web-features span {
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    line-height: 1.75;
+  }
+  .web-figure,
+  .video-figure {
+    position: relative;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+  .web-figure img,
+  .video-figure img {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    display: block;
+  }
+  .web-flow {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(14px, 1.8vw, 22px);
+  }
+  .web-flow li {
+    display: grid;
+    align-content: start;
+    gap: 6px;
+    padding: 22px 22px 24px;
+    border-top: 4px solid var(--blue-500);
+  }
+  .web-flow-step {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 11.5px;
+    letter-spacing: 0.16em;
+    color: var(--blue-500);
+  }
+  .web-flow strong {
+    font-size: 17px;
+  }
+  .web-flow li > span:last-child {
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.75;
+  }
+  @media (max-width: 900px) {
+    .web-flow {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 480px) {
+    .web-flow {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  .web-close {
+    margin: 40px 0 0;
+    text-align: center;
+    font-weight: 700;
+  }
+  .web-projects {
+    margin: 10px 0 0;
+    text-align: center;
+    font-size: 14px;
+  }
+  .web-projects a {
+    color: var(--blue-500);
+    font-weight: 700;
+  }
+  .web-projects a:hover {
+    text-decoration: underline;
+  }
+
+  /* 2-6 AI動画制作 */
+  .video-points {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 26px 0 30px;
+  }
+  .video-points li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px 10px 10px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--navy-900);
+    font-weight: 800;
+    font-size: 16px;
+  }
+  .video-points img {
+    width: 40px;
+    height: 40px;
+    mix-blend-mode: multiply;
+  }
+  .video-more {
+    white-space: normal;
+    text-align: center;
+  }
+  .video-picks {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(14px, 2vw, 24px);
+    margin-top: clamp(40px, 5vw, 56px);
+  }
+  .video-picks a {
+    display: grid;
+    gap: 10px;
+  }
+  .video-pick-media {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 9;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  .video-pick-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .video-picks a:hover .video-pick-img {
+    transform: scale(1.05);
+  }
+  /* 縦型の作品は、ぼかした同じ画像を背景に敷いて中央に置く（大きく切り取らない） */
+  .video-pick-media--portrait .video-pick-img {
+    position: relative;
+    width: auto;
+    margin-inline: auto;
+    object-fit: contain;
+  }
+  .video-pick-blur {
+    position: absolute;
+    inset: -10%;
+    width: 120%;
+    height: 120%;
+    object-fit: cover;
+    filter: blur(18px) brightness(0.55);
+  }
+  .video-pick-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 52px;
+    height: 52px;
+    margin: -26px 0 0 -26px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .video-pick-play i {
+    width: 0;
+    height: 0;
+    margin-left: 4px;
+    border-style: solid;
+    border-width: 9px 0 9px 15px;
+    border-color: transparent transparent transparent var(--navy-900);
+  }
+  .video-pick-title {
+    font-weight: 700;
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+  @media (max-width: 600px) {
+    .video-picks {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .video-points li {
+      font-size: 14.5px;
+    }
   }
 
   /* 濃色セクション上の導線なので、白系の文字色にする */

@@ -1,0 +1,67 @@
+{
+ "_note": "AI動画制作ページの作品の変換設定（元動画の場所は含めない。公開リポジトリのため社名・商品名を書かない）。reel_order には掲載許可済み（videoWorks.ts で cleared）の作品だけを入れる。",
+ "works": [
+  {
+   "slug": "association-pv",
+   "orientation": "landscape",
+   "poster_at": 53.4,
+   "reel_at": 49.0,
+   "reel_len": 4.0,
+   "crf": 26
+  },
+  {
+   "slug": "exhibition-brand",
+   "orientation": "landscape",
+   "poster_at": 11.0,
+   "reel_at": 46.5,
+   "reel_len": 4.0
+  },
+  {
+   "slug": "image-song-ad",
+   "orientation": "landscape",
+   "poster_at": 5.0,
+   "reel_at": 3.5,
+   "reel_len": 4.0
+  },
+  {
+   "slug": "app-intro",
+   "orientation": "landscape",
+   "poster_at": 8.3,
+   "reel_at": 4.0,
+   "reel_len": 3.5
+  },
+  {
+   "slug": "crystal-ad",
+   "orientation": "portrait",
+   "poster_at": 28.4,
+   "reel_at": 14.0,
+   "reel_len": 3.5
+  },
+  {
+   "slug": "necklace-ad-1",
+   "orientation": "portrait",
+   "poster_at": 23.3,
+   "reel_at": 19.0,
+   "reel_len": 4.5
+  },
+  {
+   "slug": "necklace-ad-2",
+   "orientation": "portrait",
+   "poster_at": 16.7,
+   "reel_at": 14.8,
+   "reel_len": 3.0
+  },
+  {
+   "slug": "necklace-ad-3",
+   "orientation": "portrait",
+   "poster_at": 17.5,
+   "reel_at": 16.5,
+   "reel_len": 4.5
+  }
+ ],
+ "reel_order": [
+  "necklace-ad-2",
+  "necklace-ad-1",
+  "necklace-ad-3"
+ ]
+}
