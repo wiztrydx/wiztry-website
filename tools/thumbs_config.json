@@ -244,5 +244,11 @@
     "theme": "Deep navy background with a friendly small white round robot in the lower right, subtle light speed lines and motion streaks suggesting speed and lightness, a few floating thin paper sheets and small coins hinting at low cost, soft rounded geometric shapes, no text, no logos",
     "main": "Claude Haiku 5.5|速くて安い若手を実機検証",
     "sub": "料金・性能・ChatGPTとの違い"
+  },
+  {
+    "slug": "gemini-4-argon-kumamoto",
+    "theme": "a friendly small white round robot in the lower right holding a glowing four-pointed star, behind it a soft silhouette of a Japanese castle on a hill and gentle green volcanic mountain ridges suggesting Kumamoto, a few floating document sheets, a small spreadsheet card and a fax paper drifting toward the robot, navy blue business gradient background with soft light particles, friendly flat-design business illustration, no text, no logos",
+    "main": "Gemini 4で|熊本の仕事はどう変わる？",
+    "sub": "社内テスト6題でわかった使いどころ"
   }
 ]
