@@ -12,7 +12,7 @@
 6. 要素の出現アニメは `class="reveal"`（遅延は `reveal-d1`〜`d4`）。付けすぎない（セクション見出し・カード単位）。
 7. 画像は `loading="lazy"`（ファーストビューを除く）。altは日本語で意味のある文言。
 8. 下層ページは冒頭に `.page-hero`（en見出し＋jpラベル＋desc）を置く。Base呼び出しは `onDark={true}`。
-9. ページ末尾（フッター直前）に `<CtaBand />` を置く（contact/thanks/privacy/404を除く）。
+9. ページ末尾（フッター直前）に `<CtaBand />` を置く（contact/thanks/privacy/dx/security-policy/404を除く）。
 10. TypeScriptエラーを出さない。`npm run build` が通ること。
 
 ## 使える写真（public/photos/）
@@ -29,7 +29,7 @@
 
 ## サイト全体の骨格
 
-- ページ: `/`（index）, `/service/`, `/works/`, `/about/`, `/blog/`（一覧・記事）, `/contact/`, `/contact/thanks/`, `/privacy/`, `404`
+- ページ: `/`（index）, `/service/`, `/works/`, `/about/`, `/blog/`（一覧・記事）, `/contact/`, `/contact/thanks/`, `/privacy/`, `/dx/`, `/security-policy/`, `404`
 - トーン&マナー: ネイビー×白のクリーンで上質なコーポレート。信頼感・技術力。「助成金ありきの会社」に見せない — 研修の中身と技術力を主役に、補助金は「活用できる制度」として従の位置づけ。
 
 ---
@@ -237,3 +237,22 @@ Base: title="お問い合わせ"
 ## 8. 404 `src/pages/404.astro`
 
 シンプルに: `404` 特大（font-en）+ 「お探しのページが見つかりませんでした」＋トップへ戻るボタン。
+
+## 9. DX推進方針 `src/pages/dx/index.astro`
+
+- 公表文書。**文面は取締役の決定を受けた原稿のとおりに載せ、言い回しを変えない**（てにをはの微調整も不可）。直すときは原稿と同時に直す。
+- Base: `fullTitle="DX推進方針｜WizTry株式会社"`, description=`WizTry株式会社のDX推進方針。経営ビジョン、DX戦略、推進体制と人材育成、ITシステム環境の整備、成果指標、サイバーセキュリティへの取り組みを掲載しています。`
+- page-hero: en `DX POLICY`, jp `DX推進方針`
+- 構成: 冒頭（ミッション・策定の経緯・策定日）＋目次 → 代表メッセージ（会社案内と同じ写真、役職と氏名をテキストで署名）→ 1. 経営ビジョン → 2. DX戦略（戦略1〜3）→ 3. 推進体制と人材育成 → 4. ITシステム・デジタル技術の活用環境の整備 → 5. 成果指標（表は冒頭の `INDICATORS`。`target` を入れた行があれば「目標」列が出る）→ 6. サイバーセキュリティ（情報セキュリティ基本方針へリンク）→ 制定日と署名
+- 制定日は `site.ts` の `POLICY_ENACTED`（情報セキュリティ基本方針と共通）。
+- 見出しに認定申請書の設問文をそのまま使わない。認定を受ける前に「認定取得」「認定事業者」と書かない。
+- `noindex` にしない（サイトマップに載せる）。トップページから、全ページ共通フッターの COMPANY 列（プライバシーポリシーの隣）と、会社案内の会社概要の表の下の1行でリンクする。
+- **CtaBandは置かない**。
+
+## 10. 情報セキュリティ基本方針 `src/pages/security-policy/index.astro`
+
+- 公表文書。文面は原稿のとおり（言い回しを変えない）。
+- Base: `fullTitle="情報セキュリティ基本方針｜WizTry株式会社"`, description=`WizTry株式会社の情報セキュリティ基本方針です。`
+- page-hero: en `SECURITY POLICY`, jp `情報セキュリティ基本方針`
+- プライバシーポリシーと同じ `.prose` の作り。前文 → 1〜6の項目 → 制定日と署名（`POLICY_ENACTED`）。
+- `noindex` にしない。全ページ共通フッターの COMPANY 列と、DX推進方針の「6. サイバーセキュリティ」からリンクする。**CtaBandなし**。

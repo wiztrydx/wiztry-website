@@ -214,6 +214,7 @@ const personLd = {
   <section class="section">
     <div class="container">
       <SectionHead en="COMPANY" title="会社概要" />
+      {/* 表のセル内のリンクは set:text で書く。<a>{式}</a> と書くとリンクが閉じられず、表の後ろの要素まで包まれる */}
       <table class="def-table reveal">
         <tbody>
           <tr>
@@ -238,14 +239,15 @@ const personLd = {
           </tr>
           <tr>
             <th>電話番号</th>
-            <td><a href={`tel:${SITE.tel.replaceAll('-', '')}`}>{SITE.tel}</a></td>
+            <td><a href={`tel:${SITE.tel.replaceAll('-', '')}`} set:text={SITE.tel} /></td>
           </tr>
           <tr>
             <th>お問い合わせ</th>
-            <td><a href="/contact/">{SITE.email}</a></td>
+            <td><a href="/contact/" set:text={SITE.email} /></td>
           </tr>
         </tbody>
       </table>
+      <p class="company-dx reveal">当社のDXへの取り組みは『<a href="/dx/">DX推進方針</a>』をご覧ください。</p>
       <div class="grid grid--2 company-photos">
         <div class="about-figure tilt reveal reveal-d1">
           <div class="zoom-media">
@@ -360,6 +362,18 @@ const personLd = {
     font-size: 19px;
     font-weight: 700;
     color: var(--ink);
+  }
+  /* 会社概要: DX推進方針への導線 */
+  .company-dx {
+    margin: 22px 0 0;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+  .company-dx a {
+    color: var(--blue-500);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
   /* 会社概要: 活動風景の写真（講演中） */
   .company-photos {

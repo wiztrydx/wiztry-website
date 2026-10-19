@@ -1,0 +1,82 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { SITE, POLICY_ENACTED } from '../../data/site';
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'ホーム', item: `${SITE.domain}/` },
+    { '@type': 'ListItem', position: 2, name: '情報セキュリティ基本方針', item: `${SITE.domain}/security-policy/` },
+  ],
+};
+---
+
+<Base
+  fullTitle="情報セキュリティ基本方針｜WizTry株式会社"
+  description="WizTry株式会社の情報セキュリティ基本方針です。"
+  onDark={true}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbLd)} />
+  <PageHero
+    en="SECURITY POLICY"
+    jp="情報セキュリティ基本方針"
+    desc="WizTry株式会社の情報セキュリティ基本方針です。"
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="prose reveal">
+        <p>
+          WizTry株式会社（以下、当社）は、お客様からお預かりした情報資産と当社の情報資産を、事故・災害・犯罪などの脅威から守り、お客様ならびに社会の信頼に応えるため、以下の方針に基づき全社で情報セキュリティに取り組みます。
+        </p>
+
+        <h2>1. 経営者の責任</h2>
+        <p>
+          当社は、代表取締役を情報セキュリティの責任者とし、経営者主導で組織的かつ継続的に情報セキュリティの改善・向上に努めます。
+        </p>
+
+        <h2>2. 社内体制の整備</h2>
+        <p>
+          当社は、情報セキュリティの維持及び改善のための体制を整え、情報セキュリティ対策を社内の正式な規則として定めます。
+        </p>
+
+        <h2>3. 役員・従業員・業務委託メンバーの取組み</h2>
+        <p>
+          当社の役員、従業員及び当社の業務に携わる業務委託のメンバーは、情報セキュリティのために必要とされる知識、技術を習得し、情報セキュリティへの取り組みを確かなものにします。
+        </p>
+
+        <h2>4. 生成AIの安全な利用</h2>
+        <p>
+          当社は、生成AIやAIエージェントを業務で利用するにあたり、入力する情報を業務に必要な範囲に限り、入力した情報が学習に使われない設定やサービスを選びます。AIに与える権限は必要最小限とし、メールの送信や情報の公開など影響の大きい操作は、人が確認してから行います。
+        </p>
+
+        <h2>5. 法令及び契約上の要求事項の遵守</h2>
+        <p>
+          当社は、情報セキュリティに関わる法令、規制、規範、契約上の義務を遵守するとともに、お客様の期待に応えます。
+        </p>
+
+        <h2>6. 違反及び事故への対応</h2>
+        <p>
+          当社は、情報セキュリティに関わる法令違反、契約違反及び事故が発生した場合には適切に対処し、再発防止に努めます。
+        </p>
+
+        <p class="enacted">
+          制定日：<time datetime={POLICY_ENACTED.iso}>{POLICY_ENACTED.label}</time><br />
+          WizTry株式会社　代表取締役　末松 光太郎
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .enacted {
+    margin-top: 3em;
+    padding-top: 1.6em;
+    border-top: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 14.5px;
+  }
+</style>

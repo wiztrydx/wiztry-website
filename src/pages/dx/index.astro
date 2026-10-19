@@ -1,0 +1,793 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import { SITE, POLICY_ENACTED } from '../../data/site';
+
+// 文面は公表文書そのもの。言い回しを変えるときは、別に保管している原稿も同時に直す。
+
+// 5. 成果指標。target を入れた行が1つでもあれば「目標」列を表示する。
+const INDICATORS: { strategy: string; name: string; current: string; target?: string }[] = [
+  {
+    strategy: '戦略1',
+    name: '研修アンケートの満足度（5段階評価の平均）',
+    current: '4.8（2026年7月時点）',
+  },
+  {
+    strategy: '戦略1',
+    name: '受講者の声・質問をもとに教材を改善した件数',
+    current: '2026年10月から記録を開始',
+  },
+  {
+    strategy: '戦略2',
+    name: 'AIエージェントが下書きを担う定型業務の種類',
+    current: '16種類（2026年10月時点）',
+  },
+];
+const showTarget = INDICATORS.some((i) => i.target);
+
+const TOC = [
+  { id: 'message', no: '', label: '代表メッセージ' },
+  { id: 'vision', no: '1', label: '経営ビジョン' },
+  { id: 'strategy', no: '2', label: 'DX戦略' },
+  { id: 'structure', no: '3', label: '推進体制と人材育成' },
+  { id: 'it', no: '4', label: 'ITシステム・デジタル技術の活用環境の整備' },
+  { id: 'kpi', no: '5', label: '成果指標' },
+  { id: 'security', no: '6', label: 'サイバーセキュリティ' },
+];
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'ホーム', item: `${SITE.domain}/` },
+    { '@type': 'ListItem', position: 2, name: 'DX推進方針', item: `${SITE.domain}/dx/` },
+  ],
+};
+---
+
+<Base
+  fullTitle="DX推進方針｜WizTry株式会社"
+  description="WizTry株式会社のDX推進方針。経営ビジョン、DX戦略、推進体制と人材育成、ITシステム環境の整備、成果指標、サイバーセキュリティへの取り組みを掲載しています。"
+  onDark={true}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbLd)} />
+  <PageHero
+    en="DX POLICY"
+    jp="DX推進方針"
+    desc="経営ビジョン、DX戦略、推進体制と人材育成、ITシステム環境の整備、成果指標、サイバーセキュリティへの取り組みを掲載しています。"
+  />
+
+  <!-- 冒頭 -->
+  <section class="section">
+    <div class="container">
+      <div class="dx-intro">
+        <div class="dx-intro-copy reveal">
+          <p class="dx-intro-lead">
+            WizTry株式会社は、「挑戦で溢れる世界を創る」というミッションのもと、熊本を拠点に、企業向けの生成AI研修とAIエージェントの導入支援を行っています。
+          </p>
+          <p>
+            お客様にAIの活用をお伝えする私たち自身が、まずAIとデータを仕事の中心に置き、働き方と事業のかたちを変えていくために、このDX推進方針を定めました。
+          </p>
+          <p class="dx-decided">
+            本方針は、<time datetime={POLICY_ENACTED.iso}>{POLICY_ENACTED.label}</time>に取締役の決定により策定しました。
+          </p>
+        </div>
+        <nav class="dx-toc reveal reveal-d1" aria-label="このページの内容">
+          <p class="dx-toc-head">CONTENTS</p>
+          <ol>
+            {
+              TOC.map((t) => (
+                <li>
+                  <a href={`#${t.id}`}>
+                    <span class="dx-toc-no" aria-hidden={t.no ? undefined : 'true'}>{t.no ? `${t.no}.` : '—'}</span>
+                    <span>{t.label}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- 代表メッセージ -->
+  <section class="section section--alt dx-sec" id="message">
+    <div class="container">
+      <SectionHead en="MESSAGE" title="代表メッセージ" />
+      <div class="grid grid--2 msg-split">
+        <div class="msg-copy reveal">
+          <h3><span class="nw">まず自分たちが、</span><span class="nw">AIと一緒に働く会社になる。</span></h3>
+          <p>
+            生成AIは、数か月ごとに新しいモデルや機能が生まれ、仕事の進め方を塗り替えています。研修でお伝えした方法が、半年後には古くなっていることもあります。この速さは、私たちのような小さな会社にとって脅威であると同時に、大きな機会です。
+          </p>
+          <p>
+            私たちは、お客様にAIの活用をお伝えする前に、まず自分たちがAIと一緒に働く会社になると決めました。日々のメール、日程調整、議事録、請求書、提案書の下書きはAIエージェントが担い、私たちは確認と判断、そしてお客様と向き合う時間に力を注ぎます。研修で寄せられる受講者の声や質問はデータとして集め、AIで分析して、次の研修をより分かりやすく、より実務に役立つものへ作り変えていきます。
+          </p>
+          <p>
+            自社で試し、効果を確かめたやり方を、お客様にお届けする。それが、地方の中小企業が明日から使えるAI活用を、速く、確かに届けるための、私たちのDXです。この方針の進み具合は、このページで定期的にご報告します。
+          </p>
+        </div>
+        <div class="msg-figure reveal reveal-d1">
+          <div class="msg-photo">
+            <img
+              src="/photos/ceo.webp"
+              alt="WizTry株式会社 代表取締役 末松光太郎"
+              loading="lazy"
+              decoding="async"
+              width="1080"
+              height="1080"
+            />
+          </div>
+          <p class="msg-sign">
+            <span class="msg-sign-role">WizTry株式会社　代表取締役</span>
+            <span class="msg-sign-name">末松 光太郎</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. 経営ビジョン -->
+  <section class="section dx-sec" id="vision">
+    <div class="container">
+      <SectionHead en="VISION" title="1. 経営ビジョン" />
+
+      <div class="dx-block reveal">
+        <h3 class="dx-h3">私たちを取り巻く変化</h3>
+        <p class="dx-text">
+          生成AIの進化により、文章や資料の作成、情報収集、事務処理などの仕事は、AIに任せられる範囲が急速に広がっています。
+        </p>
+        <ul class="dx-or">
+          <li class="dx-or-card">
+            <strong class="dx-or-tag">機会</strong>
+            <p>人手や時間が限られる地方の中小企業や、少人数の当社でも、AIを使えば支援できる企業の数と質を大きく伸ばせます。</p>
+          </li>
+          <li class="dx-or-card dx-or-card--risk">
+            <strong class="dx-or-tag">リスク</strong>
+            <p>新しいAIが次々に登場するため、教材や手順がすぐに古くなります。また、講師一人ひとりの経験や代表の判断に頼った運営のままでは、支援の質と量が伸び悩みます。</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="dx-vision reveal">
+        <h3>経営ビジョン</h3>
+        <p><span class="nw">AIと一緒に働く会社の実例として、</span><span class="nw">熊本から、</span><span class="nw">明日から使えるAI活用を</span><span class="nw">速く・確かに届ける。</span></p>
+      </div>
+
+      <div class="dx-block reveal">
+        <h3 class="dx-h3"><span><span class="nw">ビジョンを実現する</span><span class="nw">ビジネスモデルの方向性</span></span></h3>
+        <ol class="dx-steps">
+          <li>
+            <span class="dx-steps-no">1.</span>
+            <p>講師が時間を提供する研修中心のかたちから、研修・AI顧問・業務へのAI導入・導入後の運用支援をつなぐかたちへ移ります。</p>
+          </li>
+          <li>
+            <span class="dx-steps-no">2.</span>
+            <p>支援の中で生まれるデータ（受講者アンケート、質問、打ち合わせの記録、教材、成果物）を一か所に集めてAIで分析し、教材と支援の方法を改善し続けます。</p>
+          </li>
+          <li>
+            <span class="dx-steps-no">3.</span>
+            <p>社内の定型業務はAIエージェントが下書きを担い、人は確認・判断と、お客様と向き合う仕事に集中します。</p>
+          </li>
+          <li>
+            <span class="dx-steps-no">4.</span>
+            <p>自社で開発・運用し、効果を確かめたAIの仕組みを、新しいサービスとしてお届けします。</p>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. DX戦略 -->
+  <section class="section section--alt dx-sec" id="strategy">
+    <div class="container">
+      <SectionHead en="STRATEGY" title="2. DX戦略" />
+      <div class="dx-strategies">
+        <article class="dx-strategy reveal">
+          <h3><span class="dx-strategy-no">戦略1　</span><span class="nw">支援のデータを集めて分析し、</span><span class="nw">教材と研修を改善する</span></h3>
+          <ul class="dx-list">
+            <li>研修の回ごとに集めている受講者アンケートを、すべてのお客様・すべての回について一つの集計表にまとめています。講師・回・テーマごとの満足度と自由記述をAIで分析し、分かりにくかった箇所や要望の多い内容を見つけます。</li>
+            <li>研修ポータルに寄せられる質問・要望や打ち合わせの記録を分類し、つまずきやすい箇所を、教材、指示文の例、よくある質問に反映します。</li>
+            <li>研修スライドは版を管理する仕組みで一元管理し、講師がAIを使って更新した最新版を、全員が使える状態にしています。</li>
+            <li>新しいAIツールが出たときは、まず社内の業務で試し、その結果を教材に反映します。</li>
+          </ul>
+        </article>
+        <article class="dx-strategy reveal">
+          <h3><span class="dx-strategy-no">戦略2　</span><span class="nw">会社の知識を一か所に集め、</span><span class="nw">AIエージェントが</span><span class="nw">日々の業務を担う</span></h3>
+          <ul class="dx-list">
+            <li>お客様ごとの経緯、契約や料金の決まり、社内ルール、過去の成果物を、社内の資料室（ナレッジベース）に正本として集めています。案件の進み具合は、一つの営業管理表で管理しています。</li>
+            <li>部署ごとに役割を決めたAIエージェント（AI社員）が資料室を参照し、メールの返信の下書き、日程調整、議事録、請求書、提案書・見積書、研修資料の下書きを作ります。送信・公開・契約などの最終判断は、必ず人が行います。</li>
+            <li>会議の文字起こしから決定事項と次の作業をAIが抜き出して社内チャットで共有する仕組みや、日々の業務の記録から日報と朝の予定のまとめを自動で作る仕組みを導入し、対応漏れを防いでいます。</li>
+            <li>事務作業の時間を減らし、その分を、お客様への提案と支援の質を上げることに使います。</li>
+          </ul>
+        </article>
+        <article class="dx-strategy reveal">
+          <h3><span class="dx-strategy-no">戦略3　</span><span class="nw">自社で使っている仕組みを、</span><span class="nw">新しいサービスに育てる</span></h3>
+          <ul class="dx-list">
+            <li>自社で開発・運用している仕組み（営業の会話練習AI、研修ポータル、公開されている情報をAIで集めて更新する情報サイトの仕組み、AIを使った動画制作など）を、実際の利用の記録と改善点をもとに、お客様向けのサービスとして磨きます。</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 推進体制と人材育成 -->
+  <section class="section dx-sec" id="structure">
+    <div class="container">
+      <SectionHead en={'ORGANIZATION & TALENT'} title="3. 推進体制と人材育成" />
+      <div class="grid grid--2 dx-pair">
+        <div class="dx-panel reveal">
+          <h3 class="dx-h3">推進体制</h3>
+          <ul class="dx-list">
+            <li>代表取締役がDX推進の責任者を務め、DX戦略の策定と見直し、DXに必要な投資の判断を行います。</li>
+            <li>毎週の定例会議でDXの取り組みの進み具合を確認し、四半期ごとに代表が成果指標をもとに戦略を見直します。</li>
+            <li>AIツールとアカウントの管理、研修教材の管理、社内ツールの開発などの役割をメンバーで分担しています。AIエージェントの役割と権限（人が承認してから行う操作など）は、社内ルールとして文書で定めています。</li>
+            <li>社内にない技術や専門知識は、外部の技術パートナーや専門家と協業して補います。</li>
+          </ul>
+        </div>
+        <div class="dx-panel reveal reveal-d1">
+          <h3 class="dx-h3">人材育成・確保</h3>
+          <ul class="dx-list">
+            <li>メンバー一人ひとりがAIを使って自分の業務を進めることを社内のルールとし、新しいAIツールは、まず社内で試してから研修に取り入れます。</li>
+            <li>講師全員が研修スライドを自分で更新できるよう、版を管理する仕組みと、AIを使った編集の方法を整え、編集の権限を渡しています。</li>
+            <li>DXを進めるために必要なスキル（生成AIの活用、データの扱い、情報セキュリティ）を整理し、メンバーが学ぶ機会をつくります。</li>
+            <li>業務が増えるときは、まずAIに任せられる仕事を見直したうえで、業務委託の講師や外部の専門家と連携して体制を確保します。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. ITシステム・デジタル技術の活用環境の整備 -->
+  <section class="section section--alt dx-sec" id="it">
+    <div class="container">
+      <SectionHead en="IT ENVIRONMENT" title="4. ITシステム・デジタル技術の活用環境の整備" />
+      <div class="dx-panel dx-panel--wide reveal">
+        <ul class="dx-list dx-list--check">
+          <li>業務の基盤はクラウドに置きます。メール・予定・文書・チャット・アンケートはクラウド型のグループウェアにまとめ、社内の資料室と教材は版を管理する仕組み（非公開）で管理し、複数の端末で同期しています。</li>
+          <li>生成AIは、用途に合わせて複数の提供元のサービスを使い分けます。新しいモデルは社内で検証してから業務に取り入れ、特定のサービスに頼りすぎない構成にします。</li>
+          <li>日報、会議記録の整理、情報収集などの定時の自動処理は社内の専用端末で動かし、結果を社内チャットに通知します。</li>
+          <li>AIやクラウドの利用料には月ごとの上限と通知を設定して管理し、DXに必要なツールとAIの利用費用を、毎年度の予算として確保します。</li>
+          <li>資料が紙や個人の端末に散らばらないよう、資料の作成と配布をAIとクラウドで完結させる方式への切り替えを進めています。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 成果指標 -->
+  <section class="section dx-sec" id="kpi">
+    <div class="container">
+      <SectionHead
+        en="KPI"
+        title="5. 成果指標"
+        lead="DX戦略の達成度を、次の指標で確認します。四半期ごとに代表が確認し、年に1回以上、このページで結果をご報告します。"
+      />
+      <div class="dx-kpi-wrap reveal">
+        <table class="dx-kpi">
+          <thead>
+            <tr>
+              <th scope="col">対応する戦略</th>
+              <th scope="col">指標</th>
+              <th scope="col">現状</th>
+              {showTarget && <th scope="col">目標</th>}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              INDICATORS.map((k) => (
+                <tr>
+                  <td class="dx-kpi-st" data-label="対応する戦略">{k.strategy}</td>
+                  <td class="dx-kpi-name" data-label="指標">{k.name}</td>
+                  <td class="dx-kpi-cur" data-label="現状">{k.current}</td>
+                  {showTarget && <td data-label="目標">{k.target ?? ''}</td>}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. サイバーセキュリティ -->
+  <section class="section section--alt dx-sec" id="security">
+    <div class="container">
+      <SectionHead en="CYBER SECURITY" title="6. サイバーセキュリティ" />
+      <div class="dx-panel dx-panel--wide reveal">
+        <ul class="dx-list">
+          <li>「<a href="/security-policy/">情報セキュリティ基本方針</a>」を定め、公開しています。代表取締役が情報セキュリティの責任者を務めます。</li>
+          <li>アカウントの多要素認証、共有範囲の最小化、AIに与える権限の最小化（外部の文章を読むAIには必要な操作だけを許可する）、利用料の上限設定などの対策を進めています。</li>
+          <li>2026年10月に全社のセキュリティ点検を行い、見つかった課題に順に対応しています。今後も定期的に点検します。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 制定日・署名 -->
+  <section class="section section--tight">
+    <div class="container">
+      <p class="dx-enacted">
+        制定日：<time datetime={POLICY_ENACTED.iso}>{POLICY_ENACTED.label}</time><br />
+        WizTry株式会社　代表取締役　末松 光太郎
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* 固定ヘッダーの下に見出しが隠れないように */
+  .dx-sec {
+    scroll-margin-top: calc(var(--header-h) + 12px);
+  }
+
+  /* 見出しを語の途中で折らない（文節のかたまりごとに折り返す） */
+  .nw {
+    display: inline-block;
+    max-width: 100%;
+  }
+
+  /* ---------- 冒頭 ---------- */
+  .dx-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    gap: clamp(32px, 5vw, 72px);
+    align-items: start;
+  }
+  .dx-intro-copy p {
+    color: var(--ink-soft);
+    font-size: 16.5px;
+    line-height: 2;
+  }
+  .dx-intro-copy .dx-intro-lead {
+    color: var(--ink);
+    font-size: clamp(17.5px, 1.8vw, 20px);
+    font-weight: 700;
+    line-height: 1.9;
+  }
+  .dx-intro-copy .dx-decided {
+    margin: 1.8em 0 0;
+    padding-left: 16px;
+    border-left: 3px solid var(--blue-500);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+  .dx-toc {
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 26px 28px 18px;
+  }
+  .dx-toc-head {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    color: var(--blue-500);
+    margin: 0 0 8px;
+  }
+  .dx-toc li + li {
+    border-top: 1px solid var(--line);
+  }
+  .dx-toc a {
+    display: grid;
+    grid-template-columns: 2em minmax(0, 1fr);
+    gap: 6px;
+    padding: 11px 0;
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1.6;
+    color: var(--ink);
+    transition: color 0.2s ease;
+  }
+  .dx-toc a:hover {
+    color: var(--blue-500);
+  }
+  .dx-toc-no {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--blue-500);
+  }
+  @media (max-width: 860px) {
+    .dx-intro {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* ---------- 代表メッセージ（会社案内と同じ写真・署名の作り） ---------- */
+  .msg-split {
+    align-items: center;
+  }
+  .msg-copy h3 {
+    font-size: clamp(20px, 2.2vw, 24px);
+    line-height: 1.55;
+    margin-bottom: 20px;
+    color: var(--ink);
+  }
+  .msg-copy p {
+    color: var(--ink-soft);
+  }
+  .msg-figure {
+    max-width: 320px;
+    margin-inline: auto;
+  }
+  .msg-photo {
+    border-radius: 40px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+  .msg-photo img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+  .msg-sign {
+    margin: 18px 0 0;
+    text-align: center;
+  }
+  .msg-sign-role {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .msg-sign-name {
+    display: block;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  @media (max-width: 600px) {
+    .msg-figure {
+      max-width: 240px;
+    }
+  }
+
+  /* ---------- 共通の小見出し・本文 ---------- */
+  .dx-block + .dx-vision,
+  .dx-vision + .dx-block {
+    margin-top: clamp(40px, 5vw, 64px);
+  }
+  .dx-h3 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: clamp(18.5px, 2vw, 21px);
+    line-height: 1.5;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+  .dx-h3::before {
+    content: '';
+    flex: none;
+    width: 5px;
+    height: 1.15em;
+    border-radius: 3px;
+    background: var(--accent-grad);
+  }
+  .dx-text {
+    color: var(--ink-soft);
+    max-width: 46em;
+  }
+
+  /* 機会・リスク */
+  .dx-or {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(14px, 2vw, 22px);
+    margin-top: 22px;
+  }
+  .dx-or-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--blue-500);
+    border-radius: var(--radius);
+    padding: 22px 26px 24px;
+    box-shadow: var(--shadow-sm);
+  }
+  .dx-or-card--risk {
+    border-top-color: var(--navy-700);
+  }
+  .dx-or-tag {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--blue-500);
+    background: rgba(47, 107, 255, 0.09);
+    border-radius: 999px;
+    padding: 3px 14px;
+    margin-bottom: 12px;
+  }
+  .dx-or-card--risk .dx-or-tag {
+    color: var(--navy-700);
+    background: rgba(22, 52, 100, 0.08);
+  }
+  .dx-or-card p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.9;
+  }
+  @media (max-width: 700px) {
+    .dx-or {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* 経営ビジョン（一文を大きく） */
+  .dx-vision {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-navy-grad);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: clamp(30px, 5vw, 60px) clamp(24px, 5vw, 64px);
+    box-shadow: var(--shadow-md);
+  }
+  .dx-vision::after {
+    content: '';
+    position: absolute;
+    right: -120px;
+    top: -140px;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(55, 200, 240, 0.2), transparent 65%);
+    pointer-events: none;
+  }
+  .dx-vision h3 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14.5px;
+    letter-spacing: 0.18em;
+    color: var(--cyan-400);
+    margin-bottom: 18px;
+  }
+  .dx-vision h3::before {
+    content: '';
+    width: 30px;
+    height: 2px;
+    background: var(--cyan-400);
+  }
+  .dx-vision p {
+    position: relative;
+    margin: 0;
+    max-width: 30em;
+    font-size: clamp(20px, 2.7vw, 31px);
+    font-weight: 800;
+    line-height: 1.65;
+    letter-spacing: 0.02em;
+  }
+
+  /* ビジネスモデルの方向性 */
+  .dx-steps {
+    border-top: 1px solid var(--line);
+  }
+  .dx-steps li {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 12px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .dx-steps-no {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--blue-500);
+  }
+  .dx-steps p {
+    margin: 0;
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.85;
+  }
+  @media (max-width: 600px) {
+    .dx-steps li {
+      grid-template-columns: 30px minmax(0, 1fr);
+      gap: 8px;
+    }
+    .dx-steps-no {
+      font-size: 17px;
+    }
+    .dx-steps p {
+      font-size: 15.5px;
+    }
+  }
+
+  /* ---------- 2. DX戦略 ---------- */
+  .dx-strategies {
+    display: grid;
+    gap: clamp(16px, 2.2vw, 24px);
+  }
+  .dx-strategy {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    gap: clamp(20px, 3.5vw, 52px);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: clamp(26px, 3.6vw, 44px);
+    box-shadow: var(--shadow-sm);
+  }
+  .dx-strategy h3 {
+    font-size: clamp(18.5px, 2vw, 22px);
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .dx-strategy-no {
+    display: block;
+    width: fit-content;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #fff;
+    background: var(--accent-grad);
+    border-radius: 999px;
+    padding: 3px 14px;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 820px) {
+    .dx-strategy {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* ---------- 箇条書き ---------- */
+  .dx-list li {
+    position: relative;
+    padding-left: 1.5em;
+    margin-bottom: 0.9em;
+    color: var(--ink-soft);
+    font-size: 15.5px;
+    line-height: 1.9;
+  }
+  .dx-list li:last-child {
+    margin-bottom: 0;
+  }
+  .dx-list li::before {
+    content: '';
+    position: absolute;
+    left: 0.15em;
+    top: 0.78em;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-grad);
+  }
+  .dx-list--check li {
+    padding-left: 1.9em;
+  }
+  .dx-list--check li::before {
+    left: 0.1em;
+    top: 0.42em;
+    width: 1.15em;
+    height: 1.15em;
+    border-radius: 50%;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.4l2.6 2.5L12 5.4'/%3E%3C/svg%3E") center / 72% no-repeat,
+      var(--accent-grad);
+  }
+  .dx-list a {
+    color: var(--blue-500);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ---------- 3・4・6 の囲み ---------- */
+  .dx-panel {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: clamp(24px, 3.4vw, 40px);
+    box-shadow: var(--shadow-sm);
+  }
+  .dx-panel--wide {
+    max-width: 920px;
+  }
+  .dx-pair .dx-panel {
+    background: var(--bg-alt);
+    box-shadow: none;
+  }
+
+  /* ---------- 5. 成果指標 ---------- */
+  .dx-kpi-wrap {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    max-width: 920px;
+  }
+  .dx-kpi {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+  }
+  .dx-kpi th,
+  .dx-kpi td {
+    text-align: left;
+    vertical-align: top;
+    padding: 16px 20px;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .dx-kpi thead th {
+    background: var(--navy-900);
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+  .dx-kpi tbody tr + tr td {
+    border-top: 1px solid var(--line);
+  }
+  .dx-kpi-st {
+    white-space: nowrap;
+    font-weight: 700;
+    color: var(--blue-500);
+  }
+  .dx-kpi-name {
+    color: var(--ink);
+  }
+  .dx-kpi-cur {
+    font-weight: 700;
+    color: var(--ink);
+  }
+  @media (max-width: 640px) {
+    .dx-kpi thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    .dx-kpi,
+    .dx-kpi tbody,
+    .dx-kpi tr,
+    .dx-kpi td {
+      display: block;
+      width: 100%;
+    }
+    .dx-kpi tr {
+      padding: 16px 18px;
+    }
+    .dx-kpi tbody tr + tr {
+      border-top: 1px solid var(--line);
+    }
+    .dx-kpi tbody tr + tr td {
+      border-top: none;
+    }
+    .dx-kpi td {
+      padding: 2px 0;
+    }
+    .dx-kpi td.dx-kpi-name {
+      padding: 4px 0 8px;
+      font-weight: 700;
+    }
+    .dx-kpi td.dx-kpi-cur::before {
+      content: attr(data-label) '：';
+      color: var(--muted);
+      font-weight: 600;
+    }
+  }
+
+  /* ---------- 制定日・署名 ---------- */
+  .dx-enacted {
+    max-width: 920px;
+    margin: 0;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 2;
+  }
+</style>
