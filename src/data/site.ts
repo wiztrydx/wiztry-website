@@ -321,4 +321,4 @@ export const NAV = [
 
 // DX推進方針（/dx/）と情報セキュリティ基本方針（/security-policy/）の制定日。
 // 取締役の決定日にそろえる。ページを公開する日より後の日付にしない。
-export const POLICY_ENACTED = { iso: '2026-10-21', label: '2026年10月21日' };
+export const POLICY_ENACTED = { iso: '2026-10-20', label: '2026年10月20日' };
