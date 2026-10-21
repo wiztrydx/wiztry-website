@@ -108,6 +108,13 @@ const jsonLd = {
     <meta property="og:image:alt" content={pageTitle} />
     <meta property="og:site_name" content={SITE.name} />
     <meta name="twitter:card" content="summary_large_image" />
+    {/* GitHub Pagesは応答ヘッダを足せないため、metaで付けられる守りだけ入れる（プラグイン埋め込み・base書き換え・フォームの送り先の乗っ取りを止める）。
+        フォームの送り先を変えるときは form-action も直す。script-srcはGA4の許可を確かめてから */}
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="object-src 'none'; base-uri 'self'; form-action 'self' https://formsubmit.co; upgrade-insecure-requests"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

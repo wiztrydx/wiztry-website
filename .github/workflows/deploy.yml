@@ -5,33 +5,35 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# 既定は読み取りだけ。Pagesへの書き込み権限は deploy ジョブにだけ渡す（build で動く外部アクションや npm に渡さない）。
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       # sitemapのlastmodを各ページのGit更新履歴から正確に生成するため、履歴を取得する。
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
-      - uses: withastro/action@v3
+      - uses: withastro/action@56781b97402ce0487b7e61ce2cb960c0e2cc5289 # v3
         with:
           node-version: 22
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
 
       # 公開直後にBing系（=ChatGPTの検索グラウンディング元）へ更新を通知する。
       # 失敗してもデプロイ自体は成功扱いにしたいので continue-on-error にしている。
