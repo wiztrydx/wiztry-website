@@ -17,9 +17,10 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
+      # Node.js は修正版に固定（2026-10-21 のセキュリティリリース。「22」だとランナーに置いてある古い22系を使うことがある）
       - uses: withastro/action@56781b97402ce0487b7e61ce2cb960c0e2cc5289 # v3
         with:
-          node-version: 22
+          node-version: '22.23.4'
 
   deploy:
     needs: build
