@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import { unified } from '@astrojs/markdown-remark';
 import { execFileSync } from 'node:child_process';
 
 // 旧Studioサイト時代のURL → 新サイトの対応ページへ転送
@@ -45,6 +46,10 @@ function getGitLastModified(pageUrl) {
 
 export default defineConfig({
   site: 'https://wiztrydx.com',
+  // Astro 7 の既定値変更で要素間の空白を失わないよう、従来のHTML圧縮を維持する。
+  compressHTML: true,
+  // 記事の記号・見出しを保つため、従来のMarkdown処理系を継続する。
+  markdown: { processor: unified() },
   redirects: LEGACY_REDIRECTS,
   // リンクを画面に入った時点で先読み → ページ遷移が体感ゼロ秒になる
   prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },

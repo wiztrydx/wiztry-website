@@ -14,13 +14,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # sitemapのlastmodを各ページのGit更新履歴から正確に生成するため、履歴を取得する。
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-      # Node.js は修正版に固定（2026-10-21 のセキュリティリリース。「22」だとランナーに置いてある古い22系を使うことがある）
-      - uses: withastro/action@56781b97402ce0487b7e61ce2cb960c0e2cc5289 # v3
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '22.23.4'
+          cache: npm
+      # lockfileどおりに入れ、依存スクリプトの実行と既知の脆弱性を含む公開を防ぐ。
+      - run: npm ci --ignore-scripts --no-fund --no-audit
+      - run: npm audit --audit-level=moderate
+      - run: npm run build
+        env:
+          ASTRO_TELEMETRY_DISABLED: '1'
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: dist
+          include-hidden-files: true
 
   deploy:
     needs: build
@@ -34,7 +45,7 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
 
       # 公開直後にBing系（=ChatGPTの検索グラウンディング元）へ更新を通知する。
       # 失敗してもデプロイ自体は成功扱いにしたいので continue-on-error にしている。
