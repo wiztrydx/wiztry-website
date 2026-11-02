@@ -18,7 +18,7 @@ const news = [...NEWS].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 6);
 const fmtNewsDate = (d: string) => d.replaceAll('-', '.');
 
 const NUMBERS = [
-  { value: 90, decimals: 0, unit: '社以上', label: '累計支援企業数', note: '※2026年7月時点' },
+  { value: 100, decimals: 0, unit: '社超え', label: '累計支援企業数', note: '※2026年11月時点' },
   { value: 4.8, decimals: 1, unit: ' / 5.0', label: '研修満足度', note: '※受講後アンケート平均' },
   { value: 12, decimals: 0, unit: '業種+', label: '支援業種の広がり', note: '' },
   { value: 2023, decimals: 0, unit: '年', label: '熊本にて創業', note: '' },

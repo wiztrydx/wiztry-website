@@ -14,7 +14,7 @@ export const SITE = {
 };
 
 export const STATS = [
-  { value: 90, unit: '社以上', label: '累計支援企業数', note: '※2026年7月時点' },
+  { value: 100, unit: '社超え', label: '累計支援企業数', note: '※2026年11月時点' },
   { value: 4.8, unit: '', label: '研修満足度（5点満点）', note: '※受講後アンケート平均', decimals: 1 },
   { value: 100, unit: '%対面', label: 'ハンズオン形式の研修', note: '※オンライン併用も可能' },
   { value: 75, unit: '%', label: '補助金活用で負担軽減も', note: '※制度・要件により異なります' },
