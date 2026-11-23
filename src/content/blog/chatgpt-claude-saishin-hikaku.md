@@ -1,5 +1,5 @@
 ---
-title: "ChatGPTとClaude、最新AIはどっちを選ぶ？【2026年7月】中小企業向けに比較"
+title: "ChatGPTとClaude、最新AIはどっちを選ぶ？性能・料金・使い分けを比較【2026年7月】"
 description: "ChatGPTの新型GPT-5.6とClaudeの新型Fable 5、結局どちらを使えばいいのか。難しい専門用語を使わずに、性能・料金・使い分けを中小企業の実務目線で解説します。迷ったときの試し方も紹介。"
 pubDate: 2026-07-12T09:00:00
 tag: "AI最新動向"

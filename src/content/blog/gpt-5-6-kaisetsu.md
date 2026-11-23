@@ -1,6 +1,6 @@
 ---
 title: "GPT-5.6とは？Sol・Terra・Lunaの3階層をわかりやすく解説【2026年7月発表】"
-description: "OpenAIが2026年7月に正式リリースしたGPT-5.6。Sol・Terra・Lunaという新しい3階層の意味、何がすごいのか、中小企業は何を選べばいいのかを、AI研修のプロが初心者向けに噛み砕いて解説します。"
+description: "OpenAIが2026年7月に正式リリースしたGPT-5.6。Sol・Terra・Lunaという新しい3階層の意味、何がすごいのか、中小企業は何を選べばいいのかを、AI研修のプロが噛み砕いて解説します。"
 pubDate: 2026-07-10T12:00:00
 tag: "AI最新動向"
 thumb: "/thumbs/gpt-5-6-kaisetsu.webp"

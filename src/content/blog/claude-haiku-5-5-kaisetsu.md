@@ -1,6 +1,6 @@
 ---
 title: "Claude Haiku 5.5の料金・性能・ChatGPTとの違い｜実機検証"
-description: "2026年10月7日公開のClaude Haiku 5.5を初心者向けに解説。Haiku 4.5からの7つの変更、料金の円換算、社内の実機テスト5種、同じ値段のGPT-6 Lunaとの違い、中小企業の使い道10選と注意点まで。"
+description: "2026年10月7日公開のClaude Haiku 5.5を解説。Haiku 4.5からの7つの変更、料金の円換算、社内の実機テスト5種、同じ値段のGPT-6 Lunaとの違い、中小企業の使い道10選と注意点まで。"
 pubDate: 2026-10-08T21:00:00
 tag: "AI最新動向"
 thumb: "/thumbs/claude-haiku-5-5-kaisetsu.webp"
