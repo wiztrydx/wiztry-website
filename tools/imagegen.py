@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """WizTryサイトの画像生成 共通ライブラリ。
 
-【会社ルール】生成モデルの優先順位（2026-07-10 末松指示。1位は2026-10-06 本人指定で GPT Image 2.5 に変更）:
-  1. GPT Image 2.5    (OpenAI: gpt-image-2.5-sunburst, quality=medium)
+【会社ルール】生成モデルの優先順位（2026-07-10 末松指示。1位は2026-11-25 本人指定で GPT Image 2.6・low に変更）:
+  1. GPT Image 2.6    (OpenAI: gpt-image-2.6-sunburst, quality=low)
   2. Nano Banana 2    (Google: gemini-3.1-flash-image)
   3. Nano Banana Pro  (Google: gemini-3-pro-image)
 上位が失敗・レート制限のときだけ下位へフォールバックする。
-品質を上げるのは本人が求めたときだけ: generate(..., quality='high') / openai_model='gpt-image-2' で上書きできる。
-費用の目安（公式単価 画像出力$30/100万トークン・1ドル=150円）: medium は 1536x1024≈343トークン≈1.5円、
-2048x1152≈367トークン≈1.7円（＋プロンプト分 約0.5〜1円）。
+試作は low。品質を上げるのは本人が「いい」と言った案の仕上げだけ: generate(..., quality='high') で上書きできる。
+費用の目安（公式単価 画像出力$30/100万トークン・1ドル=150円）: 2.6 low は 1536x1024≈690トークン≈3円、
+2048x1152≈710トークン≈3円（＋プロンプト分）。2.6 high は 2048x1152 で約6〜7円。
 
 APIキーは ~/.config/wiztry/image-gen.env（OPENAI_API_KEY / GEMINI_API_KEY）から読む。
 無ければmacOS KeychainのGEMINI_API_KEYを参照。
@@ -46,8 +46,8 @@ ASPECT = {
     '9:16': ('1152x2048', '9:16'),
 }
 
-OPENAI_MODEL = 'gpt-image-2.5-sunburst'  # GPT Image 2.5（品質重視の系統）
-OPENAI_QUALITY = 'medium'                # 2026-10-06 本人指定「品質中」
+OPENAI_MODEL = 'gpt-image-2.6-sunburst'  # GPT Image 2.6（品質重視の系統）
+OPENAI_QUALITY = 'low'                   # 2026-11-25 本人指定「基本的にローコストで・OKが出てから品質を上げる」
 
 
 def _openai_gpt_image(prompt, aspect, model=OPENAI_MODEL, quality=OPENAI_QUALITY):
