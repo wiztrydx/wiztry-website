@@ -6,6 +6,8 @@ tag: "AI最新動向"
 thumb: "/thumbs/claude-fable-5-kaisetsu.webp"
 ---
 
+※2026年7月時点の内容です。新しい世代と今の使えるプランは「[Claude Fable 5.2とOpus 5.5の実演比較](/blog/claude-fable-5-2-opus-5-5-hikaku/)」にまとめました。
+
 AIの世界で「最上位」と言えば、長らくAnthropicの「Opus（オーパス）」でした。ところが2026年6月、そのOpusの"さらに上"が登場しました。
 
 それがClaude Fable 5（クロード・フェイブル5）です。Anthropicはこのモデルを、Opusクラスより上の能力レベルを示す新しい分類——「Mythos（ミソス）クラス」——の第1号として位置づけています。
