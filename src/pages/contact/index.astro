@@ -23,6 +23,12 @@ import { SITE } from '../../data/site';
         「AIで何ができるか知りたい」という段階のご相談も歓迎です。まずはお気軽にご連絡ください。
       </p>
 
+      <ol class="contact-flow reveal" aria-label="ご相談の流れ">
+        <li><span class="step">1</span><span><strong>フォームを送信</strong>入力は1分ほど。必須は4項目です</span></li>
+        <li><span class="step">2</span><span><strong>2営業日以内にご返信</strong>担当者からメールでご連絡します</span></li>
+        <li><span class="step">3</span><span><strong>お話を伺います</strong>オンライン（Zoom）または対面で。相談・お見積りは無料です</span></li>
+      </ol>
+
       <div class="contact-layout">
         <form
           id="contact-form"
@@ -35,10 +41,14 @@ import { SITE } from '../../data/site';
           <input type="hidden" name="_template" value="table" />
           {/* ロボットよけ（FormSubmitの_honey）。人には見えず、入力があると送信が捨てられる */}
           <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          {/* どこから相談に来たかを返信時に分かるようにする（ページの表示時にスクリプトで入れる） */}
+          <input type="hidden" name="first_page" id="f-first-page" value="" />
+          <input type="hidden" name="referrer" id="f-referrer" value="" />
+          <input type="hidden" name="cta_from" id="f-cta-from" value="" />
 
           <div class="field">
-            <label for="company">会社名<span class="req">必須</span></label>
-            <input type="text" id="company" name="company" required autocomplete="organization" />
+            <label for="company">会社名・団体名<span class="req opt">任意</span></label>
+            <input type="text" id="company" name="company" autocomplete="organization" placeholder="個人の方は空欄で構いません" />
           </div>
 
           <div class="field">
@@ -71,8 +81,23 @@ import { SITE } from '../../data/site';
           </div>
 
           <div class="field">
+            <label for="source">WizTryを知ったきっかけ<span class="req opt">任意</span></label>
+            <select id="source" name="source">
+              <option value="" selected>選択してください</option>
+              <option value="検索（Google・Yahoo!など）">検索（Google・Yahoo!など）</option>
+              <option value="ChatGPTなどのAIに聞いた">ChatGPTなどのAIに聞いた</option>
+              <option value="YouTube">YouTube</option>
+              <option value="X・SNS">X・SNS</option>
+              <option value="セミナー・講演">セミナー・講演</option>
+              <option value="知人・取引先からの紹介">知人・取引先からの紹介</option>
+              <option value="新聞・テレビ・ラジオ">新聞・テレビ・ラジオ</option>
+              <option value="その他">その他</option>
+            </select>
+          </div>
+
+          <div class="field">
             <label for="message">ご相談内容<span class="req">必須</span></label>
-            <textarea id="message" name="message" rows="7" required></textarea>
+            <textarea id="message" name="message" rows="7" required placeholder="例）社員20名にChatGPTの研修をしたい／毎月の請求書づくりをAIで自動化できるか知りたい"></textarea>
           </div>
 
           <div class="field consent-field">
@@ -128,6 +153,45 @@ import { SITE } from '../../data/site';
     const AJAX_ENDPOINT = 'https://formsubmit.co/ajax/info@wiztrydx.com';
     let sending = false;
 
+    // 記事などの相談ボタンから来たとき（/contact/?type=agent&from=記事名）は、相談内容の種類を選んだ状態にする。
+    // あわせて、最初に開いたページ・参照元（Base.astroで記録）と押されたボタンの記事名を、返信時の手がかりとして添える。
+    const params = new URLSearchParams(location.search);
+    const TYPE_TO_CATEGORY: Record<string, string> = {
+      training: '生成AI研修について',
+      agent: 'AIエージェント導入について',
+      web: 'ホームページ制作について',
+      video: 'AI動画制作について',
+      subsidy: '補助金・助成金について',
+    };
+    const category = form.querySelector<HTMLSelectElement>('#category');
+    const preset = TYPE_TO_CATEGORY[params.get('type') ?? ''];
+    if (category && preset && !category.value) category.value = preset;
+    const setHidden = (id: string, value: string) => {
+      const el = document.getElementById(id) as HTMLInputElement | null;
+      if (el) el.value = value.slice(0, 200);
+    };
+    try {
+      setHidden('f-first-page', sessionStorage.getItem('wt_landing') ?? '');
+      setHidden('f-referrer', sessionStorage.getItem('wt_referrer') ?? '');
+    } catch {
+      /* storageが使えない場合は空のまま送る */
+    }
+    setHidden('f-cta-from', params.get('from') ?? '');
+
+    // GA4へ問い合わせ完了を送る。GA4管理画面でこのイベントを「キーイベント」に指定すると
+    // 問い合わせ件数がコンバージョンとして集計される。リロードや二重送信で増えないよう
+    // sessionStorageで1セッション1回に制限する（thanksページ側と同じキーを共有）。
+    window.wtTrackLead = function wtTrackLead() {
+      try {
+        if (sessionStorage.getItem('wt_lead_counted') === '1') return;
+        sessionStorage.setItem('wt_lead_counted', '1');
+      } catch {
+        /* プライベートモード等でstorageが使えない場合はそのまま計測する */
+      }
+      const g = window.gtag;
+      if (typeof g === 'function') g('event', 'generate_lead', { method: 'contact_form' });
+    };
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (sending) return;
@@ -147,6 +211,7 @@ import { SITE } from '../../data/site';
         const data = await res.json().catch(() => null);
 
         if (res.ok && data && String(data.success) === 'true') {
+          window.wtTrackLead();
           window.location.href = '/contact/thanks/';
           return;
         }
@@ -169,7 +234,50 @@ import { SITE } from '../../data/site';
   .intro {
     color: var(--ink-soft);
     max-width: 44em;
-    margin-bottom: clamp(32px, 4vw, 48px);
+    margin-bottom: 20px;
+  }
+  /* ご相談の流れ（送ったあと何が起きるかを先に見せて、送る不安を減らす） */
+  .contact-flow {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 clamp(28px, 3.6vw, 40px);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .contact-flow li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 16px;
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .contact-flow strong {
+    display: block;
+    font-size: 14.5px;
+    color: var(--ink);
+  }
+  .contact-flow .step {
+    flex: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--blue-500);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  @media (max-width: 760px) {
+    .contact-flow { grid-template-columns: 1fr; gap: 8px; }
+    .contact-flow li { padding: 10px 14px; }
   }
   .contact-layout {
     display: grid;

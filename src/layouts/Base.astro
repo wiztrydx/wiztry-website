@@ -242,6 +242,24 @@ const jsonLd = {
     </footer>
 
     <script>
+      // 問い合わせの手がかり: このセッションで最初に開いたページと参照元のサイト名（ドメインだけ）を覚えておき、
+      // お問い合わせフォームの送信時に添える。ClientRouterの遷移では再実行されないので、最初の1ページだけが残る。
+      try {
+        if (!sessionStorage.getItem('wt_landing')) {
+          sessionStorage.setItem('wt_landing', location.pathname);
+          let ref = '';
+          try {
+            ref = document.referrer ? new URL(document.referrer).hostname : '';
+          } catch (e) {
+            ref = '';
+          }
+          if (ref === location.hostname) ref = '';
+          sessionStorage.setItem('wt_referrer', ref || '(直接・不明)');
+        }
+      } catch (e) {
+        /* プライベートモード等では記録しない */
+      }
+
       // ページ遷移でbodyが差し替わるため、window直付けのリスナーは1回だけ登録し、
       // 参照する要素はナビゲーションごとに更新する（多重登録によるカクつき防止）
       let headerEl: HTMLElement | null = null;

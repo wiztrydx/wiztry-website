@@ -30,6 +30,71 @@ const related = [
   ...allPosts.filter((p) => p.data.tag !== post.data.tag),
 ].slice(0, 3);
 
+// 相談導線: 記事の内容に合わせて、最後と途中に出す案内を切り替える。
+// 検索から来る読者の多くは熊本の外から「やり方」を探しに来ているので、
+// 記事の続きとして頼めること（制作・研修・導入）を具体的に示す。
+type CtaKind = 'video' | 'agent' | 'training' | 'subsidy' | 'general';
+const ctaKind: CtaKind = /(video|roomtour|-cm$|-mv$)/.test(post.id)
+  ? 'video'
+  : post.data.tag === 'AIエージェント'
+    ? 'agent'
+    : post.data.tag === '補助金・助成金'
+      ? 'subsidy'
+      : post.data.tag === 'お知らせ'
+        ? 'general'
+        : 'training';
+
+interface CtaCopy {
+  title: string;
+  text: string;
+  primary: string;
+  type: string;
+  secondary: { label: string; href: string };
+  mid?: { lead: string; link: string };
+}
+const CTA: Record<CtaKind, CtaCopy> = {
+  video: {
+    title: 'AI動画、つくるのも任せるのもご相談ください',
+    text: 'WizTryは撮影なしのAI動画制作を承っています。お手持ちの写真や資料からつくれて、最短1週間から納品できます。社内でつくれるようになりたい方には、Claude CodeなどのAIエージェントの研修も行っています。',
+    primary: '動画制作を相談する',
+    type: 'video',
+    secondary: { label: '制作した動画を見る', href: '/ai-video/' },
+    mid: { lead: 'この記事のような動画を、制作ごとお任せいただくこともできます。', link: 'AI動画制作の相談はこちら' },
+  },
+  agent: {
+    title: 'この記事のやり方を、自社の仕事でも動かしませんか',
+    text: 'WizTryは自社の業務でもClaude CodeなどのAIエージェントを毎日動かしています。社員が使えるようになる研修と、決まった手順の仕事をAIに任せる導入支援の両方に対応しています。',
+    primary: '導入・研修を相談する',
+    type: 'agent',
+    secondary: { label: '導入支援の内容を見る', href: '/kumamoto-ai-agent/' },
+    mid: { lead: '自社の仕事でAIエージェントを動かしたい方へ。', link: '研修・導入の相談はこちら' },
+  },
+  training: {
+    title: '新しいAIを、社員が仕事で使えるように',
+    text: 'WizTryは累計100社超えの企業で生成AI研修を行ってきました。ChatGPT・Gemini・Claudeの最新動向を踏まえ、明日から使える事例で学べます。熊本では講師が隣につく対面研修を基本に、遠方の方とはオンラインでもお話を伺います。',
+    primary: '研修について相談する',
+    type: 'training',
+    secondary: { label: '研修の内容を見る', href: '/kumamoto-ai-training/' },
+    mid: { lead: '社員みんながAIを使えるようにしたい方へ。', link: '生成AI研修の相談はこちら' },
+  },
+  subsidy: {
+    title: '補助金・助成金を使ったAI研修のご相談',
+    text: '熊本県リスキリング応援補助金や人材開発支援助成金など、要件に合う制度があれば研修とあわせてご案内します。対象になりそうかの確認だけでもお気軽にどうぞ。',
+    primary: '補助金の活用を相談する',
+    type: 'subsidy',
+    secondary: { label: '研修の内容を見る', href: '/kumamoto-ai-training/' },
+  },
+  general: {
+    title: 'AIの研修・導入・動画制作のご相談',
+    text: '生成AIの研修、AIエージェントの導入支援、AI動画制作、ホームページ制作のご相談を受け付けています。「AIで何ができるか知りたい」という段階でも歓迎です。',
+    primary: '相談する',
+    type: '',
+    secondary: { label: 'サービスを見る', href: '/service/' },
+  },
+};
+const cta = CTA[ctaKind];
+const contactHref = `/contact/?${new URLSearchParams({ ...(cta.type ? { type: cta.type } : {}), from: post.id }).toString()}`;
+
 const fmt = (d: Date) =>
   `${d.getUTCFullYear()}.${String(d.getUTCMonth() + 1).padStart(2, '0')}.${String(d.getUTCDate()).padStart(2, '0')}`;
 
@@ -68,7 +133,7 @@ const breadcrumbLd = {
 };
 ---
 
-<Base title={post.data.title} description={post.data.description} onDark={true} ogImage={post.data.thumb} ogImageHeight={675} ogType="article">
+<Base fullTitle={`${post.data.title}｜WizTry`} description={post.data.description} onDark={true} ogImage={post.data.thumb} ogImageHeight={675} ogType="article">
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(articleLd)} />
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbLd)} />
   <section class="page-hero post-hero" style={heroStyle}>
@@ -118,9 +183,24 @@ const breadcrumbLd = {
       </aside>
 
       <div class="post-cta reveal">
-        <p>関連するご相談はお気軽に</p>
-        <a href="/contact/" class="btn btn--primary">お問い合わせする <span class="arrow">→</span></a>
+        <span class="post-cta-label">CONSULTATION</span>
+        <h2 class="post-cta-title">{cta.title}</h2>
+        <p class="post-cta-text">{cta.text}</p>
+        <div class="post-cta-actions">
+          <a href={contactHref} class="btn btn--primary" data-cta="blog-end" data-cta-kind={ctaKind}>{cta.primary} <span class="arrow">→</span></a>
+          <a href={cta.secondary.href} class="btn btn--ghost" data-cta="blog-end-sub" data-cta-kind={ctaKind}>{cta.secondary.label}</a>
+        </div>
+        <p class="post-cta-note">相談・お見積りは無料です。2営業日以内にご返信します。</p>
       </div>
+
+      {
+        cta.mid && (
+          <aside class="post-midcta" data-midcta hidden>
+            <span>{cta.mid.lead}</span>
+            <a href={contactHref} data-cta="blog-mid" data-cta-kind={ctaKind}>{cta.mid.link}（無料） →</a>
+          </aside>
+        )
+      }
     </div>
   </section>
 
@@ -239,15 +319,77 @@ const breadcrumbLd = {
     max-width: 720px;
     margin: 64px auto 0;
     text-align: center;
-    padding: 40px clamp(20px, 4vw, 40px);
+    padding: 44px clamp(20px, 4vw, 44px) 36px;
     background: var(--bg-alt);
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--blue-500);
     border-radius: var(--radius);
   }
-  .post-cta p {
-    font-weight: 700;
-    font-size: 15px;
+  .post-cta-label {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--blue-500);
+  }
+  .post-cta-title {
+    margin-top: 10px;
+    font-size: clamp(19px, 2.4vw, 23px);
+    font-weight: 800;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+  .post-cta-text {
+    margin: 14px auto 0;
+    max-width: 36em;
+    font-size: 14.5px;
+    line-height: 1.95;
     color: var(--ink-soft);
-    margin-bottom: 18px;
+    text-align: left;
+  }
+  .post-cta-actions {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+  .post-cta-note {
+    margin-top: 14px;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  @media (max-width: 560px) {
+    .post-cta-actions .btn {
+      width: 100%;
+      justify-content: center;
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+  }
+  /* 記事の途中に1回だけ出す控えめな案内（スクリプトで3つ目の大見出しの前へ移す） */
+  .post-midcta {
+    margin: 40px 0;
+    padding: 16px 20px;
+    border-left: 4px solid var(--blue-500);
+    background: var(--bg-alt);
+    border-radius: 0 12px 12px 0;
+    font-size: 14.5px;
+    line-height: 1.85;
+    color: var(--ink-soft);
+  }
+  .post-midcta span {
+    margin-right: 6px;
+  }
+  .post-midcta a {
+    font-weight: 700;
+    color: var(--blue-500);
+    white-space: nowrap;
+  }
+  .post-midcta a:hover {
+    text-decoration: underline;
   }
 
   /* 目次 */
@@ -320,4 +462,34 @@ const breadcrumbLd = {
   }
   openTocOnDesktop();
   document.addEventListener('astro:page-load', openTocOnDesktop);
+
+  // 途中の案内を、大見出しが4つ以上ある記事だけ3つ目の大見出しの前へ移して表示する。
+  // 短い記事では最後の案内だけにして、読む邪魔をしない。
+  function placeMidCta() {
+    const box = document.querySelector<HTMLElement>('[data-midcta]');
+    if (!box || box.dataset.placed) return;
+    const heads = document.querySelectorAll('.prose h2');
+    if (heads.length < 4) return;
+    heads[2].before(box);
+    box.dataset.placed = '1';
+    box.hidden = false;
+  }
+  placeMidCta();
+  document.addEventListener('astro:page-load', placeMidCta);
+
+  // 相談ボタンのクリックをGA4へ送る（どの記事のどの位置の案内が押されたかを測る）
+  function bindCtaTracking() {
+    document.querySelectorAll<HTMLAnchorElement>('a[data-cta]').forEach((a) => {
+      if (a.dataset.ctaBound) return;
+      a.dataset.ctaBound = '1';
+      a.addEventListener('click', () => {
+        const g = (window as any).gtag;
+        if (typeof g === 'function') {
+          g('event', 'cta_click', { cta_location: a.dataset.cta, cta_kind: a.dataset.ctaKind });
+        }
+      });
+    });
+  }
+  bindCtaTracking();
+  document.addEventListener('astro:page-load', bindCtaTracking);
 </script>

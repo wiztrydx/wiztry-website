@@ -22,6 +22,22 @@ import Base from '../../layouts/Base.astro';
   </section>
 </Base>
 
+<script>
+  // AJAX送信が使えずフォームの通常POSTで到達した場合の保険。
+  // 送信側で計測済みならsessionStorageのフラグで弾き、二重計上しない。
+  function trackLeadOnThanks() {
+    try {
+      if (sessionStorage.getItem('wt_lead_counted') === '1') return;
+      sessionStorage.setItem('wt_lead_counted', '1');
+    } catch {
+      /* storageが使えない場合はそのまま計測する */
+    }
+    const g = window.gtag;
+    if (typeof g === 'function') g('event', 'generate_lead', { method: 'contact_form' });
+  }
+  document.addEventListener('astro:page-load', trackLeadOnThanks);
+</script>
+
 <style>
   .thanks-hero {
     min-height: calc(100vh - var(--header-h));
