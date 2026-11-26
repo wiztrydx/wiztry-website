@@ -1,6 +1,6 @@
 ---
 title: "Claude CodeでAI動画編集の全手順【プロンプト付き】"
-description: "Claude Codeに「編集して」と頼むだけでYouTube動画を仕上げる全手順を、初心者向けに解説。最初に変える設定3つ、コピペできる依頼書、品質を上げる4つのコツ、Final Cut Proへの渡し方まで。料金は2026年11月時点で確認しました。"
+description: "Claude Codeに「編集して」と頼むだけでYouTube動画を仕上げる全手順を解説。最初に変える設定3つ、コピペできる依頼書、品質を上げる4つのコツ、Final Cut Proへの渡し方まで。料金は2026年11月時点で確認しました。"
 pubDate: 2026-11-02T11:00:00
 tag: "AIエージェント"
 thumb: "/thumbs/claude-code-ai-video-editing.webp"

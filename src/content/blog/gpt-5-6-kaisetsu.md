@@ -1,6 +1,6 @@
 ---
 title: "GPT-5.6 Sol・Terra・Lunaの違い｜読み方と選び方をやさしく解説"
-description: "GPT-5.6のSol（ソル）・Terra（テラ）・Luna（ルナ）は何が違うのか。名前の読み方と由来、3つの使い分け、API料金、中小企業ならどれを選べばいいのかを、松竹梅のたとえで初心者向けに解説します。"
+description: "GPT-5.6のSol（ソル）・Terra（テラ）・Luna（ルナ）は何が違うのか。名前の読み方と由来、3つの使い分け、API料金、中小企業ならどれを選べばいいのかを、松竹梅のたとえで解説します。"
 pubDate: 2026-07-10T12:00:00
 tag: "AI最新動向"
 thumb: "/thumbs/gpt-5-6-kaisetsu.webp"

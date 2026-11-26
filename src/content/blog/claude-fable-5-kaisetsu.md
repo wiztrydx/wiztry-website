@@ -1,10 +1,12 @@
 ---
 title: "Claude Fable 5とは？Opusの上をいく「Mythosクラス」をわかりやすく解説"
-description: "Anthropicが2026年6月に発表したClaude Fable 5。従来最上位のOpusを超える新クラス「Mythos」とは何か、Mythos 5との違い、ビジネスで何が変わるのかを、AI導入支援のプロが初心者向けに解説します。"
+description: "Anthropicが2026年6月に発表したClaude Fable 5。従来最上位のOpusを超える新クラス「Mythos」とは何か、Mythos 5との違い、ビジネスで何が変わるのかを、AI導入支援のプロが解説します。"
 pubDate: 2026-07-10T11:30:00
 tag: "AI最新動向"
 thumb: "/thumbs/claude-fable-5-kaisetsu.webp"
 ---
+
+※2026年7月時点の内容です。新しい世代と今の使えるプランは「[Claude Fable 5.2とOpus 5.5の実演比較](/blog/claude-fable-5-2-opus-5-5-hikaku/)」にまとめました。
 
 AIの世界で「最上位」と言えば、長らくAnthropicの「Opus（オーパス）」でした。ところが2026年6月、そのOpusの"さらに上"が登場しました。
 

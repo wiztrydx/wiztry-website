@@ -1,6 +1,6 @@
 ---
 title: "NotebookLM超入門｜新機能と「会社の何でも質問窓口」の作り方"
-description: "NotebookLM（Gemini Notebookに改名）の新機能Collectionsをいち早く解説。渡した資料だけを根拠に引用付きで答える仕組み、就業規則で作る「会社の何でも質問窓口」の3ステップ、無料版の上限、安全に使う4つのルールまで中小企業向けに整理しました。"
+description: "NotebookLM（Gemini Notebookに改名）の新機能Collectionsをいち早く解説。渡した資料だけを根拠に引用付きで答える仕組み、就業規則で作る「会社の何でも質問窓口」の3ステップ、無料版の上限、安全に使う4つのルールまで整理しました。"
 pubDate: 2026-07-21T09:00:00
 tag: "AI最新動向"
 thumb: "/thumbs/notebooklm-kaisetsu.webp"
