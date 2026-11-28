@@ -17,7 +17,8 @@ QUALITY = os.environ.get('QUALITY', 'low')
 JOBS = {
     'icon-worry-team': ('1:1', ICON +
         "Three simple abstract person figures side by side (rounded head and shoulders, no faces). The one on the left glows bright electric blue, "
-        "the other two are dim, pale grey-blue and unlit, meaning 'only one person in the team is using it'.", 360),
+        "the other two are dim, pale grey-blue and unlit, meaning 'only one person in the team is using it'. "
+        "The figures stand directly on the plain white background: no tile, no card, no rounded square plate behind them.", 360),
     'icon-worry-start': ('1:1', ICON +
         "A wooden-style signpost made of glass with three blank arrow boards pointing in three different directions, and a small compass at its base, "
         "meaning 'not sure which way to start'. The boards are completely blank.", 360),

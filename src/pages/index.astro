@@ -65,10 +65,11 @@ const REASONS = [
     title: '講師が隣で教える、対面ハンズオン',
     body: '動画を見るだけの研修は、手が止まったところで終わってしまいます。WizTryの研修は、講師が会場へ伺い、受講者が自分のパソコンで操作しながら進める形式です。つまずいたその場で解決するので、パソコンに慣れていない方も置いていきません。',
     chips: ['熊本県内全域へ訪問', '1回2時間・全4〜10回', 'オンライン併用も可'],
-    img: '/gen/scene-training-close.webp',
-    w: 1200,
-    h: 896,
-    alt: '講師がそばで見守る中、受講者がノートパソコンで生成AIを操作している研修のイメージ',
+    img: '/photos/training-handson.webp',
+    sm: '/photos/training-handson-sm.webp',
+    w: 1800,
+    h: 1350,
+    alt: '少人数で机を囲み、受講者がそれぞれのノートパソコンで生成AIを操作している研修の様子（受講者のお顔は加工しています）',
   },
   {
     title: '100社超えの現場で磨いた教材',
@@ -282,7 +283,16 @@ const faqLd = {
           REASONS.map((r, i) => (
             <article class:list={['hm-why-row', 'reveal', { 'hm-why-row--rev': i % 2 === 1 }]}>
               <div class="hm-why-media zoom-media">
-                <img src={r.img} alt={r.alt} width={r.w} height={r.h} loading="lazy" decoding="async" />
+                <img
+                  src={r.img}
+                  srcset={'sm' in r ? `${r.sm} 900w, ${r.img} ${r.w}w` : undefined}
+                  sizes={'sm' in r ? '(max-width: 900px) 92vw, 560px' : undefined}
+                  alt={r.alt}
+                  width={r.w}
+                  height={r.h}
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
               <div class="hm-why-body">
                 <span class="hm-why-num">{`0${i + 1}`}</span>
@@ -468,8 +478,8 @@ const faqLd = {
           </p>
           <ul class="hm-ceo-facts">
             <li><strong>100社超え</strong><span>累計の支援企業数</span></li>
-            <li><strong>年300回以上</strong><span>研修・セミナー・打ち合わせ（2025年）</span></li>
-            <li><strong>4.6 / 5</strong><span>研修満足度（419件の平均）</span></li>
+            <li><strong>年300回以上</strong><span>研修・セミナーの登壇（2025年度）</span></li>
+            <li><strong>4.8 / 5</strong><span>研修満足度（受講後アンケート平均）</span></li>
           </ul>
           <a href="/about/" class="btn btn--ghost">代表メッセージ・会社案内 <span class="arrow">→</span></a>
         </div>

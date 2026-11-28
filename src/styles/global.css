@@ -110,7 +110,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
   margin-bottom: 14px;
 }
 .sec-head .en::before { content: ""; width: 34px; height: 2px; background: var(--accent-grad); border-radius: 2px; }
-.sec-head h2 { font-size: clamp(26px, 3.6vw, 40px); font-weight: 800; letter-spacing: 0.02em; }
+.sec-head h2 { font-size: clamp(26px, 3.6vw, 40px); font-weight: 800; letter-spacing: 0.02em; text-wrap: balance; word-break: auto-phrase; }
 .sec-head .lead { margin-top: 18px; color: var(--ink-soft); max-width: 46em; }
 .section--navy .sec-head .en { color: var(--cyan-400); }
 .section--navy .sec-head .lead { color: rgba(255, 255, 255, 0.78); }
