@@ -6,7 +6,7 @@ import LogoWall from '../components/LogoWall.astro';
 import Stats from '../components/Stats.astro';
 import ParticleField from '../components/ParticleField.astro';
 import Ticks from '../components/Ticks.astro';
-import { NEWS, YOUTUBE } from '../data/site';
+import { NEWS, YOUTUBE_CHANNELS, SITE } from '../data/site';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog'))
@@ -17,15 +17,170 @@ const posts = (await getCollection('blog'))
 const news = [...NEWS].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 6);
 const fmtNewsDate = (d: string) => d.replaceAll('-', '.');
 
-const NUMBERS = [
-  { value: 100, decimals: 0, unit: '社超え', label: '累計支援企業数', note: '※2026年11月時点' },
-  { value: 4.8, decimals: 1, unit: ' / 5.0', label: '研修満足度', note: '※受講後アンケート平均' },
-  { value: 12, decimals: 0, unit: '業種+', label: '支援業種の広がり', note: '' },
-  { value: 2023, decimals: 0, unit: '年', label: '熊本にて創業', note: '' },
+// 紹介いただいた媒体・公的機関。お知らせの台帳（site.ts の NEWS）から重複を除いて拾うので、足すときは台帳に書く
+const outlets = [
+  ...new Set(
+    NEWS.filter((n) => n.outlet && (n.category === 'メディア掲載' || n.category === '公的機関・自治体')).map((n) => n.outlet),
+  ),
 ];
+
+// 書き方の決まり（このページ全体）:
+// - 研修を「貴社に合わせて作る」「実際の書類を教材にする」と読める言い方をしない（業種別の事例を体系化した教材・職種や役割別のコース、と書く）
+// - 補助金・助成金は「対象となる場合がある」「制度のご案内」まで。申請の代行・書類づくりを請け負うと読める言い方、補助率の数字、無料・実質負担の話は書かない
+// - 金額・最上級の表現（No.1 など）は書かない。数字には時点か出どころを添える
+
+const WORRIES = [
+  {
+    icon: 'icon-worry-team',
+    title: '使っているのは、一部の社員だけ',
+    body: 'ChatGPTやGeminiを入れたものの、全社には広がらない。',
+    answer: '対面のハンズオン研修で、全員が自分のパソコンで手を動かします',
+    href: '/service/#training',
+  },
+  {
+    icon: 'icon-worry-start',
+    title: '何から始めればいいか分からない',
+    body: 'ツールが多くて選べない。社内に詳しい人もいない。',
+    answer: '今の状況を伺い、最初の一歩を一緒に決めます（ご相談は無料）',
+    href: '/contact/',
+  },
+  {
+    icon: 'icon-worry-time',
+    title: '人手が足りず、定型業務に追われている',
+    body: '集計・転記・資料づくりに、毎日時間を取られる。',
+    answer: '繰り返しの業務を、AIエージェントで自動化します',
+    href: '/service/#agent',
+  },
+  {
+    icon: 'icon-worry-rule',
+    title: '情報漏えいが心配で、踏み出せない',
+    body: '何を入力してよいのか、社内の線引きがあいまい。',
+    answer: 'AIの答えの確かめ方から、管理者向けの設定まで研修で扱います',
+    href: '/kumamoto-ai-training/',
+  },
+];
+
+const REASONS = [
+  {
+    title: '講師が隣で教える、対面ハンズオン',
+    body: '動画を見るだけの研修は、手が止まったところで終わってしまいます。WizTryの研修は、講師が会場へ伺い、受講者が自分のパソコンで操作しながら進める形式です。つまずいたその場で解決するので、パソコンに慣れていない方も置いていきません。',
+    chips: ['熊本県内全域へ訪問', '1回2時間・全4〜10回', 'オンライン併用も可'],
+    img: '/gen/scene-training-close.webp',
+    w: 1200,
+    h: 896,
+    alt: '講師がそばで見守る中、受講者がノートパソコンで生成AIを操作している研修のイメージ',
+  },
+  {
+    title: '100社超えの現場で磨いた教材',
+    body: '不動産・建設・製造・医療・小売など、12を超える業種の企業を支援する中で集まった活用事例と知見を、教材として体系化しています。職種や役割に応じたコースをご用意し、ChatGPT・Gemini・Claudeのいずれにも対応します。',
+    chips: ['累計100社超えを支援', '12業種以上', 'ChatGPT・Gemini・Claude'],
+    img: '/photos/seminar-podium.webp',
+    w: 1800,
+    h: 1350,
+    alt: '代表の末松が、多くの参加者を前に生成AIのセミナーで登壇している様子',
+  },
+  {
+    title: '自社でも、毎日AIを動かしている',
+    body: 'WizTryは、営業資料や研修資料の作成、メール返信の下書き、請求書の作成、問い合わせの一次対応まで、自社の実務をAIエージェントに任せています。だから研修では実際に使っている方法をお伝えでき、導入支援では止まりやすい所まで先回りできます。',
+    chips: ['Claude Code・Codex', 'Dify・GAS', '研修から導入・運用まで'],
+    img: '/gen/agent-night-office.webp',
+    w: 1024,
+    h: 1024,
+    alt: '人のいない夜のオフィスで、複数のAIエージェントが業務を進めているイメージ',
+  },
+];
+
+// 成果の例。出どころは /works/ の事例（企業名は出さない）。数字を変えるときは /works/ と一緒に直す
+const CASES = [
+  {
+    tag: 'ハウスメーカー ／ AIエージェント導入',
+    figure: '月20時間以上',
+    figureLabel: '一人あたりの業務時間を削減',
+    body: '業務エージェントを導入し、空いた時間をお客様対応と提案に。社内のAI活用が一気に進みました。',
+    img: '/gen/case-housemaker.webp',
+    alt: 'ハウスメーカーのAIエージェント導入による業務削減のイメージ',
+  },
+  {
+    tag: '不動産 ／ 全社員研修',
+    figure: '約40名',
+    figureLabel: '全社で受講し、2期目も継続',
+    body: 'Gemini for Google Workspaceの研修を全社で実施。文書作成と情報共有が速くなり、翌年も継続のご依頼をいただきました。',
+    img: '/gen/case-realestate.webp',
+    alt: '不動産会社の全社員向け生成AI研修のイメージ',
+  },
+  {
+    tag: '電気設備工事 ／ 集中育成',
+    figure: '全6回・12時間',
+    figureLabel: '現場の中核メンバー12名が受講',
+    body: 'Gemini for Google Workspaceのハンズオン講座で、現場部門の中核メンバーを育成。研修後に継続のご依頼もいただきました。',
+    img: '/gen/case-electric.webp',
+    alt: '電気設備工事会社の現場メンバー向け生成AIハンズオン研修のイメージ',
+  },
+];
+
+// 自社での実践。数字と注記は /kumamoto-ai-agent/ ・ /kumamoto-ai-training/ と同じもの。片方だけ変えない
+const PRACTICE = [
+  { value: 8, unit: '割以上', label: '実務のうち、AIエージェントが担う割合', note: '※2026年7月時点の社内集計' },
+  { value: 18, unit: '本', label: '時間になると自動で動く定時業務', note: '' },
+  { value: 10, unit: '名分', label: '担当を分けて動かしている「AI社員」', note: '' },
+];
+
+const FLOW = [
+  { title: '無料相談', body: 'フォームからご連絡ください。2営業日以内にご返信します。「何から始めるか決まっていない」段階でも大丈夫です。' },
+  { title: 'お打ち合わせ', body: 'オンラインまたは対面で、今の状況と目的を伺います。熊本県内は訪問も可能です。' },
+  { title: 'ご提案・お見積り', body: '研修はコースと回数・日程を、導入支援は対象の業務と進め方をご提案します。お見積りまで無料です。' },
+  { title: '開始', body: '研修は対面ハンズオンで実施。導入支援は、まず1つの業務で試作し、効果を確かめてから広げます。' },
+];
+
+const FAQS = [
+  {
+    q: 'WizTryはどんな会社ですか？',
+    a: '熊本市に本社を置く、生成AI研修とAIエージェント導入支援の会社です（2023年7月設立）。講師が会場へ伺う対面ハンズオン研修と、Claude Code・Codexなどで業務を自動化するAIエージェントの構築を行っています。累計の支援企業数は100社超え（2026年11月時点）です。',
+  },
+  {
+    q: '熊本市以外や、県外でも依頼できますか？',
+    a: '可能です。熊本市を拠点に、熊本県内全域へお伺いしています。近県での開催や、オンラインでの実施もご相談ください。',
+  },
+  {
+    q: '研修は何名から、何回から実施できますか？',
+    a: '少人数の集中育成から、約40名規模の全社研修まで対応しています。全4〜10回・1回2時間程度の構成が中心です。',
+  },
+  {
+    q: 'どのAIツールに対応していますか？',
+    a: 'ChatGPT・Google Gemini・Claudeに対応しています。Google Workspaceを導入済みの企業向けには、Gemini for Google Workspaceの研修もご用意しています。',
+  },
+  {
+    q: 'パソコンが苦手な社員が多くても大丈夫ですか？',
+    a: '大丈夫です。講師がすぐ隣でサポートする対面ハンズオン形式なので、ITに不慣れな方も置いていかれません。幅広い年代・職種の方に受講いただいています。',
+  },
+  {
+    q: '費用はどのくらいですか？',
+    a: '人数・回数・実施の形式によってお見積りします。ご相談とお見積りは無料で、お問い合わせから2営業日以内にご返信します。',
+  },
+  {
+    q: '補助金・助成金は使えますか？',
+    a: '研修は、公的な補助金・助成金の対象となる場合があります。対象になるかどうかは、各制度の要件と審査によります。WizTryからは、制度の概要と、研修の内容・日程など研修側でご用意する資料をご案内します。申請の手続きは、受講される企業様、または社会保険労務士などの専門家が行います。',
+  },
+  {
+    q: '研修ではなく、業務の自動化だけを相談できますか？',
+    a: 'できます。問い合わせの一次対応、資料作成、データ集計など、繰り返し発生する業務が対象です。まず1つの業務で試作し、効果を確かめてから広げる進め方をおすすめしています。',
+  },
+];
+
+// よくある質問の構造化データ（本文と同じ文面をそのまま入れる）
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQS.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
 ---
 
 <Base onDark={true}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(faqLd)} />
   <!-- LCP改善: CSS背景のヒーロー画像はブラウザの発見が遅いため先読みする -->
   <link slot="head" rel="preload" as="image" href="/gen/hero-ai-wave.webp" fetchpriority="high" />
   <!-- 1-1 Hero -->
@@ -49,12 +204,17 @@ const NUMBERS = [
           ))}
         </h1>
         <p class="hero-sub">
-          熊本から、企業のAI活用を成果まで導く。講師が隣で伴走するハンズオン研修、Claude
-          CodeやCodexによる実務自動化エージェントの開発、AIを使ったホームページ制作と動画制作。WizTryは「使えるようになるまで」を約束する、企業のAIパートナーです。
+          熊本の生成AI研修・AIエージェント導入支援の会社です。講師が隣で教える対面ハンズオン研修と、Claude
+          Code・Codexで日々の業務を自動化するAIエージェントの構築。熊本を中心に、累計100社超えの企業を支援しています。
         </p>
         <div class="hero-actions">
           <a href="/contact/" class="btn btn--primary btn--lg">無料で相談する <span class="arrow">→</span></a>
           <a href="/service/" class="btn btn--ghost-white">サービスを見る</a>
+          <ul class="hero-assure">
+            <li>ご相談・お見積りは無料</li>
+            <li>2営業日以内にご返信</li>
+            <li>熊本県内全域へ訪問・オンラインも可</li>
+          </ul>
         </div>
       </div>
       <div class="scroll-indicator" aria-hidden="true">
@@ -70,37 +230,78 @@ const NUMBERS = [
     </div>
   </section>
 
-  <!-- 1-2 選ばれる理由 -->
-  <section class="section section--alt">
+  <!-- 1-1b メディア掲載・公的機関でのご紹介（文字だけ。媒体のロゴは使わない） -->
+  <section class="hm-press" aria-label="メディア掲載・公的機関でのご紹介">
     <div class="container">
-      <SectionHead en="WHY WIZTRY" title="選ばれ続ける、3つの理由" />
-      <div class="grid grid--3">
-        <div class="card num-card tilt reveal reveal-d1">
-          <span class="num">01</span>
-          <h3>対面ハンズオンで、確実に身につく</h3>
-          <p>
-            オンライン教材を見るだけでは、現場は変わりません。講師がすぐ隣で一緒に手を動かし、その場でつまずきを解消。基本のAI活用から実務レベルの応用まで、「分かる」で終わらせず「使える」まで引き上げます。
-          </p>
-        </div>
-        <div class="card num-card tilt reveal reveal-d2">
-          <span class="num">02</span>
-          <h3>研修だけじゃない、開発技術力</h3>
-          <p>
-            Claude Code・Codex・Dify・GASを使い、問い合わせ対応や資料作成、日報・データ集計といった日常業務を自動化するAIエージェントを構築。研修会社であると同時に、実装まで担う開発パートナーです。
-          </p>
-        </div>
-        <div class="card num-card tilt reveal reveal-d3">
-          <span class="num">03</span>
-          <h3>リピートされる満足度</h3>
-          <p>
-            受講後アンケートの満足度は平均4.8（5点満点）。2年目・3年目の継続プログラムや2期目研修など、一度導入いただいた企業様からのリピートが多いことが、成果の何よりの証明です。
-          </p>
-        </div>
+      <div class="hm-press-inner reveal">
+        <p class="hm-press-label">メディア掲載・公的機関でのご紹介</p>
+        <ul class="hm-press-list">
+          {outlets.map((o) => (
+            <li>{o}</li>
+          ))}
+        </ul>
+        <a href="/media/" class="hm-press-more">一覧を見る <span class="arrow">→</span></a>
+      </div>
+      <p class="hm-press-note">※自社で運営する「くまもと被災者支援ナビ」「くまもと応援ナビ」のご紹介を含みます</p>
+    </div>
+  </section>
+
+  <!-- 1-2 よくあるお悩み -->
+  <section class="section section--alt hm-worry">
+    <div class="container">
+      <SectionHead
+        en="ISSUES"
+        title="こんなお悩みは、ありませんか"
+        lead="生成AIのご相談でよく伺うのは、次の4つです。どれも、進め方が決まれば動き出せます。"
+        center
+      />
+      <div class="hm-worry-grid">
+        {
+          WORRIES.map((w, i) => (
+            <a href={w.href} class:list={['card', 'hm-worry-card', 'reveal', `reveal-d${i + 1}`]}>
+              <img src={`/gen/${w.icon}.webp`} alt="" width="360" height="360" decoding="async" />
+              <h3>{w.title}</h3>
+              <p class="hm-worry-q">{w.body}</p>
+              <p class="hm-worry-a">
+                <span>WizTryでは</span>
+                {w.answer}
+              </p>
+            </a>
+          ))
+        }
       </div>
     </div>
   </section>
 
-  <!-- 1-3 サービス4本柱（研修・導入支援・ホームページ制作・AI動画制作） -->
+  <!-- 1-3 選ばれる理由 -->
+  <section class="section hm-why">
+    <div class="container">
+      <SectionHead en="WHY WIZTRY" title="WizTryが選ばれる、3つの理由" />
+      <div class="hm-why-rows">
+        {
+          REASONS.map((r, i) => (
+            <article class:list={['hm-why-row', 'reveal', { 'hm-why-row--rev': i % 2 === 1 }]}>
+              <div class="hm-why-media zoom-media">
+                <img src={r.img} alt={r.alt} width={r.w} height={r.h} loading="lazy" decoding="async" />
+              </div>
+              <div class="hm-why-body">
+                <span class="hm-why-num">{`0${i + 1}`}</span>
+                <h3>{r.title}</h3>
+                <p>{r.body}</p>
+                <ul class="hm-chips">
+                  {r.chips.map((c) => (
+                    <li>{c}</li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 1-4 サービス4本柱（研修・導入支援・ホームページ制作・AI動画制作） -->
   <section class="section section--deco" style="padding-top: clamp(40px, 5vw, 64px);">
     <div class="ticker" aria-hidden="true" style="margin-bottom: clamp(40px, 6vw, 72px);">
       <span>AI TRAINING&nbsp;/&nbsp;AI AGENT&nbsp;/&nbsp;WEB&nbsp;/&nbsp;AI VIDEO&nbsp;/&nbsp;KUMAMOTO&nbsp;/&nbsp;AI TRAINING&nbsp;/&nbsp;AI AGENT&nbsp;/&nbsp;WEB&nbsp;/&nbsp;AI VIDEO&nbsp;/&nbsp;KUMAMOTO&nbsp;/&nbsp;</span>
@@ -156,13 +357,13 @@ const NUMBERS = [
         熊本県内の企業様向けには、<a href="/kumamoto-ai-training/">熊本の生成AI研修</a>と<a href="/kumamoto-ai-agent/">熊本のAIエージェント導入支援</a>の専用ページもご用意しています
       </p>
       <p class="service-subsidy-note reveal reveal-d3">
-        熊本県リスキリング応援補助金・人材開発支援助成金などの活用もご提案できます
-        <a href="/service/#subsidy">詳しく見る <span class="arrow">→</span></a>
+        研修は、公的な補助金・助成金の対象となる場合があります（可否は各制度の要件・審査によります）
+        <a href="/service/#subsidy">制度のご案内 <span class="arrow">→</span></a>
       </p>
     </div>
   </section>
 
-  <!-- 1-4 実績ロゴ -->
+  <!-- 1-4b 実績ロゴ -->
   <section class="section section--alt">
     <div class="container">
       <SectionHead
@@ -177,20 +378,59 @@ const NUMBERS = [
     </div>
   </section>
 
-  <!-- 1-5 数字で見るWizTry -->
-  <section class="section section--navy sec-ghost numbers-sec" data-ghost="NUMBERS">
+  <!-- 1-5 成果の例（出どころは /works/） -->
+  <section class="section hm-cases">
+    <div class="container">
+      <SectionHead
+        en="RESULTS"
+        title="導入後に起きた変化"
+        lead="企業名は伏せて、実際の支援内容と結果をご紹介します。"
+      />
+      <div class="grid grid--3">
+        {
+          CASES.map((c, i) => (
+            <a href="/works/" class:list={['card', 'hm-case', 'tilt', 'reveal', `reveal-d${i + 1}`]}>
+              <div class="zoom-media">
+                <img src={c.img} alt={c.alt} loading="lazy" decoding="async" />
+              </div>
+              <div class="hm-case-body">
+                <span class="hm-case-tag">{c.tag}</span>
+                <p class="hm-case-figure">
+                  <strong>{c.figure}</strong>
+                  <span>{c.figureLabel}</span>
+                </p>
+                <p class="hm-case-text">{c.body}</p>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+      <p class="hm-note">※数値は各社での実績です。同じ成果をお約束するものではありません。</p>
+      <div class="text-center mt-40">
+        <a href="/works/" class="btn btn--ghost">導入実績をもっと見る <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1-6 自社での実践（数字と注記は /kumamoto-ai-agent/ と同じ） -->
+  <section class="section section--navy sec-ghost numbers-sec" data-ghost="PRACTICE">
     <ParticleField density={6} opacity={0.35} />
     <Ticks />
     <div class="container">
-      <SectionHead en="NUMBERS" title="数字で見るWizTry" center />
-      <div class="grid grid--4">
+      <SectionHead
+        en="OUR PRACTICE"
+        title="まず自社で使い、うまくいった方法をお伝えする"
+        lead="WizTry自身が、AIエージェントと一緒に働いている会社です。研修も導入支援も、自社で毎日動かしている仕組みが土台になっています。"
+        center
+      />
+      <div class="grid grid--3 hm-practice">
         {
-          NUMBERS.map((n, i) => (
+          PRACTICE.map((n, i) => (
             <div class:list={['stat', 'reveal', `reveal-d${i + 1}`]}>
               <div class="value">
-                {/* SEO: 初期HTMLに実数値（クローラー対策）。JSが表示時にカウントアップ演出に差し替える */}
-                <span class="count" data-to={n.value} data-decimals={n.decimals}>
-                  {n.decimals ? n.value.toFixed(n.decimals) : n.value}
+                {/* 初期HTMLに実数値を入れる（JSは表示時の演出だけ） */}
+                <span class="count" data-to={n.value} data-decimals="0">
+                  {n.value}
                 </span>
                 <span class="unit">{n.unit}</span>
               </div>
@@ -200,27 +440,103 @@ const NUMBERS = [
           ))
         }
       </div>
+      <p class="hm-practice-note">
+        ※「8割以上」は、当社が定義する定型業務・資料作成・情報整理等の作業時間に占める割合です。最終確認・経営判断・送信・契約や金額の確定など、対外的な意思決定は人が行っています。
+      </p>
+      <div class="text-center mt-40">
+        <a href="/kumamoto-ai-agent/" class="btn btn--ghost-white">自社での使い方を見る <span class="arrow">→</span></a>
+      </div>
     </div>
   </section>
 
-  <!-- 1-5.5 YouTube -->
-  <section class="section">
+  <!-- 1-7 代表 -->
+  <section class="section hm-ceo">
     <div class="container">
-      <div class="yt-band card tilt reveal reveal--zoom">
-        <div class="zoom-media yt-media">
-          <img src="/photos/youtube-thumb.webp" alt="YouTubeチャンネル KOTARO AI & VIDEO の動画「Veo3.1×FLOW完全攻略」サムネイル" loading="lazy" decoding="async" />
+      <div class="hm-ceo-inner">
+        <div class="hm-ceo-photo reveal">
+          <img src="/photos/ceo.webp" alt="WizTry株式会社 代表取締役 末松光太郎" width="1080" height="1080" loading="lazy" decoding="async" />
         </div>
-        <div class="yt-body">
-          <span class="yt-en">YOUTUBE</span>
-          <h2>{YOUTUBE.name}</h2>
-          <p>{YOUTUBE.description}</p>
-          <a href={YOUTUBE.url} target="_blank" rel="noopener" class="btn btn--navy">チャンネルを見る <span class="arrow">→</span></a>
+        <div class="hm-ceo-body reveal reveal-d1">
+          <span class="hm-en">REPRESENTATIVE</span>
+          <h2>毎日AIを使う実務者が、<br />現場に立っています</h2>
+          <p class="hm-ceo-name">
+            <span>代表取締役</span>
+            <strong>末松 光太郎</strong>
+          </p>
+          <p class="hm-ceo-text">
+            九州大学大学院を修了後、KMバイオロジクスでワクチン製造の技術職として約6年間勤務。30歳で独立し、2023年にWizTryを設立しました。金融機関・商工団体・経済団体が主催するセミナーにも、講師として招かれています。
+          </p>
+          <ul class="hm-ceo-facts">
+            <li><strong>100社超え</strong><span>累計の支援企業数</span></li>
+            <li><strong>年300回以上</strong><span>研修・セミナー・打ち合わせ（2025年）</span></li>
+            <li><strong>4.6 / 5</strong><span>研修満足度（419件の平均）</span></li>
+          </ul>
+          <a href="/about/" class="btn btn--ghost">代表メッセージ・会社案内 <span class="arrow">→</span></a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 1-6 お知らせ・メディア掲載 -->
+  <!-- 1-8 ご相談から開始まで -->
+  <section class="section section--alt hm-flow">
+    <div class="container">
+      <SectionHead
+        en="FLOW"
+        title="ご相談から開始まで"
+        lead="ご相談とお見積りは無料です。内容が固まっていなくても、お話を伺うところから始められます。"
+      />
+      <ol class="hm-flow-list">
+        {
+          FLOW.map((f, i) => (
+            <li class:list={['card', 'reveal', `reveal-d${i + 1}`]}>
+              <span class="hm-flow-num">{`STEP ${i + 1}`}</span>
+              <h3>{f.title}</h3>
+              <p>{f.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="text-center mt-40">
+        <a href="/contact/" class="btn btn--primary btn--lg">無料で相談する <span class="arrow">→</span></a>
+        <p class="hm-flow-tel">お電話でも承ります <a href={`tel:${SITE.tel.replaceAll('-', '')}`}>{SITE.tel}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1-9 YouTube（2チャンネル） -->
+  <section class="section hm-yt">
+    <div class="container">
+      <SectionHead
+        en="YOUTUBE"
+        title="代表・末松が、YouTubeで発信しています"
+        lead="新しいAIの使いどころは、動画でもご覧いただけます。"
+      />
+      <div class="grid grid--2">
+        {
+          YOUTUBE_CHANNELS.map((c, i) => (
+            <a href={c.url} target="_blank" rel="noopener" class:list={['card', 'hm-yt-card', 'tilt', 'reveal', `reveal-d${i + 1}`]}>
+              <div class="zoom-media">
+                <img
+                  src={c.key === 'keiei' ? '/photos/yt-ai-keiei-navi.webp' : '/gen/ph-ai-video.webp'}
+                  alt={c.key === 'keiei' ? 'YouTubeチャンネル「AI経営ナビ」のバナー' : '光でできたフィルムが流れる、AI動画づくりのイメージ'}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="hm-yt-body">
+                <span class="hm-yt-aud">{c.audience}</span>
+                <h3>{c.name}</h3>
+                <p>{c.description}</p>
+                <span class="link-arrow">チャンネルを見る <span class="arrow">→</span></span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 1-10 お知らせ・メディア掲載 -->
   <section class="section section--deco">
     <div class="container">
       <SectionHead en="NEWS" title="お知らせ・メディア掲載" center />
@@ -259,7 +575,7 @@ const NUMBERS = [
     </div>
   </section>
 
-  <!-- 1-6b 自社プロジェクト（熊本地震の情報支援） -->
+  <!-- 1-10b 自社プロジェクト（熊本地震の情報支援） -->
   <section class="section section--navy home-projects">
     <div class="container">
       <SectionHead en="PROJECTS" title="熊本地震の翌日から、AIで運営するふたつのナビ" lead="研修とAI導入支援で培った技術を、被災地の情報支援に。テレビ・ラジオ・公的機関にご紹介いただきました。" center />
@@ -280,7 +596,7 @@ const NUMBERS = [
     </div>
   </section>
 
-  <!-- 1-7 ブログ最新3件 -->
+  <!-- 1-11 ブログ最新3件 -->
   <section class="section section--alt">
     <div class="container">
       <SectionHead en="BLOG" title="AI活用ブログ" />
@@ -312,7 +628,27 @@ const NUMBERS = [
     </div>
   </section>
 
-  <!-- 1-8 CTA -->
+  <!-- 1-12 よくある質問（同じ文面を FAQPage の構造化データにも入れている） -->
+  <section class="section hm-faq">
+    <div class="container">
+      <SectionHead en="FAQ" title="よくあるご質問" center />
+      <div class="faq hm-faq-list">
+        {
+          FAQS.map((f) => (
+            <details class="reveal">
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+      <p class="hm-faq-more">
+        研修について詳しくは<a href="/kumamoto-ai-training/">熊本の生成AI研修</a>、業務の自動化については<a href="/kumamoto-ai-agent/">熊本のAIエージェント導入支援</a>をご覧ください。
+      </p>
+    </div>
+  </section>
+
+  <!-- 1-13 CTA -->
   <CtaBand />
 </Base>
 
@@ -945,46 +1281,6 @@ const NUMBERS = [
     backdrop-filter: blur(6px);
   }
 
-  /* ---------- YouTube band ---------- */
-  .yt-band {
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    overflow: hidden;
-    align-items: stretch;
-  }
-  .yt-media img { height: 100%; object-fit: cover; }
-  .yt-body {
-    padding: clamp(28px, 4vw, 52px);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-    justify-content: center;
-  }
-  .yt-en {
-    font-family: var(--font-en);
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 0.3em;
-    color: #e53935;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .yt-en::before { content: "▶"; font-size: 14px; }
-  .yt-body h2 { font-size: clamp(22px, 2.6vw, 30px); font-family: var(--font-en); }
-  .yt-body p { color: var(--ink-soft); font-size: 15px; margin: 0; }
-  @media (max-width: 800px) {
-    .yt-band { grid-template-columns: minmax(0, 1fr); }
-    /* height:100%が残るとaspect-ratioが無効化されズーム切り抜きになるため明示的に解除 */
-    .yt-media img {
-      height: auto;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-    }
-  }
-
   /* ---------- Media list ---------- */
   .media-list {
     display: grid;
@@ -1064,4 +1360,227 @@ const NUMBERS = [
   .home-projects h3 { color: #fff; font-size: 22px; }
   .home-projects p { color: rgba(255,255,255,0.78); font-size: 14.5px; line-height: 1.9; }
   .home-projects .hp-more { font-weight: 700; color: #fff; font-size: 14px; margin-top: 4px; }
+
+  /* ============================================================
+     2026-11-28 トップページ改善で足した節（hm- = home）
+     ============================================================ */
+  /* ヒーローのボタン下: 相談のハードルを下げる3点 */
+  .hero-actions { flex-wrap: wrap; }
+  .hero-assure {
+    flex: 0 0 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.88);
+  }
+  .hero-assure li { display: inline-flex; align-items: center; gap: 9px; }
+  .hero-assure li::before {
+    content: '';
+    width: 5px;
+    height: 10px;
+    border: solid var(--cyan-400);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) translateY(-2px);
+    flex: none;
+  }
+
+  /* スマホではお知らせを4件までに（全件は「すべて見る」から） */
+  @media (max-width: 560px) {
+    .media-list li:nth-child(n + 5) { display: none; }
+  }
+
+  /* メディア掲載・公的機関の帯 */
+  .hm-press { background: #fff; border-bottom: 1px solid var(--line); padding: 22px 0 16px; }
+  .hm-press-inner { display: flex; align-items: center; gap: 12px 26px; flex-wrap: wrap; }
+  .hm-press-label { margin: 0; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; color: var(--muted); flex: none; }
+  .hm-press-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; flex: 1 1 420px; }
+  .hm-press-list li {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy-900);
+    padding: 5px 13px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--bg-alt);
+    white-space: nowrap;
+  }
+  .hm-press-more { font-size: 13.5px; font-weight: 700; color: var(--blue-500); flex: none; }
+  .hm-press-note { margin: 10px 0 0; font-size: 11.5px; color: var(--muted); }
+
+  /* よくあるお悩み */
+  .hm-worry-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 1.8vw, 24px); }
+  .hm-worry-card { display: flex; flex-direction: column; padding: 26px 22px 24px; color: inherit; text-decoration: none; }
+  .hm-worry-card img { width: 96px; height: 96px; object-fit: contain; margin: 0 auto 14px; }
+  .hm-worry-card h3 { font-size: 17px; line-height: 1.55; margin-bottom: 8px; text-wrap: balance; word-break: auto-phrase; }
+  .hm-worry-q { color: var(--ink-soft); font-size: 14px; line-height: 1.8; margin: 0 0 16px; }
+  .hm-worry-a {
+    margin: auto 0 0;
+    padding-top: 14px;
+    border-top: 1px dashed var(--line);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy-900);
+    line-height: 1.7;
+  }
+  .hm-worry-a span { display: block; font-size: 11.5px; letter-spacing: 0.08em; color: var(--blue-500); margin-bottom: 4px; }
+  @media (max-width: 1000px) {
+    .hm-worry-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .hm-worry-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+    .hm-worry-card { display: grid; grid-template-columns: 60px minmax(0, 1fr); column-gap: 14px; padding: 18px; align-items: start; }
+    .hm-worry-card img { width: 60px; height: 60px; margin: 0; grid-row: 1 / span 3; }
+    .hm-worry-card h3 { font-size: 16px; margin-bottom: 4px; }
+    .hm-worry-q { margin-bottom: 10px; }
+    .hm-worry-a { padding-top: 10px; }
+  }
+
+  /* 選ばれる理由（写真つきの交互の段） */
+  .hm-why-rows { display: grid; gap: clamp(36px, 5vw, 72px); }
+  .hm-why-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 64px);
+    align-items: center;
+  }
+  .hm-why-row--rev .hm-why-media { order: 2; }
+  .hm-why-media { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md); aspect-ratio: 4 / 3; }
+  .hm-why-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hm-why-num {
+    font-family: var(--font-en);
+    font-weight: 800;
+    font-size: 54px;
+    line-height: 1;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: block;
+    margin-bottom: 14px;
+  }
+  .hm-why-body h3 { font-size: clamp(21px, 2.3vw, 27px); line-height: 1.5; margin-bottom: 14px; text-wrap: balance; word-break: auto-phrase; }
+  .hm-why-body p { color: var(--ink-soft); font-size: 15.5px; line-height: 2; margin: 0 0 18px; }
+  .hm-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .hm-chips li {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy-900);
+    background: rgba(47, 107, 255, 0.08);
+    border-radius: 999px;
+    padding: 6px 14px;
+  }
+  @media (max-width: 820px) {
+    .hm-why-row { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+    .hm-why-row--rev .hm-why-media { order: 0; }
+    .hm-why-media { aspect-ratio: 16 / 10; }
+    .hm-why-num { font-size: 40px; margin-bottom: 8px; }
+    .hm-why-body p { font-size: 15px; line-height: 1.9; }
+  }
+
+  /* 成果の例 */
+  .hm-case { display: flex; flex-direction: column; overflow: hidden; color: inherit; text-decoration: none; }
+  .hm-case .zoom-media img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
+  .hm-case-body { padding: 22px 24px 26px; display: grid; gap: 10px; }
+  .hm-case-tag { font-size: 12.5px; font-weight: 700; color: var(--blue-500); letter-spacing: 0.04em; }
+  .hm-case-figure { margin: 0; display: grid; gap: 2px; }
+  .hm-case-figure strong { font-size: clamp(24px, 2.6vw, 30px); line-height: 1.3; color: var(--navy-900); font-weight: 800; }
+  .hm-case-figure span { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+  .hm-case-text { margin: 0; font-size: 14.5px; color: var(--ink-soft); line-height: 1.85; }
+  .hm-note { margin: 18px 0 0; font-size: 12px; color: var(--muted); text-align: center; }
+  @media (max-width: 560px) {
+    /* スマホはページの長さも使い勝手のうち。写真は省いて数字を主役にする */
+    .hm-case .zoom-media { display: none; }
+    .hm-case-body { padding: 18px 20px 20px; gap: 6px; }
+    .hm-cases .grid { gap: 12px; }
+  }
+
+  /* 自社での実践（数字） */
+  .hm-practice { max-width: 980px; margin-inline: auto; }
+  @media (max-width: 560px) {
+    .hm-practice { gap: 10px; }
+    .hm-practice .stat {
+      display: grid;
+      grid-template-columns: 6.4em minmax(0, 1fr);
+      align-items: center;
+      column-gap: 12px;
+      padding: 14px 16px;
+      text-align: left;
+    }
+    .hm-practice .stat .value { grid-row: 1 / span 2; font-size: 32px; white-space: nowrap; }
+    .hm-practice .stat .label { margin: 0; }
+    .hm-practice .stat .note { grid-column: 2; }
+  }
+  .hm-practice-note {
+    max-width: 860px;
+    margin: clamp(22px, 3vw, 34px) auto 0;
+    font-size: 12px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.62);
+    text-align: center;
+  }
+
+  /* 代表 */
+  .hm-ceo-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(28px, 5vw, 72px);
+    align-items: center;
+  }
+  .hm-ceo-photo { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md); aspect-ratio: 1 / 1; max-width: 440px; }
+  .hm-ceo-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hm-en { font-family: var(--font-en); font-weight: 700; font-size: 12px; letter-spacing: 0.3em; color: var(--blue-500); }
+  .hm-ceo-body h2 { font-size: clamp(24px, 3vw, 34px); line-height: 1.5; margin: 12px 0 16px; }
+  .hm-ceo-name { display: flex; align-items: baseline; gap: 12px; margin: 0 0 14px; }
+  .hm-ceo-name span { font-size: 13px; color: var(--muted); font-weight: 700; }
+  .hm-ceo-name strong { font-size: 20px; letter-spacing: 0.08em; }
+  .hm-ceo-text { color: var(--ink-soft); font-size: 15.5px; line-height: 2; margin: 0 0 20px; }
+  .hm-ceo-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0 0 26px; padding: 0; list-style: none; }
+  .hm-ceo-facts li { border: 1px solid var(--line); border-radius: 14px; padding: 14px 14px 12px; background: var(--bg-alt); display: grid; gap: 4px; align-content: start; }
+  .hm-ceo-facts strong { font-size: clamp(18px, 2vw, 23px); color: var(--navy-900); font-weight: 800; line-height: 1.3; }
+  .hm-ceo-facts span { font-size: 12px; color: var(--ink-soft); line-height: 1.6; }
+  @media (max-width: 820px) {
+    .hm-ceo-inner { grid-template-columns: minmax(0, 1fr); }
+    .hm-ceo-photo { max-width: 240px; margin-inline: auto; }
+    .hm-ceo-facts { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+    .hm-ceo-facts li { grid-template-columns: 7.2em minmax(0, 1fr); align-items: baseline; column-gap: 12px; padding: 12px 14px; }
+    .hm-ceo-facts strong { font-size: 18px; }
+  }
+
+  /* ご相談から開始まで */
+  .hm-flow-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 1.8vw, 22px); margin: 0; padding: 0; list-style: none; }
+  .hm-flow-list li { padding: 26px 22px; }
+  .hm-flow-num { font-family: var(--font-en); font-weight: 800; font-size: 13px; letter-spacing: 0.18em; color: var(--blue-500); }
+  .hm-flow-list h3 { font-size: 18px; margin: 8px 0 10px; }
+  .hm-flow-list p { margin: 0; font-size: 14px; color: var(--ink-soft); line-height: 1.85; }
+  .hm-flow-tel { margin: 16px 0 0; font-size: 13.5px; color: var(--ink-soft); }
+  .hm-flow-tel a { font-family: var(--font-en); font-weight: 700; font-size: 17px; color: var(--navy-900); margin-left: 8px; white-space: nowrap; }
+  @media (max-width: 1000px) {
+    .hm-flow-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .hm-flow-list { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+    .hm-flow-list li { padding: 18px 20px; }
+  }
+
+  /* YouTube（2チャンネル） */
+  .hm-yt-card { display: flex; flex-direction: column; overflow: hidden; color: inherit; text-decoration: none; }
+  .hm-yt-card .zoom-media img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+  .hm-yt-body { padding: 22px 26px 26px; display: grid; gap: 10px; justify-items: start; }
+  .hm-yt-aud { font-size: 12px; font-weight: 700; color: #e53935; letter-spacing: 0.06em; display: inline-flex; align-items: center; gap: 8px; }
+  .hm-yt-aud::before { content: "▶"; font-size: 12px; }
+  .hm-yt-body h3 { font-size: 21px; }
+  @media (max-width: 560px) {
+    .hm-yt-card .zoom-media img { aspect-ratio: 16 / 7; }
+    .hm-yt-body { padding: 16px 20px 20px; gap: 6px; }
+  }
+  .hm-yt-body p { margin: 0; font-size: 14.5px; color: var(--ink-soft); line-height: 1.85; }
+
+  /* よくある質問 */
+  .hm-faq-list { max-width: 860px; margin-inline: auto; }
+  .hm-faq-more { max-width: 860px; margin: 22px auto 0; font-size: 14px; color: var(--ink-soft); text-align: center; line-height: 1.9; }
+  .hm-faq-more a { font-weight: 700; color: var(--blue-500); margin: 0 2px; }
 </style>

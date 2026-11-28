@@ -15,9 +15,10 @@ export const SITE = {
 
 export const STATS = [
   { value: 100, unit: '社超え', label: '累計支援企業数', note: '※2026年11月時点' },
-  { value: 4.8, unit: '', label: '研修満足度（5点満点）', note: '※受講後アンケート平均', decimals: 1 },
+  // 満足度は /dx/（公表文書）の成果指標と同じ実測値。期間と件数を必ず添える。片方だけ変えない。
+  { value: 4.6, unit: '', label: '研修満足度（5点満点）', note: '※2026年4〜10月・受講後アンケート419件の平均', decimals: 1 },
+  { value: 300, unit: '回以上', label: '年間の研修・セミナー・打ち合わせ', note: '※2025年・代表 末松の実施回数' },
   { value: 100, unit: '%対面', label: 'ハンズオン形式の研修', note: '※オンライン併用も可能' },
-  { value: 75, unit: '%', label: '補助金活用で負担軽減も', note: '※制度・要件により異なります' },
 ];
 
 // 掲載許可取得済みのクライアントロゴ（ロゴ一覧シート由来）
@@ -77,6 +78,24 @@ export type NewsItem = {
 };
 
 export const NEWS: NewsItem[] = [
+  {
+    date: '2026-11-04',
+    category: 'お知らせ',
+    title: 'YouTubeチャンネル「AI経営ナビ」を開設しました。新しいAIの使いどころを、仕事の目線で解説します',
+    url: 'https://www.youtube.com/@ai-keiei-navi',
+  },
+  {
+    date: '2026-11-02',
+    category: 'お知らせ',
+    title: '累計の支援企業数が100社を超えました',
+    href: '/works/',
+  },
+  {
+    date: '2026-10-20',
+    category: 'お知らせ',
+    title: 'DX推進方針と情報セキュリティ基本方針を公表しました',
+    href: '/dx/',
+  },
   {
     date: '2026-09-23',
     category: 'メディア掲載',
@@ -304,11 +323,33 @@ export const NEWS: NewsItem[] = [
   },
 ];
 
+// YouTubeは2チャンネル。先頭（仕事でAIを使う人向け）を主に案内する。
+export const YOUTUBE_CHANNELS = [
+  {
+    key: 'keiei',
+    name: 'AI経営ナビ',
+    fullName: 'AI経営ナビ【AIナビゲーター 末松光太郎】',
+    url: 'https://www.youtube.com/@ai-keiei-navi',
+    audience: '仕事でAIを使う方へ',
+    description:
+      '新しく出たAIツールや機能を、「自分の会社で何に使えるか」の目線で解説します。ChatGPT・Gemini・Claudeの最新の動きを、実際の画面を見せながらお届けします。',
+  },
+  {
+    key: 'video',
+    name: 'AI動画ナビ',
+    fullName: 'AI動画ナビ KOTARO AI & VIDEO',
+    url: 'https://www.youtube.com/@aivideo_biz',
+    audience: 'AIで動画をつくる方へ',
+    description:
+      '映像生成AIでの動画づくりを、手順ごと公開しています。企業CMや短編作品のつくり方、最新の映像生成AIの検証を紹介します。',
+  },
+];
+
+// 動画づくりのチャンネル（/ai-video/ の案内で使う）
 export const YOUTUBE = {
-  name: 'KOTARO AI & VIDEO',
-  url: 'https://www.youtube.com/@aivideo_biz',
-  description:
-    '代表・末松が、生成AIの最新動向と実務での使いこなしを動画で発信するYouTubeチャンネル。AI活用のヒントを分かりやすくお届けします。',
+  name: YOUTUBE_CHANNELS[1].fullName,
+  url: YOUTUBE_CHANNELS[1].url,
+  description: YOUTUBE_CHANNELS[1].description,
 };
 
 export const NAV = [

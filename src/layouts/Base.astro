@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-import { SITE, NAV, YOUTUBE } from '../data/site';
+import { SITE, NAV, YOUTUBE_CHANNELS } from '../data/site';
 
 interface Props {
   title?: string;
@@ -37,7 +37,7 @@ const canonical = new URL(Astro.url.pathname, SITE.domain).href;
 
 // 構造化データ。生成AI（ChatGPT検索・Gemini・Claude等）が「熊本の生成AI研修会社」として
 // 機械的に読み取れるよう、Organization に LocalBusiness を併記し地域・領域を明示する。
-// 注: 満足度4.8は自社アンケートの自己申告値なので aggregateRating では宣言しない（本文表記のみ）。
+// 注: 満足度は自社アンケートの値なので aggregateRating では宣言しない（本文表記のみ）。
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': ['Organization', 'LocalBusiness'],
@@ -51,7 +51,7 @@ const jsonLd = {
   image: `${SITE.domain}/og-cover.jpg`,
   foundingDate: '2023-07',
   founder: { '@type': 'Person', '@id': `${SITE.domain}/about/#ceo`, name: SITE.ceo },
-  sameAs: [YOUTUBE.url, 'https://x.com/suematsu_wiztry'],
+  sameAs: [...YOUTUBE_CHANNELS.map((c) => c.url), 'https://x.com/suematsu_wiztry'],
   areaServed: [
     { '@type': 'AdministrativeArea', name: '熊本県' },
     { '@type': 'City', name: '熊本市' },
@@ -225,11 +225,13 @@ const jsonLd = {
               <li><a href="/privacy/">プライバシーポリシー</a></li>
               <li><a href="/dx/">DX推進方針</a></li>
               <li><a href="/security-policy/">情報セキュリティ基本方針</a></li>
-              <li>
-                <a href={YOUTUBE.url} target="_blank" rel="noopener" aria-label="YouTubeチャンネル KOTARO AI & VIDEO">
-                  ▶ YouTube（{YOUTUBE.name}）
-                </a>
-              </li>
+              {YOUTUBE_CHANNELS.map((c) => (
+                <li>
+                  <a href={c.url} target="_blank" rel="noopener" aria-label={`YouTubeチャンネル ${c.fullName}`}>
+                    ▶ YouTube（{c.name}）
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

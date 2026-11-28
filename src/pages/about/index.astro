@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import SectionHead from '../../components/SectionHead.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import PageHero from '../../components/PageHero.astro';
-import { SITE, NEWS, YOUTUBE } from '../../data/site';
+import { SITE, NEWS, YOUTUBE_CHANNELS } from '../../data/site';
 
 // お知らせ・メディア掲載・登壇の全量を新しい順で表示する
 const news = [...NEWS].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 10);
@@ -28,7 +28,7 @@ const personLd = {
   url: `${SITE.domain}/about/`,
   sameAs: [
     ...new Set([
-      YOUTUBE.url,
+      ...YOUTUBE_CHANNELS.map((c) => c.url),
       'https://x.com/suematsu_wiztry',
       ...NEWS.filter((n) => n.url && n.category === 'メディア掲載').map((n) => n.url),
     ]),
